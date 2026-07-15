@@ -1,0 +1,10 @@
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname='nexkosmo_app') THEN
+    CREATE ROLE nexkosmo_app LOGIN PASSWORD 'Passw0rdapp' NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname='nexkosmo_audit') THEN
+    CREATE ROLE nexkosmo_audit LOGIN PASSWORD 'Passw0rdapp' NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
+  END IF;
+END $$;
+GRANT CONNECT ON DATABASE nexkosmo TO nexkosmo_app, nexkosmo_audit;
