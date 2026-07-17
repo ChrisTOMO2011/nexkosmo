@@ -1,13 +1,12 @@
 import hashlib
 import json
 from datetime import UTC, datetime
+from typing import Any
 from uuid import UUID
 
 from app.application.ports import AuditPort, IdempotencyPort, UnitOfWorkFactory
 from app.domain.belief import resolve_belief
 from app.domain.contradiction import detect_literal_conflicts
-from app.domain.enums import DecisionOutcome
-from app.domain.errors import DomainError
 from app.domain.rules import (
     authorize_by_policies,
     require_human_authority,
@@ -34,7 +33,7 @@ class SemanticKernelService:
         assertion: Assertion,
         *,
         idempotency_key: str,
-    ) -> dict:
+    ) -> dict[str, Any]:
         require_workspace(principal, assertion.workspace_id)
         validate_assertion(assertion)
         request_hash = self._hash({"assertion_id": str(assertion.id)})
@@ -89,7 +88,7 @@ class SemanticKernelService:
         decision: Decision,
         *,
         idempotency_key: str,
-    ) -> dict:
+    ) -> dict[str, Any]:
         require_workspace(principal, decision.workspace_id)
         require_human_authority(principal, "knowledge.decide")
         request_hash = self._hash({"decision_id": str(decision.id)})
@@ -141,7 +140,7 @@ class SemanticKernelService:
         *,
         subject_id: UUID,
         context_id: UUID,
-    ) -> dict:
+    ) -> dict[str, Any]:
         async with self._uow_factory(principal) as uow:
             policies = await uow.policies.list_for_request(
                 agent_id=principal.agent_id,
@@ -181,6 +180,6 @@ class SemanticKernelService:
             }
 
     @staticmethod
-    def _hash(payload: dict) -> str:
+    def _hash(payload: dict[str, Any]) -> str:
         raw = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
         return hashlib.sha256(raw).hexdigest()

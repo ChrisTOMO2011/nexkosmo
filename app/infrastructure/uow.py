@@ -1,4 +1,5 @@
 from types import TracebackType
+from typing import Self
 
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
@@ -12,7 +13,7 @@ class SqlAlchemyUnitOfWork:
         self._principal = principal
         self.session: AsyncSession | None = None
 
-    async def __aenter__(self):
+    async def __aenter__(self) -> Self:
         self.session = self._factory()
         await self.session.begin()
         await self.session.execute(

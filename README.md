@@ -43,6 +43,10 @@ docker compose run --rm test
 docker compose run --rm restore-test
 ```
 
+The example values are development-only. Before deployment, replace all three
+database passwords with independently generated secrets and update the matching
+connection URLs in `.env`.
+
 No blocking PostgreSQL test is marked skipped. If PostgreSQL is unavailable,
 the test command fails rather than creating false evidence.
 

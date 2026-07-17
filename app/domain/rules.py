@@ -1,11 +1,22 @@
 from datetime import datetime
+from typing import TypedDict, Unpack
+from uuid import UUID
 
 from app.domain.enums import AgentKind, EpistemicStatus, PolicyEffect
 from app.domain.errors import AuthorizationDenied, InvariantViolation
 from app.domain.types import Assertion, Policy, Principal
 
 
-def require_workspace(principal: Principal, workspace_id) -> None:
+class PolicyRequest(TypedDict):
+    agent_id: UUID
+    resource_id: UUID
+    context_id: UUID
+    action: str
+    purpose: str
+    at: datetime
+
+
+def require_workspace(principal: Principal, workspace_id: UUID) -> None:
     if principal.workspace_id != workspace_id and workspace_id not in principal.memberships:
         raise AuthorizationDenied("Principal is not a member of the workspace.")
 
@@ -33,9 +44,9 @@ def validate_assertion(assertion: Assertion) -> None:
 def policy_applies(
     policy: Policy,
     *,
-    agent_id,
-    resource_id,
-    context_id,
+    agent_id: UUID,
+    resource_id: UUID,
+    context_id: UUID,
     action: str,
     purpose: str,
     at: datetime,
@@ -55,7 +66,7 @@ def policy_applies(
     return True
 
 
-def authorize_by_policies(policies: list[Policy], **request) -> None:
+def authorize_by_policies(policies: list[Policy], **request: Unpack[PolicyRequest]) -> None:
     applicable = [p for p in policies if policy_applies(p, **request)]
     if any(p.effect is PolicyEffect.PROHIBIT for p in applicable):
         raise AuthorizationDenied("An explicit prohibition applies.")

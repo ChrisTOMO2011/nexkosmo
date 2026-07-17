@@ -18,4 +18,4 @@ class Settings(BaseSettings):
 
 @lru_cache
 def settings() -> Settings:
-    return Settings()
+    return Settings()  # type: ignore[call-arg]

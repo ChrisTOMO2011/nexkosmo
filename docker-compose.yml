@@ -4,12 +4,14 @@ services:
     environment:
       POSTGRES_DB: nexkosmo
       POSTGRES_USER: nexkosmo_owner
-      POSTGRES_PASSWORD: ${NEXTOSMOOWNERPASS}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}
+      NEXKOSMO_APP_PASSWORD: ${NEXKOSMO_APP_PASSWORD:?NEXKOSMO_APP_PASSWORD must be set in .env}
+      NEXKOSMO_AUDIT_PASSWORD: ${NEXKOSMO_AUDIT_PASSWORD:?NEXKOSMO_AUDIT_PASSWORD must be set in .env}
     ports:
       - "55432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./scripts/bootstrap_roles.sql:/docker-entrypoint-initdb.d/001_roles.sql:ro
+      - ./scripts/bootstrap_roles.sh:/docker-entrypoint-initdb.d/001_roles.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U nexkosmo_owner -d nexkosmo"]
       interval: 2s

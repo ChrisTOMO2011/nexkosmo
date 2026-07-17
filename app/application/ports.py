@@ -1,6 +1,5 @@
-from collections.abc import AsyncIterator
 from contextlib import AbstractAsyncContextManager
-from typing import Protocol
+from typing import Any, Protocol
 from uuid import UUID
 
 from app.domain.types import Assertion, Decision, Identity, Policy, Principal
@@ -30,7 +29,7 @@ class RegistryRepository(Protocol):
 
 
 class OutboxPort(Protocol):
-    async def append(self, event_type: str, version: int, payload: dict) -> None: ...
+    async def append(self, event_type: str, version: int, payload: dict[str, Any]) -> None: ...
 
 
 class AuditPort(Protocol):
@@ -41,17 +40,17 @@ class AuditPort(Protocol):
         action: str,
         outcome: str,
         resource_id: UUID | None,
-        details: dict,
+        details: dict[str, Any],
     ) -> None: ...
 
 
 class IdempotencyPort(Protocol):
     async def acquire(self, workspace_id: UUID, key: str, request_hash: str) -> str: ...
-    async def complete(self, workspace_id: UUID, key: str, response: dict) -> None: ...
+    async def complete(self, workspace_id: UUID, key: str, response: dict[str, Any]) -> None: ...
     async def fail(self, workspace_id: UUID, key: str, error_code: str) -> None: ...
 
 
-class UnitOfWork(Protocol, AbstractAsyncContextManager):
+class UnitOfWork(Protocol, AbstractAsyncContextManager["UnitOfWork"]):
     identities: IdentityRepository
     assertions: AssertionRepository
     decisions: DecisionRepository
