@@ -1,4 +1,5 @@
 from collections.abc import Iterable
+from uuid import UUID
 
 from app.domain.enums import DecisionOutcome, EpistemicStatus
 from app.domain.types import Assertion, BeliefResolution, Decision
@@ -9,9 +10,9 @@ def resolve_belief(
     decisions: Iterable[Decision],
 ) -> BeliefResolution:
     assertions_by_id = {a.id: a for a in assertions}
-    accepted: set = set()
-    rejected: set = set()
-    decision_ids: list = []
+    accepted: set[UUID] = set()
+    rejected: set[UUID] = set()
+    decision_ids: list[UUID] = []
     reasons: list[str] = []
 
     for decision in sorted(decisions, key=lambda d: d.decided_at):

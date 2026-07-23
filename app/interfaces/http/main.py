@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from sqlalchemy import text
 
@@ -14,7 +14,7 @@ app = FastAPI(
 
 
 @app.exception_handler(DomainError)
-async def domain_error_handler(request, exc: DomainError):
+async def domain_error_handler(request: Request, exc: DomainError) -> JSONResponse:
     status = 403 if exc.code == "authorization_denied" else 409
     body = ProblemDetails(
         type=f"urn:nexkosmo:problem:{exc.code}",
@@ -28,12 +28,12 @@ async def domain_error_handler(request, exc: DomainError):
 
 
 @app.get("/health/live")
-async def live() -> dict:
+async def live() -> dict[str, str]:
     return {"status": "live"}
 
 
 @app.get("/health/ready")
-async def ready() -> dict:
+async def ready() -> dict[str, str]:
     async with engine.connect() as connection:
         await connection.execute(text("select 1"))
     return {"status": "ready"}

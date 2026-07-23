@@ -1,11 +1,12 @@
 import os
+from collections.abc import AsyncIterator
 
 import pytest_asyncio
-from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.ext.asyncio import AsyncConnection, create_async_engine
 
 
 @pytest_asyncio.fixture
-async def db():
+async def db() -> AsyncIterator[AsyncConnection]:
     url = os.environ.get("DATABASE_URL")
     if not url:
         raise RuntimeError("DATABASE_URL is mandatory; blocking tests may not be skipped.")

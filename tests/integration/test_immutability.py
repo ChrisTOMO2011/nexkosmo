@@ -1,8 +1,11 @@
 from sqlalchemy import text
 from sqlalchemy.exc import DBAPIError
+from sqlalchemy.ext.asyncio import AsyncConnection
 
 
-async def test_assertion_update_is_rejected_by_database(db):
+async def test_assertion_update_is_rejected_by_database(
+    db: AsyncConnection,
+) -> None:
     row = await db.scalar(text("SELECT id FROM assertions LIMIT 1"))
     if row is None:
         return

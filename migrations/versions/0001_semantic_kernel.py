@@ -124,8 +124,14 @@ def upgrade() -> None:
             REFERENCES identities(workspace_id, id) ON DELETE RESTRICT
     )
     """)
-    op.execute("CREATE INDEX assertions_subject_context_idx ON assertions(workspace_id, subject_id, context_id, recorded_at, id)")
-    op.execute("CREATE INDEX assertions_predicate_idx ON assertions(workspace_id, predicate_namespace, predicate_key, predicate_version)")
+    op.execute(
+        "CREATE INDEX assertions_subject_context_idx "
+        "ON assertions(workspace_id, subject_id, context_id, recorded_at, id)"
+    )
+    op.execute(
+        "CREATE INDEX assertions_predicate_idx "
+        "ON assertions(workspace_id, predicate_namespace, predicate_key, predicate_version)"
+    )
 
     op.execute("""
     CREATE TABLE evidence_links (
@@ -133,7 +139,9 @@ def upgrade() -> None:
         workspace_id uuid NOT NULL REFERENCES workspaces(id) ON DELETE RESTRICT,
         assertion_id uuid NOT NULL REFERENCES assertions(id) ON DELETE RESTRICT,
         evidence_identity_id uuid NOT NULL REFERENCES identities(id) ON DELETE RESTRICT,
-        relation text NOT NULL CHECK (relation IN ('supports','contradicts','qualifies','corroborates')),
+        relation text NOT NULL CHECK (
+            relation IN ('supports','contradicts','qualifies','corroborates')
+        ),
         recorded_by uuid NOT NULL REFERENCES agents(identity_id) ON DELETE RESTRICT,
         recorded_at timestamptz NOT NULL DEFAULT now(),
         UNIQUE (assertion_id, evidence_identity_id, relation)
@@ -318,8 +326,14 @@ def upgrade() -> None:
     END $$;
     """)
     for table in [
-        "assertions", "evidence_links", "activities", "activity_participations",
-        "decisions", "decision_targets", "decision_basis", "audit_log"
+        "assertions",
+        "evidence_links",
+        "activities",
+        "activity_participations",
+        "decisions",
+        "decision_targets",
+        "decision_basis",
+        "audit_log",
     ]:
         op.execute(f"""
         CREATE TRIGGER {table}_immutable
@@ -329,9 +343,17 @@ def upgrade() -> None:
 
     # Tenant isolation: FORCE RLS and transaction-local app.workspace_id.
     tenant_tables = [
-        "identities", "agents", "workspace_memberships", "contexts", "assertions",
-        "evidence_links", "activities", "policies", "decisions",
-        "idempotency_records", "outbox_events"
+        "identities",
+        "agents",
+        "workspace_memberships",
+        "contexts",
+        "assertions",
+        "evidence_links",
+        "activities",
+        "policies",
+        "decisions",
+        "idempotency_records",
+        "outbox_events",
     ]
     for table in tenant_tables:
         op.execute(f"ALTER TABLE {table} ENABLE ROW LEVEL SECURITY")
@@ -349,8 +371,15 @@ def upgrade() -> None:
     # Owner retains migration access; app/audit roles get least privilege.
     op.execute("GRANT USAGE ON SCHEMA public TO nexkosmo_app")
     op.execute("GRANT SELECT, INSERT ON ALL TABLES IN SCHEMA public TO nexkosmo_app")
-    op.execute("REVOKE UPDATE, DELETE ON assertions, evidence_links, activities, activity_participations, decisions, decision_targets, decision_basis FROM nexkosmo_app")
-    op.execute("GRANT SELECT, INSERT, UPDATE ON idempotency_records, outbox_events, consumer_inbox TO nexkosmo_app")
+    op.execute(
+        "REVOKE UPDATE, DELETE ON assertions, evidence_links, activities, "
+        "activity_participations, decisions, decision_targets, decision_basis "
+        "FROM nexkosmo_app"
+    )
+    op.execute(
+        "GRANT SELECT, INSERT, UPDATE ON idempotency_records, outbox_events, "
+        "consumer_inbox TO nexkosmo_app"
+    )
     op.execute("GRANT SELECT, INSERT, UPDATE ON audit_stream_heads TO nexkosmo_audit")
     op.execute("GRANT SELECT, INSERT ON audit_log TO nexkosmo_audit")
 
