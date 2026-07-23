@@ -21,9 +21,14 @@ DECISION = UUID("00000000-0000-0000-0000-000000000201")
 NOW = datetime(2026, 7, 13, tzinfo=UTC)
 
 
-def assertion(id_, by, value, status):
+def assertion(
+    assertion_id: UUID,
+    asserted_by: UUID,
+    value: str,
+    status: EpistemicStatus,
+) -> Assertion:
     return Assertion(
-        id=id_,
+        id=assertion_id,
         workspace_id=W,
         subject_id=AIDEN,
         predicate="character.eye_colour",
@@ -31,7 +36,7 @@ def assertion(id_, by, value, status):
         object_identity_id=None,
         object_value={"value": value},
         context_id=DRAFT,
-        asserted_by=by,
+        asserted_by=asserted_by,
         epistemic_status=status,
         valid_from=NOW,
         valid_to=None,
@@ -39,7 +44,7 @@ def assertion(id_, by, value, status):
     )
 
 
-def test_aiden_contradiction_is_preserved_and_contained():
+def test_aiden_contradiction_is_preserved_and_contained() -> None:
     blue = assertion(BLUE, MAYA, "blue", EpistemicStatus.AUTHORED)
     green = assertion(GREEN, AI, "green", EpistemicStatus.PROPOSED)
     conflicts = detect_literal_conflicts([blue, green])
@@ -50,7 +55,7 @@ def test_aiden_contradiction_is_preserved_and_contained():
     }
 
 
-def test_human_decision_accepts_blue_and_rejects_green_without_erasure():
+def test_human_decision_accepts_blue_and_rejects_green_without_erasure() -> None:
     blue = assertion(BLUE, MAYA, "blue", EpistemicStatus.AUTHORED)
     green = assertion(GREEN, AI, "green", EpistemicStatus.PROPOSED)
     decisions = [

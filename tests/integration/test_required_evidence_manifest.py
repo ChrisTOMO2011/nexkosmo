@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-def test_no_blocking_test_is_marked_skipped():
+def test_no_blocking_test_is_marked_skipped() -> None:
     root = Path("tests")
     current_file = Path(__file__).resolve()
 

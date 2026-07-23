@@ -15,7 +15,7 @@ from app.domain.types import Assertion, Principal
 U = UUID("10000000-0000-0000-0000-000000000001")
 
 
-def test_ai_cannot_exercise_human_approval_authority():
+def test_ai_cannot_exercise_human_approval_authority() -> None:
     principal = Principal(
         principal_id=U,
         workspace_id=U,
@@ -27,7 +27,7 @@ def test_ai_cannot_exercise_human_approval_authority():
         require_human_authority(principal, "knowledge.decide")
 
 
-def test_assertion_cannot_start_as_accepted():
+def test_assertion_cannot_start_as_accepted() -> None:
     assertion = Assertion(
         id=U,
         workspace_id=U,

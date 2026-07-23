@@ -12,7 +12,7 @@ class SqlAlchemyUnitOfWork:
         self._principal = principal
         self.session: AsyncSession | None = None
 
-    async def __aenter__(self):
+    async def __aenter__(self) -> "SqlAlchemyUnitOfWork":
         self.session = self._factory()
         await self.session.begin()
         await self.session.execute(
@@ -30,12 +30,17 @@ class SqlAlchemyUnitOfWork:
         return self
 
     async def commit(self) -> None:
-        assert self.session is not None
-        await self.session.commit()
+        session = self._require_session()
+        await session.commit()
 
     async def rollback(self) -> None:
-        assert self.session is not None
-        await self.session.rollback()
+        session = self._require_session()
+        await session.rollback()
+
+    def _require_session(self) -> AsyncSession:
+        if self.session is None:
+            raise RuntimeError("Unit of work has not been entered.")
+        return self.session
 
     async def __aexit__(
         self,

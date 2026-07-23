@@ -1,13 +1,12 @@
 import hashlib
 import json
 from datetime import UTC, datetime
+from typing import Any
 from uuid import UUID
 
 from app.application.ports import AuditPort, IdempotencyPort, UnitOfWorkFactory
 from app.domain.belief import resolve_belief
 from app.domain.contradiction import detect_literal_conflicts
-from app.domain.enums import DecisionOutcome
-from app.domain.errors import DomainError
 from app.domain.rules import (
     authorize_by_policies,
     require_human_authority,
@@ -34,18 +33,14 @@ class SemanticKernelService:
         assertion: Assertion,
         *,
         idempotency_key: str,
-    ) -> dict:
+    ) -> dict[str, Any]:
         require_workspace(principal, assertion.workspace_id)
         validate_assertion(assertion)
         request_hash = self._hash({"assertion_id": str(assertion.id)})
-        await self._idempotency.acquire(
-            assertion.workspace_id, idempotency_key, request_hash
-        )
+        await self._idempotency.acquire(assertion.workspace_id, idempotency_key, request_hash)
         try:
             async with self._uow_factory(principal) as uow:
-                await uow.registry.require_active(
-                    "predicate", assertion.predicate, 1
-                )
+                await uow.registry.require_active("predicate", assertion.predicate, 1)
                 await uow.assertions.add(assertion)
                 await uow.outbox.append(
                     "kernel.assertion.recorded",
@@ -57,9 +52,7 @@ class SemanticKernelService:
                 )
                 await uow.commit()
             response = {"assertion_id": str(assertion.id)}
-            await self._idempotency.complete(
-                assertion.workspace_id, idempotency_key, response
-            )
+            await self._idempotency.complete(assertion.workspace_id, idempotency_key, response)
             await self._audit.record_independent(
                 principal=principal,
                 action="assertion.record",
@@ -89,13 +82,11 @@ class SemanticKernelService:
         decision: Decision,
         *,
         idempotency_key: str,
-    ) -> dict:
+    ) -> dict[str, Any]:
         require_workspace(principal, decision.workspace_id)
         require_human_authority(principal, "knowledge.decide")
         request_hash = self._hash({"decision_id": str(decision.id)})
-        await self._idempotency.acquire(
-            decision.workspace_id, idempotency_key, request_hash
-        )
+        await self._idempotency.acquire(decision.workspace_id, idempotency_key, request_hash)
         try:
             async with self._uow_factory(principal) as uow:
                 await uow.decisions.add(decision)
@@ -109,9 +100,7 @@ class SemanticKernelService:
                 )
                 await uow.commit()
             response = {"decision_id": str(decision.id)}
-            await self._idempotency.complete(
-                decision.workspace_id, idempotency_key, response
-            )
+            await self._idempotency.complete(decision.workspace_id, idempotency_key, response)
             await self._audit.record_independent(
                 principal=principal,
                 action="knowledge.decide",
@@ -141,7 +130,7 @@ class SemanticKernelService:
         *,
         subject_id: UUID,
         context_id: UUID,
-    ) -> dict:
+    ) -> dict[str, Any]:
         async with self._uow_factory(principal) as uow:
             policies = await uow.policies.list_for_request(
                 agent_id=principal.agent_id,
@@ -156,12 +145,8 @@ class SemanticKernelService:
                 purpose="belief_resolution",
                 at=datetime.now(UTC),
             )
-            assertions = await uow.assertions.list_for_subject(
-                subject_id, context_id
-            )
-            decisions = await uow.decisions.list_for_targets(
-                tuple(a.id for a in assertions)
-            )
+            assertions = await uow.assertions.list_for_subject(subject_id, context_id)
+            decisions = await uow.decisions.list_for_targets(tuple(a.id for a in assertions))
             contradictions = detect_literal_conflicts(assertions)
             resolution = resolve_belief(assertions, decisions)
             return {
@@ -181,6 +166,6 @@ class SemanticKernelService:
             }
 
     @staticmethod
-    def _hash(payload: dict) -> str:
+    def _hash(payload: dict[str, Any]) -> str:
         raw = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
         return hashlib.sha256(raw).hexdigest()

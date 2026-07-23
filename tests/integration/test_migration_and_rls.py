@@ -1,16 +1,19 @@
 from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncConnection
 
 
-async def test_explicit_migration_present_and_rls_forced(db):
+async def test_explicit_migration_present_and_rls_forced(
+    db: AsyncConnection,
+) -> None:
     rows = (
         await db.execute(
             text(
-                '''
+                """
                 SELECT relname, relrowsecurity, relforcerowsecurity
                 FROM pg_class
                 WHERE relname IN ('identities','assertions','policies','decisions','outbox_events')
                 ORDER BY relname
-                '''
+                """
             )
         )
     ).all()
@@ -18,7 +21,9 @@ async def test_explicit_migration_present_and_rls_forced(db):
     assert all(row.relrowsecurity and row.relforcerowsecurity for row in rows)
 
 
-async def test_app_role_cannot_read_without_transaction_workspace_context(db):
+async def test_app_role_cannot_read_without_transaction_workspace_context(
+    db: AsyncConnection,
+) -> None:
     await db.execute(text("RESET ROLE"))
     await db.execute(text("SET LOCAL ROLE nexkosmo_app"))
     count = await db.scalar(text("SELECT count(*) FROM identities"))
