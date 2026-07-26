@@ -1,0 +1,37 @@
+{
+  "schema": "Nexkosmo.ConfidenceSchema",
+  "schema_version": "1.0.0",
+  "template_id": "NK.TEMPLATE.CHARACTER.AAA.V1",
+  "scale": {
+    "minimum": 0.0,
+    "maximum": 1.0
+  },
+  "required": [
+    "overall",
+    "source_quality",
+    "classification",
+    "metadata",
+    "provenance"
+  ],
+  "properties": {
+    "overall": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "source_quality": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "classification": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "metadata": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "provenance": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "relationships": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "dependencies": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "thresholds": {
+    "auto_accept": 0.95,
+    "human_review": 0.7,
+    "quarantine_below": 0.7
+  },
+  "rules": {
+    "overall_is_weighted": true,
+    "low_confidence_requires_review": true,
+    "confidence_must_include_evidence": true,
+    "manual_override_requires_audit_entry": true
+  }
+}
