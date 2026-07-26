@@ -1,0 +1,1 @@
+{"schema":"Nexkosmo.RelationshipRules","schema_version":"1.0.0","relationships":["parent_of","child_of","depends_on","uses","variant_of","derived_from","references","contains","owned_by","part_of"],"constraints":{"acyclic_dependencies":true,"single_canonical_parent":true,"allow_multiple_references":true},"graph":{"enabled":true,"track_lineage":true,"track_versions":true}}
