@@ -1,0 +1,44 @@
+{
+  "schema": "Nexkosmo.InboxRules",
+  "schema_version": "1.0.0",
+  "template_id": "NK.TEMPLATE.CHARACTER.AAA.V1",
+  "accepted_inputs": {
+    "images": ["png", "jpg", "jpeg", "webp", "tif", "tiff", "exr"],
+    "documents": ["pdf", "txt", "md", "json", "yaml", "yml"],
+    "models": ["fbx", "obj", "gltf", "glb", "usd", "usda", "usdc", "blend", "ma", "mb"],
+    "textures": ["png", "jpg", "jpeg", "tif", "tiff", "exr", "hdr"],
+    "audio": ["wav", "aiff", "flac", "mp3", "ogg"],
+    "archives": ["zip", "7z", "tar", "gz"]
+  },
+  "intake_pipeline": [
+    "virus_scan",
+    "checksum",
+    "extract_metadata",
+    "detect_duplicates",
+    "classify_asset",
+    "assess_provenance",
+    "calculate_confidence",
+    "route_for_review"
+  ],
+  "routing": {
+    "confidence_at_or_above_0_95": "auto_register_candidate",
+    "confidence_from_0_70_to_0_9499": "human_review",
+    "confidence_below_0_70": "quarantine",
+    "missing_license": "quarantine",
+    "malware_detected": "reject",
+    "duplicate_exact": "link_existing",
+    "duplicate_probable": "human_review"
+  },
+  "rules": {
+    "original_files_are_immutable": true,
+    "preserve_archive_structure": true,
+    "generate_sha256_checksum": true,
+    "record_ingestion_timestamp": true,
+    "record_ingestion_actor": true,
+    "never_promote_directly_to_release": true,
+    "incomplete_references_are_allowed": true,
+    "incomplete_references_must_be_flagged": true,
+    "copyright_status_must_be_recorded": true,
+    "failed_items_must_retain_audit_record": true
+  }
+}
