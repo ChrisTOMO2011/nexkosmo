@@ -1,0 +1,99 @@
+{
+  "schema": "Nexkosmo.ExportRules",
+  "schema_version": "1.0.0",
+  "template_id": "NK.TEMPLATE.CHARACTER.AAA.V1",
+  "canonical_source": {
+    "preferred_format": "usd",
+    "allowed_formats": ["usd", "usda", "usdc", "blend", "ma", "mb"],
+    "must_preserve_editable_source": true
+  },
+  "delivery_profiles": {
+    "interchange": {
+      "formats": ["usd", "fbx", "gltf", "glb", "obj"],
+      "required": ["geometry", "materials", "textures", "metadata", "dependency_manifest"]
+    },
+    "realtime": {
+      "formats": ["fbx", "glb", "gltf", "usd"],
+      "required": ["lods", "collision", "skeleton", "materials", "textures", "engine_manifest"]
+    },
+    "cinematic": {
+      "formats": ["usd", "alembic", "fbx"],
+      "required": ["high_resolution_geometry", "rig_or_cache", "materials", "textures", "colour_management"]
+    },
+    "archive": {
+      "formats": ["zip", "tar"],
+      "required": ["source_snapshot", "all_dependencies", "checksums", "archive_manifest"]
+    }
+  },
+  "geometry": {
+    "unit": "centimetre",
+    "up_axis": "Y",
+    "forward_axis": "Z",
+    "freeze_transforms": true,
+    "apply_negative_scale": true,
+    "triangulation": "target_profile",
+    "include_normals": true,
+    "include_tangents": true,
+    "include_vertex_colours_when_present": true
+  },
+  "rigging_animation": {
+    "export_skeleton": true,
+    "export_bind_pose": true,
+    "remove_unused_bones": false,
+    "bake_constraints_when_required": true,
+    "animation_sample_rate": 30,
+    "animation_range_must_be_explicit": true,
+    "root_motion_policy": "target_profile",
+    "morph_targets_supported": true
+  },
+  "textures": {
+    "embed": false,
+    "copy_with_package": true,
+    "colour_spaces_must_be_declared": true,
+    "udim_support": true,
+    "missing_textures_are_blocking": true,
+    "allowed_formats": ["png", "tif", "tiff", "exr", "jpg", "jpeg", "tga"]
+  },
+  "naming": {
+    "pattern": "{canonical_id}_{asset_role}_{variant}_{version}",
+    "lowercase_extensions": true,
+    "spaces_allowed": false,
+    "special_characters_allowed": false,
+    "duplicate_names_are_blocking": true
+  },
+  "package_manifest": {
+    "required_fields": [
+      "canonical_id",
+      "asset_version",
+      "export_profile",
+      "target_application",
+      "target_version",
+      "files",
+      "dependencies",
+      "checksums",
+      "created_at",
+      "created_by"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "validation": {
+    "open_exported_file": true,
+    "verify_file_count": true,
+    "verify_checksums": true,
+    "verify_dependencies": true,
+    "verify_material_bindings": true,
+    "verify_skeleton_bindings": true,
+    "verify_animation_clips": true,
+    "verify_target_compatibility": true
+  },
+  "rules": {
+    "exports_are_derived_not_canonical": true,
+    "exports_must_not_overwrite_source": true,
+    "every_export_requires_manifest": true,
+    "every_export_requires_validation_report": true,
+    "failed_exports_must_not_enter_release": true,
+    "manual_export_override_requires_audit_entry": true,
+    "release_exports_are_immutable": true,
+    "changed_export_requires_new_package_version": true
+  }
+}
