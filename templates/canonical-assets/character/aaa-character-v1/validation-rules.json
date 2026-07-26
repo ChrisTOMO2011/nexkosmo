@@ -1,0 +1,18 @@
+{
+  "schema": "Nexkosmo.ValidationRules",
+  "schema_version": "1.0.0",
+  "template_id": "NK.TEMPLATE.CHARACTER.AAA.V1",
+  "required_for_approval": ["canonical_asset_id", "uuid", "asset_name", "asset_type", "version", "status", "provenance", "checksum"],
+  "required_for_release": ["approved_manifest", "dependency_integrity", "engine_validation", "qa_pass", "release_notes"],
+  "blocking_failures": ["missing_identity", "broken_dependency", "checksum_mismatch", "unlicensed_source", "invalid_version", "failed_engine_import"],
+  "status_transitions": {
+    "planned": ["concept"],
+    "concept": ["in_progress", "archived"],
+    "in_progress": ["review", "archived"],
+    "review": ["approved", "in_progress"],
+    "approved": ["published", "deprecated"],
+    "published": ["deprecated"],
+    "deprecated": ["archived"],
+    "archived": []
+  }
+}
