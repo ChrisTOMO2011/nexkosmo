@@ -1,0 +1,21 @@
+{
+  "schema": "Nexkosmo.CompletionRules",
+  "schema_version": "1.0.0",
+  "template_id": "NK.TEMPLATE.CHARACTER.AAA.V1",
+  "scores": {
+    "documentation": {"weight": 0.2, "sources": ["00_CANON", "18_DOCUMENTATION"]},
+    "geometry": {"weight": 0.18, "sources": ["03_SCULPTS", "04_PRODUCTION_MODELS", "05_RETOPOLOGY"]},
+    "lookdev": {"weight": 0.16, "sources": ["06_UV_LAYOUT", "07_TEXTURES", "08_MATERIALS", "09_GROOM"]},
+    "rigging": {"weight": 0.14, "sources": ["10_RIGGING", "11_BLENDSHAPES"]},
+    "simulation": {"weight": 0.06, "sources": ["12_SIMULATION"]},
+    "animation": {"weight": 0.12, "sources": ["13_ANIMATION"]},
+    "audio_vfx": {"weight": 0.06, "sources": ["14_AUDIO", "15_VFX"]},
+    "testing_release": {"weight": 0.08, "sources": ["19_TESTING", "21_RELEASE"]}
+  },
+  "rules": {
+    "count_only_verified_assets": true,
+    "planned_assets_do_not_increase_production_score": true,
+    "documentation_and_production_scores_are_separate": true,
+    "release_ready_threshold": 0.95
+  }
+}
