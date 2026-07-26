@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Nexkosmo.StatusVocabulary",
+  "title": "Nexkosmo Canonical Status Vocabulary",
+  "$defs": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "concept",
+        "planned",
+        "inbox",
+        "draft",
+        "work_in_progress",
+        "blocked",
+        "ready_for_review",
+        "in_review",
+        "changes_requested",
+        "approved",
+        "ready_for_qa",
+        "in_qa",
+        "qa_failed",
+        "qa_passed",
+        "ready_to_publish",
+        "published",
+        "ready_for_release",
+        "released",
+        "superseded",
+        "deprecated",
+        "archived",
+        "rejected",
+        "cancelled"
+      ]
+    },
+    "transition": {
+      "type": "object",
+      "required": ["from", "to", "requires_authorisation"],
+      "properties": {
+        "from": {"$ref": "#/$defs/status"},
+        "to": {"$ref": "#/$defs/status"},
+        "requires_authorisation": {"type": "boolean"},
+        "required_roles": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
+        "required_evidence": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
+        "reason_required": {"type": "boolean", "default": false}
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": ["vocabulary_version", "statuses", "terminal_statuses", "transitions"],
+  "properties": {
+    "vocabulary_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "statuses": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/status"},
+      "uniqueItems": true
+    },
+    "terminal_statuses": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["released", "superseded", "deprecated", "archived", "rejected", "cancelled"]
+      },
+      "uniqueItems": true
+    },
+    "transitions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/transition"}
+    }
+  },
+  "additionalProperties": false
+}
