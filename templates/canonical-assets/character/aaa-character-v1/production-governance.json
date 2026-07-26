@@ -1,0 +1,12 @@
+{
+  "schema": "Nexkosmo.ProductionGovernance",
+  "schema_version": "1.0.0",
+  "applies_to": "canonical_character",
+  "canonical_manifest": {
+    "required": true,
+    "single_root_document": true,
+    "required_sections": [
+      "manifest_header",
+      "canonical_asset",
+      "assets",
+      "files",
