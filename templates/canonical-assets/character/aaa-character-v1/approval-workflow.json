@@ -1,0 +1,83 @@
+{
+  "schema": "Nexkosmo.ApprovalWorkflow",
+  "schema_version": "1.0.0",
+  "template_id": "NK.TEMPLATE.CHARACTER.AAA.V1",
+  "states": [
+    "inbox",
+    "analysis",
+    "classified",
+    "validated",
+    "production",
+    "review",
+    "approved",
+    "published",
+    "deprecated",
+    "archived",
+    "rejected",
+    "quarantined"
+  ],
+  "transitions": [
+    {"from": "inbox", "to": "analysis", "actor": ["system", "producer"]},
+    {"from": "analysis", "to": "classified", "actor": ["system", "asset_manager"]},
+    {"from": "classified", "to": "validated", "actor": ["system", "asset_manager"]},
+    {"from": "validated", "to": "production", "actor": ["producer", "department_lead"]},
+    {"from": "production", "to": "review", "actor": ["artist", "department_lead"]},
+    {"from": "review", "to": "approved", "actor": ["department_lead", "technical_director", "producer"]},
+    {"from": "approved", "to": "published", "actor": ["asset_manager", "producer"]},
+    {"from": "published", "to": "deprecated", "actor": ["asset_manager", "producer"]},
+    {"from": "deprecated", "to": "archived", "actor": ["asset_manager"]},
+    {"from": "review", "to": "production", "actor": ["department_lead", "technical_director"]},
+    {"from": "analysis", "to": "quarantined", "actor": ["system", "asset_manager"]},
+    {"from": "classified", "to": "rejected", "actor": ["asset_manager", "producer"]},
+    {"from": "validated", "to": "rejected", "actor": ["asset_manager", "producer"]}
+  ],
+  "approval_gates": {
+    "validated_to_production": {
+      "requirements": [
+        "required_metadata_present",
+        "provenance_recorded",
+        "license_status_recorded",
+        "dependencies_resolved_or_waived"
+      ]
+    },
+    "review_to_approved": {
+      "requirements": [
+        "qa_passed",
+        "blocking_failures_zero",
+        "completion_score_at_or_above_0_95",
+        "department_lead_approval",
+        "technical_review_complete"
+      ]
+    },
+    "approved_to_published": {
+      "requirements": [
+        "release_package_valid",
+        "checksums_generated",
+        "version_locked",
+        "canonical_registry_updated",
+        "release_notes_present"
+      ]
+    }
+  },
+  "signoff": {
+    "minimum_approvers": 2,
+    "required_roles": ["department_lead", "asset_manager"],
+    "conditional_roles": {
+      "rigged_character": ["rigging_lead"],
+      "engine_release": ["technical_director"],
+      "external_ip": ["legal_or_rights_reviewer"]
+    },
+    "self_approval_allowed": false
+  },
+  "rules": {
+    "every_transition_requires_audit_entry": true,
+    "rejections_require_reason": true,
+    "approvals_require_actor_and_timestamp": true,
+    "published_assets_are_immutable": true,
+    "published_changes_require_new_version": true,
+    "manual_gate_override_requires_reason": true,
+    "manual_gate_override_requires_authorised_role": true,
+    "quarantined_assets_cannot_enter_production": true,
+    "rejected_assets_cannot_be_published": true
+  }
+}
