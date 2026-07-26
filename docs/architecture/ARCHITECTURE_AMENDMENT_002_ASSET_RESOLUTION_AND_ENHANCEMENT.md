@@ -1,172 +1,254 @@
-# Architecture Amendment 002 — Asset Resolution and Enhancement
+# Architecture Amendment 002 — Native Asset Reconstruction
 
 ## Status
 
-Canonical Brain policy.
+Canonical Brain policy. This revision supersedes every earlier rule that allowed production upscaling or super-resolution.
+
+## Non-negotiable rule
+
+**The Nexkosmo Brain must never create a production asset by enlarging a lower-resolution raster image.**
+
+A source crop may be preserved, cleaned, analysed, or used as a visual reference, but it must not be resized beyond its native dimensions and presented as a 4K or 8K production asset.
+
+The words `4K` and `8K` may only describe:
+
+- a genuinely new native-resolution render;
+- an original source that already meets the target dimensions;
+- a verified production export rendered from vector, procedural, 3D, or other resolution-independent source data.
 
 ## Purpose
 
-The Nexkosmo Brain must treat asset resolution conversion as an explicit production decision, not as a blind resize operation. Whenever a source image or extracted panel is registered, the Brain must inspect its quality, select the safest conversion route, preserve the original source, and generate production derivatives when required.
+The Brain converts reference material into production assets through native reconstruction, not pixel enlargement. It must preserve evidence, extract design facts, select an appropriate renderer, generate a new asset at the requested native resolution, verify consistency, and require approval before canonisation.
 
-## Governing rule
+## Governing workflow
 
-For every raster asset, the Brain must:
+```text
+Immutable source
+      ↓
+Panel detection and native crop
+      ↓
+Reference analysis
+      ↓
+Structured design specification
+      ↓
+Native 4K/8K reconstruction
+      ↓
+Automated consistency checks
+      ↓
+Human visual review
+      ↓
+Canonical Brain registration
+```
 
-1. preserve the immutable source file;
-2. inspect dimensions, sharpness, compression, noise, text density, edge quality, transparency, and subject coverage;
-3. classify the asset by content type;
-4. select a conversion route;
-5. produce a 4K or 8K derivative when policy requires it;
-6. never overwrite the source;
-7. record all processing, models, settings, checksums, and quality decisions in metadata;
-8. require visual review before an AI-reconstructed derivative becomes production-approved.
+## Governing requirements
 
-## Resolution targets
+For every raster reference, the Brain must:
 
-The term 4K or 8K refers to the long edge unless a production profile defines a fixed canvas.
+1. preserve the immutable original;
+2. extract panels without enlarging them;
+3. record native crop dimensions and checksum;
+4. classify the asset by content type and importance;
+5. extract canonical design facts into structured metadata;
+6. choose a native reconstruction method;
+7. render a new 4K or 8K asset from the design specification and references;
+8. compare the result against the canonical references;
+9. reject identity, anatomy, proportion, colour, marking, or silhouette drift;
+10. require human approval before marking a reconstruction canonical;
+11. retain complete provenance for the source, prompt, model, renderer, settings, checks, and approvals.
 
-| Profile | Long edge | Typical use |
+## Prohibited operations
+
+The following operations are prohibited for production outputs:
+
+- bicubic, bilinear, Lanczos, nearest-neighbour, or other enlargement;
+- AI super-resolution used to manufacture production detail;
+- enlarging a crop and applying sharpening or denoising;
+- labelling an enlarged source crop as native 4K or native 8K;
+- replacing an immutable source with a generated result;
+- silently changing anatomy, identity, markings, colour, costume, geometry, or composition;
+- approving a reconstruction solely because its pixel dimensions meet the target.
+
+Small previews may be resized for interface display, but they must be marked `preview-only` and can never become production assets.
+
+## Resolution profiles
+
+The long edge defines the default profile unless a project supplies a fixed canvas.
+
+| Profile | Native long edge | Use |
 |---|---:|---|
-| preview | 2048 px | UI previews and browsing |
-| production-4k | 4096 px | standard production reference |
-| production-8k | 8192 px | hero assets, detailed materials, print and close inspection |
-
-The Brain must preserve aspect ratio unless the target profile explicitly requests a canvas or crop.
+| reference-native | unchanged | evidence and analysis |
+| preview-only | up to 2048 px | interfaces only; never canonical production |
+| production-4k-native | 4096 px | normal production assets |
+| production-8k-native | 8192 px | hero, master, print, texture, and modelling references |
 
 ## Required source preservation
 
-Every registered raster asset must retain:
+Every reconstructed asset package must retain:
 
 ```text
 <asset-id>_source_original.<ext>
-<asset-id>_source_crop_v001.png
-<asset-id>_enhanced_4k_v001.png
-<asset-id>_enhanced_8k_v001.png
+<asset-id>_source_crop_native_v001.png
+<asset-id>_design_spec_v001.yaml
+<asset-id>_reconstruction_4k_native_v001.png
+<asset-id>_reconstruction_8k_native_v001.png
+<asset-id>_verification_v001.json
 ```
 
-Only derivatives that were actually generated should exist. The source is immutable.
+Only outputs that were genuinely rendered should exist. Original files and native crops are immutable.
 
 ## Decision routes
 
-### Route A — Preserve and crop
+### Route A — Native source accepted
 
-Use when the extracted panel already contains sufficient native detail for the requested target.
+Use only when the original source already meets or exceeds the required resolution and passes quality checks.
 
-Actions:
+Permitted actions:
 
-- exact panel crop;
-- border and neighbouring-panel removal;
+- native crop without enlargement;
+- border removal;
 - colour-profile normalisation;
-- lossless export where practical;
-- no generative reconstruction.
+- lossless rotation;
+- alpha-edge cleanup at native dimensions;
+- metadata registration.
 
-### Route B — Restoration and super-resolution
+### Route B — Native reconstruction from visual reference
 
-Use when the source is usable but below the target resolution.
-
-Actions may include:
-
-- deblocking;
-- denoising;
-- deblurring;
-- controlled sharpening;
-- colour and exposure correction;
-- non-generative or conservative AI super-resolution;
-- alpha-edge refinement where transparency is requested.
-
-The Brain must not materially alter anatomy, identity, proportions, markings, colours, costume, geometry, or composition.
-
-### Route C — AI-assisted reconstruction
-
-Use when the panel is too small or damaged for reliable restoration, but enough design information remains to reconstruct it.
+Use when the source is visually informative but below production resolution.
 
 Requirements:
 
-- use the source crop as a locked visual reference;
-- preserve canonical identity and design traits;
-- generate a new derivative rather than replacing the source;
-- mark provenance as `ai-reconstructed`;
-- set approval state to `needs-visual-review`;
-- calculate a design-consistency score;
-- reject the output when identity or anatomy drifts beyond policy thresholds.
+- source remains a locked reference;
+- renderer starts on a native 4K or 8K canvas;
+- output is generated as new imagery, not enlarged pixels;
+- canonical traits are supplied as constraints;
+- provenance is `native-ai-reconstruction` or the exact renderer type;
+- approval state begins as `needs-visual-review`.
 
-### Route D — Regeneration required
+### Route C — Reconstruction from canonical specification
 
-Use when the source lacks enough information for reliable reconstruction.
+Use when a small panel is insufficient alone, but related references and metadata define the asset.
 
-Requirements:
+The Brain must combine:
 
-- do not claim the result is an enhanced copy;
-- mark the source asset as `regeneration-recommended`;
-- generate from canonical metadata, prompts, references, and linked identity assets;
-- register the output as a new version or related asset;
-- require human approval.
+- linked identity masters;
+- species anatomy rules;
+- silhouette rules;
+- canonical palette and markings;
+- material or fur definitions;
+- approved prompt components;
+- pose, camera, lighting, and background requirements.
+
+The result is a new related asset, not an enhanced copy.
+
+### Route D — New source required
+
+Use when the Brain cannot reconstruct faithfully.
+
+The Brain must:
+
+- preserve and register the reference;
+- set status to `new-source-required`;
+- explain which design facts are missing or contradictory;
+- create no alleged production asset;
+- request a better reference or an approved design decision.
 
 ## Automatic target selection
 
-The default target is determined by asset importance and content type.
+### Native 8K by default
 
-### Generate 8K by default
-
-- hero character portraits;
+- hero portraits;
 - identity masters;
-- turnarounds used for modelling;
-- anatomy and musculature references;
+- modelling turnarounds;
+- anatomy and musculature masters;
 - texture and material masters;
 - detailed environment plates;
-- print-design-bible sheets;
-- assets explicitly marked `hero` or `master`.
+- print design-bible sheets;
+- assets marked `hero` or `master`.
 
-### Generate 4K by default
+### Native 4K by default
 
-- secondary character variants;
+- secondary variants;
 - transformation stages;
 - expression sheets;
-- props and weapons references;
+- props and weapon references;
 - animation pose references;
 - supporting environments;
-- ordinary library references.
+- ordinary library assets.
 
-### Do not upscale automatically
+### Reference only
 
 - thumbnails;
-- temporary previews;
-- duplicate assets;
+- unresolved duplicates;
 - rejected assets;
+- temporary source crops;
 - assets with unresolved licence or provenance;
-- assets whose source integrity check failed.
+- assets that fail source-integrity checks.
 
-## Quality gates
+## Design specification
 
-An enhanced derivative cannot be marked `production-approved` unless all required checks pass:
+Before reconstruction, the Brain must create a machine-readable design specification containing relevant facts such as:
 
-- source preserved and checksum recorded;
-- target dimensions reached;
-- aspect ratio preserved or intentional crop recorded;
-- no clipped subject anatomy;
-- no neighbouring panels or labels unless requested;
-- no visible halos, ringing, tiling, excessive sharpening, or compression blocks;
-- identity and design consistency within threshold;
-- text either preserved accurately or excluded from image reconstruction;
-- metadata complete;
-- visual review completed for reconstructed or regenerated assets.
+```yaml
+identity:
+  species: werewolf
+  role: alpha
+  age_class: adult
+anatomy:
+  stance: digitigrade
+  shoulder_width: very-broad
+  limb_proportions: canonical-alpha
+silhouette:
+  ear_shape: tall-pointed
+  muzzle: long-heavy
+  tail: full-low-set
+materials:
+  fur_length: medium-long
+  fur_colours: [charcoal, black, cool-grey]
+markings:
+  facial_mask: canonical-alpha-v1
+  chest_pattern: canonical-alpha-v1
+render:
+  target_profile: production-8k-native
+  canvas_long_edge: 8192
+  background: neutral-studio
+  view: front-three-quarter
+constraints:
+  preserve_identity: true
+  preserve_anatomy: true
+  preserve_palette: true
+  preserve_markings: true
+```
+
+## Verification gates
+
+A native reconstruction cannot be marked `production-approved` unless all required checks pass:
+
+- source and native crop preserved with checksums;
+- design specification complete;
+- output rendered natively at the requested dimensions;
+- no resize-based production path used;
+- subject not clipped;
+- anatomy conforms to species and asset rules;
+- identity and silhouette match approved references;
+- proportions, colours, markings, materials, and costume remain within project thresholds;
+- no duplicated limbs, malformed anatomy, text artefacts, tiling, or generative corruption;
+- provenance and renderer settings complete;
+- human visual review completed.
+
+Numeric similarity scores are evidence, not automatic truth. The Brain must not claim false precision or auto-approve an asset merely because a score exceeds a threshold.
 
 ## Text handling
 
-Small infographic text must not be hallucinated by an image model.
+Infographic text must not be reconstructed inside an image model and treated as authoritative.
 
-The Brain must choose one of these routes:
+The Brain must:
 
-1. preserve the original text region when legible;
-2. extract authoritative text from metadata and re-render it using layout tools;
-3. omit text from the visual derivative and store it as structured metadata;
-4. mark unreadable text for manual review.
-
-AI-generated replacement text is not authoritative.
+1. preserve legible source text as reference;
+2. store authoritative wording as structured metadata;
+3. re-render labels using layout and typography tools after image creation;
+4. mark unreadable or uncertain text for review.
 
 ## Brain metadata contract
-
-Every resolution conversion must record at least:
 
 ```yaml
 asset_id: NKS-WRW-000001
@@ -174,30 +256,31 @@ source_asset_id: NKS-SRC-WRW-000001
 content_type: character-identity
 importance: hero
 source:
-  width: 420
-  height: 610
+  width: 196
+  height: 260
   checksum_sha256: "..."
-conversion:
-  requested_profile: production-8k
-  selected_route: ai-assisted-reconstruction
+  resized_for_production: false
+reconstruction:
+  target_profile: production-8k-native
+  selected_route: native-ai-reconstruction
   target_long_edge: 8192
-  preserve_aspect_ratio: true
-  preserve_identity: true
-  preserve_anatomy: true
-  preserve_colours: true
-  preserve_markings: true
-  background_mode: preserve
-  model: "runtime-selected"
-  model_version: "runtime-recorded"
+  native_canvas: true
+  source_used_as_reference_only: true
+  design_spec: NKS-WRW-000001_design_spec_v001.yaml
+  renderer: "runtime-selected"
+  renderer_version: "runtime-recorded"
   settings: {}
 output:
-  width: 5640
+  width: 6144
   height: 8192
   checksum_sha256: "..."
-quality:
+  provenance: native-ai-reconstruction
+verification:
   status: needs-visual-review
-  design_consistency_score: null
-  clipping_detected: false
+  identity_match: pending
+  anatomy_match: pending
+  silhouette_match: pending
+  palette_match: pending
   artefacts_detected: false
 approval:
   state: pending
@@ -205,41 +288,54 @@ approval:
   approved_at: null
 ```
 
+## Runtime guard
+
+Every processing implementation must contain a hard guard equivalent to:
+
+```python
+if production_output and (output_width > source_width or output_height > source_height):
+    if method in {"resize", "super_resolution", "progressive_scale", "upscale"}:
+        raise ProductionUpscaleProhibitedError()
+```
+
+The guard does not block a newly rendered native canvas. It blocks any production path whose operation is enlargement of source pixels.
+
 ## Orchestration responsibility
 
-The Brain owns the policy and decision record. The Render Orchestrator or Asset Processing service performs the conversion using the best available compatible model or tool. Tools and models are replaceable; this policy and the asset history remain canonical.
+The Brain owns policy, design constraints, provenance, and approval state. The Render Orchestrator selects replaceable tools that can perform native reconstruction. No renderer may weaken or bypass this policy.
 
 ## Learning loop
 
-After review, the Brain must store:
+After review, the Brain stores:
 
-- route selected;
-- tool and model used;
-- processing settings;
-- quality scores;
+- reconstruction route;
+- renderer and version;
+- design specification;
+- prompt and constraints;
+- verification findings;
 - reviewer outcome;
 - rejection reasons;
-- asset category;
 - runtime and resource cost.
 
-Future conversions should use this evidence to rank processing methods, but learned preferences may never bypass preservation, provenance, or approval requirements.
+Learned preferences may rank renderers or settings, but they may never re-enable production upscaling or bypass provenance and approval.
 
 ## Trigger behaviour
 
-The Brain must invoke this policy when:
+Invoke this policy when:
 
-- a raster asset is imported;
+- a raster reference is imported;
 - a panel is extracted from a source sheet;
-- a user requests enhancement, 4K, 8K, restoration, cleanup, or production readiness;
+- a user requests enhancement, cleanup, 4K, 8K, or production readiness;
 - an asset is promoted to hero or master status;
-- a renderer requests a minimum resolution that the current derivative does not satisfy.
+- a renderer requires a resolution unavailable in the current native asset.
 
 ## Failure behaviour
 
-If no compatible enhancement service is available, the Brain must:
+If no compatible native reconstruction renderer is available, the Brain must:
 
 - preserve and register the source;
-- create a pending conversion job;
-- record the requested target and reason;
-- report that conversion is queued or unavailable;
-- never falsely mark the asset as 4K, 8K, enhanced, or production-approved.
+- create a pending reconstruction job;
+- record the requested target and missing capability;
+- report that native reconstruction is unavailable or queued;
+- never fall back to upscaling;
+- never falsely label the source as 4K, 8K, enhanced, native, or production-approved.
