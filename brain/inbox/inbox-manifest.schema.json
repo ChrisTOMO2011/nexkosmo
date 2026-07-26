@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexkosmo.com/schemas/inbox-manifest.schema.json",
+  "title": "Nexkosmo Brain Inbox Manifest",
+  "description": "Canonical intake record for every asset entering the Nexkosmo Brain.",
+  "type": "object",
+  "required": [
+    "inbox_item_id",
+    "source",
+    "original_filename",
+    "media_type",
+    "status",
+    "received_at",
+    "storage_path",
+    "processing"
+  ],
+  "properties": {
+    "inbox_item_id": {
+      "type": "string",
+      "pattern": "^NK-INBOX-[A-Z0-9-]+$"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "manual_upload",
+        "chatgpt",
+        "github",
+        "cloud_storage",
+        "camera",
+        "scanner",
+        "api",
+        "automation",
+        "unknown"
+      ]
+    },
+    "source_reference": {
+      "type": "string"
+    },
+    "original_filename": {
+      "type": "string",
+      "minLength": 1
+    },
+    "media_type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "video",
+        "audio",
+        "document",
+        "model_3d",
+        "archive",
+        "scan",
+        "other"
+      ]
+    },
+    "mime_type": {
+      "type": "string"
+    },
+    "file_size_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "checksum_sha256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "received",
+        "queued",
+        "processing",
+        "needs_review",
+        "approved",
+        "registered",
+        "rejected",
+        "quarantined",
+        "failed"
+      ]
+    },
+    "received_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "storage_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_hint": {
+      "type": "string"
+    },
+    "asset_type_hint": {
+      "type": "string"
+    },
+    "processing": {
+      "type": "object",
+      "required": [
+        "metadata_extraction",
+        "duplicate_detection",
+        "classification",
+        "relationship_discovery",
+        "validation"
+      ],
+      "properties": {
+        "metadata_extraction": { "$ref": "#/$defs/processState" },
+        "duplicate_detection": { "$ref": "#/$defs/processState" },
+        "classification": { "$ref": "#/$defs/processState" },
+        "ai_tagging": { "$ref": "#/$defs/processState" },
+        "relationship_discovery": { "$ref": "#/$defs/processState" },
+        "validation": { "$ref": "#/$defs/processState" },
+        "thumbnail_generation": { "$ref": "#/$defs/processState" },
+        "malware_scan": { "$ref": "#/$defs/processState" }
+      },
+      "additionalProperties": false
+    },
+    "extracted_metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "ai_analysis": {
+      "type": "object",
+      "properties": {
+        "summary": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "model": { "type": "string" },
+        "analysed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "duplicate_matches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["asset_id", "match_type", "confidence"],
+        "properties": {
+          "asset_id": { "type": "string" },
+          "match_type": {
+            "type": "string",
+            "enum": ["checksum", "visual", "semantic", "filename", "metadata"]
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "suggested_relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target_asset_id", "relationship_type", "confidence"],
+        "properties": {
+          "target_asset_id": { "type": "string" },
+          "relationship_type": { "type": "string" },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "required": { "type": "boolean" },
+        "assigned_to": { "type": "string" },
+        "decision": {
+          "type": "string",
+          "enum": ["pending", "approved", "rejected", "quarantined"]
+        },
+        "comments": { "type": "string" },
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "canonical_asset_id": {
+      "type": "string"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "processState": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["not_started", "queued", "running", "passed", "failed", "skipped"]
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "message": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
