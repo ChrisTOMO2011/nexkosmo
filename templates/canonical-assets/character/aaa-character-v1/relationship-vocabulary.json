@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Nexkosmo.RelationshipVocabulary",
+  "title": "Nexkosmo Relationship Vocabulary",
+  "$defs": {
+    "relationshipType": {
+      "type": "string",
+      "enum": [
+        "parent_of", "child_of", "contains", "contained_by", "uses", "used_by",
+        "depends_on", "required_by", "generated_from", "source_for", "derived_from",
+        "variant_of", "instance_of", "replaces", "supersedes", "compatible_with",
+        "incompatible_with", "attached_to", "drives", "driven_by", "binds_to",
+        "references", "referenced_by", "approved_with", "released_with"
+      ]
+    },
+    "relationship": {
+      "type": "object",
+      "required": ["relationship_id", "type", "target_asset_id", "direction", "status"],
+      "properties": {
+        "relationship_id": {"type": "string", "pattern": "^NK\\.REL\\.[A-Z0-9_.-]+$"},
+        "type": {"$ref": "#/$defs/relationshipType"},
+        "target_asset_id": {"type": "string", "minLength": 1},
+        "direction": {"type": "string", "enum": ["outbound", "inbound", "bidirectional"]},
+        "status": {"type": "string", "enum": ["active", "pending", "deprecated", "removed"]},
+        "required": {"type": "boolean", "default": false},
+        "context": {"type": "string"},
+        "created_at": {"type": "string", "format": "date-time"},
+        "created_by": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": ["vocabulary_version", "allowed_relationships"],
+  "properties": {
+    "vocabulary_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "allowed_relationships": {"type": "array", "items": {"$ref": "#/$defs/relationshipType"}, "uniqueItems": true}
+  },
+  "additionalProperties": false
+}
