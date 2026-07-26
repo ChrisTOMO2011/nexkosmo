@@ -1,0 +1,146 @@
+{
+  "schema": "Nexkosmo.ProductionStages",
+  "schema_version": "1.0.0",
+  "template_id": "NK.TEMPLATE.CHARACTER.AAA.V1",
+  "stages": [
+    {
+      "id": "reference",
+      "folder": "01_REFERENCE",
+      "required_outputs": ["reference_board", "source_manifest", "rights_status"],
+      "exit_criteria": ["references_curated", "provenance_recorded"]
+    },
+    {
+      "id": "concept",
+      "folder": "02_CONCEPT",
+      "required_outputs": ["approved_concept", "turnaround", "scale_reference"],
+      "exit_criteria": ["art_direction_approved", "silhouette_locked"]
+    },
+    {
+      "id": "sculpt",
+      "folder": "03_SCULPTS",
+      "required_outputs": ["primary_sculpt", "anatomy_pass", "detail_pass"],
+      "exit_criteria": ["form_approved", "proportions_locked"]
+    },
+    {
+      "id": "production_model",
+      "folder": "04_PRODUCTION_MODELS",
+      "required_outputs": ["high_resolution_model", "working_scene"],
+      "exit_criteria": ["model_integrity_passed", "naming_conventions_passed"]
+    },
+    {
+      "id": "retopology",
+      "folder": "05_RETOPOLOGY",
+      "required_outputs": ["deformation_ready_mesh", "lod_meshes"],
+      "exit_criteria": ["topology_review_passed", "polygon_budgets_met"]
+    },
+    {
+      "id": "uv_layout",
+      "folder": "06_UV_LAYOUT",
+      "required_outputs": ["uv_sets", "udim_manifest"],
+      "exit_criteria": ["overlap_policy_passed", "texel_density_passed"]
+    },
+    {
+      "id": "textures",
+      "folder": "07_TEXTURES",
+      "required_outputs": ["texture_sets", "channel_manifest"],
+      "exit_criteria": ["resolution_requirements_met", "seam_review_passed"]
+    },
+    {
+      "id": "materials",
+      "folder": "08_MATERIALS",
+      "required_outputs": ["master_materials", "material_instances"],
+      "exit_criteria": ["shader_validation_passed", "look_consistency_approved"]
+    },
+    {
+      "id": "groom",
+      "folder": "09_GROOM",
+      "optional": true,
+      "required_outputs": ["groom_assets", "groom_bindings"],
+      "exit_criteria": ["groom_review_passed", "simulation_ready"]
+    },
+    {
+      "id": "rigging",
+      "folder": "10_RIGGING",
+      "required_outputs": ["production_rig", "skin_weights", "control_manifest"],
+      "exit_criteria": ["deformation_test_passed", "rig_validation_passed"]
+    },
+    {
+      "id": "blendshapes",
+      "folder": "11_BLENDSHAPES",
+      "optional": true,
+      "required_outputs": ["facial_shapes", "corrective_shapes"],
+      "exit_criteria": ["facial_review_passed", "correctives_validated"]
+    },
+    {
+      "id": "simulation",
+      "folder": "12_SIMULATION",
+      "optional": true,
+      "required_outputs": ["simulation_setup", "cache_policy"],
+      "exit_criteria": ["stability_test_passed", "collision_test_passed"]
+    },
+    {
+      "id": "animation",
+      "folder": "13_ANIMATION",
+      "required_outputs": ["test_animation", "retarget_profile"],
+      "exit_criteria": ["range_of_motion_passed", "retargeting_passed"]
+    },
+    {
+      "id": "audio",
+      "folder": "14_AUDIO",
+      "optional": true,
+      "required_outputs": ["voice_assets", "audio_manifest"],
+      "exit_criteria": ["audio_quality_passed", "usage_rights_recorded"]
+    },
+    {
+      "id": "vfx",
+      "folder": "15_VFX",
+      "optional": true,
+      "required_outputs": ["character_vfx_assets", "integration_notes"],
+      "exit_criteria": ["vfx_review_passed", "performance_budget_met"]
+    },
+    {
+      "id": "lookdev_render",
+      "folder": "16_LOOKDEV_RENDER",
+      "required_outputs": ["lookdev_scene", "turntable", "approval_renders"],
+      "exit_criteria": ["lookdev_approved", "render_consistency_passed"]
+    },
+    {
+      "id": "exports",
+      "folder": "17_EXPORTS",
+      "required_outputs": ["interchange_exports", "engine_exports", "export_manifest"],
+      "exit_criteria": ["export_validation_passed", "dependency_package_complete"]
+    },
+    {
+      "id": "documentation",
+      "folder": "18_DOCUMENTATION",
+      "required_outputs": ["asset_readme", "technical_notes", "change_log"],
+      "exit_criteria": ["documentation_complete", "known_limitations_recorded"]
+    },
+    {
+      "id": "testing",
+      "folder": "19_TESTING",
+      "required_outputs": ["qa_report", "performance_report", "compatibility_report"],
+      "exit_criteria": ["blocking_failures_zero", "release_threshold_met"]
+    },
+    {
+      "id": "archive",
+      "folder": "20_ARCHIVE",
+      "required_outputs": ["source_snapshot", "archive_manifest"],
+      "exit_criteria": ["archive_checksum_verified"]
+    },
+    {
+      "id": "release",
+      "folder": "21_RELEASE",
+      "required_outputs": ["release_package", "release_manifest", "release_notes"],
+      "exit_criteria": ["canonical_registry_updated", "version_locked", "approvals_complete"]
+    }
+  ],
+  "rules": {
+    "stages_are_ordered": true,
+    "optional_stages_require_explicit_not_applicable_status": true,
+    "stage_exit_requires_evidence": true,
+    "stage_reopen_requires_audit_entry": true,
+    "release_requires_all_mandatory_stages_complete": true,
+    "production_and_documentation_completion_are_scored_separately": true
+  }
+}
