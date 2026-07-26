@@ -1,0 +1,22 @@
+{
+  "schema": "Nexkosmo.CharacterMetadata",
+  "schema_version": "1.0.0",
+  "required": ["canonical_asset_id", "uuid", "asset_name", "asset_type", "version", "status", "created_at", "updated_at"],
+  "properties": {
+    "canonical_asset_id": {"type": "string"},
+    "uuid": {"type": "string", "format": "uuid"},
+    "asset_name": {"type": "string"},
+    "asset_type": {"const": "character"},
+    "version": {"type": "string"},
+    "status": {"enum": ["planned", "concept", "in_progress", "review", "approved", "published", "deprecated", "archived"]},
+    "aliases": {"type": "array", "items": {"type": "string"}},
+    "tags": {"type": "array", "items": {"type": "string"}},
+    "relationships": {"type": "array"},
+    "dependencies": {"type": "array"},
+    "provenance": {"type": "object"},
+    "confidence": {"type": "object"},
+    "checksums": {"type": "object"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}
