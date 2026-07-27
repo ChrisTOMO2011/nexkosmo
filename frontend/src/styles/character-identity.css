@@ -17,3 +17,16 @@
   height: 45px;
   margin-top: 18px;
 }
+
+.nexkosmo-studio--character-identity .editor-tabs {
+  grid-template-columns: 104px 90px 92px 90px 94px 102px 90px 124px;
+  justify-content: start;
+}
+
+.nexkosmo-studio--character-identity .filter-row button {
+  padding-inline: 16px;
+}
+
+.nexkosmo-studio--character-identity .accessory-tabs button {
+  padding-inline: 20px;
+}
