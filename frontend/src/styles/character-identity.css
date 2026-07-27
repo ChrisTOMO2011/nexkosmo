@@ -37,6 +37,36 @@
   justify-content: start;
 }
 
+.nexkosmo-studio--character-identity .style-card {
+  background-image: url("../assets/pre-production/style-options.jpeg");
+  background-repeat: no-repeat;
+  background-size: 600% 100%;
+}
+
+.nexkosmo-studio--character-identity .style-crop-1 {
+  background-position: 0% center;
+}
+
+.nexkosmo-studio--character-identity .style-crop-2 {
+  background-position: 20% center;
+}
+
+.nexkosmo-studio--character-identity .style-crop-3 {
+  background-position: 40% center;
+}
+
+.nexkosmo-studio--character-identity .style-crop-4 {
+  background-position: 60% center;
+}
+
+.nexkosmo-studio--character-identity .style-crop-5 {
+  background-position: 80% center;
+}
+
+.nexkosmo-studio--character-identity .style-crop-6 {
+  background-position: 100% center;
+}
+
 .nexkosmo-studio--character-identity .filter-row button {
   padding-inline: 16px;
 }
@@ -46,8 +76,108 @@
   min-width: 0;
 }
 
+.nexkosmo-studio--character-identity .species-portrait {
+  background-image: url("../assets/pre-production/species-options.jpeg");
+  background-repeat: no-repeat;
+  background-size: 800% 100%;
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(1)
+  .species-portrait {
+  background-position: 0% center;
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(2)
+  .species-portrait {
+  background-position: 14.2857% center;
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(3)
+  .species-portrait {
+  background-position: 28.5714% center;
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(4)
+  .species-portrait {
+  background-image: url("../assets/pre-production/species-options.jpeg");
+  background-position: 42.8571% center;
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(5)
+  .species-portrait {
+  background-position: 57.1429% center;
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(6)
+  .species-portrait {
+  background-position: 71.4286% center;
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(7)
+  .species-portrait {
+  background-position: 85.7143% center;
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(8)
+  .species-portrait {
+  background-position: 100% center;
+}
+
 .nexkosmo-studio--character-identity .accessory-tabs button {
   padding-inline: 20px;
+}
+
+.nexkosmo-studio--character-identity .glasses-card {
+  background-image: none;
+}
+
+.nexkosmo-studio--character-identity
+  .glasses-card:nth-child(n + 3):nth-child(-n + 9) {
+  background-image: url("../assets/pre-production/glasses-options.jpeg");
+  background-repeat: no-repeat;
+  background-size: 700% 68%;
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(3) {
+  background-position: 0% top;
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(4) {
+  background-position: 16.6667% top;
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(5) {
+  background-position: 33.3333% top;
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(6) {
+  background-position: 50% top;
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(7) {
+  background-position: 66.6667% top;
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(8) {
+  background-position: 83.3333% top;
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(9) {
+  background-position: 100% top;
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(1) svg,
+.nexkosmo-studio--character-identity .glasses-card:nth-child(2) svg,
+.nexkosmo-studio--character-identity .glasses-card:nth-child(10) svg {
+  opacity: 1;
 }
 
 @media (max-width: 1360px) {
