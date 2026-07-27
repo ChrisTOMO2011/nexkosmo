@@ -38,33 +38,33 @@
 }
 
 .nexkosmo-studio--character-identity .style-card {
-  background-image: url("../assets/pre-production/style-options.jpeg");
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: 600% 100%;
+  background-size: cover;
 }
 
 .nexkosmo-studio--character-identity .style-crop-1 {
-  background-position: 0% center;
+  background-image: url("../assets/pre-production/style-realistic.jpeg");
 }
 
 .nexkosmo-studio--character-identity .style-crop-2 {
-  background-position: 20% center;
+  background-image: url("../assets/pre-production/style-cartoon.jpeg");
 }
 
 .nexkosmo-studio--character-identity .style-crop-3 {
-  background-position: 40% center;
+  background-image: url("../assets/pre-production/style-anime.jpeg");
 }
 
 .nexkosmo-studio--character-identity .style-crop-4 {
-  background-position: 60% center;
+  background-image: url("../assets/pre-production/style-game.jpeg");
 }
 
 .nexkosmo-studio--character-identity .style-crop-5 {
-  background-position: 80% center;
+  background-image: url("../assets/pre-production/style-comic.jpeg");
 }
 
 .nexkosmo-studio--character-identity .style-crop-6 {
-  background-position: 100% center;
+  background-image: url("../assets/pre-production/style-stylized.jpeg");
 }
 
 .nexkosmo-studio--character-identity .filter-row button {
@@ -76,59 +76,60 @@
   min-width: 0;
 }
 
-.nexkosmo-studio--character-identity .species-portrait {
-  background-image: url("../assets/pre-production/species-options.jpeg");
+.nexkosmo-studio--character-identity
+  .species-card
+  .species-portrait {
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: 800% 100%;
+  background-size: cover;
 }
 
 .nexkosmo-studio--character-identity
   .species-card:nth-child(1)
   .species-portrait {
-  background-position: 0% center;
+  background-image: url("../assets/pre-production/species-human.jpeg");
 }
 
 .nexkosmo-studio--character-identity
   .species-card:nth-child(2)
   .species-portrait {
-  background-position: 14.2857% center;
+  background-image: url("../assets/pre-production/species-elf.jpeg");
 }
 
 .nexkosmo-studio--character-identity
   .species-card:nth-child(3)
   .species-portrait {
-  background-position: 28.5714% center;
+  background-image: url("../assets/pre-production/species-orc.jpeg");
 }
 
 .nexkosmo-studio--character-identity
   .species-card:nth-child(4)
   .species-portrait {
-  background-image: url("../assets/pre-production/species-options.jpeg");
-  background-position: 42.8571% center;
+  background-image: url("../assets/pre-production/species-robot.jpeg");
 }
 
 .nexkosmo-studio--character-identity
   .species-card:nth-child(5)
   .species-portrait {
-  background-position: 57.1429% center;
+  background-image: url("../assets/pre-production/species-dragon.jpeg");
 }
 
 .nexkosmo-studio--character-identity
   .species-card:nth-child(6)
   .species-portrait {
-  background-position: 71.4286% center;
+  background-image: url("../assets/pre-production/species-alien.jpeg");
 }
 
 .nexkosmo-studio--character-identity
   .species-card:nth-child(7)
   .species-portrait {
-  background-position: 85.7143% center;
+  background-image: url("../assets/pre-production/species-monkey.jpeg");
 }
 
 .nexkosmo-studio--character-identity
   .species-card:nth-child(8)
   .species-portrait {
-  background-position: 100% center;
+  background-image: url("../assets/pre-production/species-demon.jpeg");
 }
 
 .nexkosmo-studio--character-identity .accessory-tabs button {
@@ -141,37 +142,37 @@
 
 .nexkosmo-studio--character-identity
   .glasses-card:nth-child(n + 3):nth-child(-n + 9) {
-  background-image: url("../assets/pre-production/glasses-options.jpeg");
+  background-position: center top;
   background-repeat: no-repeat;
-  background-size: 700% 68%;
+  background-size: 100% 68%;
 }
 
 .nexkosmo-studio--character-identity .glasses-card:nth-child(3) {
-  background-position: 0% top;
+  background-image: url("../assets/pre-production/glasses-aviator.jpeg");
 }
 
 .nexkosmo-studio--character-identity .glasses-card:nth-child(4) {
-  background-position: 16.6667% top;
+  background-image: url("../assets/pre-production/glasses-wayfarer.jpeg");
 }
 
 .nexkosmo-studio--character-identity .glasses-card:nth-child(5) {
-  background-position: 33.3333% top;
+  background-image: url("../assets/pre-production/glasses-round.jpeg");
 }
 
 .nexkosmo-studio--character-identity .glasses-card:nth-child(6) {
-  background-position: 50% top;
+  background-image: url("../assets/pre-production/glasses-rectangle.jpeg");
 }
 
 .nexkosmo-studio--character-identity .glasses-card:nth-child(7) {
-  background-position: 66.6667% top;
+  background-image: url("../assets/pre-production/glasses-vintage.jpeg");
 }
 
 .nexkosmo-studio--character-identity .glasses-card:nth-child(8) {
-  background-position: 83.3333% top;
+  background-image: url("../assets/pre-production/glasses-clear-frame.jpeg");
 }
 
 .nexkosmo-studio--character-identity .glasses-card:nth-child(9) {
-  background-position: 100% top;
+  background-image: url("../assets/pre-production/glasses-sunglasses.jpeg");
 }
 
 .nexkosmo-studio--character-identity .glasses-card:nth-child(1) svg,
