@@ -27,6 +27,17 @@
   padding-inline: 16px;
 }
 
+.nexkosmo-studio--character-identity .species-row {
+  grid-template-columns: repeat(8, minmax(0, 1fr)) 26px;
+  min-width: 0;
+}
+
 .nexkosmo-studio--character-identity .accessory-tabs button {
   padding-inline: 20px;
+}
+
+@media (max-width: 1360px) {
+  .nexkosmo-studio--character-identity .filter-row button {
+    padding-inline: 8px;
+  }
 }
