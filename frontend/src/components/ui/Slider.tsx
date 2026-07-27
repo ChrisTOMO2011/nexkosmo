@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 type SliderProps = {
   label: string;
   value: number;
@@ -21,6 +23,11 @@ export function Slider({
   showValue = true,
   className = "",
 }: SliderProps) {
+  const progress = ((value - min) / (max - min)) * 100;
+  const sliderStyle = {
+    "--range-progress": `${progress}%`,
+  } as CSSProperties;
+
   return (
     <label className={`ui-slider slider-field ${className}`.trim()}>
       <span>
@@ -32,6 +39,7 @@ export function Slider({
         max={max}
         step={step}
         value={value}
+        style={sliderStyle}
         aria-label={label}
         onChange={(event) => onChange(Number(event.target.value))}
       />

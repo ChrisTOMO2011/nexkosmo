@@ -100,6 +100,6 @@ export const suggestions = [
     id: "villain",
     title: "Villain Vibe",
     body: "Dark glasses and scars for a more intense look.",
-    crop: "avatar-sarah",
+    crop: "avatar-chris",
   },
 ] as const;

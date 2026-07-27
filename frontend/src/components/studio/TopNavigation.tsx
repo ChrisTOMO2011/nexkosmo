@@ -22,6 +22,8 @@ export function TopNavigation({
         <span className="brand-mark" aria-hidden="true">
           <i />
           <i />
+          <i />
+          <i />
         </span>
         <span className="brand-copy">
           <strong>NEXKOSMO</strong>

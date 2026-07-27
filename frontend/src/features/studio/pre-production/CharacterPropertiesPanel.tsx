@@ -70,16 +70,16 @@ export function CharacterPropertiesPanel({
 
           <Slider
             label="Age"
-            min={18}
-            max={80}
+            min={0}
+            max={73}
             value={age}
             onChange={onAgeChange}
           />
 
           <Slider
             label="Height"
-            min={140}
-            max={220}
+            min={90}
+            max={240}
             value={height}
             formatValue={(value) => `${value} cm`}
             onChange={onHeightChange}
