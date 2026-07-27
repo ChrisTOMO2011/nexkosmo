@@ -1,0 +1,19 @@
+/*
+ * Character Identity has a page-specific visual contract. Shared Studio
+ * primitives remain in use, while this variant owns reference-only artwork
+ * crops and may diverge from generic workflow-page dimensions when required.
+ */
+
+.nexkosmo-studio--character-identity .project-thumb {
+  background-position: -158px -67px;
+  background-size: 1536px 1024px;
+}
+
+.nexkosmo-studio--character-identity .profile-avatar.avatar-chris {
+  background-position: -1455px -13px;
+}
+
+.nexkosmo-studio--character-identity .copilot-card > button {
+  height: 45px;
+  margin-top: 18px;
+}

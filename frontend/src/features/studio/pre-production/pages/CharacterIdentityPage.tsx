@@ -81,6 +81,7 @@ export function CharacterIdentityPage({
       activeStage="pre-production"
       projectId={projectId}
       characterId={characterId}
+      variant="character-identity"
       leftSidebar={
         <LeftSidebar
           items={preProductionNavigation}

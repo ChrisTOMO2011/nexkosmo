@@ -8,6 +8,7 @@ type StudioLayoutProps = {
   activeStage: WorkflowStageId;
   projectId: string;
   characterId?: string;
+  variant?: "default" | "character-identity";
   leftSidebar: ReactNode;
   rightSidebar?: ReactNode;
   bottomActionBar: ReactNode;
@@ -23,6 +24,7 @@ export function StudioLayout({
   activeStage,
   projectId,
   characterId,
+  variant = "default",
   leftSidebar,
   rightSidebar,
   bottomActionBar,
@@ -34,7 +36,11 @@ export function StudioLayout({
   children,
 }: StudioLayoutProps) {
   return (
-    <div className="nexkosmo-studio">
+    <div
+      className={`nexkosmo-studio ${
+        variant === "default" ? "" : `nexkosmo-studio--${variant}`
+      }`.trim()}
+    >
       <TopNavigation
         activeStage={activeStage}
         projectId={projectId}
