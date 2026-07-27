@@ -3,6 +3,24 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { AppRoutes } from "./App";
 
+describe("Nexkosmo landing route", () => {
+  it("reconnects the cinematic home at the root route", () => {
+    window.history.replaceState({}, "", "/");
+
+    render(<AppRoutes />);
+
+    expect(
+      screen.getByTitle("Nexkosmo cinematic home"),
+    ).toHaveAttribute("src", "/landing/index.html");
+    expect(
+      screen.getByRole("link", { name: "Open Nexkosmo Studio" }),
+    ).toHaveAttribute(
+      "href",
+      "/studio/projects/the-last-dawn/pre-production/characters/christopher",
+    );
+  });
+});
+
 function renderCharacterRoute() {
   window.history.replaceState(
     {},

@@ -4,6 +4,7 @@ import { AppRoutes } from "./app/App";
 import "./styles/tokens.css";
 import "./styles/base.css";
 import "./styles/components.css";
+import "./styles/landing.css";
 import "./styles/studio.css";
 import "./styles/character-identity.css";
 import "./styles/workflow-scaffolds.css";

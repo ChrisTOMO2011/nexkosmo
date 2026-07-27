@@ -1,6 +1,7 @@
 import type { WorkflowStageId } from "../features/studio/config/navigation";
 
 export type StudioRoute =
+  | { kind: "home" }
   | {
       kind: "character";
       projectId: string;
@@ -20,6 +21,10 @@ const workflowRoute =
   /^\/studio\/projects\/([^/]+)\/(set|studio|review|render)\/?$/;
 
 export function resolveStudioRoute(pathname: string): StudioRoute {
+  if (pathname === "/" || pathname === "/index.html") {
+    return { kind: "home" };
+  }
+
   const characterMatch = pathname.match(characterRoute);
   if (characterMatch) {
     return {
