@@ -1,0 +1,86 @@
+:root {
+  color-scheme: dark;
+  font-family:
+    Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  --color-bg: #07080c;
+  --color-panel: #101116;
+  --color-raised: #15161c;
+  --color-soft: #191a21;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.11);
+  --color-text: #f4f2f8;
+  --color-secondary: #a9a5b3;
+  --color-muted: #74717d;
+  --color-purple: #6d28d9;
+  --color-purple-bright: #7c3aed;
+  --color-purple-soft: rgba(124, 58, 237, 0.18);
+  --color-green: #36c96f;
+  --color-blue: #2f93ff;
+  --color-orange: #f59e0b;
+
+  --shadow-panel: 0 16px 40px rgba(0, 0, 0, 0.28);
+  --shadow-purple: 0 0 22px rgba(109, 40, 217, 0.24);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --header-height: 70px;
+  --scene-bar-height: 72px;
+  --sidebar-width: 232px;
+  --properties-width: 338px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-width: 768px;
+  min-height: 100%;
+  background: var(--color-bg);
+}
+
+body {
+  overflow: hidden;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button,
+select {
+  color: inherit;
+}
+
+button {
+  border: 0;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
