@@ -1,0 +1,4 @@
+export interface ConfidenceScore{value:number;contributors:string[];updatedAt:string}
+export interface ConfidenceEvidence{sourceId:string;weight:number;reliability:number;supports:boolean}
+export interface ConfidenceEngine{calculate(evidence:ConfidenceEvidence[]):ConfidenceScore;propagate(score:ConfidenceScore,target:string):Promise<void>;combine(scores:ConfidenceScore[]):ConfidenceScore;}
+export class CanonicalConfidenceEngine implements ConfidenceEngine{calculate(e){const total=e.reduce((s,x)=>s+((x.supports?1:-1)*x.weight*x.reliability),0);const norm=Math.max(0,Math.min(1,(total+1)/2));return{value:norm,contributors:e.map(x=>x.sourceId),updatedAt:new Date().toISOString()}}async propagate(_s,_t){return;}combine(scores){if(scores.length===0)return{value:0,contributors:[],updatedAt:new Date().toISOString()};const v=scores.reduce((a,b)=>a+b.value,0)/scores.length;return{value:v,contributors:scores.flatMap(s=>s.contributors),updatedAt:new Date().toISOString()}}}
