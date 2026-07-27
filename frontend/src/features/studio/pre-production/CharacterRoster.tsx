@@ -1,4 +1,5 @@
 import { Plus } from "lucide-react";
+import { Button } from "../../../components/ui";
 import type { Character } from "./data";
 
 type CharacterRosterProps = {
@@ -18,9 +19,8 @@ export function CharacterRoster({
     <aside className="character-roster" aria-label="Characters">
       <div className="roster-list">
         {characters.map((character) => (
-          <button
+          <Button
             className={`roster-card ${selectedId === character.id ? "is-selected" : ""}`}
-            type="button"
             key={character.id}
             aria-label={`${character.name}, ${character.role}`}
             aria-pressed={selectedId === character.id}
@@ -35,13 +35,16 @@ export function CharacterRoster({
               <small>{character.role}</small>
             </span>
             {selectedId === character.id && <i className="roster-status" />}
-          </button>
+          </Button>
         ))}
       </div>
-      <button className="add-character" type="button" onClick={onAdd}>
-        <Plus aria-hidden="true" />
+      <Button
+        className="add-character"
+        leadingIcon={<Plus aria-hidden="true" />}
+        onClick={onAdd}
+      >
         Add Character
-      </button>
+      </Button>
     </aside>
   );
 }

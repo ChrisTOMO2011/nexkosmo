@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import { SelectionGrid } from "../../../components/ui";
 import { styles } from "./data";
 
 type StyleSelectorProps = {
@@ -10,7 +11,7 @@ export function StyleSelector({ selected, onChange }: StyleSelectorProps) {
   return (
     <section className="selector-section style-selector" aria-labelledby="style-title">
       <h3 id="style-title">STYLE</h3>
-      <div className="style-grid">
+      <SelectionGrid className="style-grid">
         {styles.map((style, index) => (
           <button
             className={`style-card style-crop-${index + 1} ${selected === style ? "is-selected" : ""}`}
@@ -27,7 +28,7 @@ export function StyleSelector({ selected, onChange }: StyleSelectorProps) {
             <span>{style}</span>
           </button>
         ))}
-      </div>
+      </SelectionGrid>
     </section>
   );
 }

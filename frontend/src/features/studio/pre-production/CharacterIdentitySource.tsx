@@ -1,5 +1,6 @@
-import { Check, CloudUpload, Info, Sparkles } from "lucide-react";
-import { useRef, useState, type DragEvent } from "react";
+import { Check, CloudUpload, Info, Pencil, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { Button, UploadArea } from "../../../components/ui";
 
 type CharacterIdentitySourceProps = {
   selectedFace: number;
@@ -12,7 +13,6 @@ export function CharacterIdentitySource({
   onSelectFace,
   onPlaceholder,
 }: CharacterIdentitySourceProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
 
   function handleFile(file?: File) {
@@ -29,11 +29,6 @@ export function CharacterIdentitySource({
     reader.readAsDataURL(file);
   }
 
-  function handleDrop(event: DragEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    handleFile(event.dataTransfer.files[0]);
-  }
-
   return (
     <section className="identity-source-panel" aria-labelledby="identity-source-title">
       <div className="character-heading">
@@ -43,7 +38,7 @@ export function CharacterIdentitySource({
         <h1>
           Christopher
           <button type="button" aria-label="Edit Christopher name">
-            <span aria-hidden="true">⌕</span>
+            <Pencil aria-hidden="true" />
           </button>
         </h1>
         <p className="character-role">Lead Character</p>
@@ -58,14 +53,13 @@ export function CharacterIdentitySource({
         <Info aria-hidden="true" />
       </h2>
 
-      <button
+      <UploadArea
         className="upload-dropzone"
-        type="button"
-        onClick={() => inputRef.current?.click()}
-        onDragOver={(event) => event.preventDefault()}
-        onDrop={handleDrop}
-      >
-        {uploadedImage ? (
+        label="Upload face image"
+        helperText="JPG, PNG up to 10MB"
+        accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+        onFile={handleFile}
+        preview={uploadedImage ? (
           <img src={uploadedImage} alt="Uploaded identity source" />
         ) : (
           <>
@@ -75,14 +69,6 @@ export function CharacterIdentitySource({
             <small>JPG, PNG up to 10MB</small>
           </>
         )}
-      </button>
-      <input
-        ref={inputRef}
-        className="visually-hidden"
-        type="file"
-        accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-        aria-label="Upload face image"
-        onChange={(event) => handleFile(event.target.files?.[0])}
       />
 
       <div className="face-thumbnails" aria-label="Identity face variants">
@@ -104,14 +90,13 @@ export function CharacterIdentitySource({
         ))}
       </div>
 
-      <button
+      <Button
         className="generate-button"
-        type="button"
+        leadingIcon={<Sparkles aria-hidden="true" />}
         onClick={() => onPlaceholder("AI face generation is a placeholder.")}
       >
-        <Sparkles aria-hidden="true" />
         Generate with AI
-      </button>
+      </Button>
     </section>
   );
 }

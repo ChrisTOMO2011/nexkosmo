@@ -52,3 +52,29 @@ describe("Nexkosmo character identity route", () => {
     expect(screen.getByRole("button", { name: "Applied" })).toBeInTheDocument();
   });
 });
+
+describe("Nexkosmo workflow foundations", () => {
+  it.each([
+    ["set", "SET"],
+    ["studio", "STUDIO"],
+    ["review", "REVIEW"],
+    ["render", "RENDER"],
+  ])("renders the shared shell for the %s route", (route, label) => {
+    window.history.replaceState(
+      {},
+      "",
+      `/studio/projects/the-last-dawn/${route}`,
+    );
+
+    render(<AppRoutes />);
+
+    expect(
+      screen.getByRole("heading", { name: label, level: 1 }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: new RegExp(label) }),
+    ).toHaveAttribute("aria-current", "step");
+    expect(screen.getByText("Primary workspace")).toBeInTheDocument();
+    expect(screen.getByText("Inspector")).toBeInTheDocument();
+  });
+});

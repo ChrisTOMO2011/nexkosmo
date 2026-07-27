@@ -1,1 +1,1 @@
-export const renderFeatureStatus = "planned";
+export * from "./RenderPage";

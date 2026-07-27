@@ -1,1 +1,1 @@
-export const reviewFeatureStatus = "planned";
+export * from "./ReviewPage";

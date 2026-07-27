@@ -5,6 +5,7 @@ import {
   CloudUpload,
   Sparkles,
 } from "lucide-react";
+import { AssetGrid, Button } from "../../../components/ui";
 import { species, speciesFilters } from "./data";
 
 type SpeciesSelectorProps = {
@@ -29,8 +30,7 @@ export function SpeciesSelector({
     >
       <h3 id="species-title">SPECIES / TYPE</h3>
       <div className="species-actions">
-        <button
-          type="button"
+        <Button
           onClick={() => onPlaceholder("Species upload placeholder opened.")}
         >
           <CloudUpload aria-hidden="true" />
@@ -38,9 +38,8 @@ export function SpeciesSelector({
             <strong>Upload</strong>
             <small>Upload Your Own</small>
           </span>
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
           onClick={() => onPlaceholder("AI species generation is a placeholder.")}
         >
           <Sparkles aria-hidden="true" />
@@ -48,7 +47,7 @@ export function SpeciesSelector({
             <strong>AI Generate</strong>
             <small>Generate with AI</small>
           </span>
-        </button>
+        </Button>
       </div>
 
       <div className="filter-row" aria-label="Species filters">
@@ -66,7 +65,7 @@ export function SpeciesSelector({
         ))}
       </div>
 
-      <div className="species-row">
+      <AssetGrid className="species-row">
         {species.map((item, index) => (
           <button
             className={`species-card species-${index + 1} ${selectedSpecies === item ? "is-selected" : ""}`}
@@ -89,7 +88,7 @@ export function SpeciesSelector({
         >
           <ChevronRight aria-hidden="true" />
         </button>
-      </div>
+      </AssetGrid>
     </section>
   );
 }

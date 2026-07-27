@@ -1,4 +1,5 @@
 import { Sparkles } from "lucide-react";
+import { Button, Card } from "../../../components/ui";
 import { suggestions } from "./data";
 
 type AISuggestionsPanelProps = {
@@ -29,7 +30,7 @@ export function AISuggestionsPanel({
         {suggestions.map((suggestion) => {
           const isApplied = applied.includes(suggestion.id);
           return (
-            <article className="suggestion-card" key={suggestion.id}>
+            <Card className="suggestion-card" key={suggestion.id}>
               <span
                 className={`suggestion-avatar ${suggestion.crop}`}
                 aria-hidden="true"
@@ -38,25 +39,23 @@ export function AISuggestionsPanel({
                 <strong>{suggestion.title}</strong>
                 <p>{suggestion.body}</p>
               </div>
-              <button
+              <Button
                 className={isApplied ? "is-applied" : ""}
-                type="button"
                 onClick={() => onApply(suggestion.id)}
               >
                 {isApplied ? "Applied" : "Apply"}
-              </button>
-            </article>
+              </Button>
+            </Card>
           );
         })}
       </div>
-      <button
+      <Button
         className="generate-more-button"
-        type="button"
+        leadingIcon={<Sparkles aria-hidden="true" />}
         onClick={() => onPlaceholder("AI suggestion generation is a placeholder.")}
       >
-        <Sparkles aria-hidden="true" />
         Generate More with AI
-      </button>
+      </Button>
     </section>
   );
 }

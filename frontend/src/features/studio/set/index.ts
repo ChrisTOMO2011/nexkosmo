@@ -1,1 +1,1 @@
-export const setFeatureStatus = "planned";
+export * from "./SetPage";

@@ -1,0 +1,67 @@
+import { SlidersHorizontal } from "lucide-react";
+import type { ReactNode } from "react";
+import type { WorkflowStageId } from "../features/studio/config/navigation";
+import { TopNavigation } from "../components/studio";
+import { Button, Toast } from "../components/ui";
+
+type StudioLayoutProps = {
+  activeStage: WorkflowStageId;
+  projectId: string;
+  characterId?: string;
+  leftSidebar: ReactNode;
+  rightSidebar?: ReactNode;
+  bottomActionBar: ReactNode;
+  rightSidebarLabel?: string;
+  onOpenRightSidebar?: () => void;
+  onPlaceholder: (message: string) => void;
+  statusMessage: string;
+  workspaceClassName?: string;
+  children: ReactNode;
+};
+
+export function StudioLayout({
+  activeStage,
+  projectId,
+  characterId,
+  leftSidebar,
+  rightSidebar,
+  bottomActionBar,
+  rightSidebarLabel = "Open inspector",
+  onOpenRightSidebar,
+  onPlaceholder,
+  statusMessage,
+  workspaceClassName = "",
+  children,
+}: StudioLayoutProps) {
+  return (
+    <div className="nexkosmo-studio">
+      <TopNavigation
+        activeStage={activeStage}
+        projectId={projectId}
+        characterId={characterId}
+        onPlaceholder={onPlaceholder}
+      />
+      <div
+        className={`studio-shell ${rightSidebar ? "" : "studio-shell--without-inspector"}`}
+      >
+        {leftSidebar}
+        <main className={`studio-workspace ${workspaceClassName}`.trim()}>
+          {children}
+        </main>
+        {rightSidebar}
+        {rightSidebar && onOpenRightSidebar && (
+          <Button
+            className="properties-toggle"
+            size="icon"
+            aria-label={rightSidebarLabel}
+            onClick={onOpenRightSidebar}
+          >
+            <SlidersHorizontal aria-hidden="true" />
+          </Button>
+        )}
+      </div>
+      {bottomActionBar}
+      <Toast key={statusMessage} message={statusMessage} />
+    </div>
+  );
+}

@@ -2,25 +2,29 @@ import { Bot, ChevronDown, ExternalLink } from "lucide-react";
 import {
   advancedStudios,
   aiTools,
-  productionNav,
-} from "./pre-production/data";
+  type StudioNavItem,
+} from "../../features/studio/config/navigation";
+import { Button } from "../ui";
 
-type ProjectSidebarProps = {
+type LeftSidebarProps = {
+  items: readonly StudioNavItem[];
   activeItem: string;
+  sectionLabel: string;
   onNavigate: (label: string) => void;
   onPlaceholder: (message: string) => void;
 };
 
-export function ProjectSidebar({
+export function LeftSidebar({
+  items,
   activeItem,
+  sectionLabel,
   onNavigate,
   onPlaceholder,
-}: ProjectSidebarProps) {
+}: LeftSidebarProps) {
   return (
     <aside className="project-sidebar" aria-label="Project navigation">
-      <button
+      <Button
         className="project-selector"
-        type="button"
         onClick={() => onPlaceholder("Project selector placeholder opened.")}
       >
         <span className="project-copy">
@@ -29,43 +33,40 @@ export function ProjectSidebar({
         </span>
         <ChevronDown aria-hidden="true" />
         <span className="project-thumb" aria-hidden="true" />
-      </button>
+      </Button>
 
-      <nav className="sidebar-nav" aria-label="Pre-production sections">
-        {productionNav.map(({ label, icon: Icon }) => (
-          <button
+      <nav className="sidebar-nav" aria-label={sectionLabel}>
+        {items.map(({ label, icon: Icon }) => (
+          <Button
             className={`sidebar-nav-item ${activeItem === label ? "is-active" : ""}`}
-            type="button"
             key={label}
             onClick={() => onNavigate(label)}
           >
             <Icon aria-hidden="true" />
             <span>{label}</span>
-          </button>
+          </Button>
         ))}
       </nav>
 
       <section className="sidebar-section">
         <h2>AI TOOLS</h2>
         {aiTools.map(({ label, icon: Icon }) => (
-          <button
+          <Button
             className="sidebar-nav-item"
-            type="button"
             key={label}
             onClick={() => onPlaceholder(`${label} is ready for integration.`)}
           >
             <Icon aria-hidden="true" />
             <span>{label}</span>
-          </button>
+          </Button>
         ))}
       </section>
 
       <section className="advanced-studios">
         <h2>ADVANCED STUDIOS</h2>
         {advancedStudios.map(({ label, detail, icon: Icon, tone }) => (
-          <button
+          <Button
             className="advanced-studio-item"
-            type="button"
             key={label}
             onClick={() => onPlaceholder(`${label} placeholder opened.`)}
           >
@@ -76,7 +77,7 @@ export function ProjectSidebar({
               <strong>{label}</strong>
               <small>{detail}</small>
             </span>
-          </button>
+          </Button>
         ))}
       </section>
 
@@ -88,13 +89,12 @@ export function ProjectSidebar({
           <strong>AI COPILOT</strong>
         </div>
         <p>Need ideas for your scene?</p>
-        <button
-          type="button"
+        <Button
+          trailingIcon={<ExternalLink aria-hidden="true" />}
           onClick={() => onPlaceholder("AI Copilot is ready for integration.")}
         >
           Ask AI Copilot
-          <ExternalLink aria-hidden="true" />
-        </button>
+        </Button>
       </section>
     </aside>
   );

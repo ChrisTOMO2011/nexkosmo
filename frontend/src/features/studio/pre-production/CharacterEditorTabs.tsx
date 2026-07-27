@@ -7,6 +7,7 @@ import {
   Sparkles,
   UserRound,
 } from "lucide-react";
+import { Tabs } from "../../../components/ui";
 import { editorTabs } from "./data";
 
 type CharacterEditorTabsProps = {
@@ -30,23 +31,15 @@ export function CharacterEditorTabs({
   onChange,
 }: CharacterEditorTabsProps) {
   return (
-    <div className="editor-tabs" role="tablist" aria-label="Character editor">
-      {editorTabs.map((tab, index) => {
+    <Tabs
+      className="editor-tabs"
+      label="Character editor"
+      value={activeTab}
+      onChange={onChange}
+      items={editorTabs.map((tab, index) => {
         const Icon = tabIcons[index];
-        return (
-          <button
-            className={activeTab === tab ? "is-active" : ""}
-            type="button"
-            role="tab"
-            aria-selected={activeTab === tab}
-            key={tab}
-            onClick={() => onChange(tab)}
-          >
-            <Icon aria-hidden="true" />
-            <span>{tab}</span>
-          </button>
-        );
+        return { id: tab, label: tab, icon: <Icon aria-hidden="true" /> };
       })}
-    </div>
+    />
   );
 }

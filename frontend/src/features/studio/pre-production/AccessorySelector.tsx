@@ -5,6 +5,7 @@ import {
   Glasses,
   Sparkles,
 } from "lucide-react";
+import { AssetGrid, Tabs } from "../../../components/ui";
 import { accessoryTabs, glasses } from "./data";
 
 type AccessorySelectorProps = {
@@ -24,26 +25,21 @@ export function AccessorySelector({
 }: AccessorySelectorProps) {
   return (
     <section className="accessory-selector" aria-label="Character accessories">
-      <div className="accessory-tabs" role="tablist" aria-label="Accessory categories">
-        {accessoryTabs.map((tab) => (
-          <button
-            className={activeTab === tab ? "is-active" : ""}
-            type="button"
-            role="tab"
-            aria-selected={activeTab === tab}
-            key={tab}
-            onClick={() => onTabChange(tab)}
-          >
-            {tab}
-          </button>
-        ))}
+      <div className="accessory-tabs-wrap">
+        <Tabs
+          className="accessory-tabs"
+          items={accessoryTabs.map((tab) => ({ id: tab, label: tab }))}
+          value={activeTab}
+          onChange={onTabChange}
+          label="Accessory categories"
+        />
         <span className="accessory-dropdowns" aria-hidden="true">
           <ChevronDown />
           <ChevronDown />
         </span>
       </div>
 
-      <div className="glasses-row">
+      <AssetGrid className="glasses-row">
         {glasses.map((item, index) => {
           const Icon =
             index === 0
@@ -75,7 +71,7 @@ export function AccessorySelector({
             </button>
           );
         })}
-      </div>
+      </AssetGrid>
     </section>
   );
 }
