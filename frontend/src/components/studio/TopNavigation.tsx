@@ -1,4 +1,5 @@
 import { Bell, ChevronDown, CircleHelp, Sparkles } from "lucide-react";
+import nexkosmoMark from "../../assets/branding/nexkosmo-mark.png";
 import type { WorkflowStageId } from "../../features/studio/config/navigation";
 import { Button, Tooltip } from "../ui";
 import { WorkflowNavigation } from "./WorkflowNavigation";
@@ -19,12 +20,7 @@ export function TopNavigation({
   return (
     <header className="studio-topbar">
       <a className="brand" href="/" aria-label="Nexkosmo Studio home">
-        <span className="brand-mark" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-          <i />
-        </span>
+        <img className="brand-mark" src={nexkosmoMark} alt="" aria-hidden="true" />
         <span className="brand-copy">
           <strong>NEXKOSMO</strong>
           <small>STUDIO</small>
