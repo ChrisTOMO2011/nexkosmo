@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "id": "nexkosmo.logo.primary",
+      "name": "Nexkosmo X Star",
+      "path": "assets/brand/nexkosmo-x-star.svg",
+      "status": "FROZEN",
+      "authority": "Director-approved brand canon",
+      "git_blob_sha1": "81aa7191e1da3af81ce17c1f58c70b99e0c549e8",
+      "scope": "all Nexkosmo product surfaces",
+      "mutation_policy": "explicit Director-approved brand revision only",
+      "usage_policy": "reference directly through a shared asset/component; never redraw or regenerate per page"
+    }
+  ]
+}
