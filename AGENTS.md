@@ -1,0 +1,74 @@
+# Nexkosmo Repository Instructions for Codex and AI Engineering Agents
+
+These instructions apply to the entire repository.
+
+## Canonical truth rule
+
+Nexkosmo does not rely on conversational memory, prompt history, visual approximation, or regeneration for approved identity-bearing assets or frozen project state.
+
+Before changing any UI, page, shell, mockup implementation, brand surface, or other dependent artifact, retrieve the relevant canonical asset/state from the repository and use it directly.
+
+**Retrieve before generate. Canon before approximation.**
+
+If a requested change does not explicitly authorize changing a frozen canonical item, that item MUST remain byte-for-byte and semantically unchanged.
+
+## Frozen Nexkosmo logo
+
+The canonical Nexkosmo product logo is:
+
+`assets/brand/nexkosmo-x-star.svg`
+
+Its canonical registration is:
+
+`assets/brand/canonical-assets.json`
+
+Rules:
+
+1. Use the canonical SVG directly through a shared logo component or asset reference.
+2. Do not redraw, recolor, restyle, reinterpret, approximate, or regenerate the logo per page.
+3. Do not substitute an older cyan/blue-heavy logo.
+4. Do not change the X silhouette, violet/lilac palette, white-violet centre star, or progression-inspired light streak unless the Director explicitly requests a brand revision.
+5. Page-specific work must preserve the canonical logo even when surrounding layout, imagery, theme, or controls change.
+6. Discovery, Shape, Build, Ready, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
+7. If a task would require changing the canonical logo but the task is not explicitly a brand-change task, STOP and report the conflict instead of modifying it.
+
+## Canonical asset workflow
+
+For any item registered as `FROZEN` or `APPROVED`:
+
+1. Resolve its registry entry.
+2. Retrieve the canonical source asset/state.
+3. Perform the requested operation around that source of truth.
+4. Validate the output against the canonical reference.
+5. Reject the result if canonical identity drifted.
+
+A generated resemblance is not equivalent to a canonical asset.
+
+## Change scope
+
+Treat explicit Director approval as the authority required to supersede a frozen canonical item. A casual page-edit request is not permission to alter global brand identity.
+
+When an intentional canonical revision is approved, update the canonical asset, its registry/hash, documentation, shared component references, and affected tests in the same reviewed change.
+
+## Required validation
+
+Before completing any UI or brand-affecting change:
+
+- confirm the canonical logo resolves from `assets/brand/nexkosmo-x-star.svg`;
+- run `python scripts/verify_canonical_assets.py`;
+- confirm no page-specific replacement logo was introduced;
+- confirm only explicitly requested canonical changes were made.
+
+CI also runs the canonical-asset verifier. A failed canonical check is a release blocker, not a warning.
+
+## Product intelligence distinction
+
+Sophia (or another selected AI Producer) is the Director-facing collaboration/personality layer. Brain is the underlying intelligence/status/health layer. Do not turn Brain into a competing chat persona.
+
+## Product journey
+
+The shared stage model is:
+
+`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY`
+
+Preserve this shared shell and canonical brand identity unless an explicit product decision supersedes them.
