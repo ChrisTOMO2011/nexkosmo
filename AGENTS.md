@@ -2,6 +2,21 @@
 
 These instructions apply to the entire repository.
 
+## Alignment authority
+
+Alignment is a repository and evidence property, not a memory property.
+
+Before significant architecture, product, UI, or implementation work:
+
+1. Read this file.
+2. Read `docs/CURRENT_STATE.md`.
+3. Read `docs/ALIGNMENT_PROTOCOL.md`.
+4. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
+5. Inspect current implementation when the request depends on implementation reality.
+6. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, or architecture boundaries.
+
+Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon.
+
 ## Canonical truth rule
 
 Nexkosmo does not rely on conversational memory, prompt history, visual approximation, or regeneration for approved identity-bearing assets or frozen project state.
@@ -29,7 +44,7 @@ Rules:
 3. Do not substitute an older cyan/blue-heavy logo.
 4. Do not change the X silhouette, violet/lilac palette, white-violet centre star, or progression-inspired light streak unless the Director explicitly requests a brand revision.
 5. Page-specific work must preserve the canonical logo even when surrounding layout, imagery, theme, or controls change.
-6. Discovery, Shape, Build, Ready, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
+6. Discovery, Shape, Build, Ready, Production, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
 7. If a task would require changing the canonical logo but the task is not explicitly a brand-change task, STOP and report the conflict instead of modifying it.
 
 ## Canonical asset workflow
@@ -48,7 +63,7 @@ A generated resemblance is not equivalent to a canonical asset.
 
 Treat explicit Director approval as the authority required to supersede a frozen canonical item. A casual page-edit request is not permission to alter global brand identity.
 
-When an intentional canonical revision is approved, update the canonical asset, its registry/hash, documentation, shared component references, and affected tests in the same reviewed change.
+When an intentional canonical revision is approved, update the canonical asset, its registry/hash, documentation, shared component references, affected decision/current-state records, and affected tests in the same reviewed change.
 
 ## Required validation
 
@@ -56,10 +71,12 @@ Before completing any UI or brand-affecting change:
 
 - confirm the canonical logo resolves from `assets/brand/nexkosmo-x-star.svg`;
 - run `python scripts/verify_canonical_assets.py`;
+- run `python scripts/verify_alignment.py`;
 - confirm no page-specific replacement logo was introduced;
-- confirm only explicitly requested canonical changes were made.
+- confirm only explicitly requested canonical changes were made;
+- confirm the implementation does not contradict `docs/CURRENT_STATE.md`.
 
-CI also runs the canonical-asset verifier. A failed canonical check is a release blocker, not a warning.
+CI treats failed canonical or alignment checks as release blockers, not warnings.
 
 ## Product intelligence distinction
 
@@ -69,6 +86,27 @@ Sophia (or another selected AI Producer) is the Director-facing collaboration/pe
 
 The shared stage model is:
 
-`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY`
+`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION`
 
-Preserve this shared shell and canonical brand identity unless an explicit product decision supersedes them.
+Studio is not another top-level stage. Production is the movie-wide control room; Studio is the contextual precision scene/shot editor opened from Production. Returning from Studio sends edited work back through Brain validation before production approval.
+
+Preserve this shared shell and canonical brand identity unless an explicit Director-approved decision supersedes them.
+
+## Project state and fixtures
+
+Do not hard-code project-specific state into production UI/data paths as though it were canonical truth. Characters, scenes, shots, Producer selection, canonical asset selections, approvals, continuity, validation results, render state, production progress, and project-specific AI recommendations must resolve from explicit project/application state contracts and persistence.
+
+Demo fixtures are allowed only when isolated and clearly labelled. Do not invent backend APIs merely to make a prototype appear complete.
+
+## Pull-request contract
+
+Significant PRs must use the repository PR template and identify:
+
+- the approved decision/specification implemented;
+- affected current-state sections;
+- canonical assets/state touched;
+- fixture/hard-coded project data added or removed;
+- validation performed;
+- known placeholders, estimates, inferences, unknowns, or conflicts.
+
+If a change intentionally modifies canon, include the Director-approved decision record and `docs/CURRENT_STATE.md` update in the same reviewed change.
