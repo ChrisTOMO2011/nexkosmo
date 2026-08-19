@@ -4,6 +4,14 @@ Status: APPROVED GOVERNANCE PROTOCOL
 
 Purpose: keep the Director, ChatGPT, Codex, repository documentation, implementation, and tests aligned without depending on long conversational memory.
 
+## Scope boundary
+
+This protocol is the **Agent Alignment Layer** for ChatGPT and Codex, with repository and CI enforcement.
+
+It is not a replacement for, redesign of, or duplicate implementation of the Nexkosmo Brain. The Brain remains its existing intelligence architecture with its own truth, evidence/provenance, confidence, continuity, reasoning, safety/recovery, and future integration responsibilities.
+
+Outputs from this Agent Alignment Layer may later be consumed by the Brain as external engineering evidence. They must not become a competing Brain truth store, reasoning engine, Guardian layer, or recovery engine.
+
 ## Core rule
 
 Alignment is a repository and evidence property, not a memory property.
@@ -16,6 +24,7 @@ Alignment is a repository and evidence property, not a memory property.
 - ChatGPT: alignment steward. Responsible for retrieving current state, detecting drift, challenging contradictions, keeping Codex and repository work pointed at approved direction, and clearly separating fact/canon/evidence/inference/estimate/hypothesis/unknown. ChatGPT does not independently approve or supersede canon.
 - Codex: implementation agent. Responsible for implementing approved direction against current repository state, not stale branch assumptions or conversational recollection.
 - CI/tests: evidence gates. They verify enforceable constraints but do not define product direction.
+- Brain: separate Nexkosmo intelligence architecture. The Agent Alignment Layer protects engineering-agent alignment and may provide external evidence to Brain later; it does not replace Brain responsibilities.
 
 ## Required pre-work handshake
 
@@ -23,12 +32,13 @@ Before any significant Nexkosmo architecture, product, or implementation task, t
 
 1. Identify the repository and current target branch.
 2. Read `AGENTS.md`.
-3. Read `docs/CURRENT_STATE.md`.
-4. Read the relevant approved decision records and architecture/product specifications.
-5. Inspect current implementation when the task concerns implementation reality.
-6. Compare the working branch with current `main` when branch freshness matters.
-7. Resolve contradictions before making changes.
-8. Stop instead of guessing when a conflict affects canon, authority, data ownership, workflow, or architecture boundaries.
+3. Read `governance/alignment-manifest.yaml` and report its manifest version.
+4. Read `docs/CURRENT_STATE.md`.
+5. Read the relevant approved decision records and architecture/product specifications.
+6. Inspect current implementation when the task concerns implementation reality.
+7. Compare the working branch with current `main` when branch freshness matters.
+8. Resolve contradictions before making changes.
+9. Stop instead of guessing when a conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, or deployment identity.
 
 ## Flow model
 
@@ -88,14 +98,15 @@ A superseded decision remains historical evidence but is no longer current autho
 
 Every significant PR should answer:
 
-1. What approved decision/specification does this implement?
-2. What current-state sections does it affect?
-3. What canonical assets or state does it touch?
-4. Does it introduce or remove fixtures/hard-coded project state?
-5. What tests/checks were run?
-6. What remains placeholder, estimated, inferred, or unknown?
-7. Does the branch contain the current `main` governance/canon changes?
-8. Does the implementation preserve the distinction between full user journey, creative workflow, and Production/Studio editing loop?
+1. What alignment-manifest version is being followed?
+2. What approved decision/specification does this implement?
+3. What current-state sections does it affect?
+4. What canonical assets or state does it touch?
+5. Does it introduce or remove fixtures/hard-coded project state?
+6. What tests/checks were run?
+7. What remains placeholder, estimated, inferred, or unknown?
+8. Does the branch contain the current `main` governance/canon changes?
+9. Does the implementation preserve the distinction between full user journey, creative workflow, and Production/Studio editing loop?
 
 If the PR changes canon, the Director-approved decision record and `docs/CURRENT_STATE.md` update must be included in the same reviewed change.
 
@@ -116,6 +127,7 @@ The fresh agent should be able to answer from the repository alone:
 - What must not be hard-coded as project truth?
 - What is implemented versus merely designed/planned?
 - What canonical assets must be retrieved rather than regenerated?
+- What is the boundary between the Agent Alignment Layer and the existing Brain architecture?
 
 If the repository cannot answer these reliably, fix the repository documentation/structure instead of relying on a larger prompt.
 
@@ -123,13 +135,15 @@ If the repository cannot answer these reliably, fix the repository documentation
 
 When drift is detected:
 
-1. classify it as documentation drift, branch drift, implementation drift, data/canon drift, workflow drift, or test/evidence drift;
+1. classify it as documentation drift, branch drift, implementation drift, data/canon drift, workflow drift, test/evidence drift, runtime drift, or AI/context drift;
 2. stop expansion in the affected area;
 3. identify the current authority source;
 4. reconcile the minimum required files/code;
-5. run alignment and normal quality checks;
+5. run alignment, deliberate drift-injection, and normal quality checks;
 6. obtain Director approval for any intentional change of canon;
 7. only then resume feature expansion.
+
+The drift controls in this protocol primarily protect ChatGPT and Codex from engineering-agent drift. Future Brain use should consume their evidence through existing Brain architecture rather than duplicating these controls as a second Brain.
 
 ## Review philosophy
 
