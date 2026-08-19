@@ -90,6 +90,7 @@ def main() -> int:
             fail(f"docs/CURRENT_STATE.md missing required rule: {phrase}", failures)
 
     required_agent_phrases = [
+        "governance/alignment-manifest.yaml",
         "docs/CURRENT_STATE.md",
         "docs/ALIGNMENT_PROTOCOL.md",
         "docs/ENGINEERING_STATUS.md",
@@ -102,22 +103,33 @@ def main() -> int:
         if phrase not in agents:
             fail(f"AGENTS.md missing alignment instruction: {phrase}", failures)
 
-    if "Fresh-context reconstruction test" not in protocol:
-        fail("alignment protocol is missing the fresh-context reconstruction test", failures)
-    if "three distinct flow layers" not in protocol:
-        fail("alignment protocol does not distinguish the three flow layers", failures)
+    required_protocol_phrases = [
+        "Fresh-context reconstruction test",
+        "three distinct flow layers",
+        "Agent Alignment Layer",
+        "It is not a replacement for, redesign of, or duplicate implementation of the Nexkosmo Brain.",
+        "The drift controls in this protocol primarily protect ChatGPT and Codex from engineering-agent drift.",
+    ]
+    for phrase in required_protocol_phrases:
+        if phrase not in protocol:
+            fail(f"alignment protocol missing required scope/rule: {phrase}", failures)
 
     required_manifest_phrases = [
-        "manifest_version: 1",
+        "manifest_version: 2",
+        "primary_subjects:",
+        "- ChatGPT",
+        "- Codex",
+        "no_duplicate_brain_truth_engine: true",
         "critical_unknowns_block: true",
         "disagreement_policy: BLOCK_AND_RECONCILE",
         "deliberate_injection_tests: REQUIRED",
         "source_commit_sha",
         "deployed_commit_sha",
+        "agent_scope: \"Protect ChatGPT and Codex alignment with repository canon.\"",
     ]
     for phrase in required_manifest_phrases:
         if phrase not in manifest:
-            fail(f"alignment manifest missing required drift guard: {phrase}", failures)
+            fail(f"alignment manifest missing required drift guard/scope: {phrase}", failures)
 
     required_status_phrases = [
         "**Alignment:** `<🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`",
