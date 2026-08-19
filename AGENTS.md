@@ -13,18 +13,19 @@ Before significant architecture, product, UI, implementation, or defect-repair w
 3. Read `docs/CURRENT_STATE.md`.
 4. Read `docs/ALIGNMENT_PROTOCOL.md`.
 5. Read `docs/ERROR_CORRECTION_PROTOCOL.md` for significant defect, failure, regression, or repair work.
-6. Read `docs/ENGINEERING_STATUS.md`.
-7. Read `docs/REPOSITORY_PROTECTION.md`.
-8. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
-9. Inspect current implementation when the request depends on implementation reality.
-10. Compare the working branch with current `main` when freshness matters.
-11. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, deployment identity, or data integrity.
+6. Read `docs/DEVELOPMENT_TIME_VERIFICATION.md` for implementation, refactor, migration, or repair work.
+7. Read `docs/ENGINEERING_STATUS.md`.
+8. Read `docs/REPOSITORY_PROTECTION.md`.
+9. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
+10. Inspect current implementation when the request depends on implementation reality.
+11. Compare the working branch with current `main` when freshness matters.
+12. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, deployment identity, or data integrity.
 
 Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon.
 
 ## Alignment manifest
 
-`governance/alignment-manifest.yaml` is the machine-readable identity of the current Agent Alignment and Agent Error Correction contract. It points to authoritative repository sources, canonical flows, required decision records, fail-closed domains, verifier requirements, error-correction rules, and future build/runtime attestation contracts.
+`governance/alignment-manifest.yaml` is the machine-readable identity of the current Agent Alignment, Agent Error Correction, and Development-Time Verification contract. It points to authoritative repository sources, canonical flows, required decision records, fail-closed domains, verifier requirements, error-correction rules, development-time verification rules, and future build/runtime attestation contracts.
 
 The manifest does not replace the underlying source documents. It makes their current identity and required relationships machine-checkable.
 
@@ -47,6 +48,31 @@ Human-facing status is presented vertically, one result per line. Before signifi
 - Codex is an implementation agent. It must implement approved direction and must not treat stale branches, mockups, or prototype navigation as current canon.
 - No AI may promote its own recommendation to canon without explicit Director approval.
 - CI/tests are deterministic evidence gates. They do not define product direction and must not certify themselves as authority.
+
+## Development-time verification
+
+`docs/DEVELOPMENT_TIME_VERIFICATION.md` defines the proactive inner loop Codex must use while building Nexkosmo. Error detection is not reserved for CI, staging, or production.
+
+For each meaningful implementation slice, Codex must:
+
+1. establish the relevant baseline and confirm the working branch/current contracts before broad edits where practical;
+2. define the smallest coherent slice and its expected behavior;
+3. implement incrementally rather than accumulating large unverified edits;
+4. run the fastest relevant checks repeatedly during the change;
+5. run targeted tests for the behavior being changed;
+6. add negative/boundary tests for material risk paths;
+7. treat every unexpected failure as evidence to investigate, not noise to suppress;
+8. inspect the resulting diff for accidental scope, hard-coding, stale contracts, unsafe defaults, skipped validation, and unrelated edits;
+9. stop expansion when a failure remains unexplained;
+10. report checks run, failures found, repairs made, and checks not run before calling the slice complete.
+
+The preferred loop is:
+
+`UNDERSTAND -> BASELINE -> SMALL CHANGE -> FAST CHECK -> TARGETED TEST -> NEGATIVE TEST -> DIFF REVIEW -> REPEAT -> CI`
+
+Codex must not wait until a large feature is finished before running validation when smaller validation is available.
+
+ChatGPT reviews the evidence and architecture/alignment implications; CI remains a second independent verifier. Brain is separate and does not replace this engineering loop.
 
 ## Agent error correction
 
@@ -210,6 +236,7 @@ Significant PRs must use the repository PR template and identify:
 - affected current-state sections;
 - canonical assets/state touched;
 - fixture/hard-coded project data added or removed;
+- development-time checks run and failures discovered during implementation;
 - deterministic and drift-injection validation performed;
 - for defect repairs: defect ID/status, reproduction status, root-cause evidence, regression proof, repair commit, CI verification, runtime verification where applicable;
 - known placeholders, estimates, inferences, unknowns, or conflicts.
