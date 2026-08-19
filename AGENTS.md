@@ -11,12 +11,21 @@ Before significant architecture, product, UI, or implementation work:
 1. Read this file.
 2. Read `docs/CURRENT_STATE.md`.
 3. Read `docs/ALIGNMENT_PROTOCOL.md`.
-4. Read `docs/REPOSITORY_PROTECTION.md`.
-5. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
-6. Inspect current implementation when the request depends on implementation reality.
-7. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, workflow, or architecture boundaries.
+4. Read `docs/ENGINEERING_STATUS.md`.
+5. Read `docs/REPOSITORY_PROTECTION.md`.
+6. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
+7. Inspect current implementation when the request depends on implementation reality.
+8. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, workflow, or architecture boundaries.
 
 Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon.
+
+## Visible engineering health
+
+`docs/ENGINEERING_STATUS.md` is the shared human-readable health projection for the Director, ChatGPT, Codex, and other authorized engineering participants. It must expose alignment, repository, CI, runtime, context, and AUD cost state using evidence-backed values.
+
+The status page is a projection, not a new source of truth. `UNKNOWN` must remain unknown until evidence exists. Never invent token counts, runtime identity, cost, or alignment success to make the status appear complete.
+
+Before significant work, report or inspect the current status line. Before reporting work complete, update the status projection when a material field changed.
 
 ## Alignment stewardship
 
