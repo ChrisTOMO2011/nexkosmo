@@ -8,14 +8,15 @@ from sqlalchemy.exc import IntegrityError
 
 @pytest.mark.asyncio
 async def test_concurrent_idempotency_claim_allows_one_logical_owner(db):
+    engine = db.engine
     workspace_id = uuid4()
     key = f"latent-{uuid4()}"
-    await db.execute(
-        text("insert into workspaces (id, canonical_key) values (:id, :key)"),
-        {"id": workspace_id, "key": f"latent-workspace-{workspace_id}"},
-    )
+    async with engine.begin() as setup:
+        await setup.execute(
+            text("insert into workspaces (id, canonical_key) values (:id, :key)"),
+            {"id": workspace_id, "key": f"latent-workspace-{workspace_id}"},
+        )
 
-    engine = db.engine
     barrier = asyncio.Event()
     ready = 0
     ready_lock = asyncio.Lock()
@@ -54,13 +55,14 @@ async def test_concurrent_idempotency_claim_allows_one_logical_owner(db):
     claimed = await asyncio.gather(claimant(), claimant())
     assert sum(claimed) == 1
 
-    count = await db.scalar(
-        text(
-            "select count(*) from idempotency_records "
-            "where workspace_id=:workspace_id and idempotency_key=:key"
-        ),
-        {"workspace_id": workspace_id, "key": key},
-    )
+    async with engine.connect() as verify:
+        count = await verify.scalar(
+            text(
+                "select count(*) from idempotency_records "
+                "where workspace_id=:workspace_id and idempotency_key=:key"
+            ),
+            {"workspace_id": workspace_id, "key": key},
+        )
     assert count == 1
 
 
@@ -69,6 +71,7 @@ async def test_transaction_fault_rolls_back_partial_state(db):
     engine = db.engine
     workspace_id = uuid4()
     canonical_key = f"fault-workspace-{workspace_id}"
+    tx = None
 
     try:
         async with engine.connect() as conn:
@@ -79,7 +82,7 @@ async def test_transaction_fault_rolls_back_partial_state(db):
             )
             raise RuntimeError("simulated mid-transaction failure")
     except RuntimeError:
-        if 'tx' in locals() and tx.is_active:
+        if tx is not None and tx.is_active:
             await tx.rollback()
 
     async with engine.connect() as verify:
