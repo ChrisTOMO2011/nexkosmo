@@ -27,7 +27,7 @@ def copy_repo() -> Path:
     shutil.copytree(
         ROOT,
         target,
-        ignore=shutil.ignore_patterns(".git", ".venv", "__pycache__", ".pytest_cache", ".mypy_cache"),
+        ignore=shutil.ignore_patterns(".git", ".venv", "__pycache__", ".pytest_cache", ".mypy_cache", ".hypothesis"),
     )
     return target
 
@@ -100,7 +100,7 @@ def main() -> int:
             "critical_unknowns_block: true",
             "critical_unknowns_block: false",
         ),
-        "alignment manifest missing required drift/error guard/scope: critical_unknowns_block: true",
+        "alignment manifest missing required drift/error/development/latent guard: critical_unknowns_block: true",
     )
     expect_failure(
         "agent error correction Brain boundary removal",
@@ -109,7 +109,16 @@ def main() -> int:
             "agent_error_correction_separate_from_brain: true",
             "agent_error_correction_separate_from_brain: false",
         ),
-        "alignment manifest missing required drift/error guard/scope: agent_error_correction_separate_from_brain: true",
+        "alignment manifest missing required drift/error/development/latent guard: agent_error_correction_separate_from_brain: true",
+    )
+    expect_failure(
+        "latent defect assurance Brain boundary removal",
+        lambda repo: replace_all(
+            repo / "governance" / "alignment-manifest.yaml",
+            "latent_defect_assurance_separate_from_brain: true",
+            "latent_defect_assurance_separate_from_brain: false",
+        ),
+        "alignment manifest missing required drift/error/development/latent guard: latent_defect_assurance_separate_from_brain: true",
     )
     expect_failure(
         "alignment steward authority mutation",
