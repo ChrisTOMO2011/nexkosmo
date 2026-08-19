@@ -91,7 +91,11 @@ def main() -> int:
             if phrase not in content:
                 failures.append(f"{name} missing required entry route: {phrase}")
 
-    for name, content in (("docs/CURRENT_STATE.md", current), ("DEC-0004", entry_decision), ("alignment manifest", manifest)):
+    for name, content in (
+        ("docs/CURRENT_STATE.md", current),
+        ("DEC-0004", entry_decision),
+        ("alignment manifest", manifest),
+    ):
         if PRODUCTION_LOOP not in content:
             failures.append(f"{name} missing canonical Production/Studio deep-edit loop")
 
@@ -103,7 +107,6 @@ def main() -> int:
             "ALIGNMENT STOP GATE.",
             "Conversation alone does not supersede repository canon.",
             "Alignment steward: ChatGPT",
-            "The legacy prototype progression `PRE-PRODUCTION -> SET -> STUDIO -> REVIEW -> RENDER` is superseded as a product-navigation model.",
         ],
         failures,
     )
@@ -121,13 +124,12 @@ def main() -> int:
             "docs/GROWTH_MARKETING_FRAMEWORK.md",
             "governance/growth-marketing-matrix.yaml",
             "Product truth before promotion. Evidence before claims. Creator value before growth metrics.",
-            "Missing marketing telemetry is `UNKNOWN`, not zero",
-            "Registration is not equivalent to activation",
+            "treat registration as distinct from activation",
             "keep paid acquisition blocked until activation, retention, conversion, attribution, and unit economics are credible enough to evaluate",
+            "report missing telemetry as `UNKNOWN`, not zero",
             "do not create a duplicate \"Marketing Brain\"",
             "ChatGPT must not declare a defect fixed solely because Codex says so.",
             "UNDERSTAND -> BASELINE -> SMALL CHANGE -> FAST CHECK -> TARGETED TEST -> NEGATIVE TEST -> DIFF REVIEW -> REPEAT -> CI",
-            "The legacy prototype navigation `PRE-PRODUCTION -> SET -> STUDIO -> REVIEW -> RENDER` is superseded",
         ],
         failures,
     )
@@ -206,7 +208,14 @@ def main() -> int:
     require(
         "docs/THREAT_MODEL_TEMPLATE.md",
         threat_template,
-        ["# Nexkosmo Threat Model", "## Assets at risk", "## Trust boundaries", "## Attacker-controlled inputs", "## Security invariants", "## Residual risk / unknowns"],
+        [
+            "# Nexkosmo Threat Model",
+            "## Assets at risk",
+            "## Trust boundaries",
+            "## Attacker-controlled inputs",
+            "## Security invariants",
+            "## Residual risk / unknowns",
+        ],
         failures,
     )
 
@@ -226,7 +235,7 @@ def main() -> int:
             "## Claims assurance",
             "## Launch stages",
             "Avoid material paid acquisition.",
-            "do not create a parallel \"Marketing Brain\"",
+            "does not create a parallel \"Marketing Brain\"",
         ],
         failures,
     )
@@ -259,14 +268,29 @@ def main() -> int:
     require(
         "governance/latent-assurance-matrix.yaml",
         latent_matrix,
-        ["property_based_testing:", "targeted_mutation_testing:", "concurrency_testing:", "fault_injection:", "deterministic_replay:", "A harness is not equivalent to a connected runtime control."],
+        [
+            "property_based_testing:",
+            "targeted_mutation_testing:",
+            "concurrency_testing:",
+            "fault_injection:",
+            "deterministic_replay:",
+            "A harness is not equivalent to a connected runtime control.",
+        ],
         failures,
     )
 
     require(
         "governance/security-assurance-matrix.yaml",
         security_matrix,
-        ["current_tree_secret_scan:", "dependency_vulnerability_scan:", "python_static_security_scan:", "authentication:", "human_authority_boundary:", "server_1_server_2_security:", "Critical security UNKNOWN blocks consequential progression."],
+        [
+            "current_tree_secret_scan:",
+            "dependency_vulnerability_scan:",
+            "python_static_security_scan:",
+            "authentication:",
+            "human_authority_boundary:",
+            "server_1_server_2_security:",
+            "Critical security UNKNOWN blocks consequential progression.",
+        ],
         failures,
     )
 
@@ -300,9 +324,6 @@ def main() -> int:
         [
             "**Alignment:** `<🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`",
             "**Runtime:** `<🟢 MATCH|🔴 DRIFT|⚪ UNKNOWN>`",
-            "**Context:** `<used>/<max> tokens | <percent> <icon/state> | <remaining> remaining`",
-            "**Estimate Costings (AUD):** `<amount/source|⚪ UNKNOWN>`",
-            "**Project Estimate (AUD):** `<range | horizon | confidence|⚪ UNKNOWN>`",
             "display **Context: ⚪ UNKNOWN**",
         ],
         failures,
@@ -311,14 +332,26 @@ def main() -> int:
     require(
         "docs/REPOSITORY_PROTECTION.md",
         protection,
-        ["Target branch: `main`", "Require a pull request before merging.", "Require the `quality-and-integration` status check to pass before merging.", "Block force pushes.", "Block deletion of `main`."],
+        [
+            "Target branch: `main`",
+            "Require a pull request before merging.",
+            "Require the `quality-and-integration` status check to pass before merging.",
+            "Block force pushes.",
+            "Block deletion of `main`.",
+        ],
         failures,
     )
 
     navigation = ROOT / "frontend" / "src" / "features" / "studio" / "config" / "navigation.ts"
     if navigation.exists():
         nav_text = read(navigation)
-        legacy_stage_block = ['label: "PRE-PRODUCTION"', 'label: "SET"', 'label: "STUDIO"', 'label: "REVIEW"', 'label: "RENDER"']
+        legacy_stage_block = [
+            'label: "PRE-PRODUCTION"',
+            'label: "SET"',
+            'label: "STUDIO"',
+            'label: "REVIEW"',
+            'label: "RENDER"',
+        ]
         if all(item in nav_text for item in legacy_stage_block):
             failures.append(f"legacy {LEGACY_FLOW} workflow is still encoded in frontend navigation")
         if 'characterId = "christopher"' in nav_text:
