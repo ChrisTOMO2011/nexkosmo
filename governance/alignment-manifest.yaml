@@ -1,8 +1,8 @@
 schema_version: 1
-manifest_version: 6
+manifest_version: 7
 status: APPROVED
 authority: Director
-purpose: "Machine-readable Agent Alignment, Agent Error Correction, Development-Time Verification, and Latent Defect Assurance contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
+purpose: "Machine-readable Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, and Secure Development contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
 
 scope:
   primary_subjects:
@@ -12,11 +12,12 @@ scope:
     - repository
     - CI
     - tests
-  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume Agent Alignment, Agent Error Correction, Development-Time Verification, and Latent Defect Assurance outputs as external evidence, but these layers must not become a duplicate Brain truth, reasoning, confidence, continuity, Guardian, or recovery engine."
+  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, and Secure Development outputs as external evidence, but these layers must not become a duplicate Brain truth, reasoning, confidence, continuity, Guardian, recovery, or security-certification engine."
   no_duplicate_brain_truth_engine: true
   agent_error_correction_separate_from_brain: true
   development_time_verification_separate_from_brain: true
   latent_defect_assurance_separate_from_brain: true
+  secure_development_separate_from_brain: true
 
 sources_of_truth:
   current_state: docs/CURRENT_STATE.md
@@ -25,6 +26,9 @@ sources_of_truth:
   development_time_verification: docs/DEVELOPMENT_TIME_VERIFICATION.md
   latent_defect_assurance: docs/LATENT_DEFECT_ASSURANCE.md
   latent_assurance_matrix: governance/latent-assurance-matrix.yaml
+  secure_development_protocol: docs/SECURE_DEVELOPMENT_PROTOCOL.md
+  security_assurance_matrix: governance/security-assurance-matrix.yaml
+  threat_model_template: docs/THREAT_MODEL_TEMPLATE.md
   engineering_status: docs/ENGINEERING_STATUS.md
   repository_protection: docs/REPOSITORY_PROTECTION.md
   canonical_asset_registry: assets/brand/canonical-assets.json
@@ -43,10 +47,10 @@ canonical_flows:
 
 roles:
   director: "Final authority for product direction, canon, and consequential approval."
-  chatgpt: "Alignment steward and independent engineering oversight; detects drift, challenges contradictions, reviews development/defect evidence and Codex repairs, but cannot supersede Director-approved canon."
-  codex: "Implementation and repair agent; must build in small verified slices against current approved repository direction, actively detect errors during development, and provide reproduction/regression evidence for defects."
-  ci: "Deterministic evidence gate; independently verifies enforceable constraints and repairs but does not define product direction."
-  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation/repair agent by the Agent Alignment, Agent Error Correction, Development-Time Verification, or Latent Defect Assurance layers."
+  chatgpt: "Alignment steward and independent engineering/security oversight; detects drift, challenges contradictions, reviews development, defect, latent-risk, and security evidence, but cannot supersede Director-approved canon."
+  codex: "Implementation and repair agent; must build in small verified slices against current approved repository direction, actively detect code/security errors during development, threat-model material trust boundaries, and provide reproduction/regression/security evidence."
+  ci: "Deterministic evidence gate; independently verifies enforceable alignment, quality, latent-defect, and security constraints but does not define product direction."
+  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation, repair, or security-certification agent by these engineering assurance layers."
 
 fail_closed:
   critical_unknowns_block: true
@@ -67,6 +71,7 @@ required_verifiers:
   - scripts/verify_drift_guards.py
   - scripts/verify_latent_defect_assurance.py
   - scripts/verify_authority_model.py
+  - scripts/verify_security_baseline.py
   - scripts/verify_repo_protection.py
 
 agent_handshake:
@@ -74,11 +79,13 @@ agent_handshake:
     - AGENTS.md
     - governance/alignment-manifest.yaml
     - governance/latent-assurance-matrix.yaml
+    - governance/security-assurance-matrix.yaml
     - docs/CURRENT_STATE.md
     - docs/ALIGNMENT_PROTOCOL.md
     - docs/ERROR_CORRECTION_PROTOCOL.md
     - docs/DEVELOPMENT_TIME_VERIFICATION.md
     - docs/LATENT_DEFECT_ASSURANCE.md
+    - docs/SECURE_DEVELOPMENT_PROTOCOL.md
     - docs/ENGINEERING_STATUS.md
   require_manifest_version_report: true
   require_branch_freshness_check: true
@@ -86,10 +93,12 @@ agent_handshake:
   require_error_protocol_for_significant_defect_work: true
   require_development_time_verification_for_implementation_work: true
   require_latent_defect_assurance_for_high_risk_invariants: true
+  require_secure_development_for_security_relevant_work: true
+  require_threat_model_for_new_material_trust_boundary: true
 
 build_attestation_contract:
   status: PLANNED
-  purpose: "External evidence for engineering alignment/error correction/development verification and future Brain observation; not a new Brain subsystem."
+  purpose: "External evidence for engineering alignment/error correction/development/security verification and future Brain observation; not a new Brain subsystem."
   required_fields:
     - source_commit_sha
     - alignment_manifest_version
@@ -157,3 +166,28 @@ latent_defect_assurance:
   formal_methods_selected_invariants: BOUNDED_AUTHORITY_MODEL_IMPLEMENTED
   discovered_latent_defect_must_gain_durable_detector: true
   never_report_harness_as_runtime_proof: true
+
+secure_development:
+  protocol: docs/SECURE_DEVELOPMENT_PROTOCOL.md
+  matrix: governance/security-assurance-matrix.yaml
+  primary_scope: "Security by construction while ChatGPT and Codex design, implement, refactor, migrate, repair, review, and verify Nexkosmo software."
+  brain_relationship: "Separate engineering security assurance path; Brain may consume validated security evidence later but cannot self-certify ChatGPT/Codex security correctness."
+  every_material_trust_boundary_requires_security_contract: true
+  threat_model_high_risk_changes: REQUIRED
+  current_tree_secret_scan: INITIAL_IMPLEMENTATION
+  python_static_security_scan: IMPLEMENTED_IN_CI
+  dependency_vulnerability_scan: IMPLEMENTED_IN_CI
+  dangerous_pattern_guard: INITIAL_IMPLEMENTATION
+  authentication_foundation: IMPLEMENTED
+  human_authority_security_boundary: IMPLEMENTED_AND_TESTED
+  database_isolation: FOUNDATION_PRESENT_PARTIAL_PROOF
+  container_non_root: IMPLEMENTED
+  api_abuse_campaign: PARTIAL_EXPANDS_WITH_SURFACE
+  server_1_server_2_security: CONTRACT_DEFINED_RUNTIME_PENDING
+  file_upload_security: FEATURE_PENDING
+  payment_security: FEATURE_PENDING
+  container_vulnerability_scan: PLANNED
+  dependency_locking: PLANNED_BEFORE_PRODUCTION_MATURITY
+  github_action_immutable_pinning: PLANNED
+  security_unknowns_fail_closed: true
+  scanner_findings_cannot_be_broadly_suppressed_for_green_ci: true
