@@ -6,7 +6,7 @@ This document governs the controlled migration of Nexkosmo into its intended lon
 
 ## Objective
 
-Move Nexkosmo without losing architectural identity, provenance, working implementation, rollback capability, security boundaries, or milestone evidence.
+Move Nexkosmo without losing architectural identity, provenance, working implementation, rollback capability, security boundaries, milestone evidence, or useful unimplemented product concepts.
 
 The migration is a controlled engineering operation, not an opportunity for an unapproved redesign.
 
@@ -60,8 +60,13 @@ Inventory at minimum:
 - scripts and developer tooling;
 - model/runtime integrations;
 - environment-variable names and secret references, never secret values;
-- open milestone work and STOP-GATE state; and
-- external dependencies or resources required to reproduce the system.
+- open milestone work and STOP-GATE state;
+- external dependencies or resources required to reproduce the system; and
+- legacy, experimental, alternate, or unimplemented product interfaces and their capabilities.
+
+The creative-interface inventory MUST explicitly include all known variants and specialist workspaces, including Set, Studio, CGI, VFX, Render, Pre-Production, and any other historical or experimental production pages discovered during inventory.
+
+These interfaces are not to be treated as obsolete merely because they are older, unimplemented, or not aligned with the latest shell. Their useful capabilities, controls, workflows, and interaction ideas must be catalogued before any consolidation decision.
 
 Unknown or unexplained material must be classified before destructive action.
 
@@ -69,7 +74,9 @@ Unknown or unexplained material must be classified before destructive action.
 
 Define the destination before moving content.
 
-The destination should preserve clear responsibility boundaries for governance, architecture/specifications, application code, infrastructure, tests, assets, migrations, operations, and documentation.
+The destination should preserve clear responsibility boundaries for governance, architecture/specifications, application code, infrastructure, tests, assets, migrations, operations, documentation, and design concepts.
+
+Legacy or alternative interface concepts should be preserved in a clearly marked design/concepts or archive area until they are evaluated and either promoted, merged, superseded, or deliberately retired by Director approval.
 
 Do not reorganise solely for aesthetics. Every structural change should improve ownership, security, build isolation, deployment, discoverability, or maintainability.
 
@@ -96,6 +103,14 @@ Move implementation only after the destination's authority structure is known.
 
 Preserve behaviour unless a change is separately approved. Avoid combining migration with broad refactoring because that makes failures and regressions harder to attribute.
 
+Before replacing any creative workspace with a newer implementation, compare the old and new versions capability-by-capability. A newer page does not automatically supersede an older one.
+
+The preferred convergence flow is:
+
+`Preserve -> Catalogue -> Compare -> Extract Best Capabilities -> Director Review -> Canonical Workspace -> Implement`
+
+For Set, Studio, CGI, VFX, Render, Pre-Production, and similar surfaces, determine whether each capability should remain a dedicated workspace, become a specialist mode inside another workspace, move to Finish/Delivery, or be shared across multiple stages. Do not discard useful functionality simply to simplify navigation.
+
 ### Gate 5 — Secrets and Security
 
 - no credentials, tokens, private keys, passwords, production connection strings, or sensitive environment values may be committed;
@@ -121,6 +136,8 @@ Validation should include the checks applicable to the current milestone, includ
 - backup/restore proof where required;
 - observability/health checks where required; and
 - the current milestone's formal acceptance contract.
+
+Creative-workspace validation should also confirm that no approved or still-under-review capability from legacy Set, Studio, CGI, VFX, Render, Pre-Production, or other inventoried interfaces was accidentally lost during consolidation.
 
 Skipped blocking tests remain blocking.
 
@@ -169,9 +186,10 @@ Migration is complete only when:
 4. canonical assets and identity are preserved;
 5. secrets and environment boundaries are secure;
 6. provenance and rollback capability are retained;
-7. Codex/AI agent authority is bounded by repository instructions; and
-8. the Director explicitly accepts the cutover.
+7. Codex/AI agent authority is bounded by repository instructions;
+8. inventoried legacy and experimental creative-workspace capabilities have been deliberately preserved, merged, superseded, or retired rather than accidentally lost; and
+9. the Director explicitly accepts the cutover.
 
 ## Permanent Rule
 
-> Align authority first, inventory second, design the destination third, migrate fourth, prove it works fifth, and only then cut over. Never sacrifice identity, evidence, security, or rollback capability for migration speed.
+> Align authority first, inventory second, design the destination third, migrate fourth, prove it works fifth, and only then cut over. Never sacrifice identity, evidence, useful capability, security, or rollback capability for migration speed.
