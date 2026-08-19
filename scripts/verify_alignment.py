@@ -9,6 +9,7 @@ REQUIRED_FILES = [
     ROOT / "AGENTS.md",
     ROOT / "docs" / "CURRENT_STATE.md",
     ROOT / "docs" / "ALIGNMENT_PROTOCOL.md",
+    ROOT / "docs" / "ENGINEERING_STATUS.md",
     ROOT / "docs" / "REPOSITORY_PROTECTION.md",
     ROOT / "docs" / "decisions" / "DEC-0001-product-journey.md",
     ROOT / "docs" / "decisions" / "DEC-0002-production-studio-boundary.md",
@@ -46,6 +47,7 @@ def main() -> int:
     agents = read(ROOT / "AGENTS.md")
     current = read(ROOT / "docs" / "CURRENT_STATE.md")
     protocol = read(ROOT / "docs" / "ALIGNMENT_PROTOCOL.md")
+    status = read(ROOT / "docs" / "ENGINEERING_STATUS.md")
     protection = read(ROOT / "docs" / "REPOSITORY_PROTECTION.md")
     entry_decision = read(ROOT / "docs" / "decisions" / "DEC-0004-entry-routing-and-flow-layers.md")
 
@@ -83,6 +85,7 @@ def main() -> int:
     required_agent_phrases = [
         "docs/CURRENT_STATE.md",
         "docs/ALIGNMENT_PROTOCOL.md",
+        "docs/ENGINEERING_STATUS.md",
         "Alignment is a repository and evidence property, not a memory property.",
         "ChatGPT acts as alignment steward",
         "Codex is an implementation agent",
@@ -97,6 +100,21 @@ def main() -> int:
     if "three distinct flow layers" not in protocol:
         fail("alignment protocol does not distinguish the three flow layers", failures)
 
+    required_status_phrases = [
+        "ALIGNMENT: <PASS|WARN|FAIL|UNKNOWN>",
+        "RUNTIME: <MATCH|DRIFT|UNKNOWN>",
+        "CONTEXT: <percent/state|UNKNOWN>",
+        "COST_AUD: <amount/source|UNKNOWN>",
+        "Unknown must never be silently converted to pass.",
+        "Runtime drift",
+        "AI/context drift",
+        "AUD is the default human-facing currency",
+        "If authoritative context usage is unavailable, display `CONTEXT: UNKNOWN`",
+    ]
+    for phrase in required_status_phrases:
+        if phrase not in status:
+            fail(f"docs/ENGINEERING_STATUS.md missing required visibility rule: {phrase}", failures)
+
     required_protection_phrases = [
         "Target branch: `main`",
         "Require a pull request before merging.",
@@ -109,11 +127,6 @@ def main() -> int:
         if phrase not in protection:
             fail(f"docs/REPOSITORY_PROTECTION.md missing required rule: {phrase}", failures)
 
-    # Legacy prototype sentinels. These checks intentionally activate only if the
-    # old frontend paths are merged into the branch under test. They prevent a
-    # stale prototype workflow/default character from silently becoming the
-    # production contract. Reconciliation may replace these files or remove the
-    # forbidden patterns before merge.
     navigation = ROOT / "frontend" / "src" / "features" / "studio" / "config" / "navigation.ts"
     if navigation.exists():
         nav_text = read(navigation)
