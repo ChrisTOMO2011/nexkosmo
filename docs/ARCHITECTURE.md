@@ -26,6 +26,28 @@ with explicit uncertainty, and consequential opportunity recommendations must re
 provenance and explainability. See `MARKET_OPPORTUNITY_INTELLIGENCE.md` for the
 normative product-intelligence contract.
 
+## Growth intelligence direction
+
+Growth Intelligence is an enduring higher-level responsibility connected to Market &
+Opportunity Intelligence. It converts validated creator needs that Nexkosmo can
+actually satisfy into controlled acquisition, activation, retention, and learning
+experiments. It may prepare intent-specific landing experiences, campaign variants,
+educational content, onboarding paths, lifecycle interventions, creator-led growth
+loops, and budget recommendations, but it must optimise for retained creator value and
+sustainable economics rather than clicks or impressions.
+
+Growth attribution remains uncertain and must be represented as evidence and scenario
+ranges rather than guaranteed AI-generated customer percentages. Material public
+campaigns, marketing claims, spending changes, partnerships, and other consequential
+actions remain governed by Steward review, policy limits, and explicit human authority.
+The subsystem must respect consent, privacy, provenance, opt-out requirements, and the
+prohibition on harvested contact data or deceptive outreach. See
+`GROWTH_INTELLIGENCE.md` for the normative growth-intelligence contract.
+
+The preferred product-to-growth learning loop is:
+
+`Market Signal -> Need Cluster -> Demand Confidence -> Capability Match -> Growth Hypothesis -> Human Approval -> Controlled Experiment -> Acquisition -> Activation -> Retention -> Revenue/Creator Outcome -> Evidence Update`
+
 The current increment deliberately stops before claiming full implementation.
 Repository adapters, the complete Aiden database fixture, event dispatcher,
 consumer worker, API command surface, metrics/traces wiring, and all twenty
