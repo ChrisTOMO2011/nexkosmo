@@ -1,6 +1,12 @@
 from datetime import UTC, datetime
 from itertools import product
+from pathlib import Path
+import sys
 from uuid import UUID
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from app.domain.enums import AgentKind, DecisionOutcome
 from app.domain.errors import AuthorizationDenied
