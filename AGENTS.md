@@ -6,34 +6,35 @@ These instructions apply to the entire repository.
 
 Alignment is a repository and evidence property, not a memory property.
 
-Before significant architecture, product, UI, implementation, or defect-repair work:
+Before significant architecture, product, UI, implementation, defect-repair, or growth/marketing work:
 
 1. Read this file.
 2. Read `governance/alignment-manifest.yaml` and report its manifest version.
 3. Read `governance/latent-assurance-matrix.yaml` when implementation touches high-risk state, authority, concurrency, retries, persistence, runtime recovery, or release controls.
 4. Read `governance/security-assurance-matrix.yaml` when implementation touches authentication, authorization, ownership, external inputs, APIs, uploads, integrations, secrets, payments, worker execution, network boundaries, or other security-sensitive behavior.
-5. Read `docs/CURRENT_STATE.md`.
-6. Read `docs/ALIGNMENT_PROTOCOL.md`.
-7. Read `docs/ERROR_CORRECTION_PROTOCOL.md` for significant defect, failure, regression, or repair work.
-8. Read `docs/DEVELOPMENT_TIME_VERIFICATION.md` for implementation, refactor, migration, or repair work.
-9. Read `docs/LATENT_DEFECT_ASSURANCE.md` for high-risk or hard-to-observe defect classes.
-10. Read `docs/SECURE_DEVELOPMENT_PROTOCOL.md` for security-relevant implementation work and use `docs/THREAT_MODEL_TEMPLATE.md` when its threat-model trigger applies.
-11. Read `docs/ENGINEERING_STATUS.md`.
-12. Read `docs/REPOSITORY_PROTECTION.md`.
-13. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
-14. Inspect current implementation when the request depends on implementation reality.
-15. Compare the working branch with current `main` when freshness matters.
-16. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, deployment identity, or data integrity.
+5. Read `governance/growth-marketing-matrix.yaml` and `docs/GROWTH_MARKETING_FRAMEWORK.md` for material marketing, positioning, acquisition, activation, retention, referral, analytics, experimentation, launch, or growth work.
+6. Read `docs/CURRENT_STATE.md`.
+7. Read `docs/ALIGNMENT_PROTOCOL.md`.
+8. Read `docs/ERROR_CORRECTION_PROTOCOL.md` for significant defect, failure, regression, or repair work.
+9. Read `docs/DEVELOPMENT_TIME_VERIFICATION.md` for implementation, refactor, migration, or repair work.
+10. Read `docs/LATENT_DEFECT_ASSURANCE.md` for high-risk or hard-to-observe defect classes.
+11. Read `docs/SECURE_DEVELOPMENT_PROTOCOL.md` for security-relevant implementation work and use `docs/THREAT_MODEL_TEMPLATE.md` when its threat-model trigger applies.
+12. Read `docs/ENGINEERING_STATUS.md`.
+13. Read `docs/REPOSITORY_PROTECTION.md`.
+14. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
+15. Inspect current implementation when the request depends on implementation reality.
+16. Compare the working branch with current `main` when freshness matters.
+17. Resolve contradictions before changing code or publishing consequential claims. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, deployment identity, data integrity, or material public claims.
 
-Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon.
+Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon or evidence.
 
 ## Alignment manifest
 
-`governance/alignment-manifest.yaml` is the machine-readable identity of the current Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, and Secure Development contract. It points to authoritative repository sources, canonical flows, required decision records, fail-closed domains, verifier requirements, error-correction rules, development-time verification rules, latent-defect controls, security controls, and future build/runtime attestation contracts.
+`governance/alignment-manifest.yaml` is the machine-readable identity of the current Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, Secure Development, and Growth & Marketing framework. It points to authoritative repository sources, canonical flows, required decision records, fail-closed domains, verifier requirements, security controls, growth controls, and future build/runtime attestation contracts.
 
 The manifest does not replace the underlying source documents. It makes their current identity and required relationships machine-checkable.
 
-Every engineering agent must report the manifest version it is following. A stale or conflicting manifest version is a STOP condition until reconciled.
+Every engineering/growth agent must report the manifest version it is following. A stale or conflicting manifest version is a STOP condition until reconciled.
 
 For critical domains listed in the manifest, `UNKNOWN` is not permission to continue. Consequential work must fail closed until authoritative evidence is available.
 
@@ -47,36 +48,52 @@ Human-facing status is presented vertically, one result per line. Before signifi
 
 ## Alignment stewardship
 
-- The Director is the final authority for product direction, canon, and consequential approval.
-- ChatGPT acts as alignment steward: retrieve current repository state, compare new work against canon, detect drift, challenge contradictions, and keep Codex and documentation pointed in the same approved direction.
-- Codex is an implementation agent. It must implement approved direction and must not treat stale branches, mockups, or prototype navigation as current canon.
-- No AI may promote its own recommendation to canon without explicit Director approval.
-- CI/tests are deterministic evidence gates. They do not define product direction and must not certify themselves as authority.
+- The Director is the final authority for product direction, canon, brand, launch, material spend, and consequential approval.
+- ChatGPT acts as alignment steward and independent engineering/growth oversight: retrieve current repository state, compare new work against canon, detect drift, challenge contradictions, unproven claims, vanity metrics, weak experiments, and security assumptions.
+- Codex is an implementation agent. It must implement approved direction and must not treat stale branches, mockups, prototype navigation, invented metrics, or marketing hypotheses as current fact.
+- No AI may promote its own recommendation, marketing strategy, or inference to canon without explicit Director approval.
+- CI/tests are deterministic evidence gates. They do not define product direction, marketing strategy, or business truth.
+
+## Growth and marketing
+
+`docs/GROWTH_MARKETING_FRAMEWORK.md` and `governance/growth-marketing-matrix.yaml` define Nexkosmo's evidence-based growth operating model.
+
+Core rule:
+
+**Product truth before promotion. Evidence before claims. Creator value before growth metrics.**
+
+Nexkosmo is positioned as a Creative Production Operating System centered on `Human Director <-> Nexkosmo AI Producer`. Marketing should communicate real creator outcomes rather than presenting Nexkosmo as merely another generative model.
+
+For material growth/marketing work, ChatGPT and Codex must:
+
+1. identify the target audience and creator problem/outcome;
+2. identify the funnel stage affected;
+3. classify each material public claim as `VERIFIED_PRODUCT_FACT`, `VERIFIED_BUSINESS_FACT`, `CUSTOMER_EVIDENCE`, `ESTIMATE`, `ASPIRATION`, or `UNKNOWN`;
+4. never convert `UNKNOWN`, roadmap intent, estimates, AI inference, or mockups into a current product/business claim;
+5. define metric/event sources and data-quality status before reporting results;
+6. treat registration as distinct from activation;
+7. define experiments with hypotheses, primary metrics, guardrails, cost/exposure, data source, limitations, and decisions;
+8. preserve creator agency, ownership, privacy, consent, and truthful disclosure;
+9. prohibit fabricated social proof, fake scarcity, false urgency, deceptive cancellation/opt-in, unauthorized spam, manipulative compulsion loops, or private-asset marketing without permission;
+10. keep paid acquisition blocked until activation, retention, conversion, attribution, and unit economics are credible enough to evaluate;
+11. report missing telemetry as `UNKNOWN`, not zero;
+12. keep the existing Brain separate: do not create a duplicate "Marketing Brain".
+
+Codex may implement approved analytics events, attribution plumbing, landing experiences, referral mechanics, experiments, dashboards, and product-led growth features. Those changes remain subject to all engineering, security, privacy, data-isolation, and evidence rules.
+
+Before a material growth change is complete, report target audience, user outcome, claim evidence, funnel stage, metric/event definitions, experiment status where applicable, privacy/security impact, expected spend/cost, implementation reality, observed result versus estimate, unknowns/risks, and whether Director approval is required/obtained for consequential public claims, launch, brand, or spend decisions.
 
 ## Development-time verification
 
 `docs/DEVELOPMENT_TIME_VERIFICATION.md` defines the proactive inner loop Codex must use while building Nexkosmo. Error detection is not reserved for CI, staging, or production.
 
-For each meaningful implementation slice, Codex must:
+For each meaningful implementation slice, Codex must establish the relevant baseline, define the smallest coherent slice, implement incrementally, run fast relevant checks, run targeted tests, add negative/boundary tests for material risk paths, investigate unexpected failures, inspect the diff, stop expansion when failures remain unexplained, and report checks/failures/repairs/unknowns before calling the slice complete.
 
-1. establish the relevant baseline and confirm the working branch/current contracts before broad edits where practical;
-2. define the smallest coherent slice and its expected behavior;
-3. implement incrementally rather than accumulating large unverified edits;
-4. run the fastest relevant checks repeatedly during the change;
-5. run targeted tests for the behavior being changed;
-6. add negative/boundary tests for material risk paths;
-7. treat every unexpected failure as evidence to investigate, not noise to suppress;
-8. inspect the resulting diff for accidental scope, hard-coding, stale contracts, unsafe defaults, skipped validation, and unrelated edits;
-9. stop expansion when a failure remains unexplained;
-10. report checks run, failures found, repairs made, and checks not run before calling the slice complete.
-
-The preferred loop is:
+Preferred loop:
 
 `UNDERSTAND -> BASELINE -> SMALL CHANGE -> FAST CHECK -> TARGETED TEST -> NEGATIVE TEST -> DIFF REVIEW -> REPEAT -> CI`
 
-Codex must not wait until a large feature is finished before running validation when smaller validation is available.
-
-ChatGPT reviews the evidence and architecture/alignment implications; CI remains a second independent verifier. Brain is separate and does not replace this engineering loop.
+ChatGPT reviews evidence and architecture/alignment implications; CI remains a second independent verifier. Brain is separate and does not replace this engineering loop.
 
 ## Secure development
 
@@ -84,7 +101,7 @@ ChatGPT reviews the evidence and architecture/alignment implications; CI remains
 
 **Security is a build-time responsibility. Every new material trust boundary requires an explicit security contract before or alongside implementation.**
 
-For security-relevant work, Codex must actively identify assets, attacker-controlled inputs, trust boundaries, authenticated identity, authorization decisions, data ownership, confidentiality/integrity requirements, replay/idempotency risk, resource-abuse risk, failure behavior, and audit evidence before declaring the slice complete.
+For security-relevant work, Codex must identify assets, attacker-controlled inputs, trust boundaries, authenticated identity, authorization decisions, data ownership, confidentiality/integrity requirements, replay/idempotency risk, resource-abuse risk, failure behavior, and audit evidence before declaring the slice complete.
 
 Use this loop where applicable:
 
@@ -92,11 +109,7 @@ Use this loop where applicable:
 
 A written threat model using `docs/THREAT_MODEL_TEMPLATE.md` is required for significant changes involving authentication, authorization, permissions, ownership, public APIs/webhooks, uploads/imports, payments/credits, Server 1/Server 2 or worker execution, external integrations, secrets/cryptography, private creative assets/personal data, marketplace/distributed compute, deployment privilege, or changes to a security invariant.
 
-Codex must not assume internal network traffic is trustworthy. Network location alone is not authentication. Important service-to-service operations require appropriate identity, authorization, integrity, least privilege, and replay/idempotency controls.
-
-Codex must not trust client-provided user/workspace/ownership IDs, prices, roles, approval state, or permissions as authoritative without server-side verification. Avoid unsafe dynamic execution, shell execution with attacker-controlled input, unparameterized SQL, unsafe deserialization, TLS-verification bypass, fail-open security fallbacks, or logging secrets.
-
-Before a security-sensitive slice is complete, Codex must report security boundaries affected, invariants applied, abuse/negative tests run, static/dependency/secret checks run, threat-model status, findings introduced/resolved, controls not tested, and remaining security unknowns.
+Network location alone is not authentication. Do not trust client-provided user/workspace/ownership IDs, prices, roles, approval state, or permissions as authoritative without server-side verification. Avoid unsafe dynamic execution, shell execution with attacker-controlled input, unparameterized SQL, unsafe deserialization, TLS-verification bypass, fail-open security fallbacks, or logging secrets.
 
 ChatGPT must independently challenge missing threat paths and security assumptions. CI runs deterministic security gates. Scanner output is evidence, not proof that no vulnerability exists. Security findings must not be broadly suppressed merely to obtain green CI.
 
@@ -106,50 +119,17 @@ Brain remains separate. It may consume validated security evidence later but can
 
 `docs/LATENT_DEFECT_ASSURANCE.md` and `governance/latent-assurance-matrix.yaml` define how Codex and ChatGPT search for defects that ordinary example tests may miss.
 
-For high-risk implementation work, use the applicable controls now available:
+For high-risk implementation work, use applicable property/generated-input tests, mutation sensitivity tests, bounded model checks, state/sequence tests, concurrency/idempotency probes, transaction fault/rollback probes, replay envelopes, anomaly primitives, and canary/rollback primitives.
 
-- property-based/generated-input tests;
-- mutation sensitivity tests;
-- bounded model checks for selected invariants;
-- state/sequence tests;
-- database concurrency/idempotency probes;
-- transaction fault/rollback probes;
-- deterministic replay envelopes;
-- explicit anomaly-rule primitives;
-- canary/rollback decision primitives.
+A harness is not runtime proof. Server 1/Server 2 fault injection, live anomaly wiring, and automated canary rollback remain environment-pending until actually connected and exercised.
 
-The assurance matrix distinguishes `IMPLEMENTED`, `INITIAL_IMPLEMENTATION`, framework/harness-only controls, and environment-pending controls. A harness is not runtime proof. Server 1/Server 2 fault injection, live anomaly wiring, and automated canary rollback must remain environment-pending until those systems are actually connected and exercised.
-
-When a significant latent defect is discovered, convert it into a durable detector where practical so the same defect class is not rediscovered only through user impact.
-
-Brain remains separate. It may later consume validated assurance outputs as evidence but cannot replace ChatGPT/Codex engineering verification or certify its own engineering correctness.
+When a significant latent defect is discovered, convert it into a durable detector where practical. Brain remains separate and cannot self-certify ChatGPT/Codex engineering correctness.
 
 ## Agent error correction
 
-`docs/ERROR_CORRECTION_PROTOCOL.md` is the independent engineering correction path for ChatGPT and Codex.
+`docs/ERROR_CORRECTION_PROTOCOL.md` is the independent engineering correction path for ChatGPT and Codex. Significant defects require preserved evidence, classification, reproduction where practical, root-cause support, regression proof, minimum safe causal repair, relevant validation, accurate intermediate status, and runtime proof when runtime recovery is claimed.
 
-This path is separate from the Nexkosmo Brain:
-
-- ChatGPT provides independent engineering oversight, evidence review, defect classification, root-cause challenge, and verification review.
-- Codex reproduces, implements, tests, and repairs against current repository contracts.
-- CI/tests provide independent deterministic evidence.
-- Brain may later consume validated defect/recovery records as external evidence, but Brain is not the sole detector, verifier, repair authority, or correction record for ChatGPT/Codex defects.
-
-For significant defects:
-
-1. preserve evidence before repair;
-2. classify severity and defect class;
-3. reproduce when practical or explicitly report `NOT_REPRODUCED`;
-4. separate symptom, trigger, causal defect, and systemic contributor;
-5. add regression proof where practical;
-6. make the minimum safe causal repair;
-7. run all relevant validation families;
-8. do not claim runtime recovery without runtime evidence;
-9. use accurate intermediate states such as `FIXED_IN_CODE` or `VERIFIED_IN_CI` until later proof exists.
-
-Codex must not weaken/delete failing tests merely to make CI green. A failing test may be corrected only when the test itself is proven defective and the intended contract remains preserved or strengthened.
-
-ChatGPT must not declare a defect fixed solely because Codex says so. Independent evidence is required.
+Codex must not weaken/delete failing tests merely to make CI green. ChatGPT must not declare a defect fixed solely because Codex says so. Independent evidence is required.
 
 ## Independent drift verification
 
@@ -171,26 +151,21 @@ Run these governance/security checks before treating significant work as aligned
 - `python scripts/verify_authority_model.py`
 - `python scripts/verify_security_baseline.py`
 
-Deliberate drift tests are proof of detection only for their tested cases. They must not be described as universal or bulletproof proof.
+Deliberate drift tests prove only their tested cases.
 
 ## Repository protection
 
 `main` must be protected according to `docs/REPOSITORY_PROTECTION.md`.
 
-Before treating a significant PR as merge-ready:
+Before treating a significant PR as merge-ready, confirm the `quality-and-integration` CI job is green, GitHub reports `main` as protected, and required review/conversation settings match the current owner/team model. Do not rely on `CODEOWNERS` or written policy alone as enforcement proof.
 
-- confirm the `quality-and-integration` CI job is green;
-- confirm GitHub reports `main` as protected;
-- confirm required review/conversation settings match the current owner/team model;
-- do not rely on `CODEOWNERS` or written policy alone as proof that GitHub is enforcing the rule.
-
-If `main` is not protected, treat that as a governance STOP GATE rather than silently merging around it.
+If `main` is not protected, treat that as a governance STOP GATE.
 
 ## Canonical truth rule
 
 Nexkosmo does not rely on conversational memory, prompt history, visual approximation, or regeneration for approved identity-bearing assets or frozen project state.
 
-Before changing any UI, page, shell, mockup implementation, brand surface, or other dependent artifact, retrieve the relevant canonical asset/state from the repository and use it directly.
+Before changing any UI, page, shell, mockup implementation, brand surface, or dependent artifact, retrieve the relevant canonical asset/state from the repository and use it directly.
 
 **Retrieve before generate. Canon before approximation.**
 
@@ -198,63 +173,19 @@ If a requested change does not explicitly authorize changing a frozen canonical 
 
 ## Frozen Nexkosmo logo
 
-The canonical Nexkosmo product logo is:
+The canonical Nexkosmo product logo is `assets/brand/nexkosmo-x-star.svg`, registered in `assets/brand/canonical-assets.json`.
 
-`assets/brand/nexkosmo-x-star.svg`
-
-Its canonical registration is:
-
-`assets/brand/canonical-assets.json`
-
-Rules:
-
-1. Use the canonical SVG directly through a shared logo component or asset reference.
-2. Do not redraw, recolor, restyle, reinterpret, approximate, or regenerate the logo per page.
-3. Do not substitute an older cyan/blue-heavy logo.
-4. Do not change the X silhouette, violet/lilac palette, white-violet centre star, or progression-inspired light streak unless the Director explicitly requests a brand revision.
-5. Page-specific work must preserve the canonical logo even when surrounding layout, imagery, theme, or controls change.
-6. Discovery, Shape, Build, Ready, Production, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
-7. If a task would require changing the canonical logo but the task is not explicitly a brand-change task, STOP and report the conflict instead of modifying it.
+Use the canonical SVG directly. Do not redraw, recolor, restyle, reinterpret, approximate, regenerate, or substitute it unless the Director explicitly approves a brand revision. All product surfaces must resolve the same canonical logo asset. If a task implicitly requires changing it without explicit brand authority, STOP and report the conflict.
 
 ## Canonical asset workflow
 
-For any item registered as `FROZEN` or `APPROVED`:
-
-1. Resolve its registry entry.
-2. Retrieve the canonical source asset/state.
-3. Perform the requested operation around that source of truth.
-4. Validate the output against the canonical reference.
-5. Reject the result if canonical identity drifted.
-
-A generated resemblance is not equivalent to a canonical asset.
-
-## Change scope
-
-Treat explicit Director approval as the authority required to supersede a frozen canonical item. A casual page-edit request is not permission to alter global brand identity.
-
-When an intentional canonical revision is approved, update the canonical asset, its registry/hash, documentation, shared component references, affected decision/current-state records, the alignment manifest where applicable, and affected tests in the same reviewed change.
-
-## Required validation
-
-Before completing any UI or brand-affecting change:
-
-- confirm the canonical logo resolves from `assets/brand/nexkosmo-x-star.svg`;
-- run `python scripts/verify_canonical_assets.py`;
-- run `python scripts/verify_alignment.py`;
-- run `python scripts/verify_drift_guards.py` for significant governance/canon changes;
-- confirm no page-specific replacement logo was introduced;
-- confirm only explicitly requested canonical changes were made;
-- confirm the implementation does not contradict `docs/CURRENT_STATE.md` or `governance/alignment-manifest.yaml`.
-
-CI treats failed canonical, alignment, drift-guard, repository-protection, latent-assurance, security, or integration checks as release blockers, not warnings.
+For any item registered as `FROZEN` or `APPROVED`: resolve its registry entry, retrieve the canonical source, perform requested work around it, validate output against it, and reject identity drift. A generated resemblance is not equivalent to a canonical asset.
 
 ## Product intelligence distinction
 
-Sophia (or another selected AI Producer) is the Director-facing relationship and collaboration layer. Brain is Nexkosmo's underlying intelligence/status/health layer. Do not turn Brain into a competing chatbot.
+Sophia (or another selected AI Producer) is the Director-facing relationship and collaboration layer. Brain is Nexkosmo's underlying intelligence/status/health layer. Do not turn Brain into a competing chatbot or create a separate Marketing Brain.
 
 ## Product entry and creative workflow
-
-Do not collapse onboarding/account entry, creative workflow, and Production/Studio deep editing into one ambiguous flow.
 
 Normal new-project entry:
 
@@ -268,32 +199,29 @@ Canonical creative workflow:
 
 `IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION`
 
-Studio is not another top-level stage. Production is the movie-wide control room; Studio is the contextual precision scene/shot editor opened from Production. Returning from Studio sends edited work back through Brain validation before production approval.
+Studio is not another top-level stage. Production is the movie-wide control room; Studio is contextual precision scene/shot editing opened from Production. Returning from Studio sends edited work back through Brain validation before production approval.
 
-The legacy prototype navigation `PRE-PRODUCTION -> SET -> STUDIO -> REVIEW -> RENDER` is superseded. It may remain temporarily in an unmerged prototype branch for reconciliation, but it is not current product canon and must not be merged unchanged.
-
-Preserve this shared shell and canonical brand identity unless an explicit Director-approved decision supersedes them.
+The legacy prototype navigation `PRE-PRODUCTION -> SET -> STUDIO -> REVIEW -> RENDER` is superseded and must not be merged unchanged.
 
 ## Project state and fixtures
 
-Do not hard-code project-specific state into production UI/data paths as though it were canonical truth. Characters, scenes, shots, Producer selection, canonical asset selections, approvals, continuity, validation results, render state, production progress, and project-specific AI recommendations must resolve from explicit project/application state contracts and persistence.
-
-Demo fixtures are allowed only when isolated and clearly labelled. Do not invent backend APIs merely to make a prototype appear complete.
+Do not hard-code project-specific state into production paths as canonical truth. Demo fixtures are allowed only when isolated and clearly labelled. Do not invent backend APIs, user metrics, testimonials, revenue, usage counts, creator earnings, or growth results to make a prototype appear complete.
 
 ## Pull-request contract
 
-Significant PRs must use the repository PR template and identify:
+Significant PRs must identify:
 
-- the alignment-manifest version followed;
-- the approved decision/specification implemented;
+- alignment-manifest version followed;
+- approved decision/specification implemented;
 - affected current-state sections;
 - canonical assets/state touched;
 - fixture/hard-coded project data added or removed;
-- development-time checks run and failures discovered during implementation;
-- latent-defect assurance controls applied where relevant and their actual status (`IMPLEMENTED`, harness-only, or environment-pending);
-- security boundaries/invariants affected, threat-model status where required, abuse/negative tests, and security scans run;
-- deterministic and drift-injection validation performed;
-- for defect repairs: defect ID/status, reproduction status, root-cause evidence, regression proof, repair commit, CI verification, runtime verification where applicable;
+- development-time checks/failures;
+- latent-defect controls where relevant;
+- security boundaries/invariants, threat-model status, abuse tests, and security scans;
+- for material growth work: audience, funnel stage, claim classification/evidence, metric/event definitions, experiment status, privacy/security impact, expected spend/cost, results versus estimates, and unknowns;
+- deterministic/drift validation;
+- for defect repairs: defect status, reproduction, root-cause evidence, regression proof, repair commit, CI and runtime evidence;
 - known placeholders, estimates, inferences, unknowns, or conflicts.
 
 If a change intentionally modifies canon, include the Director-approved decision record, `docs/CURRENT_STATE.md` update, and any necessary manifest revision in the same reviewed change.
