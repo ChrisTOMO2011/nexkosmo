@@ -20,6 +20,7 @@ jobs:
       - run: python scripts/verify_canonical_assets.py
       - run: python scripts/verify_alignment.py
       - run: python scripts/verify_drift_guards.py
+      - run: python scripts/verify_latent_defect_assurance.py
       - run: ruff check app tests
       - run: mypy app
       - run: python -m compileall -q migrations
