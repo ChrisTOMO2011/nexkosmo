@@ -18,10 +18,13 @@
 ### Validation
 - [ ] `python scripts/verify_canonical_assets.py`
 - [ ] `python scripts/verify_alignment.py`
+- [ ] `python scripts/verify_repo_protection.py` / GitHub reports `main` protected
 - [ ] Relevant lint/type/test/integration checks
+- [ ] `quality-and-integration` CI is green
+- [ ] Required review/conversation rules match `docs/REPOSITORY_PROTECTION.md`
 - [ ] No approved canon changed without explicit Director authority
 - [ ] No project-specific fixture is masquerading as production truth
 - [ ] Documentation and implementation tell the same current story
 
 ### Drift check
-List any known conflict with current architecture, product direction, data ownership, or evidence. If none, write `None known`.
+List any known conflict with current architecture, product direction, data ownership, repository protection, or evidence. If none, write `None known`.
