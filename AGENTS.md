@@ -2,6 +2,38 @@
 
 These instructions apply to the entire repository.
 
+## Authority hierarchy
+
+Codex and all AI engineering agents are implementation agents operating inside the Nexkosmo architecture. They are not the authority to redefine Nexkosmo for implementation convenience.
+
+When requirements appear to conflict, use this authority order:
+
+1. Explicit current Director instruction.
+2. Frozen constitutional / identity principles and approved architectural contracts.
+3. Approved milestone and STOP-GATE decisions.
+4. Repository specifications and canonical registries.
+5. Implementation code and tests.
+6. Agent assumptions or convenience.
+
+If a lower level conflicts with a higher level, STOP and report the conflict. Do not silently reinterpret the higher-level contract.
+
+Architectural improvements may be proposed with evidence, but permanent architecture changes require explicit human approval. Do not perform blank-slate redesigns while implementing an approved increment.
+
+## Migration mode
+
+During an approved repository or environment migration:
+
+- preserve Git history and provenance where practical;
+- inventory before moving or deleting;
+- define the destination structure before reorganising content;
+- move authoritative architecture and governance documents before dependent implementation;
+- never copy secrets into source control;
+- do not delete, archive, or decommission the source until the destination has passed validation;
+- preserve rollback capability;
+- treat the migration as incomplete until required builds, migrations, tests, security checks, and milestone proofs pass in the destination environment.
+
+See `docs/MIGRATION_ALIGNMENT.md` for the migration contract.
+
 ## Canonical truth rule
 
 Nexkosmo does not rely on conversational memory, prompt history, visual approximation, or regeneration for approved identity-bearing assets or frozen project state.
