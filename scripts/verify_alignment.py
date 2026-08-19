@@ -249,13 +249,13 @@ def main() -> int:
         social_protocol,
         [
             "# Nexkosmo Social Automation Protocol",
+            "Status: APPROVED DESIGN / RUNTIME IMPLEMENTATION PENDING",
             "AI may prepare and execute approved social work; it may not invent truth, rights, authority, or approval.",
             "Only `APPROVED` content may become `SCHEDULED` or `PUBLISHING`.",
             "Provider secrets are Tier 4 / critical credentials.",
             "Publishing is an externally visible side effect.",
             "Missing metrics are `UNKNOWN`, not zero.",
             "Do not implement six providers simultaneously as the first slice.",
-            "Runtime implementation pending",
         ],
         failures,
     )
