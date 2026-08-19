@@ -2,10 +2,15 @@
 /AGENTS.md @ChrisTOMO2011
 /docs/CURRENT_STATE.md @ChrisTOMO2011
 /docs/ALIGNMENT_PROTOCOL.md @ChrisTOMO2011
+/docs/ENGINEERING_STATUS.md @ChrisTOMO2011
+/docs/REPOSITORY_PROTECTION.md @ChrisTOMO2011
 /docs/decisions/ @ChrisTOMO2011
 /docs/architecture/ @ChrisTOMO2011
 /docs/BRAND_GUIDELINES.md @ChrisTOMO2011
 /assets/brand/ @ChrisTOMO2011
 /scripts/verify_alignment.py @ChrisTOMO2011
 /scripts/verify_canonical_assets.py @ChrisTOMO2011
+/scripts/verify_repo_protection.py @ChrisTOMO2011
+/.github/workflows/ @ChrisTOMO2011
+/.github/pull_request_template.md @ChrisTOMO2011
 /.github/CODEOWNERS @ChrisTOMO2011
