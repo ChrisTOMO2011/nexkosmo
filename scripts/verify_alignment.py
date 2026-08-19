@@ -141,13 +141,13 @@ def main() -> int:
         "Development-Time Verification Protocol",
         "while writing Nexkosmo",
         "separate from the Nexkosmo Brain",
-        "Small verified slices",
-        "Fast checks during implementation",
-        "Targeted behavioral tests",
-        "Negative and boundary tests",
-        "Stop-on-unexplained-failure rule",
-        "UNDERSTAND -> BASELINE -> SMALL CHANGE -> FAST CHECK -> TARGETED TEST -> NEGATIVE TEST -> DIFF REVIEW -> REPEAT -> CI",
+        "## Required inner loop",
+        "**FAST CHECKS**",
+        "**TARGETED TEST**",
+        "**NEGATIVE TEST**",
+        "## Mandatory stop conditions while coding",
         "CI is a second independent verifier",
+        "create smaller changes -> detect defects sooner -> understand the cause -> repair before expansion -> preserve regression proof -> let independent CI challenge the result again.",
     ]
     for phrase in required_development_phrases:
         if phrase not in development_protocol:
