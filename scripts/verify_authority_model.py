@@ -1,3 +1,4 @@
+from datetime import UTC, datetime
 from itertools import product
 from uuid import UUID
 
@@ -45,7 +46,7 @@ def main() -> int:
             evidence_ids=(),
             reasons=("bounded-model-check",),
             alternatives=(),
-            decided_at=__import__("datetime").datetime.now(__import__("datetime").UTC),
+            decided_at=datetime.now(UTC),
         )
 
         should_allow = (
