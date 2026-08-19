@@ -11,6 +11,7 @@ REQUIRED_FILES = [
     ROOT / "docs" / "CURRENT_STATE.md",
     ROOT / "docs" / "ALIGNMENT_PROTOCOL.md",
     ROOT / "docs" / "ERROR_CORRECTION_PROTOCOL.md",
+    ROOT / "docs" / "DEVELOPMENT_TIME_VERIFICATION.md",
     ROOT / "docs" / "ENGINEERING_STATUS.md",
     ROOT / "docs" / "REPOSITORY_PROTECTION.md",
     ROOT / "docs" / "decisions" / "DEC-0001-product-journey.md",
@@ -51,6 +52,7 @@ def main() -> int:
     current = read(ROOT / "docs" / "CURRENT_STATE.md")
     protocol = read(ROOT / "docs" / "ALIGNMENT_PROTOCOL.md")
     error_protocol = read(ROOT / "docs" / "ERROR_CORRECTION_PROTOCOL.md")
+    development_protocol = read(ROOT / "docs" / "DEVELOPMENT_TIME_VERIFICATION.md")
     status = read(ROOT / "docs" / "ENGINEERING_STATUS.md")
     protection = read(ROOT / "docs" / "REPOSITORY_PROTECTION.md")
     entry_decision = read(ROOT / "docs" / "decisions" / "DEC-0004-entry-routing-and-flow-layers.md")
@@ -96,16 +98,19 @@ def main() -> int:
         "docs/CURRENT_STATE.md",
         "docs/ALIGNMENT_PROTOCOL.md",
         "docs/ERROR_CORRECTION_PROTOCOL.md",
+        "docs/DEVELOPMENT_TIME_VERIFICATION.md",
         "docs/ENGINEERING_STATUS.md",
         "Alignment is a repository and evidence property, not a memory property.",
         "ChatGPT acts as alignment steward",
         "Codex is an implementation agent",
         "ChatGPT must not declare a defect fixed solely because Codex says so.",
+        "Error detection is not reserved for CI, staging, or production.",
+        "UNDERSTAND -> BASELINE -> SMALL CHANGE -> FAST CHECK -> TARGETED TEST -> NEGATIVE TEST -> DIFF REVIEW -> REPEAT -> CI",
         "The legacy prototype navigation `PRE-PRODUCTION -> SET -> STUDIO -> REVIEW -> RENDER` is superseded.",
     ]
     for phrase in required_agent_phrases:
         if phrase not in agents:
-            fail(f"AGENTS.md missing alignment/error-correction instruction: {phrase}", failures)
+            fail(f"AGENTS.md missing alignment/error/development instruction: {phrase}", failures)
 
     required_protocol_phrases = [
         "Fresh-context reconstruction test",
@@ -132,14 +137,33 @@ def main() -> int:
         if phrase not in error_protocol:
             fail(f"error correction protocol missing required boundary/rule: {phrase}", failures)
 
+    required_development_phrases = [
+        "Development-Time Verification Protocol",
+        "while writing Nexkosmo",
+        "separate from the Nexkosmo Brain",
+        "Small verified slices",
+        "Fast checks during implementation",
+        "Targeted behavioral tests",
+        "Negative and boundary tests",
+        "Stop-on-unexplained-failure rule",
+        "UNDERSTAND -> BASELINE -> SMALL CHANGE -> FAST CHECK -> TARGETED TEST -> NEGATIVE TEST -> DIFF REVIEW -> REPEAT -> CI",
+        "CI is a second independent verifier",
+    ]
+    for phrase in required_development_phrases:
+        if phrase not in development_protocol:
+            fail(f"development-time verification protocol missing required rule: {phrase}", failures)
+
     required_manifest_phrases = [
-        "manifest_version: 3",
+        "manifest_version: 4",
         "primary_subjects:",
         "- ChatGPT",
         "- Codex",
         "no_duplicate_brain_truth_engine: true",
         "agent_error_correction_separate_from_brain: true",
+        "development_time_verification_separate_from_brain: true",
         "error_correction_protocol: docs/ERROR_CORRECTION_PROTOCOL.md",
+        "development_time_verification: docs/DEVELOPMENT_TIME_VERIFICATION.md",
+        "require_development_time_verification_for_implementation_work: true",
         "critical_unknowns_block: true",
         "disagreement_policy: BLOCK_AND_RECONCILE",
         "deliberate_injection_tests: REQUIRED",
@@ -148,10 +172,15 @@ def main() -> int:
         "regression_proof_required_where_practical: true",
         "runtime_claim_requires_runtime_evidence: true",
         "symptom_only_fix_prohibited: true",
+        "small_verified_slices_required: true",
+        "fast_checks_during_implementation_required: true",
+        "targeted_tests_during_implementation_required: true",
+        "unexplained_failure_blocks_expansion: true",
+        "ci_is_second_independent_verifier: true",
     ]
     for phrase in required_manifest_phrases:
         if phrase not in manifest:
-            fail(f"alignment manifest missing required drift/error guard/scope: {phrase}", failures)
+            fail(f"alignment manifest missing required drift/error/development guard/scope: {phrase}", failures)
 
     required_status_phrases = [
         "**Alignment:** `<🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`",
