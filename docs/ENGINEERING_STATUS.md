@@ -8,7 +8,7 @@ This file is the human-readable engineering health page for Nexkosmo. It is a pr
 
 ## Current visible status
 
-`ALIGNMENT: WARN | REPO: FAIL | CI: BLOCKED BY REPO PROTECTION | RUNTIME: UNKNOWN | CONTEXT: UNKNOWN | USAGE: UNKNOWN | COST_AUD: UNKNOWN`
+`ALIGNMENT: 🟠 WARN | REPO: 🔴 FAIL | CI: 🔴 BLOCKED BY REPO PROTECTION | RUNTIME: ⚪ UNKNOWN | CONTEXT: ⚪ UNKNOWN | USAGE: ⚪ UNKNOWN | COST_AUD: ⚪ UNKNOWN`
 
 Current objective: complete the alignment/governance stop gate, protect `main`, merge the approved alignment system, realign Codex, and only then migrate normal development to the Server 1 development environment.
 
@@ -24,22 +24,34 @@ Current known conditions:
 - Authoritative cumulative token-usage telemetry is not yet available to this repository status surface.
 - Authoritative AI cost telemetry is not yet available to this repository status surface. Do not invent a token count or AUD cost when telemetry is unavailable.
 
+## Visual status convention
+
+Every human-facing engineering status must show both a word and a visual indicator. Do not display a bare `PASS` when the surface supports Unicode/visual indicators.
+
+- `🟢 PASS` / `🟢 CURRENT` / `🟢 MATCH` / `🟢 GREEN`: directly verified healthy/current.
+- `🟠 WARN` / `🟠 AMBER` / `🟠 RUNNING`: attention or checkpoint required, but no verified blocking failure unless explicitly stated.
+- `🔴 FAIL` / `🔴 DRIFT` / `🔴 RED` / `🔴 BLOCKED`: verified failure, contradiction, drift, or blocking gate.
+- `⛔ CRITICAL`: immediate stop/reset/recovery action required.
+- `⚪ UNKNOWN`: authoritative evidence or telemetry is unavailable.
+
+Colour/emoji is a visibility aid only. The text status and underlying evidence remain authoritative, and accessible text must always accompany the icon.
+
 ## Standard health line
 
 Every significant engineering session, PR review, deployment review, and future Server 1 engineering dashboard should expose the same compact status shape:
 
-`ALIGNMENT: <PASS|WARN|FAIL|UNKNOWN> | REPO: <CURRENT|WARN|FAIL|UNKNOWN> | CI: <PASS|FAIL|RUNNING|UNKNOWN> | RUNTIME: <MATCH|DRIFT|UNKNOWN> | CONTEXT: <used>/<max> tokens <percent/state> <remaining> remaining | USAGE: in=<input> cached=<cached> out=<output> total=<total> | COST_AUD: <amount/source>`
+`ALIGNMENT: <🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | REPO: <🟢 CURRENT|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | CI: <🟢 PASS|🟠 RUNNING|🔴 FAIL|⚪ UNKNOWN> | RUNTIME: <🟢 MATCH|🔴 DRIFT|⚪ UNKNOWN> | CONTEXT: <used>/<max> tokens <percent/icon/state> <remaining> remaining | USAGE: in=<input> cached=<cached> out=<output> total=<total> | COST_AUD: <amount/source|⚪ UNKNOWN>`
 
-If a telemetry field is unavailable, replace that field with `UNKNOWN` rather than estimating silently.
+If a telemetry field is unavailable, replace that field with `⚪ UNKNOWN` rather than estimating silently.
 
 The compact line is a visibility surface, not authority. Each field must be traceable to evidence.
 
 ## Status meanings
 
-- `PASS` / `CURRENT` / `MATCH`: directly verified against the applicable source of truth.
-- `WARN`: no proven contradiction, but freshness, context health, evidence, or an unresolved dependency requires attention.
-- `FAIL` / `DRIFT`: a verified contradiction or required gate failure exists.
-- `UNKNOWN`: evidence is missing or telemetry is unavailable. Unknown must never be silently converted to pass.
+- `🟢 PASS` / `🟢 CURRENT` / `🟢 MATCH`: directly verified against the applicable source of truth.
+- `🟠 WARN`: no proven contradiction, but freshness, context health, evidence, or an unresolved dependency requires attention.
+- `🔴 FAIL` / `🔴 DRIFT`: a verified contradiction or required gate failure exists.
+- `⚪ UNKNOWN`: evidence is missing or telemetry is unavailable. Unknown must never be silently converted to pass.
 
 ## Drift classes
 
@@ -68,12 +80,12 @@ When authoritative telemetry is exposed, show all of these values together:
 - maximum context-window tokens applicable to that session/model;
 - percentage occupied;
 - tokens remaining;
-- context-health state (`GREEN`, `AMBER`, `RED`, or `CRITICAL`);
+- context-health state (`🟢 GREEN`, `🟠 AMBER`, `🔴 RED`, or `⛔ CRITICAL`);
 - telemetry source and observation timestamp where practical.
 
 Example shape only:
 
-`CONTEXT: 286420/1310720 tokens | 21.9% GREEN | 1024300 remaining`
+`CONTEXT: 286420/1310720 tokens | 21.9% 🟢 GREEN | 1024300 remaining`
 
 Example numbers are illustrative and must never be copied into live status unless they are measured.
 
@@ -100,14 +112,14 @@ Never use cumulative token usage as a substitute for context occupancy, and neve
 
 Context percentage thresholds are Nexkosmo engineering safety policy, not official OpenAI model limits.
 
-- `GREEN` 0-50%: normal work.
-- `AMBER` >50-65%: checkpoint current work into repository evidence and prepare a fresh-context handoff.
-- `RED` >65-75%: do not begin new architecture/canon work; finish the current atomic task, checkpoint, and reset context.
-- `CRITICAL` >75%: major decisions require fresh-context reconstruction before approval or continuation.
+- `🟢 GREEN` 0-50%: normal work.
+- `🟠 AMBER` >50-65%: checkpoint current work into repository evidence and prepare a fresh-context handoff.
+- `🔴 RED` >65-75%: do not begin new architecture/canon work; finish the current atomic task, checkpoint, and reset context.
+- `⛔ CRITICAL` >75%: major decisions require fresh-context reconstruction before approval or continuation.
 
 Behavioral evidence overrides the percentage. Contradiction, repeated loss of settled state, stale-branch reasoning, confusion between planned and implemented work, or unsupported confidence triggers a context reset even below the numeric threshold.
 
-If authoritative context usage is unavailable, display `CONTEXT: UNKNOWN`; do not fabricate precision. If only some context fields are exposed, mark unavailable subfields `UNKNOWN` rather than reconstructing them from assumptions.
+If authoritative context usage is unavailable, display `CONTEXT: ⚪ UNKNOWN`; do not fabricate precision. If only some context fields are exposed, mark unavailable subfields `⚪ UNKNOWN` rather than reconstructing them from assumptions.
 
 ## Cost visibility policy
 
@@ -117,7 +129,7 @@ Where authoritative usage telemetry exists, record enough source data to audit t
 
 The visible engineering surfaces should eventually support current request/task, session, day, week, month, and project-lifetime totals.
 
-If usage or billing telemetry is unavailable, display `COST_AUD: UNKNOWN`. An API-equivalent estimate may be shown only when clearly labelled `ESTIMATE` and must never be presented as an actual ChatGPT/Codex charge.
+If usage or billing telemetry is unavailable, display `COST_AUD: ⚪ UNKNOWN`. An API-equivalent estimate may be shown only when clearly labelled `ESTIMATE` and must never be presented as an actual ChatGPT/Codex charge.
 
 ## Required agent handshake
 
