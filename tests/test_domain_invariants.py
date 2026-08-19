@@ -6,13 +6,19 @@ import pytest
 from app.domain.enums import (
     AgentKind,
     AssertionObjectKind,
+    DecisionOutcome,
     EpistemicStatus,
 )
 from app.domain.errors import AuthorizationDenied, InvariantViolation
-from app.domain.rules import require_human_authority, validate_assertion
-from app.domain.types import Assertion, Principal
+from app.domain.rules import (
+    require_human_authority,
+    require_human_decision_authority,
+    validate_assertion,
+)
+from app.domain.types import Assertion, Decision, Principal
 
 U = UUID("10000000-0000-0000-0000-000000000001")
+OTHER = UUID("10000000-0000-0000-0000-000000000002")
 
 
 def test_ai_cannot_exercise_human_approval_authority():
@@ -25,6 +31,57 @@ def test_ai_cannot_exercise_human_approval_authority():
     )
     with pytest.raises(AuthorizationDenied):
         require_human_authority(principal, "knowledge.decide")
+
+
+def test_human_cannot_attribute_decision_to_another_identity():
+    principal = Principal(
+        principal_id=U,
+        workspace_id=U,
+        agent_id=U,
+        agent_kind=AgentKind.HUMAN,
+        delegated_actions=frozenset({"knowledge.decide"}),
+    )
+    decision = Decision(
+        id=U,
+        workspace_id=U,
+        decision_type="canon.resolve",
+        outcome=DecisionOutcome.ACCEPT,
+        decided_by=OTHER,
+        context_id=U,
+        target_ids=(OTHER,),
+        policy_ids=(),
+        evidence_ids=(),
+        reasons=("test",),
+        alternatives=(),
+        decided_at=datetime.now(UTC),
+    )
+    with pytest.raises(AuthorizationDenied):
+        require_human_decision_authority(principal, decision)
+
+
+def test_authenticated_human_can_author_own_decision_when_delegated():
+    principal = Principal(
+        principal_id=U,
+        workspace_id=U,
+        agent_id=U,
+        agent_kind=AgentKind.HUMAN,
+        delegated_actions=frozenset({"knowledge.decide"}),
+    )
+    decision = Decision(
+        id=OTHER,
+        workspace_id=U,
+        decision_type="canon.resolve",
+        outcome=DecisionOutcome.ACCEPT,
+        decided_by=U,
+        context_id=U,
+        target_ids=(OTHER,),
+        policy_ids=(),
+        evidence_ids=(),
+        reasons=("test",),
+        alternatives=(),
+        decided_at=datetime.now(UTC),
+    )
+    require_human_decision_authority(principal, decision)
 
 
 def test_assertion_cannot_start_as_accepted():
