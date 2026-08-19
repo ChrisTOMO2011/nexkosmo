@@ -37,6 +37,28 @@ For the frozen logo, validation is a release gate. `python scripts/verify_canoni
 
 This protects canonical identity from conversational forgetting, prompt drift, regenerated approximations, and accidental page-specific substitutions.
 
+## Current Product Color Direction
+
+The current Nexkosmo product UI uses the newer, brighter cinematic color concept as the preferred visual direction.
+
+This supersedes the older, darker and more muted interface treatment as the default reference for future page consolidation and migration decisions.
+
+The current direction should preserve:
+
+- dark cinematic foundations for focus and contrast;
+- brighter violet, lilac, electric-purple and controlled blue highlights;
+- clearer illuminated active states and progression markers;
+- stronger separation between panels, controls, cards and the primary creative viewport;
+- higher perceived energy and clarity without becoming neon-heavy or visually noisy;
+- readable text and accessible contrast across all production workspaces;
+- consistent color language across Pre-Production, Set, Studio, CGI, VFX, Render, Finish/Delivery and future creative surfaces.
+
+When comparing older and newer interface concepts during migration, the **newer brighter color treatment is the visual baseline** unless the Director explicitly approves a different direction.
+
+Older interfaces may still contain valuable layout, controls, workflows or interaction ideas. Those capabilities should be preserved and modernised into the current brighter visual system rather than retaining an outdated color treatment merely because the functionality originated there.
+
+The brighter direction does not authorise arbitrary recoloring of frozen canonical assets. The canonical logo and other registered assets remain governed separately by the canonical asset rules above.
+
 ## Global Shell Consistency
 
 The product journey uses the shared progression model:
