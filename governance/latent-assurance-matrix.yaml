@@ -1,0 +1,119 @@
+schema_version: 1
+status: APPROVED
+authority: Director
+scope: "ChatGPT/Codex engineering assurance; separate from Nexkosmo Brain."
+
+controls:
+  property_based_testing:
+    status: IMPLEMENTED
+    evidence:
+      - tests/test_domain_invariants.py
+      - tests/test_latent_sequence_and_fuzz.py
+    protects:
+      - human_authority_boundary
+      - decision_attribution
+      - assertion_object_shape
+      - decision_sequence_resolution
+
+  generated_input_fuzzing:
+    status: INITIAL_IMPLEMENTATION
+    evidence:
+      - tests/test_latent_sequence_and_fuzz.py
+    current_scope:
+      - domain_assertion_shapes
+      - decision_sequences
+    expansion_trigger:
+      - api_surfaces
+      - import_parsers
+      - worker_message_schemas
+      - asset_metadata
+
+  targeted_mutation_testing:
+    status: IMPLEMENTED
+    evidence:
+      - scripts/verify_latent_defect_assurance.py
+    protects:
+      - human_only_decision_authority
+
+  bounded_model_checking:
+    status: IMPLEMENTED
+    evidence:
+      - scripts/verify_authority_model.py
+    protects:
+      - human_authority_state_space
+
+  sequence_state_testing:
+    status: INITIAL_IMPLEMENTATION
+    evidence:
+      - tests/test_latent_sequence_and_fuzz.py
+    current_scope:
+      - assertion_decision_resolution
+    expansion_trigger:
+      - job_state_machine
+      - retry_state_machine
+      - billing_state_machine
+
+  concurrency_testing:
+    status: INITIAL_IMPLEMENTATION
+    evidence:
+      - tests/integration/test_latent_concurrency_and_faults.py
+    current_scope:
+      - concurrent_idempotency_claim
+    expansion_trigger:
+      - queue_worker_assignment
+      - duplicate_completion
+      - credit_billing
+
+  fault_injection:
+    status: PARTIAL_IMPLEMENTATION
+    evidence:
+      - tests/integration/test_latent_concurrency_and_faults.py
+    implemented:
+      - database_transaction_interruption_and_rollback
+    environment_pending:
+      - redis_outage
+      - server_2_worker_disconnect
+      - gpu_oom
+      - storage_full
+      - process_restart_mid_job
+      - stale_deployment_identity
+
+  deterministic_replay:
+    status: HARNESS_IMPLEMENTED
+    evidence:
+      - app/assurance/replay.py
+      - tests/test_assurance_primitives.py
+    environment_pending:
+      - runtime_event_capture
+      - server_1_correlation_pipeline
+      - server_2_worker_event_capture
+
+  anomaly_detection:
+    status: FRAMEWORK_IMPLEMENTED
+    evidence:
+      - app/assurance/anomaly.py
+      - tests/test_assurance_primitives.py
+    environment_pending:
+      - prometheus_metric_rules
+      - runtime_signal_wiring
+      - evidence_based_thresholds
+
+  canary_and_rollback:
+    status: DECISION_PRIMITIVE_IMPLEMENTED
+    evidence:
+      - app/assurance/release.py
+      - tests/test_assurance_primitives.py
+    environment_pending:
+      - deployment_identity_feed
+      - canary_traffic_control
+      - automatic_known_good_rollback
+
+  server_1_server_2_fault_campaign:
+    status: BLOCKED_ON_ENVIRONMENT
+    reason: "Server-integrated test control and runtime attestation are not yet connected to this repository/CI environment. Do not report these scenarios as executed."
+
+rules:
+  - "A harness is not equivalent to a connected runtime control."
+  - "A planned or environment-pending scenario must not be reported as passed."
+  - "Every newly discovered significant latent defect must gain a durable detector where practical."
+  - "Brain may consume validated assurance evidence later but cannot self-certify ChatGPT/Codex engineering correctness."
