@@ -1,8 +1,8 @@
 schema_version: 1
-manifest_version: 2
+manifest_version: 3
 status: APPROVED
 authority: Director
-purpose: "Machine-readable Agent Alignment Layer for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
+purpose: "Machine-readable Agent Alignment and Agent Error Correction contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
 
 scope:
   primary_subjects:
@@ -12,12 +12,14 @@ scope:
     - repository
     - CI
     - tests
-  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume Agent Alignment Layer outputs as external evidence, but this layer must not become a duplicate Brain truth, reasoning, confidence, continuity, Guardian, or recovery engine."
+  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume Agent Alignment and Agent Error Correction outputs as external evidence, but these layers must not become a duplicate Brain truth, reasoning, confidence, continuity, Guardian, or recovery engine."
   no_duplicate_brain_truth_engine: true
+  agent_error_correction_separate_from_brain: true
 
 sources_of_truth:
   current_state: docs/CURRENT_STATE.md
   alignment_protocol: docs/ALIGNMENT_PROTOCOL.md
+  error_correction_protocol: docs/ERROR_CORRECTION_PROTOCOL.md
   engineering_status: docs/ENGINEERING_STATUS.md
   repository_protection: docs/REPOSITORY_PROTECTION.md
   canonical_asset_registry: assets/brand/canonical-assets.json
@@ -36,10 +38,10 @@ canonical_flows:
 
 roles:
   director: "Final authority for product direction, canon, and consequential approval."
-  chatgpt: "Alignment steward; detects drift and challenges contradictions but cannot supersede Director-approved canon."
-  codex: "Implementation agent; must implement current approved repository direction, not conversational or stale-branch assumptions."
-  ci: "Deterministic evidence gate; verifies enforceable constraints but does not define product direction."
-  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation agent by this Agent Alignment Layer."
+  chatgpt: "Alignment steward and independent engineering oversight; detects drift, challenges contradictions, reviews defect evidence and Codex repairs, but cannot supersede Director-approved canon."
+  codex: "Implementation and repair agent; must implement and fix against current approved repository direction, with reproduction and regression evidence."
+  ci: "Deterministic evidence gate; verifies enforceable constraints and repairs but does not define product direction."
+  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation/repair agent by the Agent Alignment or Agent Error Correction layers."
 
 fail_closed:
   critical_unknowns_block: true
@@ -51,6 +53,7 @@ fail_closed:
     - workflow
     - architecture
     - deployment_identity
+    - data_integrity
   rule: "UNKNOWN in a critical domain is not permission to continue. Resolve evidence before consequential action."
 
 required_verifiers:
@@ -65,14 +68,16 @@ agent_handshake:
     - governance/alignment-manifest.yaml
     - docs/CURRENT_STATE.md
     - docs/ALIGNMENT_PROTOCOL.md
+    - docs/ERROR_CORRECTION_PROTOCOL.md
     - docs/ENGINEERING_STATUS.md
   require_manifest_version_report: true
   require_branch_freshness_check: true
   require_stop_on_critical_conflict: true
+  require_error_protocol_for_significant_defect_work: true
 
 build_attestation_contract:
   status: PLANNED
-  purpose: "External evidence for engineering alignment and future Brain observation; not a new Brain subsystem."
+  purpose: "External evidence for engineering alignment/error correction and future Brain observation; not a new Brain subsystem."
   required_fields:
     - source_commit_sha
     - alignment_manifest_version
@@ -102,3 +107,11 @@ drift_assurance:
   quarantine_on_critical_runtime_drift: PLANNED_EXTERNAL_CONTROL
   immutable_audit_event_ledger: PLANNED_EXTERNAL_EVIDENCE
   rollback_to_known_good_state: PLANNED_EXTERNAL_CONTROL
+
+error_correction:
+  protocol: docs/ERROR_CORRECTION_PROTOCOL.md
+  primary_scope: "ChatGPT and Codex engineering error detection, investigation, repair, regression proof, and verification."
+  brain_relationship: "Brain may consume validated defect and recovery evidence, but must not become the sole detector, verifier, repair authority, or record for ChatGPT/Codex engineering defects."
+  regression_proof_required_where_practical: true
+  runtime_claim_requires_runtime_evidence: true
+  symptom_only_fix_prohibited: true
