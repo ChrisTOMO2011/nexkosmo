@@ -1,8 +1,8 @@
 schema_version: 1
-manifest_version: 7
+manifest_version: 8
 status: APPROVED
 authority: Director
-purpose: "Machine-readable Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, and Secure Development contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
+purpose: "Machine-readable Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, Secure Development, and Growth & Marketing contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
 
 scope:
   primary_subjects:
@@ -12,12 +12,13 @@ scope:
     - repository
     - CI
     - tests
-  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, and Secure Development outputs as external evidence, but these layers must not become a duplicate Brain truth, reasoning, confidence, continuity, Guardian, recovery, or security-certification engine."
+  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume validated engineering, security, product, and market evidence, but these layers must not become duplicate Brain truth, reasoning, confidence, continuity, Guardian, recovery, security-certification, or marketing-intelligence engines."
   no_duplicate_brain_truth_engine: true
   agent_error_correction_separate_from_brain: true
   development_time_verification_separate_from_brain: true
   latent_defect_assurance_separate_from_brain: true
   secure_development_separate_from_brain: true
+  growth_marketing_framework_separate_from_brain: true
 
 sources_of_truth:
   current_state: docs/CURRENT_STATE.md
@@ -29,6 +30,8 @@ sources_of_truth:
   secure_development_protocol: docs/SECURE_DEVELOPMENT_PROTOCOL.md
   security_assurance_matrix: governance/security-assurance-matrix.yaml
   threat_model_template: docs/THREAT_MODEL_TEMPLATE.md
+  growth_marketing_framework: docs/GROWTH_MARKETING_FRAMEWORK.md
+  growth_marketing_matrix: governance/growth-marketing-matrix.yaml
   engineering_status: docs/ENGINEERING_STATUS.md
   repository_protection: docs/REPOSITORY_PROTECTION.md
   canonical_asset_registry: assets/brand/canonical-assets.json
@@ -46,11 +49,11 @@ canonical_flows:
   production_studio_loop: "PRODUCTION -> select scene/shot -> Open in Studio -> edit -> return to PRODUCTION -> Brain revalidate -> approve or repair"
 
 roles:
-  director: "Final authority for product direction, canon, and consequential approval."
-  chatgpt: "Alignment steward and independent engineering/security oversight; detects drift, challenges contradictions, reviews development, defect, latent-risk, and security evidence, but cannot supersede Director-approved canon."
-  codex: "Implementation and repair agent; must build in small verified slices against current approved repository direction, actively detect code/security errors during development, threat-model material trust boundaries, and provide reproduction/regression/security evidence."
-  ci: "Deterministic evidence gate; independently verifies enforceable alignment, quality, latent-defect, and security constraints but does not define product direction."
-  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation, repair, or security-certification agent by these engineering assurance layers."
+  director: "Final authority for product direction, canon, brand, launch, material spend, and consequential approval."
+  chatgpt: "Alignment steward and independent engineering/security/growth oversight; detects drift, challenges contradictions, unproven claims, vanity metrics, weak experiments, and evidence gaps, but cannot supersede Director-approved canon."
+  codex: "Implementation and repair agent; must build in small verified slices against current approved repository direction, actively detect code/security errors, threat-model material trust boundaries, and implement approved growth instrumentation/features without inventing metrics or claims."
+  ci: "Deterministic evidence gate; independently verifies enforceable alignment, quality, latent-defect, security, and growth-framework constraints but does not define product or marketing strategy."
+  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation, repair, security-certification, or autonomous marketing agent by these assurance layers."
 
 fail_closed:
   critical_unknowns_block: true
@@ -63,6 +66,7 @@ fail_closed:
     - architecture
     - deployment_identity
     - data_integrity
+    - material_public_claims
   rule: "UNKNOWN in a critical domain is not permission to continue. Resolve evidence before consequential action."
 
 required_verifiers:
@@ -80,12 +84,14 @@ agent_handshake:
     - governance/alignment-manifest.yaml
     - governance/latent-assurance-matrix.yaml
     - governance/security-assurance-matrix.yaml
+    - governance/growth-marketing-matrix.yaml
     - docs/CURRENT_STATE.md
     - docs/ALIGNMENT_PROTOCOL.md
     - docs/ERROR_CORRECTION_PROTOCOL.md
     - docs/DEVELOPMENT_TIME_VERIFICATION.md
     - docs/LATENT_DEFECT_ASSURANCE.md
     - docs/SECURE_DEVELOPMENT_PROTOCOL.md
+    - docs/GROWTH_MARKETING_FRAMEWORK.md
     - docs/ENGINEERING_STATUS.md
   require_manifest_version_report: true
   require_branch_freshness_check: true
@@ -95,6 +101,7 @@ agent_handshake:
   require_latent_defect_assurance_for_high_risk_invariants: true
   require_secure_development_for_security_relevant_work: true
   require_threat_model_for_new_material_trust_boundary: true
+  require_growth_framework_for_material_marketing_or_growth_work: true
 
 build_attestation_contract:
   status: PLANNED
@@ -191,3 +198,24 @@ secure_development:
   github_action_immutable_pinning: PLANNED
   security_unknowns_fail_closed: true
   scanner_findings_cannot_be_broadly_suppressed_for_green_ci: true
+
+growth_marketing:
+  framework: docs/GROWTH_MARKETING_FRAMEWORK.md
+  matrix: governance/growth-marketing-matrix.yaml
+  primary_scope: "Evidence-based positioning, acquisition, activation, retention, referral, creator-success, experimentation, launch, and growth measurement."
+  brain_relationship: "Separate operating framework; do not create a parallel Marketing Brain. Existing Brain may consume validated market/product evidence through existing responsibilities."
+  positioning_foundation: IMPLEMENTED_AS_CANONICAL_DIRECTION
+  audience_segments: INITIAL_HYPOTHESES
+  activation_metric: UNKNOWN_PENDING_USER_EVIDENCE
+  funnel_measurement: CONTRACT_DEFINED_IMPLEMENTATION_PENDING
+  analytics_event_contracts: PLANNED
+  creator_research: PLANNED
+  share_referral_loop: PLANNED_FEATURE_PENDING
+  referral_credits: PLANNED_FEATURE_PENDING
+  community_channels: HYPOTHESES_ONLY
+  paid_acquisition: BLOCKED_UNTIL_ECONOMICS_AND_RETENTION_EVIDENCED
+  claims_assurance: REQUIRED
+  material_growth_experiments: EVIDENCE_PROTOCOL_REQUIRED
+  dark_patterns: PROHIBITED
+  missing_marketing_telemetry_is_unknown_not_zero: true
+  director_controls_brand_launch_material_spend_and_consequential_public_claims: true
