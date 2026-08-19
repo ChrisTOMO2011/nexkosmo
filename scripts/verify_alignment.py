@@ -11,6 +11,7 @@ REQUIRED_FILES = [
     ROOT / "governance" / "latent-assurance-matrix.yaml",
     ROOT / "governance" / "security-assurance-matrix.yaml",
     ROOT / "governance" / "growth-marketing-matrix.yaml",
+    ROOT / "governance" / "social-automation-matrix.yaml",
     ROOT / "docs" / "CURRENT_STATE.md",
     ROOT / "docs" / "ALIGNMENT_PROTOCOL.md",
     ROOT / "docs" / "ERROR_CORRECTION_PROTOCOL.md",
@@ -19,6 +20,7 @@ REQUIRED_FILES = [
     ROOT / "docs" / "SECURE_DEVELOPMENT_PROTOCOL.md",
     ROOT / "docs" / "THREAT_MODEL_TEMPLATE.md",
     ROOT / "docs" / "GROWTH_MARKETING_FRAMEWORK.md",
+    ROOT / "docs" / "SOCIAL_AUTOMATION_PROTOCOL.md",
     ROOT / "docs" / "ENGINEERING_STATUS.md",
     ROOT / "docs" / "REPOSITORY_PROTECTION.md",
     ROOT / "docs" / "decisions" / "DEC-0001-product-journey.md",
@@ -61,6 +63,7 @@ def main() -> int:
     latent_matrix = read(ROOT / "governance" / "latent-assurance-matrix.yaml")
     security_matrix = read(ROOT / "governance" / "security-assurance-matrix.yaml")
     growth_matrix = read(ROOT / "governance" / "growth-marketing-matrix.yaml")
+    social_matrix = read(ROOT / "governance" / "social-automation-matrix.yaml")
     current = read(ROOT / "docs" / "CURRENT_STATE.md")
     alignment_protocol = read(ROOT / "docs" / "ALIGNMENT_PROTOCOL.md")
     error_protocol = read(ROOT / "docs" / "ERROR_CORRECTION_PROTOCOL.md")
@@ -69,6 +72,7 @@ def main() -> int:
     security_protocol = read(ROOT / "docs" / "SECURE_DEVELOPMENT_PROTOCOL.md")
     threat_template = read(ROOT / "docs" / "THREAT_MODEL_TEMPLATE.md")
     growth_framework = read(ROOT / "docs" / "GROWTH_MARKETING_FRAMEWORK.md")
+    social_protocol = read(ROOT / "docs" / "SOCIAL_AUTOMATION_PROTOCOL.md")
     status = read(ROOT / "docs" / "ENGINEERING_STATUS.md")
     protection = read(ROOT / "docs" / "REPOSITORY_PROTECTION.md")
     entry_decision = read(ROOT / "docs" / "decisions" / "DEC-0004-entry-routing-and-flow-layers.md")
@@ -241,18 +245,40 @@ def main() -> int:
     )
 
     require(
+        "docs/SOCIAL_AUTOMATION_PROTOCOL.md",
+        social_protocol,
+        [
+            "# Nexkosmo Social Automation Protocol",
+            "AI may prepare and execute approved social work; it may not invent truth, rights, authority, or approval.",
+            "Only `APPROVED` content may become `SCHEDULED` or `PUBLISHING`.",
+            "Provider secrets are Tier 4 / critical credentials.",
+            "Publishing is an externally visible side effect.",
+            "Missing metrics are `UNKNOWN`, not zero.",
+            "Do not implement six providers simultaneously as the first slice.",
+            "Runtime implementation pending",
+        ],
+        failures,
+    )
+
+    require(
         "governance/alignment-manifest.yaml",
         manifest,
         [
-            "manifest_version: 8",
+            "manifest_version: 9",
             "- ChatGPT",
             "- Codex",
             "growth_marketing_framework_separate_from_brain: true",
+            "social_automation_separate_from_brain: true",
             "growth_marketing_framework: docs/GROWTH_MARKETING_FRAMEWORK.md",
             "growth_marketing_matrix: governance/growth-marketing-matrix.yaml",
+            "social_automation_protocol: docs/SOCIAL_AUTOMATION_PROTOCOL.md",
+            "social_automation_matrix: governance/social-automation-matrix.yaml",
             "require_growth_framework_for_material_marketing_or_growth_work: true",
+            "require_social_automation_protocol_for_social_publishing_or_provider_integration_work: true",
             "critical_unknowns_block: true",
             "- material_public_claims",
+            "- social_publishing_authority",
+            "- creator_marketing_rights",
             "every_material_trust_boundary_requires_security_contract: true",
             "security_unknowns_fail_closed: true",
             "activation_metric: UNKNOWN_PENDING_USER_EVIDENCE",
@@ -261,6 +287,10 @@ def main() -> int:
             "dark_patterns: PROHIBITED",
             "missing_marketing_telemetry_is_unknown_not_zero: true",
             "director_controls_brand_launch_material_spend_and_consequential_public_claims: true",
+            "runtime_implementation: PENDING",
+            "manual_approval_first: REQUIRED",
+            "provider_credentials: TIER_4_CRITICAL",
+            "publish_idempotency: REQUIRED",
         ],
         failures,
     )
@@ -314,6 +344,27 @@ def main() -> int:
             "marketing_brain:",
             "Product truth before promotion. Evidence before claims. Creator value before growth metrics.",
             "Missing marketing telemetry is UNKNOWN, not zero.",
+        ],
+        failures,
+    )
+
+    require(
+        "governance/social-automation-matrix.yaml",
+        social_matrix,
+        [
+            "status: APPROVED_DESIGN_RUNTIME_PENDING",
+            "initial_channels:",
+            "manual_approval_first:",
+            "claim_assurance:",
+            "rights_and_consent:",
+            "credentials:",
+            "status: TIER_4_CRITICAL",
+            "publish_idempotency:",
+            "audit_evidence:",
+            "analytics:",
+            "paid_media:",
+            "implementation_priority:",
+            "Social automation runtime implementation is pending until code, tests, CI, staging, and provider evidence exist.",
         ],
         failures,
     )
