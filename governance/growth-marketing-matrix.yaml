@@ -1,0 +1,153 @@
+schema_version: 1
+status: APPROVED
+authority: Director
+scope: "Nexkosmo growth/marketing operating framework; separate from Nexkosmo Brain."
+
+controls:
+  framework:
+    status: IMPLEMENTED
+    evidence:
+      - docs/GROWTH_MARKETING_FRAMEWORK.md
+
+  positioning_foundation:
+    status: IMPLEMENTED_AS_CANONICAL_DIRECTION
+    statement: "Nexkosmo is a Creative Production Operating System centered on Human Director <-> Nexkosmo AI Producer."
+
+  audience_segmentation:
+    status: INITIAL_HYPOTHESES
+    note: "Independent filmmakers, animation/visual creators, game/interactive creators, documentary/factual creators, and young/family creators are working segments pending evidence."
+
+  activation_metric:
+    status: UNKNOWN_PENDING_USER_EVIDENCE
+    rule: "Do not lock activation to registration or another convenience metric without evidence."
+
+  funnel_measurement:
+    status: CONTRACT_DEFINED_IMPLEMENTATION_PENDING
+    required_stages:
+      - awareness
+      - interest
+      - registration
+      - activation
+      - value
+      - retention
+      - creation_publishing
+      - share_referral
+      - revenue_creator_outcome
+
+  analytics_event_contracts:
+    status: PLANNED
+    requirements:
+      - documented_event_names
+      - documented_event_schema
+      - defined_source_and_window
+      - no_private_prompt_or_asset_content_by_default
+      - privacy_and_workspace_isolation
+      - metric_data_quality_status
+
+  creator_research:
+    status: PLANNED
+    goal: "Identify actual activation, value, retention, abandonment, and willingness-to-pay drivers."
+
+  share_referral_loop:
+    status: PLANNED_FEATURE_PENDING
+    guardrails:
+      - creator_chooses_publication
+      - no_fake_social_proof
+      - incentives_disclosed_where_required
+      - private_assets_not_used_without_permission
+
+  referral_credits:
+    status: PLANNED_FEATURE_PENDING
+
+  community_acquisition:
+    status: CHANNEL_HYPOTHESES_ONLY
+    candidate_channels:
+      - creator_communities
+      - filmmaking_communities
+      - animation_game_communities
+      - youtube
+      - tiktok
+      - reddit
+      - discord
+      - x
+      - search
+      - creator_partnerships
+      - events
+      - education
+    rule: "No listed channel is treated as proven until activation/retention evidence exists."
+
+  paid_acquisition:
+    status: BLOCKED_UNTIL_ECONOMICS_AND_RETENTION_EVIDENCED
+    prerequisites:
+      - credible_activation_definition
+      - credible_retention_signal
+      - conversion_measurement
+      - attribution_measurement
+      - acceptable_unit_economics
+
+  claims_assurance:
+    status: REQUIRED
+    allowed_classes:
+      - VERIFIED_PRODUCT_FACT
+      - VERIFIED_BUSINESS_FACT
+      - CUSTOMER_EVIDENCE
+      - ESTIMATE
+      - ASPIRATION
+      - UNKNOWN
+    rule: "UNKNOWN may not be converted into a public marketing claim."
+
+  experiment_protocol:
+    status: REQUIRED_FOR_MATERIAL_GROWTH_EXPERIMENTS
+    required_fields:
+      - experiment_id
+      - hypothesis
+      - audience
+      - user_problem
+      - intervention
+      - primary_metric
+      - guardrail_metrics
+      - observation_window_or_stopping_rule
+      - expected_cost_or_exposure
+      - data_source
+      - result
+      - confidence_limitations
+      - decision
+
+  dark_pattern_prohibition:
+    status: REQUIRED
+    prohibited_examples:
+      - fake_scarcity
+      - fabricated_testimonials
+      - fabricated_usage_or_revenue
+      - deceptive_cancellation
+      - deceptive_opt_in
+      - unauthorized_spam
+      - manipulative_compulsion_notifications
+      - false_urgency
+      - planned_feature_presented_as_live
+      - private_creator_asset_used_without_permission
+
+  ai_producer_creator_marketing:
+    status: FUTURE_CAPABILITY
+    candidate_support:
+      - trailers
+      - posters
+      - social_cuts
+      - release_planning
+      - localization
+      - audience_insight
+      - sequel_spin_off_opportunities
+      - distribution_options
+    rule: "Creator remains in control; no autonomous publishing or fabricated evidence."
+
+  marketing_brain:
+    status: PROHIBITED_DUPLICATION
+    rule: "Do not create a parallel Marketing Brain. Existing Brain may consume validated market/product evidence through existing responsibilities."
+
+rules:
+  - "Product truth before promotion. Evidence before claims. Creator value before growth metrics."
+  - "Registration is not equivalent to activation."
+  - "Missing marketing telemetry is UNKNOWN, not zero."
+  - "Paid acquisition remains blocked until activation, retention, conversion, attribution, and unit economics are credible enough to evaluate."
+  - "Growth experiments must not trade away creator agency, ownership, trust, privacy, or product value for a vanity metric."
+  - "Director retains authority over brand, launch, material spend, and consequential public claims."
