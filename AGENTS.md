@@ -11,9 +11,10 @@ Before significant architecture, product, UI, or implementation work:
 1. Read this file.
 2. Read `docs/CURRENT_STATE.md`.
 3. Read `docs/ALIGNMENT_PROTOCOL.md`.
-4. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
-5. Inspect current implementation when the request depends on implementation reality.
-6. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, workflow, or architecture boundaries.
+4. Read `docs/REPOSITORY_PROTECTION.md`.
+5. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
+6. Inspect current implementation when the request depends on implementation reality.
+7. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, workflow, or architecture boundaries.
 
 Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon.
 
@@ -23,6 +24,19 @@ Conversational memory, prompt history, screenshots, mockups, estimates, and AI c
 - ChatGPT acts as alignment steward: retrieve current repository state, compare new work against canon, detect drift, challenge contradictions, and keep Codex and documentation pointed in the same approved direction.
 - Codex is an implementation agent. It must implement approved direction and must not treat stale branches, mockups, or prototype navigation as current canon.
 - No AI may promote its own recommendation to canon without explicit Director approval.
+
+## Repository protection
+
+`main` must be protected according to `docs/REPOSITORY_PROTECTION.md`.
+
+Before treating a significant PR as merge-ready:
+
+- confirm the `quality-and-integration` CI job is green;
+- confirm GitHub reports `main` as protected;
+- confirm required review/conversation settings match the current owner/team model;
+- do not rely on `CODEOWNERS` or written policy alone as proof that GitHub is enforcing the rule.
+
+If `main` is not protected, treat that as a governance STOP GATE rather than silently merging around it.
 
 ## Canonical truth rule
 
@@ -83,11 +97,11 @@ Before completing any UI or brand-affecting change:
 - confirm only explicitly requested canonical changes were made;
 - confirm the implementation does not contradict `docs/CURRENT_STATE.md`.
 
-CI treats failed canonical or alignment checks as release blockers, not warnings.
+CI treats failed canonical, alignment, repository-protection, or integration checks as release blockers, not warnings.
 
 ## Product intelligence distinction
 
-Sophia (or another selected AI Producer) is the Director-facing collaboration/personality layer. Brain is the underlying intelligence/status/health layer. Do not turn Brain into a competing chat persona.
+Sophia (or another selected AI Producer) is the Director-facing relationship and collaboration layer. Brain is Nexkosmo's underlying intelligence/status/health layer. Do not turn Brain into a competing chatbot.
 
 ## Product entry and creative workflow
 
