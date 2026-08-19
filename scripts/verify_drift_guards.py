@@ -32,11 +32,7 @@ def copy_repo() -> Path:
     return target
 
 
-def expect_failure(
-    name: str,
-    mutate: Callable[[Path], None],
-    expected_diagnostic: str,
-) -> None:
+def expect_failure(name: str, mutate: Callable[[Path], None], expected_diagnostic: str) -> None:
     repo = copy_repo()
     try:
         mutate(repo)
@@ -75,87 +71,71 @@ def main() -> int:
         print(baseline.stderr)
         return 1
 
-    expect_failure(
-        "canonical creative workflow mutation",
-        lambda repo: replace_all(
-            repo / "docs" / "CURRENT_STATE.md",
-            "IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION",
-            "IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> RENDER",
+    cases: list[tuple[str, Callable[[Path], None], str]] = [
+        (
+            "canonical creative workflow mutation",
+            lambda repo: replace_all(repo / "docs" / "CURRENT_STATE.md", "IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION", "IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> RENDER"),
+            "docs/CURRENT_STATE.md does not contain canonical creative workflow",
         ),
-        "docs/CURRENT_STATE.md does not contain canonical creative workflow",
-    )
-    expect_failure(
-        "manifest workflow mutation",
-        lambda repo: replace_all(
-            repo / "governance" / "alignment-manifest.yaml",
-            "IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION",
-            "IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> RENDER",
+        (
+            "manifest workflow mutation",
+            lambda repo: replace_all(repo / "governance" / "alignment-manifest.yaml", "IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION", "IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> RENDER"),
+            "governance/alignment-manifest.yaml does not contain canonical creative workflow",
         ),
-        "governance/alignment-manifest.yaml does not contain canonical creative workflow",
-    )
-    expect_failure(
-        "critical fail-closed policy removal",
-        lambda repo: replace_all(
-            repo / "governance" / "alignment-manifest.yaml",
-            "critical_unknowns_block: true",
-            "critical_unknowns_block: false",
+        (
+            "critical fail-closed policy removal",
+            lambda repo: replace_all(repo / "governance" / "alignment-manifest.yaml", "critical_unknowns_block: true", "critical_unknowns_block: false"),
+            "governance/alignment-manifest.yaml missing required rule/control: critical_unknowns_block: true",
         ),
-        "governance/alignment-manifest.yaml missing required rule/control: critical_unknowns_block: true",
-    )
-    expect_failure(
-        "agent error correction Brain boundary removal",
-        lambda repo: replace_all(
-            repo / "governance" / "alignment-manifest.yaml",
-            "agent_error_correction_separate_from_brain: true",
-            "agent_error_correction_separate_from_brain: false",
+        (
+            "agent error correction Brain boundary removal",
+            lambda repo: replace_all(repo / "governance" / "alignment-manifest.yaml", "agent_error_correction_separate_from_brain: true", "agent_error_correction_separate_from_brain: false"),
+            "governance/alignment-manifest.yaml missing required rule/control: agent_error_correction_separate_from_brain: true",
         ),
-        "governance/alignment-manifest.yaml missing required rule/control: agent_error_correction_separate_from_brain: true",
-    )
-    expect_failure(
-        "latent defect assurance Brain boundary removal",
-        lambda repo: replace_all(
-            repo / "governance" / "alignment-manifest.yaml",
-            "latent_defect_assurance_separate_from_brain: true",
-            "latent_defect_assurance_separate_from_brain: false",
+        (
+            "latent defect assurance Brain boundary removal",
+            lambda repo: replace_all(repo / "governance" / "alignment-manifest.yaml", "latent_defect_assurance_separate_from_brain: true", "latent_defect_assurance_separate_from_brain: false"),
+            "governance/alignment-manifest.yaml missing required rule/control: latent_defect_assurance_separate_from_brain: true",
         ),
-        "governance/alignment-manifest.yaml missing required rule/control: latent_defect_assurance_separate_from_brain: true",
-    )
-    expect_failure(
-        "secure development Brain boundary removal",
-        lambda repo: replace_all(
-            repo / "governance" / "alignment-manifest.yaml",
-            "secure_development_separate_from_brain: true",
-            "secure_development_separate_from_brain: false",
+        (
+            "secure development Brain boundary removal",
+            lambda repo: replace_all(repo / "governance" / "alignment-manifest.yaml", "secure_development_separate_from_brain: true", "secure_development_separate_from_brain: false"),
+            "governance/alignment-manifest.yaml missing required rule/control: secure_development_separate_from_brain: true",
         ),
-        "governance/alignment-manifest.yaml missing required rule/control: secure_development_separate_from_brain: true",
-    )
-    expect_failure(
-        "trust-boundary security contract removal",
-        lambda repo: replace_all(
-            repo / "governance" / "alignment-manifest.yaml",
-            "every_material_trust_boundary_requires_security_contract: true",
-            "every_material_trust_boundary_requires_security_contract: false",
+        (
+            "growth marketing Brain boundary removal",
+            lambda repo: replace_all(repo / "governance" / "alignment-manifest.yaml", "growth_marketing_framework_separate_from_brain: true", "growth_marketing_framework_separate_from_brain: false"),
+            "governance/alignment-manifest.yaml missing required rule/control: growth_marketing_framework_separate_from_brain: true",
         ),
-        "governance/alignment-manifest.yaml missing required rule/control: every_material_trust_boundary_requires_security_contract: true",
-    )
-    expect_failure(
-        "alignment steward authority mutation",
-        lambda repo: replace_all(
-            repo / "docs" / "CURRENT_STATE.md",
-            "Alignment steward: ChatGPT",
-            "Alignment steward: UNKNOWN",
+        (
+            "trust-boundary security contract removal",
+            lambda repo: replace_all(repo / "governance" / "alignment-manifest.yaml", "every_material_trust_boundary_requires_security_contract: true", "every_material_trust_boundary_requires_security_contract: false"),
+            "governance/alignment-manifest.yaml missing required rule/control: every_material_trust_boundary_requires_security_contract: true",
         ),
-        "docs/CURRENT_STATE.md missing required rule/control: Alignment steward: ChatGPT",
-    )
-    expect_failure(
-        "vertical status contract mutation",
-        lambda repo: replace_all(
-            repo / "docs" / "ENGINEERING_STATUS.md",
-            "**Alignment:** `<🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`",
-            "**Alignment:** `PASS`",
+        (
+            "marketing unknown telemetry mutation",
+            lambda repo: replace_all(repo / "governance" / "alignment-manifest.yaml", "missing_marketing_telemetry_is_unknown_not_zero: true", "missing_marketing_telemetry_is_unknown_not_zero: false"),
+            "governance/alignment-manifest.yaml missing required rule/control: missing_marketing_telemetry_is_unknown_not_zero: true",
         ),
-        "docs/ENGINEERING_STATUS.md missing required rule/control",
-    )
+        (
+            "paid acquisition gate removal",
+            lambda repo: replace_all(repo / "governance" / "alignment-manifest.yaml", "paid_acquisition: BLOCKED_UNTIL_ECONOMICS_AND_RETENTION_EVIDENCED", "paid_acquisition: ENABLED"),
+            "governance/alignment-manifest.yaml missing required rule/control: paid_acquisition: BLOCKED_UNTIL_ECONOMICS_AND_RETENTION_EVIDENCED",
+        ),
+        (
+            "alignment steward authority mutation",
+            lambda repo: replace_all(repo / "docs" / "CURRENT_STATE.md", "Alignment steward: ChatGPT", "Alignment steward: UNKNOWN"),
+            "docs/CURRENT_STATE.md missing required rule/control: Alignment steward: ChatGPT",
+        ),
+        (
+            "vertical status contract mutation",
+            lambda repo: replace_all(repo / "docs" / "ENGINEERING_STATUS.md", "**Alignment:** `<🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`", "**Alignment:** `PASS`"),
+            "docs/ENGINEERING_STATUS.md missing required rule/control",
+        ),
+    ]
+
+    for name, mutate, diagnostic in cases:
+        expect_failure(name, mutate, diagnostic)
 
     print("Deliberate drift-injection verification passed.")
     return 0
