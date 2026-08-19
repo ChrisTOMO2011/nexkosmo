@@ -2,6 +2,7 @@ from datetime import UTC, datetime
 from uuid import UUID
 
 import pytest
+from hypothesis import given, strategies as st
 
 from app.domain.enums import (
     AgentKind,
@@ -102,3 +103,62 @@ def test_assertion_cannot_start_as_accepted():
     )
     with pytest.raises(InvariantViolation):
         validate_assertion(assertion)
+
+
+@given(
+    delegated=st.booleans(),
+    actor_id=st.uuids(),
+    workspace_id=st.uuids(),
+)
+def test_property_ai_never_gets_human_decision_authority(
+    delegated: bool,
+    actor_id: UUID,
+    workspace_id: UUID,
+):
+    delegated_actions = frozenset({"knowledge.decide"}) if delegated else frozenset()
+    principal = Principal(
+        principal_id=actor_id,
+        workspace_id=workspace_id,
+        agent_id=actor_id,
+        agent_kind=AgentKind.AI,
+        delegated_actions=delegated_actions,
+    )
+    with pytest.raises(AuthorizationDenied):
+        require_human_authority(principal, "knowledge.decide")
+
+
+@given(
+    actor_id=st.uuids(),
+    claimed_decider=st.uuids(),
+)
+def test_property_human_decision_attribution_must_match_authenticated_actor(
+    actor_id: UUID,
+    claimed_decider: UUID,
+):
+    principal = Principal(
+        principal_id=actor_id,
+        workspace_id=U,
+        agent_id=actor_id,
+        agent_kind=AgentKind.HUMAN,
+        delegated_actions=frozenset({"knowledge.decide"}),
+    )
+    decision = Decision(
+        id=OTHER,
+        workspace_id=U,
+        decision_type="canon.resolve",
+        outcome=DecisionOutcome.ACCEPT,
+        decided_by=claimed_decider,
+        context_id=U,
+        target_ids=(OTHER,),
+        policy_ids=(),
+        evidence_ids=(),
+        reasons=("property-test",),
+        alternatives=(),
+        decided_at=datetime.now(UTC),
+    )
+
+    if claimed_decider == actor_id:
+        require_human_decision_authority(principal, decision)
+    else:
+        with pytest.raises(AuthorizationDenied):
+            require_human_decision_authority(principal, decision)
