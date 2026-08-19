@@ -8,7 +8,7 @@ This file is the human-readable engineering health page for Nexkosmo. It is a pr
 
 ## Current visible status
 
-`ALIGNMENT: 🟠 WARN | REPO: 🔴 FAIL | CI: 🔴 BLOCKED BY REPO PROTECTION | RUNTIME: ⚪ UNKNOWN | CONTEXT: ⚪ UNKNOWN | USAGE: ⚪ UNKNOWN | ESTIMATE COSTINGS (AUD): ⚪ UNKNOWN`
+`ALIGNMENT: 🟠 WARN | REPO: 🔴 FAIL | CI: 🔴 BLOCKED BY REPO PROTECTION | RUNTIME: ⚪ UNKNOWN | CONTEXT: ⚪ UNKNOWN | USAGE: ⚪ UNKNOWN | ESTIMATE COSTINGS (AUD): ⚪ UNKNOWN | PROJECT ESTIMATE (AUD): ⚪ UNKNOWN`
 
 Current objective: complete the alignment/governance stop gate, protect `main`, merge the approved alignment system, realign Codex, and only then migrate normal development to the Server 1 development environment.
 
@@ -23,6 +23,7 @@ Current known conditions:
 - Authoritative live context-token telemetry is not yet available to this repository status surface.
 - Authoritative cumulative token-usage telemetry is not yet available to this repository status surface.
 - Authoritative AI cost telemetry is not yet available to this repository status surface. Do not invent a token count or AUD cost when telemetry is unavailable.
+- A defensible whole-project cost baseline and forecast have not yet been established, so `PROJECT ESTIMATE (AUD)` remains unknown rather than displaying false precision.
 
 ## Visual status convention
 
@@ -40,9 +41,9 @@ Colour/emoji is a visibility aid only. The text status and underlying evidence r
 
 Every significant engineering session, PR review, deployment review, and future Server 1 engineering dashboard should expose the same compact status shape:
 
-`ALIGNMENT: <🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | REPO: <🟢 CURRENT|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | CI: <🟢 PASS|🟠 RUNNING|🔴 FAIL|⚪ UNKNOWN> | RUNTIME: <🟢 MATCH|🔴 DRIFT|⚪ UNKNOWN> | CONTEXT: <used>/<max> tokens <percent/icon/state> <remaining> remaining | USAGE: in=<input> cached=<cached> out=<output> total=<total> | ESTIMATE COSTINGS (AUD): <amount/source|⚪ UNKNOWN>`
+`ALIGNMENT: <🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | REPO: <🟢 CURRENT|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | CI: <🟢 PASS|🟠 RUNNING|🔴 FAIL|⚪ UNKNOWN> | RUNTIME: <🟢 MATCH|🔴 DRIFT|⚪ UNKNOWN> | CONTEXT: <used>/<max> tokens <percent/icon/state> <remaining> remaining | USAGE: in=<input> cached=<cached> out=<output> total=<total> | ESTIMATE COSTINGS (AUD): <amount/source|⚪ UNKNOWN> | PROJECT ESTIMATE (AUD): <range/horizon/confidence|⚪ UNKNOWN>`
 
-If a telemetry field is unavailable, replace that field with `⚪ UNKNOWN` rather than estimating silently.
+If a telemetry or estimate field is unavailable, replace that field with `⚪ UNKNOWN` rather than estimating silently.
 
 The compact line is a visibility surface, not authority. Each field must be traceable to evidence.
 
@@ -133,6 +134,38 @@ The visible engineering surfaces should eventually support Estimate Costings for
 
 If usage or pricing telemetry is unavailable, display `ESTIMATE COSTINGS (AUD): ⚪ UNKNOWN`. An API-equivalent estimate may be shown only when clearly labelled as an estimate and must never be presented as an actual ChatGPT/Codex charge.
 
+## Project Estimate
+
+**Project Estimate (AUD)** is the forward-looking estimate of the total cost required to reach a clearly defined Nexkosmo project milestone or planning horizon. It is separate from short-period Estimate Costings and separate from Actual Costings.
+
+A Project Estimate must define:
+
+- the milestone or planning horizon being estimated, such as first production vertical slice, private beta, launch, or a stated date;
+- included and excluded scope;
+- estimated remaining engineering/development costs;
+- AI/Codex/API Estimate Costings;
+- infrastructure, storage, network, power, software/service, and deployment costs where applicable;
+- hardware purchases or upgrades where applicable;
+- contingency/risk allowance;
+- assumptions and source dates;
+- an estimate range rather than false single-dollar precision when uncertainty is material;
+- confidence (`LOW`, `MEDIUM`, or `HIGH`) and the evidence supporting that confidence;
+- last-updated timestamp or date.
+
+Preferred display shape:
+
+`PROJECT ESTIMATE (AUD): A$<low>-A$<high> | horizon=<milestone/date> | confidence=<LOW|MEDIUM|HIGH>`
+
+A point estimate may additionally be shown as a planning midpoint, but the range remains primary when uncertainty is meaningful.
+
+Until sufficient costing inputs and scope are available, display `PROJECT ESTIMATE (AUD): ⚪ UNKNOWN`. Never infer a whole-project estimate merely from token costs or already-purchased hardware.
+
+As Actual Costings become available, the project forecast should be updated using:
+
+`estimated cost to complete + verified actual cost to date = estimated total project cost at the defined horizon`
+
+The estimate history should remain auditable so changes in scope, assumptions, pricing, or evidence can be explained rather than overwritten silently.
+
 ## Required agent handshake
 
 Before significant work, every AI engineering agent must:
@@ -155,7 +188,7 @@ Before reporting significant work complete:
 3. Report branch/commit evidence and known unknowns.
 4. Verify that any runtime claim identifies the deployed commit/configuration evidence.
 5. Update this status projection when a material status field changed.
-6. Preserve the distinction between context occupancy, cumulative token usage, Estimate Costings, and Actual Costings.
+6. Preserve the distinction between context occupancy, cumulative token usage, Estimate Costings, Project Estimate, and Actual Costings.
 7. Never convert a warning, failure, estimate, inference, or unknown into a pass/fact without evidence.
 
 ## Fresh-agent test
@@ -177,6 +210,7 @@ Planned inputs include:
 - service health and deployment state;
 - Codex/API context occupancy and usage telemetry where exposed;
 - input/cached-input/output token accounting where exposed;
-- AUD Estimate Costings conversion with recorded pricing/exchange-rate source and timestamp.
+- AUD Estimate Costings conversion with recorded pricing/exchange-rate source and timestamp;
+- Project Estimate inputs, actual cost-to-date evidence, scope/horizon, contingency, assumptions, and estimate history.
 
-The dashboard should make drift, token consumption, context health, and Estimate Costings visible to the Director, ChatGPT, Codex, and other authorized engineering participants using the same status vocabulary defined here.
+The dashboard should make drift, token consumption, context health, Estimate Costings, and Project Estimate visible to the Director, ChatGPT, Codex, and other authorized engineering participants using the same status vocabulary defined here.
