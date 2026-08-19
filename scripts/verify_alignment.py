@@ -9,6 +9,7 @@ REQUIRED_FILES = [
     ROOT / "AGENTS.md",
     ROOT / "docs" / "CURRENT_STATE.md",
     ROOT / "docs" / "ALIGNMENT_PROTOCOL.md",
+    ROOT / "docs" / "REPOSITORY_PROTECTION.md",
     ROOT / "docs" / "decisions" / "DEC-0001-product-journey.md",
     ROOT / "docs" / "decisions" / "DEC-0002-production-studio-boundary.md",
     ROOT / "docs" / "decisions" / "DEC-0003-project-state-and-fixtures.md",
@@ -45,6 +46,7 @@ def main() -> int:
     agents = read(ROOT / "AGENTS.md")
     current = read(ROOT / "docs" / "CURRENT_STATE.md")
     protocol = read(ROOT / "docs" / "ALIGNMENT_PROTOCOL.md")
+    protection = read(ROOT / "docs" / "REPOSITORY_PROTECTION.md")
     entry_decision = read(ROOT / "docs" / "decisions" / "DEC-0004-entry-routing-and-flow-layers.md")
 
     for name, content in (
@@ -94,6 +96,18 @@ def main() -> int:
         fail("alignment protocol is missing the fresh-context reconstruction test", failures)
     if "three distinct flow layers" not in protocol:
         fail("alignment protocol does not distinguish the three flow layers", failures)
+
+    required_protection_phrases = [
+        "Target branch: `main`",
+        "Require a pull request before merging.",
+        "Require the `quality-and-integration` status check to pass before merging.",
+        "Block force pushes.",
+        "Block deletion of `main`.",
+        "Do not require a numeric approving review or required CODEOWNER review while the only available approver is also the pull-request author.",
+    ]
+    for phrase in required_protection_phrases:
+        if phrase not in protection:
+            fail(f"docs/REPOSITORY_PROTECTION.md missing required rule: {phrase}", failures)
 
     # Legacy prototype sentinels. These checks intentionally activate only if the
     # old frontend paths are merged into the branch under test. They prevent a
