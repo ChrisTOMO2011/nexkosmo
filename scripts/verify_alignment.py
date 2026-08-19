@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_FILES = [
     ROOT / "AGENTS.md",
+    ROOT / "governance" / "alignment-manifest.yaml",
     ROOT / "docs" / "CURRENT_STATE.md",
     ROOT / "docs" / "ALIGNMENT_PROTOCOL.md",
     ROOT / "docs" / "ENGINEERING_STATUS.md",
@@ -45,6 +46,7 @@ def main() -> int:
         return 1
 
     agents = read(ROOT / "AGENTS.md")
+    manifest = read(ROOT / "governance" / "alignment-manifest.yaml")
     current = read(ROOT / "docs" / "CURRENT_STATE.md")
     protocol = read(ROOT / "docs" / "ALIGNMENT_PROTOCOL.md")
     status = read(ROOT / "docs" / "ENGINEERING_STATUS.md")
@@ -54,6 +56,7 @@ def main() -> int:
     for name, content in (
         ("AGENTS.md", agents),
         ("docs/CURRENT_STATE.md", current),
+        ("governance/alignment-manifest.yaml", manifest),
     ):
         if CANONICAL_JOURNEY not in content:
             fail(f"{name} does not contain canonical creative workflow: {CANONICAL_JOURNEY}", failures)
@@ -65,11 +68,15 @@ def main() -> int:
             fail(f"AGENTS.md missing required entry route: {phrase}", failures)
         if phrase not in entry_decision:
             fail(f"DEC-0004 missing required entry route: {phrase}", failures)
+        if phrase not in manifest:
+            fail(f"alignment manifest missing required entry route: {phrase}", failures)
 
     if PRODUCTION_LOOP not in current:
         fail("docs/CURRENT_STATE.md missing canonical Production/Studio deep-edit loop", failures)
     if PRODUCTION_LOOP not in entry_decision:
         fail("DEC-0004 missing canonical Production/Studio deep-edit loop", failures)
+    if PRODUCTION_LOOP not in manifest:
+        fail("alignment manifest missing canonical Production/Studio deep-edit loop", failures)
 
     required_current_phrases = [
         "Studio is not an additional top-level journey stage.",
@@ -100,16 +107,29 @@ def main() -> int:
     if "three distinct flow layers" not in protocol:
         fail("alignment protocol does not distinguish the three flow layers", failures)
 
+    required_manifest_phrases = [
+        "manifest_version: 1",
+        "critical_unknowns_block: true",
+        "disagreement_policy: BLOCK_AND_RECONCILE",
+        "deliberate_injection_tests: REQUIRED",
+        "source_commit_sha",
+        "deployed_commit_sha",
+    ]
+    for phrase in required_manifest_phrases:
+        if phrase not in manifest:
+            fail(f"alignment manifest missing required drift guard: {phrase}", failures)
+
     required_status_phrases = [
-        "ALIGNMENT: <PASS|WARN|FAIL|UNKNOWN>",
-        "RUNTIME: <MATCH|DRIFT|UNKNOWN>",
-        "CONTEXT: <percent/state|UNKNOWN>",
-        "COST_AUD: <amount/source|UNKNOWN>",
+        "**Alignment:** `<🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`",
+        "**Runtime:** `<🟢 MATCH|🔴 DRIFT|⚪ UNKNOWN>`",
+        "**Context:** `<used>/<max> tokens | <percent> <icon/state> | <remaining> remaining`",
+        "**Estimate Costings (AUD):** `<amount/source|⚪ UNKNOWN>`",
+        "**Project Estimate (AUD):** `<range | horizon | confidence|⚪ UNKNOWN>`",
         "Unknown must never be silently converted to pass.",
         "Runtime drift",
         "AI/context drift",
         "AUD is the default human-facing currency",
-        "If authoritative context usage is unavailable, display `CONTEXT: UNKNOWN`",
+        "display **Context: ⚪ UNKNOWN**",
     ]
     for phrase in required_status_phrases:
         if phrase not in status:
@@ -138,35 +158,16 @@ def main() -> int:
             'label: "RENDER"',
         ]
         if all(item in nav_text for item in legacy_stage_block):
-            fail(
-                f"legacy {LEGACY_FLOW} workflow is still encoded in frontend navigation",
-                failures,
-            )
+            fail(f"legacy {LEGACY_FLOW} workflow is still encoded in frontend navigation", failures)
         if 'characterId = "christopher"' in nav_text:
             fail("frontend navigation still hard-codes Christopher as the default project character", failures)
 
-    character_page = (
-        ROOT
-        / "frontend"
-        / "src"
-        / "features"
-        / "studio"
-        / "pre-production"
-        / "pages"
-        / "CharacterIdentityPage.tsx"
-    )
+    character_page = ROOT / "frontend" / "src" / "features" / "studio" / "pre-production" / "pages" / "CharacterIdentityPage.tsx"
     if character_page.exists():
         page_text = read(character_page)
-        for pattern in (
-            'useState("christopher")',
-            "useState(35)",
-            "useState(180)",
-        ):
+        for pattern in ('useState("christopher")', "useState(35)", "useState(180)"):
             if pattern in page_text:
-                fail(
-                    f"prototype project-state hard coding detected in CharacterIdentityPage.tsx: {pattern}",
-                    failures,
-                )
+                fail(f"prototype project-state hard coding detected in CharacterIdentityPage.tsx: {pattern}", failures)
 
     if failures:
         for message in failures:
