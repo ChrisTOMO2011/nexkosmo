@@ -8,7 +8,7 @@ This file is the human-readable engineering health page for Nexkosmo. It is a pr
 
 ## Current visible status
 
-`ALIGNMENT: 🟠 WARN | REPO: 🔴 FAIL | CI: 🔴 BLOCKED BY REPO PROTECTION | RUNTIME: ⚪ UNKNOWN | CONTEXT: ⚪ UNKNOWN | USAGE: ⚪ UNKNOWN | COST_AUD: ⚪ UNKNOWN`
+`ALIGNMENT: 🟠 WARN | REPO: 🔴 FAIL | CI: 🔴 BLOCKED BY REPO PROTECTION | RUNTIME: ⚪ UNKNOWN | CONTEXT: ⚪ UNKNOWN | USAGE: ⚪ UNKNOWN | ESTIMATE COSTINGS (AUD): ⚪ UNKNOWN`
 
 Current objective: complete the alignment/governance stop gate, protect `main`, merge the approved alignment system, realign Codex, and only then migrate normal development to the Server 1 development environment.
 
@@ -40,7 +40,7 @@ Colour/emoji is a visibility aid only. The text status and underlying evidence r
 
 Every significant engineering session, PR review, deployment review, and future Server 1 engineering dashboard should expose the same compact status shape:
 
-`ALIGNMENT: <🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | REPO: <🟢 CURRENT|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | CI: <🟢 PASS|🟠 RUNNING|🔴 FAIL|⚪ UNKNOWN> | RUNTIME: <🟢 MATCH|🔴 DRIFT|⚪ UNKNOWN> | CONTEXT: <used>/<max> tokens <percent/icon/state> <remaining> remaining | USAGE: in=<input> cached=<cached> out=<output> total=<total> | COST_AUD: <amount/source|⚪ UNKNOWN>`
+`ALIGNMENT: <🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | REPO: <🟢 CURRENT|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | CI: <🟢 PASS|🟠 RUNNING|🔴 FAIL|⚪ UNKNOWN> | RUNTIME: <🟢 MATCH|🔴 DRIFT|⚪ UNKNOWN> | CONTEXT: <used>/<max> tokens <percent/icon/state> <remaining> remaining | USAGE: in=<input> cached=<cached> out=<output> total=<total> | ESTIMATE COSTINGS (AUD): <amount/source|⚪ UNKNOWN>`
 
 If a telemetry field is unavailable, replace that field with `⚪ UNKNOWN` rather than estimating silently.
 
@@ -121,15 +121,17 @@ Behavioral evidence overrides the percentage. Contradiction, repeated loss of se
 
 If authoritative context usage is unavailable, display `CONTEXT: ⚪ UNKNOWN`; do not fabricate precision. If only some context fields are exposed, mark unavailable subfields `⚪ UNKNOWN` rather than reconstructing them from assumptions.
 
-## Cost visibility policy
+## Estimate Costings
 
-AUD is the default human-facing currency for Nexkosmo engineering AI-cost reporting.
+**Estimate Costings** is the standard Nexkosmo label for forward-looking or calculated project/engineering cost figures. AUD is the default human-facing currency.
 
-Where authoritative usage telemetry exists, record enough source data to audit the estimate, including model, input tokens, cached input tokens where available, output tokens, pricing basis, exchange-rate basis, timestamp, and calculated AUD value.
+Estimate Costings must remain distinct from **Actual Costings**, which require authoritative invoice, billing, transaction, metering, or other financial evidence. Never relabel an estimate as an actual charge merely because the calculation is precise.
 
-The visible engineering surfaces should eventually support current request/task, session, day, week, month, and project-lifetime totals.
+Where authoritative usage telemetry exists, record enough source data to audit an AI cost estimate, including model, input tokens, cached input tokens where available, output tokens, pricing basis, exchange-rate basis, timestamp, and calculated AUD value.
 
-If usage or billing telemetry is unavailable, display `COST_AUD: ⚪ UNKNOWN`. An API-equivalent estimate may be shown only when clearly labelled `ESTIMATE` and must never be presented as an actual ChatGPT/Codex charge.
+The visible engineering surfaces should eventually support Estimate Costings for the current request/task, session, day, week, month, and project lifetime where meaningful.
+
+If usage or pricing telemetry is unavailable, display `ESTIMATE COSTINGS (AUD): ⚪ UNKNOWN`. An API-equivalent estimate may be shown only when clearly labelled as an estimate and must never be presented as an actual ChatGPT/Codex charge.
 
 ## Required agent handshake
 
@@ -153,7 +155,7 @@ Before reporting significant work complete:
 3. Report branch/commit evidence and known unknowns.
 4. Verify that any runtime claim identifies the deployed commit/configuration evidence.
 5. Update this status projection when a material status field changed.
-6. Preserve the distinction between context occupancy, cumulative token usage, and financial cost.
+6. Preserve the distinction between context occupancy, cumulative token usage, Estimate Costings, and Actual Costings.
 7. Never convert a warning, failure, estimate, inference, or unknown into a pass/fact without evidence.
 
 ## Fresh-agent test
@@ -175,6 +177,6 @@ Planned inputs include:
 - service health and deployment state;
 - Codex/API context occupancy and usage telemetry where exposed;
 - input/cached-input/output token accounting where exposed;
-- AUD cost conversion with recorded pricing/exchange-rate source and timestamp.
+- AUD Estimate Costings conversion with recorded pricing/exchange-rate source and timestamp.
 
-The dashboard should make drift, token consumption, context health, and cost visible to the Director, ChatGPT, Codex, and other authorized engineering participants using the same status vocabulary defined here.
+The dashboard should make drift, token consumption, context health, and Estimate Costings visible to the Director, ChatGPT, Codex, and other authorized engineering participants using the same status vocabulary defined here.
