@@ -1,0 +1,132 @@
+schema_version: 1
+status: APPROVED_DESIGN_RUNTIME_PENDING
+authority: Director
+scope: "Nexkosmo-owned social automation operating and engineering controls; separate from Nexkosmo Brain."
+
+controls:
+  service_boundary:
+    status: APPROVED_DESIGN
+    target: Server_1
+    rule: "Social Automation Service is an execution/integration service, not a Marketing Brain and not a canonical truth store."
+
+  initial_channels:
+    status: APPROVED_STARTING_SET
+    channels:
+      - youtube
+      - instagram
+      - tiktok
+      - linkedin
+      - discord
+      - reddit
+    note: "Provider capabilities and permissions must be verified at implementation time; inclusion does not imply identical automation support."
+
+  manual_approval_first:
+    status: REQUIRED
+    rule: "Only APPROVED content may be scheduled or published. Policy-based auto-publishing is future-only and requires an explicit Director-approved policy."
+
+  claim_assurance:
+    status: REQUIRED
+    rule: "UNKNOWN cannot be published as fact and planned capabilities cannot be presented as live."
+
+  rights_and_consent:
+    status: REQUIRED
+    rule: "Private creator assets, prompts, scripts, or project data cannot be used for marketing without appropriate permission/rights evidence."
+
+  canonical_brand_assets:
+    status: REQUIRED
+    evidence:
+      - assets/brand/nexkosmo-x-star.svg
+      - assets/brand/canonical-assets.json
+    rule: "Retrieve canonical brand assets rather than regenerating or approximating them."
+
+  reply_automation:
+    status: DRAFTS_ONLY_BY_DEFAULT
+    rule: "Sensitive, disputed, legal, security, press, partnership, creator-rights, account, and personal-data interactions require human escalation."
+
+  paid_media:
+    status: BLOCKED_BY_DEFAULT
+    rule: "No autonomous ad spend. Paid acquisition remains subject to Growth & Marketing Framework prerequisites and explicit Director approval."
+
+  credentials:
+    status: TIER_4_CRITICAL
+    requirements:
+      - no_secrets_in_git
+      - least_privilege_provider_scopes
+      - separated_dev_staging_prod_credentials
+      - rotation_and_revocation
+      - no_shared_personal_master_credentials_where_delegated_roles_exist
+      - authenticated_validated_webhooks
+
+  publish_idempotency:
+    status: REQUIRED
+    requirements:
+      - stable_internal_publish_identity
+      - provider_receipt_storage
+      - remote_reconciliation_before_uncertain_retry_where_practical
+      - bounded_retries
+      - rate_limit_handling
+      - dead_letter_or_manual_review
+
+  audit_evidence:
+    status: REQUIRED
+    fields:
+      - content_id_and_version
+      - source_evidence
+      - claim_classification
+      - rights_consent_reference_when_applicable
+      - platform_account_identity
+      - content_hash
+      - approver_or_policy_identity
+      - approval_timestamp
+      - schedule_timestamp
+      - publish_attempt_history
+      - provider_receipt
+      - analytics_source_and_timestamp
+
+  analytics:
+    status: CONTRACT_DEFINED_IMPLEMENTATION_PENDING
+    rules:
+      - missing_metrics_are_UNKNOWN_not_zero
+      - preserve_provider_metric_definition
+      - preserve_observation_timestamp
+      - preserve_data_quality_limitations
+      - no_undocumented_cross_platform_normalization
+
+  observability:
+    status: CONTRACT_DEFINED_IMPLEMENTATION_PENDING
+    required_signals:
+      - queue_depth
+      - scheduled_items_due_or_late
+      - publish_success_failure_rate
+      - duplicate_prevention_events
+      - rate_limit_events
+      - provider_auth_failures
+      - webhook_validation_failures
+      - provider_latency_error_rate
+      - approval_backlog
+      - analytics_freshness
+
+  implementation_priority:
+    status: DEFERRED_BEHIND_CURRENT_ALIGNMENT_STOP_GATE
+    rule: "Do not displace the current first end-to-end Nexkosmo product vertical slice."
+
+  first_engineering_slice:
+    status: PLANNED
+    sequence:
+      - provider_neutral_domain_model
+      - approval_state_machine
+      - audit_event_schema
+      - credential_and_threat_model_boundary
+      - scheduler_and_durable_outbox
+      - one_provider_adapter_dev_staging
+      - provider_receipt_reconciliation
+      - analytics_contract
+      - director_approval_dashboard
+      - additional_adapters_incrementally
+
+rules:
+  - "AI may prepare and execute approved social work; it may not invent truth, rights, authority, or approval."
+  - "Only APPROVED content may become SCHEDULED or PUBLISHING."
+  - "Absence, expiry, contradiction, or uncertainty in publishing authority fails closed to APPROVAL_REQUIRED."
+  - "Do not implement six provider adapters simultaneously as the first engineering slice."
+  - "Social automation runtime implementation is pending until code, tests, CI, staging, and provider evidence exist."
