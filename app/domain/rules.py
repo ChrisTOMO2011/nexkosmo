@@ -4,7 +4,7 @@ from uuid import UUID
 
 from app.domain.enums import AgentKind, EpistemicStatus, PolicyEffect
 from app.domain.errors import AuthorizationDenied, InvariantViolation
-from app.domain.types import Assertion, Policy, Principal
+from app.domain.types import Assertion, Decision, Policy, Principal
 
 
 class PolicyRequest(TypedDict):
@@ -26,6 +26,15 @@ def require_human_authority(principal: Principal, action: str) -> None:
         raise AuthorizationDenied("This decision requires human authority.")
     if action not in principal.delegated_actions and "*" not in principal.delegated_actions:
         raise AuthorizationDenied(f"Principal lacks delegated action: {action}")
+
+
+def require_human_decision_authority(principal: Principal, decision: Decision) -> None:
+    """Bind a canonical decision to the authenticated human who is exercising authority."""
+    require_human_authority(principal, "knowledge.decide")
+    if decision.decided_by != principal.agent_id:
+        raise AuthorizationDenied(
+            "Decision attribution must match the authenticated human principal."
+        )
 
 
 def validate_assertion(assertion: Assertion) -> None:
