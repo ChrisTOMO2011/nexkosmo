@@ -9,23 +9,35 @@ Alignment is a repository and evidence property, not a memory property.
 Before significant architecture, product, UI, or implementation work:
 
 1. Read this file.
-2. Read `docs/CURRENT_STATE.md`.
-3. Read `docs/ALIGNMENT_PROTOCOL.md`.
-4. Read `docs/ENGINEERING_STATUS.md`.
-5. Read `docs/REPOSITORY_PROTECTION.md`.
-6. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
-7. Inspect current implementation when the request depends on implementation reality.
-8. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, workflow, or architecture boundaries.
+2. Read `governance/alignment-manifest.yaml` and report its manifest version.
+3. Read `docs/CURRENT_STATE.md`.
+4. Read `docs/ALIGNMENT_PROTOCOL.md`.
+5. Read `docs/ENGINEERING_STATUS.md`.
+6. Read `docs/REPOSITORY_PROTECTION.md`.
+7. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
+8. Inspect current implementation when the request depends on implementation reality.
+9. Compare the working branch with current `main` when freshness matters.
+10. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, or deployment identity.
 
 Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon.
 
+## Alignment manifest
+
+`governance/alignment-manifest.yaml` is the machine-readable identity of the current alignment contract. It points to authoritative repository sources, canonical flows, required decision records, fail-closed domains, verifier requirements, and future build/runtime attestation contracts.
+
+The manifest does not replace the underlying source documents. It makes their current identity and required relationships machine-checkable.
+
+Every engineering agent must report the manifest version it is following. A stale or conflicting manifest version is a STOP condition until reconciled.
+
+For critical domains listed in the manifest, `UNKNOWN` is not permission to continue. Consequential work must fail closed until authoritative evidence is available.
+
 ## Visible engineering health
 
-`docs/ENGINEERING_STATUS.md` is the shared human-readable health projection for the Director, ChatGPT, Codex, and other authorized engineering participants. It must expose alignment, repository, CI, runtime, context, and AUD cost state using evidence-backed values.
+`docs/ENGINEERING_STATUS.md` is the shared human-readable health projection for the Director, ChatGPT, Codex, and other authorized engineering participants. It must expose alignment, repository, CI, runtime, context, token usage, Estimate Costings, and Project Estimate using evidence-backed values.
 
 The status page is a projection, not a new source of truth. `UNKNOWN` must remain unknown until evidence exists. Never invent token counts, runtime identity, cost, or alignment success to make the status appear complete.
 
-Before significant work, report or inspect the current status line. Before reporting work complete, update the status projection when a material field changed.
+Human-facing status is presented vertically, one result per line. Before significant work, report or inspect current status. Before reporting work complete, update the status projection when a material field changed.
 
 ## Alignment stewardship
 
@@ -33,6 +45,26 @@ Before significant work, report or inspect the current status line. Before repor
 - ChatGPT acts as alignment steward: retrieve current repository state, compare new work against canon, detect drift, challenge contradictions, and keep Codex and documentation pointed in the same approved direction.
 - Codex is an implementation agent. It must implement approved direction and must not treat stale branches, mockups, or prototype navigation as current canon.
 - No AI may promote its own recommendation to canon without explicit Director approval.
+- CI/tests are deterministic evidence gates. They do not define product direction and must not certify themselves as authority.
+
+## Independent drift verification
+
+Nexkosmo uses complementary verification rather than relying on one detector:
+
+1. deterministic repository/CI checks;
+2. deliberate drift-injection tests that prove known drift cases are rejected;
+3. fresh-context semantic reconstruction at important milestones;
+4. future runtime/build attestation once Server 1/Server 2 awareness is connected.
+
+If deterministic and semantic verification materially disagree, block consequential continuation and reconcile the evidence rather than choosing whichever result is convenient.
+
+Run these governance checks before treating significant work as aligned:
+
+- `python scripts/verify_canonical_assets.py`
+- `python scripts/verify_alignment.py`
+- `python scripts/verify_drift_guards.py`
+
+Deliberate drift tests are proof of detection only for their tested cases. They must not be described as universal or bulletproof proof.
 
 ## Repository protection
 
@@ -93,7 +125,7 @@ A generated resemblance is not equivalent to a canonical asset.
 
 Treat explicit Director approval as the authority required to supersede a frozen canonical item. A casual page-edit request is not permission to alter global brand identity.
 
-When an intentional canonical revision is approved, update the canonical asset, its registry/hash, documentation, shared component references, affected decision/current-state records, and affected tests in the same reviewed change.
+When an intentional canonical revision is approved, update the canonical asset, its registry/hash, documentation, shared component references, affected decision/current-state records, the alignment manifest where applicable, and affected tests in the same reviewed change.
 
 ## Required validation
 
@@ -102,11 +134,12 @@ Before completing any UI or brand-affecting change:
 - confirm the canonical logo resolves from `assets/brand/nexkosmo-x-star.svg`;
 - run `python scripts/verify_canonical_assets.py`;
 - run `python scripts/verify_alignment.py`;
+- run `python scripts/verify_drift_guards.py` for significant governance/canon changes;
 - confirm no page-specific replacement logo was introduced;
 - confirm only explicitly requested canonical changes were made;
-- confirm the implementation does not contradict `docs/CURRENT_STATE.md`.
+- confirm the implementation does not contradict `docs/CURRENT_STATE.md` or `governance/alignment-manifest.yaml`.
 
-CI treats failed canonical, alignment, repository-protection, or integration checks as release blockers, not warnings.
+CI treats failed canonical, alignment, drift-guard, repository-protection, or integration checks as release blockers, not warnings.
 
 ## Product intelligence distinction
 
@@ -144,11 +177,12 @@ Demo fixtures are allowed only when isolated and clearly labelled. Do not invent
 
 Significant PRs must use the repository PR template and identify:
 
+- the alignment-manifest version followed;
 - the approved decision/specification implemented;
 - affected current-state sections;
 - canonical assets/state touched;
 - fixture/hard-coded project data added or removed;
-- validation performed;
+- deterministic and drift-injection validation performed;
 - known placeholders, estimates, inferences, unknowns, or conflicts.
 
-If a change intentionally modifies canon, include the Director-approved decision record and `docs/CURRENT_STATE.md` update in the same reviewed change.
+If a change intentionally modifies canon, include the Director-approved decision record, `docs/CURRENT_STATE.md` update, and any necessary manifest revision in the same reviewed change.
