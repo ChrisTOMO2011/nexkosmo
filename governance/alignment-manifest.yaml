@@ -1,8 +1,8 @@
 schema_version: 1
-manifest_version: 4
+manifest_version: 5
 status: APPROVED
 authority: Director
-purpose: "Machine-readable Agent Alignment, Agent Error Correction, and Development-Time Verification contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
+purpose: "Machine-readable Agent Alignment, Agent Error Correction, Development-Time Verification, and Latent Defect Assurance contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
 
 scope:
   primary_subjects:
@@ -12,16 +12,18 @@ scope:
     - repository
     - CI
     - tests
-  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume Agent Alignment, Agent Error Correction, and Development-Time Verification outputs as external evidence, but these layers must not become a duplicate Brain truth, reasoning, confidence, continuity, Guardian, or recovery engine."
+  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume Agent Alignment, Agent Error Correction, Development-Time Verification, and Latent Defect Assurance outputs as external evidence, but these layers must not become a duplicate Brain truth, reasoning, confidence, continuity, Guardian, or recovery engine."
   no_duplicate_brain_truth_engine: true
   agent_error_correction_separate_from_brain: true
   development_time_verification_separate_from_brain: true
+  latent_defect_assurance_separate_from_brain: true
 
 sources_of_truth:
   current_state: docs/CURRENT_STATE.md
   alignment_protocol: docs/ALIGNMENT_PROTOCOL.md
   error_correction_protocol: docs/ERROR_CORRECTION_PROTOCOL.md
   development_time_verification: docs/DEVELOPMENT_TIME_VERIFICATION.md
+  latent_defect_assurance: docs/LATENT_DEFECT_ASSURANCE.md
   engineering_status: docs/ENGINEERING_STATUS.md
   repository_protection: docs/REPOSITORY_PROTECTION.md
   canonical_asset_registry: assets/brand/canonical-assets.json
@@ -43,7 +45,7 @@ roles:
   chatgpt: "Alignment steward and independent engineering oversight; detects drift, challenges contradictions, reviews development/defect evidence and Codex repairs, but cannot supersede Director-approved canon."
   codex: "Implementation and repair agent; must build in small verified slices against current approved repository direction, actively detect errors during development, and provide reproduction/regression evidence for defects."
   ci: "Deterministic evidence gate; independently verifies enforceable constraints and repairs but does not define product direction."
-  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation/repair agent by the Agent Alignment, Agent Error Correction, or Development-Time Verification layers."
+  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation/repair agent by the Agent Alignment, Agent Error Correction, Development-Time Verification, or Latent Defect Assurance layers."
 
 fail_closed:
   critical_unknowns_block: true
@@ -62,6 +64,7 @@ required_verifiers:
   - scripts/verify_canonical_assets.py
   - scripts/verify_alignment.py
   - scripts/verify_drift_guards.py
+  - scripts/verify_latent_defect_assurance.py
   - scripts/verify_repo_protection.py
 
 agent_handshake:
@@ -72,12 +75,14 @@ agent_handshake:
     - docs/ALIGNMENT_PROTOCOL.md
     - docs/ERROR_CORRECTION_PROTOCOL.md
     - docs/DEVELOPMENT_TIME_VERIFICATION.md
+    - docs/LATENT_DEFECT_ASSURANCE.md
     - docs/ENGINEERING_STATUS.md
   require_manifest_version_report: true
   require_branch_freshness_check: true
   require_stop_on_critical_conflict: true
   require_error_protocol_for_significant_defect_work: true
   require_development_time_verification_for_implementation_work: true
+  require_latent_defect_assurance_for_high_risk_invariants: true
 
 build_attestation_contract:
   status: PLANNED
@@ -132,3 +137,18 @@ development_time_verification:
   diff_review_before_slice_complete_required: true
   unexplained_failure_blocks_expansion: true
   ci_is_second_independent_verifier: true
+
+latent_defect_assurance:
+  protocol: docs/LATENT_DEFECT_ASSURANCE.md
+  primary_scope: "Reduce the search space for latent defects through generated inputs, mutation sensitivity, state/concurrency testing, replay, fault injection, runtime invariants, and observability."
+  brain_relationship: "Separate engineering assurance path; Brain may consume validated outputs as evidence but cannot self-certify ChatGPT/Codex engineering correctness."
+  property_based_testing: INITIAL_IMPLEMENTATION
+  targeted_mutation_testing: INITIAL_IMPLEMENTATION
+  fuzz_testing: PLANNED
+  state_machine_concurrency_campaign: PLANNED
+  deterministic_runtime_replay: PLANNED
+  server_fault_injection: PLANNED
+  runtime_anomaly_detection: PLANNED
+  canary_and_rollback_automation: PLANNED
+  formal_methods_selected_invariants: PLANNED_WHEN_JUSTIFIED
+  discovered_latent_defect_must_gain_durable_detector: true
