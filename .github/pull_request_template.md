@@ -32,6 +32,21 @@
 - Security controls not tested and why:
 - Remaining security unknowns:
 
+### Growth & marketing evidence
+- Material growth/marketing change? `YES/NO`
+- Target audience/segment:
+- Creator problem/outcome:
+- Funnel stage affected:
+- Public claims introduced/changed and classification (`VERIFIED_PRODUCT_FACT`, `VERIFIED_BUSINESS_FACT`, `CUSTOMER_EVIDENCE`, `ESTIMATE`, `ASPIRATION`, `UNKNOWN`):
+- Evidence/source for each material claim:
+- Metric/event definitions and data-quality status:
+- Experiment ID/hypothesis/primary metric/guardrails if applicable:
+- Privacy/security impact:
+- Expected spend/cost if any:
+- Observed result versus estimate, if evidence exists:
+- Remaining marketing/growth unknowns:
+- Director approval required/obtained for brand, launch, material spend, or consequential public claims:
+
 ### Validation
 - [ ] `python scripts/verify_canonical_assets.py`
 - [ ] `python scripts/verify_alignment.py`
@@ -42,6 +57,11 @@
 - [ ] `python scripts/verify_repo_protection.py` / GitHub reports `main` protected
 - [ ] Relevant lint/type/test/integration checks
 - [ ] Relevant abuse/negative security tests
+- [ ] Material marketing claims are evidence-classified and do not convert `UNKNOWN`/roadmap/estimate into current fact
+- [ ] Marketing telemetry gaps are reported as `UNKNOWN`, not zero
+- [ ] No fabricated testimonials, social proof, usage/revenue, creator earnings, scarcity, or urgency
+- [ ] Creator assets are not used publicly without appropriate permission/rights
+- [ ] Paid acquisition remains blocked unless activation, retention, conversion, attribution, and unit economics are credibly evidenced
 - [ ] `quality-and-integration` CI is green
 - [ ] Required review/conversation rules match `docs/REPOSITORY_PROTECTION.md`
 - [ ] No approved canon changed without explicit Director authority
@@ -50,4 +70,4 @@
 - [ ] Documentation and implementation tell the same current story
 
 ### Drift / risk check
-List any known conflict with current architecture, product direction, data ownership, security, repository protection, or evidence. If none, write `None known`.
+List any known conflict with current architecture, product direction, data ownership, security, growth evidence, repository protection, or evidence. If none, write `None known`.
