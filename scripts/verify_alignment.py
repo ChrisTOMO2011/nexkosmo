@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = [
     ROOT / "AGENTS.md",
     ROOT / "governance" / "alignment-manifest.yaml",
+    ROOT / "governance" / "latent-assurance-matrix.yaml",
     ROOT / "docs" / "CURRENT_STATE.md",
     ROOT / "docs" / "ALIGNMENT_PROTOCOL.md",
     ROOT / "docs" / "ERROR_CORRECTION_PROTOCOL.md",
@@ -50,6 +51,7 @@ def main() -> int:
 
     agents = read(ROOT / "AGENTS.md")
     manifest = read(ROOT / "governance" / "alignment-manifest.yaml")
+    assurance_matrix = read(ROOT / "governance" / "latent-assurance-matrix.yaml")
     current = read(ROOT / "docs" / "CURRENT_STATE.md")
     protocol = read(ROOT / "docs" / "ALIGNMENT_PROTOCOL.md")
     error_protocol = read(ROOT / "docs" / "ERROR_CORRECTION_PROTOCOL.md")
@@ -97,10 +99,12 @@ def main() -> int:
 
     required_agent_phrases = [
         "governance/alignment-manifest.yaml",
+        "governance/latent-assurance-matrix.yaml",
         "docs/CURRENT_STATE.md",
         "docs/ALIGNMENT_PROTOCOL.md",
         "docs/ERROR_CORRECTION_PROTOCOL.md",
         "docs/DEVELOPMENT_TIME_VERIFICATION.md",
+        "docs/LATENT_DEFECT_ASSURANCE.md",
         "docs/ENGINEERING_STATUS.md",
         "Alignment is a repository and evidence property, not a memory property.",
         "ChatGPT acts as alignment steward",
@@ -108,11 +112,12 @@ def main() -> int:
         "ChatGPT must not declare a defect fixed solely because Codex says so.",
         "Error detection is not reserved for CI, staging, or production.",
         "UNDERSTAND -> BASELINE -> SMALL CHANGE -> FAST CHECK -> TARGETED TEST -> NEGATIVE TEST -> DIFF REVIEW -> REPEAT -> CI",
+        "A harness is not runtime proof.",
         "The legacy prototype navigation `PRE-PRODUCTION -> SET -> STUDIO -> REVIEW -> RENDER` is superseded.",
     ]
     for phrase in required_agent_phrases:
         if phrase not in agents:
-            fail(f"AGENTS.md missing alignment/error/development instruction: {phrase}", failures)
+            fail(f"AGENTS.md missing alignment/error/development/latent instruction: {phrase}", failures)
 
     required_protocol_phrases = [
         "Fresh-context reconstruction test",
@@ -174,7 +179,7 @@ def main() -> int:
             fail(f"latent defect assurance protocol missing required rule: {phrase}", failures)
 
     required_manifest_phrases = [
-        "manifest_version: 5",
+        "manifest_version: 6",
         "primary_subjects:",
         "- ChatGPT",
         "- Codex",
@@ -185,7 +190,9 @@ def main() -> int:
         "error_correction_protocol: docs/ERROR_CORRECTION_PROTOCOL.md",
         "development_time_verification: docs/DEVELOPMENT_TIME_VERIFICATION.md",
         "latent_defect_assurance: docs/LATENT_DEFECT_ASSURANCE.md",
+        "latent_assurance_matrix: governance/latent-assurance-matrix.yaml",
         "scripts/verify_latent_defect_assurance.py",
+        "scripts/verify_authority_model.py",
         "require_development_time_verification_for_implementation_work: true",
         "require_latent_defect_assurance_for_high_risk_invariants: true",
         "critical_unknowns_block: true",
@@ -201,13 +208,40 @@ def main() -> int:
         "targeted_tests_during_implementation_required: true",
         "unexplained_failure_blocks_expansion: true",
         "ci_is_second_independent_verifier: true",
-        "property_based_testing: INITIAL_IMPLEMENTATION",
-        "targeted_mutation_testing: INITIAL_IMPLEMENTATION",
+        "property_based_testing: IMPLEMENTED",
+        "targeted_mutation_testing: IMPLEMENTED",
+        "fuzz_testing: INITIAL_IMPLEMENTATION",
+        "state_machine_concurrency_campaign: INITIAL_IMPLEMENTATION",
+        "deterministic_runtime_replay: HARNESS_IMPLEMENTED_NOT_RUNTIME_CONNECTED",
+        "server_fault_injection: PARTIAL_DATABASE_PROBE_SERVER_ENV_PENDING",
+        "runtime_anomaly_detection: FRAMEWORK_IMPLEMENTED_NOT_WIRED",
+        "canary_and_rollback_automation: DECISION_PRIMITIVE_IMPLEMENTED_NOT_WIRED",
+        "formal_methods_selected_invariants: BOUNDED_AUTHORITY_MODEL_IMPLEMENTED",
+        "never_report_harness_as_runtime_proof: true",
         "discovered_latent_defect_must_gain_durable_detector: true",
     ]
     for phrase in required_manifest_phrases:
         if phrase not in manifest:
             fail(f"alignment manifest missing required drift/error/development/latent guard: {phrase}", failures)
+
+    required_matrix_phrases = [
+        "property_based_testing:",
+        "generated_input_fuzzing:",
+        "targeted_mutation_testing:",
+        "bounded_model_checking:",
+        "sequence_state_testing:",
+        "concurrency_testing:",
+        "fault_injection:",
+        "deterministic_replay:",
+        "anomaly_detection:",
+        "canary_and_rollback:",
+        "server_1_server_2_fault_campaign:",
+        "A harness is not equivalent to a connected runtime control.",
+        "Brain may consume validated assurance evidence later but cannot self-certify ChatGPT/Codex engineering correctness.",
+    ]
+    for phrase in required_matrix_phrases:
+        if phrase not in assurance_matrix:
+            fail(f"latent assurance matrix missing required control/rule: {phrase}", failures)
 
     required_status_phrases = [
         "**Alignment:** `<🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`",
