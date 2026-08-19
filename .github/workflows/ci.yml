@@ -20,4 +20,6 @@ jobs:
       - run: ruff check app tests
       - run: mypy app
       - run: python -m compileall -q migrations
+      - name: Prepare CI environment
+        run: cp .env.example .env
       - run: docker compose up --build --abort-on-container-exit --exit-code-from test test
