@@ -1,8 +1,8 @@
 schema_version: 1
-manifest_version: 8
+manifest_version: 9
 status: APPROVED
 authority: Director
-purpose: "Machine-readable Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, Secure Development, and Growth & Marketing contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
+purpose: "Machine-readable Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, Secure Development, Growth & Marketing, and Social Automation contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
 
 scope:
   primary_subjects:
@@ -12,13 +12,14 @@ scope:
     - repository
     - CI
     - tests
-  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume validated engineering, security, product, and market evidence, but these layers must not become duplicate Brain truth, reasoning, confidence, continuity, Guardian, recovery, security-certification, or marketing-intelligence engines."
+  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume validated engineering, security, product, market, and social-platform evidence, but these layers must not become duplicate Brain truth, reasoning, confidence, continuity, Guardian, recovery, security-certification, or marketing-intelligence engines."
   no_duplicate_brain_truth_engine: true
   agent_error_correction_separate_from_brain: true
   development_time_verification_separate_from_brain: true
   latent_defect_assurance_separate_from_brain: true
   secure_development_separate_from_brain: true
   growth_marketing_framework_separate_from_brain: true
+  social_automation_separate_from_brain: true
 
 sources_of_truth:
   current_state: docs/CURRENT_STATE.md
@@ -32,6 +33,8 @@ sources_of_truth:
   threat_model_template: docs/THREAT_MODEL_TEMPLATE.md
   growth_marketing_framework: docs/GROWTH_MARKETING_FRAMEWORK.md
   growth_marketing_matrix: governance/growth-marketing-matrix.yaml
+  social_automation_protocol: docs/SOCIAL_AUTOMATION_PROTOCOL.md
+  social_automation_matrix: governance/social-automation-matrix.yaml
   engineering_status: docs/ENGINEERING_STATUS.md
   repository_protection: docs/REPOSITORY_PROTECTION.md
   canonical_asset_registry: assets/brand/canonical-assets.json
@@ -49,11 +52,11 @@ canonical_flows:
   production_studio_loop: "PRODUCTION -> select scene/shot -> Open in Studio -> edit -> return to PRODUCTION -> Brain revalidate -> approve or repair"
 
 roles:
-  director: "Final authority for product direction, canon, brand, launch, material spend, and consequential approval."
-  chatgpt: "Alignment steward and independent engineering/security/growth oversight; detects drift, challenges contradictions, unproven claims, vanity metrics, weak experiments, and evidence gaps, but cannot supersede Director-approved canon."
-  codex: "Implementation and repair agent; must build in small verified slices against current approved repository direction, actively detect code/security errors, threat-model material trust boundaries, and implement approved growth instrumentation/features without inventing metrics or claims."
-  ci: "Deterministic evidence gate; independently verifies enforceable alignment, quality, latent-defect, security, and growth-framework constraints but does not define product or marketing strategy."
-  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation, repair, security-certification, or autonomous marketing agent by these assurance layers."
+  director: "Final authority for product direction, canon, brand, launch, material spend, consequential approval, and social publishing policy."
+  chatgpt: "Alignment steward and independent engineering/security/growth oversight; detects drift, challenges contradictions, unproven claims, vanity metrics, weak experiments, unsafe automation, and evidence gaps, but cannot supersede Director-approved canon."
+  codex: "Implementation and repair agent; must build in small verified slices against current approved repository direction, actively detect code/security errors, threat-model material trust boundaries, and implement approved growth/social automation features without inventing metrics, claims, rights, authority, or approval."
+  ci: "Deterministic evidence gate; independently verifies enforceable alignment, quality, latent-defect, security, growth-framework, and social-automation constraints but does not define product or marketing strategy."
+  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation, repair, security-certification, or autonomous marketing/social publishing agent by these assurance layers."
 
 fail_closed:
   critical_unknowns_block: true
@@ -67,6 +70,8 @@ fail_closed:
     - deployment_identity
     - data_integrity
     - material_public_claims
+    - social_publishing_authority
+    - creator_marketing_rights
   rule: "UNKNOWN in a critical domain is not permission to continue. Resolve evidence before consequential action."
 
 required_verifiers:
@@ -85,6 +90,7 @@ agent_handshake:
     - governance/latent-assurance-matrix.yaml
     - governance/security-assurance-matrix.yaml
     - governance/growth-marketing-matrix.yaml
+    - governance/social-automation-matrix.yaml
     - docs/CURRENT_STATE.md
     - docs/ALIGNMENT_PROTOCOL.md
     - docs/ERROR_CORRECTION_PROTOCOL.md
@@ -92,6 +98,7 @@ agent_handshake:
     - docs/LATENT_DEFECT_ASSURANCE.md
     - docs/SECURE_DEVELOPMENT_PROTOCOL.md
     - docs/GROWTH_MARKETING_FRAMEWORK.md
+    - docs/SOCIAL_AUTOMATION_PROTOCOL.md
     - docs/ENGINEERING_STATUS.md
   require_manifest_version_report: true
   require_branch_freshness_check: true
@@ -102,6 +109,7 @@ agent_handshake:
   require_secure_development_for_security_relevant_work: true
   require_threat_model_for_new_material_trust_boundary: true
   require_growth_framework_for_material_marketing_or_growth_work: true
+  require_social_automation_protocol_for_social_publishing_or_provider_integration_work: true
 
 build_attestation_contract:
   status: PLANNED
@@ -219,3 +227,29 @@ growth_marketing:
   dark_patterns: PROHIBITED
   missing_marketing_telemetry_is_unknown_not_zero: true
   director_controls_brand_launch_material_spend_and_consequential_public_claims: true
+
+social_automation:
+  protocol: docs/SOCIAL_AUTOMATION_PROTOCOL.md
+  matrix: governance/social-automation-matrix.yaml
+  primary_scope: "Nexkosmo-owned social content preparation, approval, scheduling, publishing, community-assistance, provider integration, receipts, and analytics evidence."
+  brain_relationship: "Execution/integration layer only; no separate Marketing Brain, no duplicate canonical truth store, and no autonomous authority over public truth or creator rights."
+  initial_channels:
+    - youtube
+    - instagram
+    - tiktok
+    - linkedin
+    - discord
+    - reddit
+  runtime_implementation: PENDING
+  manual_approval_first: REQUIRED
+  policy_based_auto_publish: FUTURE_EXPLICIT_DIRECTOR_POLICY_ONLY
+  claims_assurance: REQUIRED
+  creator_rights_check: REQUIRED
+  canonical_brand_assets: REQUIRED
+  provider_credentials: TIER_4_CRITICAL
+  publish_idempotency: REQUIRED
+  provider_receipt_reconciliation: REQUIRED
+  analytics_contract: CONTRACT_DEFINED_IMPLEMENTATION_PENDING
+  paid_media: BLOCKED_BY_DEFAULT
+  reply_automation: DRAFTS_ONLY_BY_DEFAULT
+  current_product_vertical_slice_retains_engineering_priority: true
