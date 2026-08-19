@@ -8,7 +8,16 @@ This file is the human-readable engineering health page for Nexkosmo. It is a pr
 
 ## Current visible status
 
-`ALIGNMENT: 🟠 WARN | REPO: 🔴 FAIL | CI: 🔴 BLOCKED BY REPO PROTECTION | RUNTIME: ⚪ UNKNOWN | CONTEXT: ⚪ UNKNOWN | USAGE: ⚪ UNKNOWN | ESTIMATE COSTINGS (AUD): ⚪ UNKNOWN | PROJECT ESTIMATE (AUD): ⚪ UNKNOWN`
+Display engineering health vertically, one result per line, rather than as a long horizontal status string.
+
+**Alignment:** 🟠 WARN  
+**Repository:** 🔴 FAIL  
+**CI:** 🔴 BLOCKED BY REPO PROTECTION  
+**Runtime:** ⚪ UNKNOWN  
+**Context:** ⚪ UNKNOWN  
+**Usage:** ⚪ UNKNOWN  
+**Estimate Costings (AUD):** ⚪ UNKNOWN  
+**Project Estimate (AUD):** ⚪ UNKNOWN
 
 Current objective: complete the alignment/governance stop gate, protect `main`, merge the approved alignment system, realign Codex, and only then migrate normal development to the Server 1 development environment.
 
@@ -37,15 +46,22 @@ Every human-facing engineering status must show both a word and a visual indicat
 
 Colour/emoji is a visibility aid only. The text status and underlying evidence remain authoritative, and accessible text must always accompany the icon.
 
-## Standard health line
+## Standard status layout
 
-Every significant engineering session, PR review, deployment review, and future Server 1 engineering dashboard should expose the same compact status shape:
+Every significant engineering session, PR review, deployment review, and future Server 1 engineering dashboard should present the primary results **down the page**, one status per line, in this order:
 
-`ALIGNMENT: <🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | REPO: <🟢 CURRENT|🟠 WARN|🔴 FAIL|⚪ UNKNOWN> | CI: <🟢 PASS|🟠 RUNNING|🔴 FAIL|⚪ UNKNOWN> | RUNTIME: <🟢 MATCH|🔴 DRIFT|⚪ UNKNOWN> | CONTEXT: <used>/<max> tokens <percent/icon/state> <remaining> remaining | USAGE: in=<input> cached=<cached> out=<output> total=<total> | ESTIMATE COSTINGS (AUD): <amount/source|⚪ UNKNOWN> | PROJECT ESTIMATE (AUD): <range/horizon/confidence|⚪ UNKNOWN>`
+**Alignment:** `<🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`  
+**Repository:** `<🟢 CURRENT|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`  
+**CI:** `<🟢 PASS|🟠 RUNNING|🔴 FAIL|⚪ UNKNOWN>`  
+**Runtime:** `<🟢 MATCH|🔴 DRIFT|⚪ UNKNOWN>`  
+**Context:** `<used>/<max> tokens | <percent> <icon/state> | <remaining> remaining`  
+**Usage:** `input=<input> | cached=<cached> | output=<output> | total=<total>`  
+**Estimate Costings (AUD):** `<amount/source|⚪ UNKNOWN>`  
+**Project Estimate (AUD):** `<range | horizon | confidence|⚪ UNKNOWN>`
 
-If a telemetry or estimate field is unavailable, replace that field with `⚪ UNKNOWN` rather than estimating silently.
+Do not compress the primary human-facing results into one long horizontal line. A machine-readable API may use a structured object, but human interfaces should preserve this vertical layout unless space constraints require a compact secondary view.
 
-The compact line is a visibility surface, not authority. Each field must be traceable to evidence.
+If a telemetry or estimate field is unavailable, display `⚪ UNKNOWN` rather than estimating silently. Each field must be traceable to evidence.
 
 ## Status meanings
 
@@ -86,7 +102,7 @@ When authoritative telemetry is exposed, show all of these values together:
 
 Example shape only:
 
-`CONTEXT: 286420/1310720 tokens | 21.9% 🟢 GREEN | 1024300 remaining`
+**Context:** `286420 / 1310720 tokens | 21.9% 🟢 GREEN | 1024300 remaining`
 
 Example numbers are illustrative and must never be copied into live status unless they are measured.
 
@@ -103,7 +119,7 @@ Where the provider exposes it, show separately:
 
 Example shape only:
 
-`USAGE: in=412800 cached=271600 out=38400 total=451200`
+**Usage:** `input=412800 | cached=271600 | output=38400 | total=451200`
 
 The provider's accounting definition controls the total. Do not assume cached tokens should be added again when the provider already includes them within input usage.
 
@@ -120,7 +136,7 @@ Context percentage thresholds are Nexkosmo engineering safety policy, not offici
 
 Behavioral evidence overrides the percentage. Contradiction, repeated loss of settled state, stale-branch reasoning, confusion between planned and implemented work, or unsupported confidence triggers a context reset even below the numeric threshold.
 
-If authoritative context usage is unavailable, display `CONTEXT: ⚪ UNKNOWN`; do not fabricate precision. If only some context fields are exposed, mark unavailable subfields `⚪ UNKNOWN` rather than reconstructing them from assumptions.
+If authoritative context usage is unavailable, display **Context: ⚪ UNKNOWN**; do not fabricate precision. If only some context fields are exposed, mark unavailable subfields `⚪ UNKNOWN` rather than reconstructing them from assumptions.
 
 ## Estimate Costings
 
@@ -132,7 +148,7 @@ Where authoritative usage telemetry exists, record enough source data to audit a
 
 The visible engineering surfaces should eventually support Estimate Costings for the current request/task, session, day, week, month, and project lifetime where meaningful.
 
-If usage or pricing telemetry is unavailable, display `ESTIMATE COSTINGS (AUD): ⚪ UNKNOWN`. An API-equivalent estimate may be shown only when clearly labelled as an estimate and must never be presented as an actual ChatGPT/Codex charge.
+If usage or pricing telemetry is unavailable, display **Estimate Costings (AUD): ⚪ UNKNOWN**. An API-equivalent estimate may be shown only when clearly labelled as an estimate and must never be presented as an actual ChatGPT/Codex charge.
 
 ## Project Estimate
 
@@ -152,13 +168,15 @@ A Project Estimate must define:
 - confidence (`LOW`, `MEDIUM`, or `HIGH`) and the evidence supporting that confidence;
 - last-updated timestamp or date.
 
-Preferred display shape:
+Preferred vertical display:
 
-`PROJECT ESTIMATE (AUD): A$<low>-A$<high> | horizon=<milestone/date> | confidence=<LOW|MEDIUM|HIGH>`
+**Project Estimate (AUD):** `A$<low>-A$<high>`  
+**Horizon:** `<milestone/date>`  
+**Confidence:** `<LOW|MEDIUM|HIGH>`
 
 A point estimate may additionally be shown as a planning midpoint, but the range remains primary when uncertainty is meaningful.
 
-Until sufficient costing inputs and scope are available, display `PROJECT ESTIMATE (AUD): ⚪ UNKNOWN`. Never infer a whole-project estimate merely from token costs or already-purchased hardware.
+Until sufficient costing inputs and scope are available, display **Project Estimate (AUD): ⚪ UNKNOWN**. Never infer a whole-project estimate merely from token costs or already-purchased hardware.
 
 As Actual Costings become available, the project forecast should be updated using:
 
@@ -213,4 +231,4 @@ Planned inputs include:
 - AUD Estimate Costings conversion with recorded pricing/exchange-rate source and timestamp;
 - Project Estimate inputs, actual cost-to-date evidence, scope/horizon, contingency, assumptions, and estimate history.
 
-The dashboard should make drift, token consumption, context health, Estimate Costings, and Project Estimate visible to the Director, ChatGPT, Codex, and other authorized engineering participants using the same status vocabulary defined here.
+The dashboard should make drift, token consumption, context health, Estimate Costings, and Project Estimate visible to the Director, ChatGPT, Codex, and other authorized engineering participants using the same vertical status layout defined here.
