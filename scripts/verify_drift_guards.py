@@ -100,7 +100,7 @@ def main() -> int:
             "critical_unknowns_block: true",
             "critical_unknowns_block: false",
         ),
-        "alignment manifest missing required drift/error/development/latent guard: critical_unknowns_block: true",
+        "governance/alignment-manifest.yaml missing required rule/control: critical_unknowns_block: true",
     )
     expect_failure(
         "agent error correction Brain boundary removal",
@@ -109,7 +109,7 @@ def main() -> int:
             "agent_error_correction_separate_from_brain: true",
             "agent_error_correction_separate_from_brain: false",
         ),
-        "alignment manifest missing required drift/error/development/latent guard: agent_error_correction_separate_from_brain: true",
+        "governance/alignment-manifest.yaml missing required rule/control: agent_error_correction_separate_from_brain: true",
     )
     expect_failure(
         "latent defect assurance Brain boundary removal",
@@ -118,7 +118,25 @@ def main() -> int:
             "latent_defect_assurance_separate_from_brain: true",
             "latent_defect_assurance_separate_from_brain: false",
         ),
-        "alignment manifest missing required drift/error/development/latent guard: latent_defect_assurance_separate_from_brain: true",
+        "governance/alignment-manifest.yaml missing required rule/control: latent_defect_assurance_separate_from_brain: true",
+    )
+    expect_failure(
+        "secure development Brain boundary removal",
+        lambda repo: replace_all(
+            repo / "governance" / "alignment-manifest.yaml",
+            "secure_development_separate_from_brain: true",
+            "secure_development_separate_from_brain: false",
+        ),
+        "governance/alignment-manifest.yaml missing required rule/control: secure_development_separate_from_brain: true",
+    )
+    expect_failure(
+        "trust-boundary security contract removal",
+        lambda repo: replace_all(
+            repo / "governance" / "alignment-manifest.yaml",
+            "every_material_trust_boundary_requires_security_contract: true",
+            "every_material_trust_boundary_requires_security_contract: false",
+        ),
+        "governance/alignment-manifest.yaml missing required rule/control: every_material_trust_boundary_requires_security_contract: true",
     )
     expect_failure(
         "alignment steward authority mutation",
@@ -127,7 +145,7 @@ def main() -> int:
             "Alignment steward: ChatGPT",
             "Alignment steward: UNKNOWN",
         ),
-        "docs/CURRENT_STATE.md missing required rule: Alignment steward: ChatGPT",
+        "docs/CURRENT_STATE.md missing required rule/control: Alignment steward: ChatGPT",
     )
     expect_failure(
         "vertical status contract mutation",
@@ -136,7 +154,7 @@ def main() -> int:
             "**Alignment:** `<🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`",
             "**Alignment:** `PASS`",
         ),
-        "docs/ENGINEERING_STATUS.md missing required visibility rule",
+        "docs/ENGINEERING_STATUS.md missing required rule/control",
     )
 
     print("Deliberate drift-injection verification passed.")
