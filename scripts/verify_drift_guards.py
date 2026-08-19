@@ -64,7 +64,7 @@ def replace_all(path: Path, old: str, new: str) -> None:
     if old in updated:
         raise RuntimeError(f"injection failed to remove all sentinels in {path}: {old}")
     path.write_text(updated, encoding="utf-8")
-    print(f"DRIFT INJECTION: {path.relative_to(ROOT) if path.is_relative_to(ROOT) else path.name} occurrences={count}")
+    print(f"DRIFT INJECTION: {path.name} occurrences={count}")
 
 
 def main() -> int:
@@ -100,7 +100,16 @@ def main() -> int:
             "critical_unknowns_block: true",
             "critical_unknowns_block: false",
         ),
-        "alignment manifest missing required drift guard: critical_unknowns_block: true",
+        "alignment manifest missing required drift/error guard/scope: critical_unknowns_block: true",
+    )
+    expect_failure(
+        "agent error correction Brain boundary removal",
+        lambda repo: replace_all(
+            repo / "governance" / "alignment-manifest.yaml",
+            "agent_error_correction_separate_from_brain: true",
+            "agent_error_correction_separate_from_brain: false",
+        ),
+        "alignment manifest missing required drift/error guard/scope: agent_error_correction_separate_from_brain: true",
     )
     expect_failure(
         "alignment steward authority mutation",
