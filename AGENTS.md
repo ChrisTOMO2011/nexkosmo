@@ -10,22 +10,24 @@ Before significant architecture, product, UI, implementation, or defect-repair w
 
 1. Read this file.
 2. Read `governance/alignment-manifest.yaml` and report its manifest version.
-3. Read `docs/CURRENT_STATE.md`.
-4. Read `docs/ALIGNMENT_PROTOCOL.md`.
-5. Read `docs/ERROR_CORRECTION_PROTOCOL.md` for significant defect, failure, regression, or repair work.
-6. Read `docs/DEVELOPMENT_TIME_VERIFICATION.md` for implementation, refactor, migration, or repair work.
-7. Read `docs/ENGINEERING_STATUS.md`.
-8. Read `docs/REPOSITORY_PROTECTION.md`.
-9. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
-10. Inspect current implementation when the request depends on implementation reality.
-11. Compare the working branch with current `main` when freshness matters.
-12. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, deployment identity, or data integrity.
+3. Read `governance/latent-assurance-matrix.yaml` when implementation touches high-risk state, authority, concurrency, retries, persistence, runtime recovery, or release controls.
+4. Read `docs/CURRENT_STATE.md`.
+5. Read `docs/ALIGNMENT_PROTOCOL.md`.
+6. Read `docs/ERROR_CORRECTION_PROTOCOL.md` for significant defect, failure, regression, or repair work.
+7. Read `docs/DEVELOPMENT_TIME_VERIFICATION.md` for implementation, refactor, migration, or repair work.
+8. Read `docs/LATENT_DEFECT_ASSURANCE.md` for high-risk or hard-to-observe defect classes.
+9. Read `docs/ENGINEERING_STATUS.md`.
+10. Read `docs/REPOSITORY_PROTECTION.md`.
+11. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
+12. Inspect current implementation when the request depends on implementation reality.
+13. Compare the working branch with current `main` when freshness matters.
+14. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, deployment identity, or data integrity.
 
 Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon.
 
 ## Alignment manifest
 
-`governance/alignment-manifest.yaml` is the machine-readable identity of the current Agent Alignment, Agent Error Correction, and Development-Time Verification contract. It points to authoritative repository sources, canonical flows, required decision records, fail-closed domains, verifier requirements, error-correction rules, development-time verification rules, and future build/runtime attestation contracts.
+`governance/alignment-manifest.yaml` is the machine-readable identity of the current Agent Alignment, Agent Error Correction, Development-Time Verification, and Latent Defect Assurance contract. It points to authoritative repository sources, canonical flows, required decision records, fail-closed domains, verifier requirements, error-correction rules, development-time verification rules, latent-defect controls, and future build/runtime attestation contracts.
 
 The manifest does not replace the underlying source documents. It makes their current identity and required relationships machine-checkable.
 
@@ -74,6 +76,28 @@ Codex must not wait until a large feature is finished before running validation 
 
 ChatGPT reviews the evidence and architecture/alignment implications; CI remains a second independent verifier. Brain is separate and does not replace this engineering loop.
 
+## Latent defect assurance
+
+`docs/LATENT_DEFECT_ASSURANCE.md` and `governance/latent-assurance-matrix.yaml` define how Codex and ChatGPT search for defects that ordinary example tests may miss.
+
+For high-risk implementation work, use the applicable controls now available:
+
+- property-based/generated-input tests;
+- mutation sensitivity tests;
+- bounded model checks for selected invariants;
+- state/sequence tests;
+- database concurrency/idempotency probes;
+- transaction fault/rollback probes;
+- deterministic replay envelopes;
+- explicit anomaly-rule primitives;
+- canary/rollback decision primitives.
+
+The assurance matrix distinguishes `IMPLEMENTED`, `INITIAL_IMPLEMENTATION`, framework/harness-only controls, and environment-pending controls. A harness is not runtime proof. Server 1/Server 2 fault injection, live anomaly wiring, and automated canary rollback must remain environment-pending until those systems are actually connected and exercised.
+
+When a significant latent defect is discovered, convert it into a durable detector where practical so the same defect class is not rediscovered only through user impact.
+
+Brain remains separate. It may later consume validated assurance outputs as evidence but cannot replace ChatGPT/Codex engineering verification or certify its own engineering correctness.
+
 ## Agent error correction
 
 `docs/ERROR_CORRECTION_PROTOCOL.md` is the independent engineering correction path for ChatGPT and Codex.
@@ -117,6 +141,8 @@ Run these governance checks before treating significant work as aligned:
 - `python scripts/verify_canonical_assets.py`
 - `python scripts/verify_alignment.py`
 - `python scripts/verify_drift_guards.py`
+- `python scripts/verify_latent_defect_assurance.py`
+- `python scripts/verify_authority_model.py`
 
 Deliberate drift tests are proof of detection only for their tested cases. They must not be described as universal or bulletproof proof.
 
@@ -193,7 +219,7 @@ Before completing any UI or brand-affecting change:
 - confirm only explicitly requested canonical changes were made;
 - confirm the implementation does not contradict `docs/CURRENT_STATE.md` or `governance/alignment-manifest.yaml`.
 
-CI treats failed canonical, alignment, drift-guard, repository-protection, or integration checks as release blockers, not warnings.
+CI treats failed canonical, alignment, drift-guard, repository-protection, latent-assurance, or integration checks as release blockers, not warnings.
 
 ## Product intelligence distinction
 
@@ -237,6 +263,7 @@ Significant PRs must use the repository PR template and identify:
 - canonical assets/state touched;
 - fixture/hard-coded project data added or removed;
 - development-time checks run and failures discovered during implementation;
+- latent-defect assurance controls applied where relevant and their actual status (`IMPLEMENTED`, harness-only, or environment-pending);
 - deterministic and drift-injection validation performed;
 - for defect repairs: defect ID/status, reproduction status, root-cause evidence, regression proof, repair commit, CI verification, runtime verification where applicable;
 - known placeholders, estimates, inferences, unknowns, or conflicts.
