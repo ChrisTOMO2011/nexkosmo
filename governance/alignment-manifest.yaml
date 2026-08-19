@@ -1,8 +1,8 @@
 schema_version: 1
-manifest_version: 3
+manifest_version: 4
 status: APPROVED
 authority: Director
-purpose: "Machine-readable Agent Alignment and Agent Error Correction contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
+purpose: "Machine-readable Agent Alignment, Agent Error Correction, and Development-Time Verification contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
 
 scope:
   primary_subjects:
@@ -12,14 +12,16 @@ scope:
     - repository
     - CI
     - tests
-  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume Agent Alignment and Agent Error Correction outputs as external evidence, but these layers must not become a duplicate Brain truth, reasoning, confidence, continuity, Guardian, or recovery engine."
+  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume Agent Alignment, Agent Error Correction, and Development-Time Verification outputs as external evidence, but these layers must not become a duplicate Brain truth, reasoning, confidence, continuity, Guardian, or recovery engine."
   no_duplicate_brain_truth_engine: true
   agent_error_correction_separate_from_brain: true
+  development_time_verification_separate_from_brain: true
 
 sources_of_truth:
   current_state: docs/CURRENT_STATE.md
   alignment_protocol: docs/ALIGNMENT_PROTOCOL.md
   error_correction_protocol: docs/ERROR_CORRECTION_PROTOCOL.md
+  development_time_verification: docs/DEVELOPMENT_TIME_VERIFICATION.md
   engineering_status: docs/ENGINEERING_STATUS.md
   repository_protection: docs/REPOSITORY_PROTECTION.md
   canonical_asset_registry: assets/brand/canonical-assets.json
@@ -38,10 +40,10 @@ canonical_flows:
 
 roles:
   director: "Final authority for product direction, canon, and consequential approval."
-  chatgpt: "Alignment steward and independent engineering oversight; detects drift, challenges contradictions, reviews defect evidence and Codex repairs, but cannot supersede Director-approved canon."
-  codex: "Implementation and repair agent; must implement and fix against current approved repository direction, with reproduction and regression evidence."
-  ci: "Deterministic evidence gate; verifies enforceable constraints and repairs but does not define product direction."
-  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation/repair agent by the Agent Alignment or Agent Error Correction layers."
+  chatgpt: "Alignment steward and independent engineering oversight; detects drift, challenges contradictions, reviews development/defect evidence and Codex repairs, but cannot supersede Director-approved canon."
+  codex: "Implementation and repair agent; must build in small verified slices against current approved repository direction, actively detect errors during development, and provide reproduction/regression evidence for defects."
+  ci: "Deterministic evidence gate; independently verifies enforceable constraints and repairs but does not define product direction."
+  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation/repair agent by the Agent Alignment, Agent Error Correction, or Development-Time Verification layers."
 
 fail_closed:
   critical_unknowns_block: true
@@ -69,15 +71,17 @@ agent_handshake:
     - docs/CURRENT_STATE.md
     - docs/ALIGNMENT_PROTOCOL.md
     - docs/ERROR_CORRECTION_PROTOCOL.md
+    - docs/DEVELOPMENT_TIME_VERIFICATION.md
     - docs/ENGINEERING_STATUS.md
   require_manifest_version_report: true
   require_branch_freshness_check: true
   require_stop_on_critical_conflict: true
   require_error_protocol_for_significant_defect_work: true
+  require_development_time_verification_for_implementation_work: true
 
 build_attestation_contract:
   status: PLANNED
-  purpose: "External evidence for engineering alignment/error correction and future Brain observation; not a new Brain subsystem."
+  purpose: "External evidence for engineering alignment/error correction/development verification and future Brain observation; not a new Brain subsystem."
   required_fields:
     - source_commit_sha
     - alignment_manifest_version
@@ -115,3 +119,16 @@ error_correction:
   regression_proof_required_where_practical: true
   runtime_claim_requires_runtime_evidence: true
   symptom_only_fix_prohibited: true
+
+development_time_verification:
+  protocol: docs/DEVELOPMENT_TIME_VERIFICATION.md
+  primary_scope: "Proactive Codex defect detection and correction while Nexkosmo code is being written, changed, refactored, migrated, or repaired."
+  brain_relationship: "Separate engineering verification path; Brain may consume validated evidence later but does not replace Codex inner-loop checks, ChatGPT review, or CI."
+  small_verified_slices_required: true
+  baseline_before_change_where_practical: true
+  fast_checks_during_implementation_required: true
+  targeted_tests_during_implementation_required: true
+  negative_tests_for_material_risk_required: true
+  diff_review_before_slice_complete_required: true
+  unexplained_failure_blocks_expansion: true
+  ci_is_second_independent_verifier: true
