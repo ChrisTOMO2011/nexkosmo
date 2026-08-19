@@ -10,6 +10,7 @@ REQUIRED_FILES = [
     ROOT / "governance" / "alignment-manifest.yaml",
     ROOT / "docs" / "CURRENT_STATE.md",
     ROOT / "docs" / "ALIGNMENT_PROTOCOL.md",
+    ROOT / "docs" / "ERROR_CORRECTION_PROTOCOL.md",
     ROOT / "docs" / "ENGINEERING_STATUS.md",
     ROOT / "docs" / "REPOSITORY_PROTECTION.md",
     ROOT / "docs" / "decisions" / "DEC-0001-product-journey.md",
@@ -49,6 +50,7 @@ def main() -> int:
     manifest = read(ROOT / "governance" / "alignment-manifest.yaml")
     current = read(ROOT / "docs" / "CURRENT_STATE.md")
     protocol = read(ROOT / "docs" / "ALIGNMENT_PROTOCOL.md")
+    error_protocol = read(ROOT / "docs" / "ERROR_CORRECTION_PROTOCOL.md")
     status = read(ROOT / "docs" / "ENGINEERING_STATUS.md")
     protection = read(ROOT / "docs" / "REPOSITORY_PROTECTION.md")
     entry_decision = read(ROOT / "docs" / "decisions" / "DEC-0004-entry-routing-and-flow-layers.md")
@@ -93,15 +95,17 @@ def main() -> int:
         "governance/alignment-manifest.yaml",
         "docs/CURRENT_STATE.md",
         "docs/ALIGNMENT_PROTOCOL.md",
+        "docs/ERROR_CORRECTION_PROTOCOL.md",
         "docs/ENGINEERING_STATUS.md",
         "Alignment is a repository and evidence property, not a memory property.",
         "ChatGPT acts as alignment steward",
         "Codex is an implementation agent",
+        "ChatGPT must not declare a defect fixed solely because Codex says so.",
         "The legacy prototype navigation `PRE-PRODUCTION -> SET -> STUDIO -> REVIEW -> RENDER` is superseded.",
     ]
     for phrase in required_agent_phrases:
         if phrase not in agents:
-            fail(f"AGENTS.md missing alignment instruction: {phrase}", failures)
+            fail(f"AGENTS.md missing alignment/error-correction instruction: {phrase}", failures)
 
     required_protocol_phrases = [
         "Fresh-context reconstruction test",
@@ -114,22 +118,40 @@ def main() -> int:
         if phrase not in protocol:
             fail(f"alignment protocol missing required scope/rule: {phrase}", failures)
 
+    required_error_protocol_phrases = [
+        "Agent Error Correction Layer",
+        "It is deliberately separate from the Nexkosmo Brain.",
+        "A bug is not fixed because an error message disappeared.",
+        "Codex must not",
+        "ChatGPT must not",
+        "Brain does not replace the independent engineering correction path.",
+        "regression test",
+        "Runtime verification: UNKNOWN",
+    ]
+    for phrase in required_error_protocol_phrases:
+        if phrase not in error_protocol:
+            fail(f"error correction protocol missing required boundary/rule: {phrase}", failures)
+
     required_manifest_phrases = [
-        "manifest_version: 2",
+        "manifest_version: 3",
         "primary_subjects:",
         "- ChatGPT",
         "- Codex",
         "no_duplicate_brain_truth_engine: true",
+        "agent_error_correction_separate_from_brain: true",
+        "error_correction_protocol: docs/ERROR_CORRECTION_PROTOCOL.md",
         "critical_unknowns_block: true",
         "disagreement_policy: BLOCK_AND_RECONCILE",
         "deliberate_injection_tests: REQUIRED",
         "source_commit_sha",
         "deployed_commit_sha",
-        "agent_scope: \"Protect ChatGPT and Codex alignment with repository canon.\"",
+        "regression_proof_required_where_practical: true",
+        "runtime_claim_requires_runtime_evidence: true",
+        "symptom_only_fix_prohibited: true",
     ]
     for phrase in required_manifest_phrases:
         if phrase not in manifest:
-            fail(f"alignment manifest missing required drift guard/scope: {phrase}", failures)
+            fail(f"alignment manifest missing required drift/error guard/scope: {phrase}", failures)
 
     required_status_phrases = [
         "**Alignment:** `<🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`",
