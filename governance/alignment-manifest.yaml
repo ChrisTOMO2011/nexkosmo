@@ -1,0 +1,88 @@
+schema_version: 1
+manifest_version: 1
+status: APPROVED
+authority: Director
+purpose: "Machine-readable alignment identity for Nexkosmo engineering agents, CI, builds, deployments, and future Brain observation."
+
+sources_of_truth:
+  current_state: docs/CURRENT_STATE.md
+  alignment_protocol: docs/ALIGNMENT_PROTOCOL.md
+  engineering_status: docs/ENGINEERING_STATUS.md
+  repository_protection: docs/REPOSITORY_PROTECTION.md
+  canonical_asset_registry: assets/brand/canonical-assets.json
+
+required_decisions:
+  - docs/decisions/DEC-0001-product-journey.md
+  - docs/decisions/DEC-0002-production-studio-boundary.md
+  - docs/decisions/DEC-0003-project-state-and-fixtures.md
+  - docs/decisions/DEC-0004-entry-routing-and-flow-layers.md
+
+canonical_flows:
+  normal_entry: "Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> IDEA"
+  screenplay_import: "Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> Import Script -> SHAPE"
+  creative_workflow: "IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION"
+  production_studio_loop: "PRODUCTION -> select scene/shot -> Open in Studio -> edit -> return to PRODUCTION -> Brain revalidate -> approve or repair"
+
+roles:
+  director: "Final authority for product direction, canon, and consequential approval."
+  chatgpt: "Alignment steward; detects drift and challenges contradictions but cannot supersede Director-approved canon."
+  codex: "Implementation agent; must implement current approved repository direction, not conversational or stale-branch assumptions."
+  ci: "Deterministic evidence gate; verifies enforceable constraints but does not define product direction."
+
+fail_closed:
+  critical_unknowns_block: true
+  critical_domains:
+    - canon
+    - authority
+    - data_ownership
+    - security
+    - workflow
+    - architecture
+    - deployment_identity
+  rule: "UNKNOWN in a critical domain is not permission to continue. Resolve evidence before consequential action."
+
+required_verifiers:
+  - scripts/verify_canonical_assets.py
+  - scripts/verify_alignment.py
+  - scripts/verify_drift_guards.py
+  - scripts/verify_repo_protection.py
+
+agent_handshake:
+  required_reads:
+    - AGENTS.md
+    - governance/alignment-manifest.yaml
+    - docs/CURRENT_STATE.md
+    - docs/ALIGNMENT_PROTOCOL.md
+    - docs/ENGINEERING_STATUS.md
+  require_manifest_version_report: true
+  require_branch_freshness_check: true
+  require_stop_on_critical_conflict: true
+
+build_attestation_contract:
+  status: PLANNED
+  required_fields:
+    - source_commit_sha
+    - alignment_manifest_version
+    - canonical_asset_registry_digest
+    - ci_run_identity
+    - build_timestamp
+
+runtime_attestation_contract:
+  status: PLANNED
+  required_fields:
+    - deployed_commit_sha
+    - alignment_manifest_version
+    - configuration_identity
+    - service_identity
+    - observation_timestamp
+
+independent_verification:
+  deterministic_verifier: REQUIRED
+  fresh_context_semantic_verifier: REQUIRED_AT_IMPORTANT_MILESTONES
+  disagreement_policy: BLOCK_AND_RECONCILE
+
+drift_assurance:
+  deliberate_injection_tests: REQUIRED
+  quarantine_on_critical_runtime_drift: PLANNED
+  immutable_audit_event_ledger: PLANNED
+  rollback_to_known_good_state: PLANNED
