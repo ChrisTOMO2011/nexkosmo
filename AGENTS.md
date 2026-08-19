@@ -13,9 +13,16 @@ Before significant architecture, product, UI, or implementation work:
 3. Read `docs/ALIGNMENT_PROTOCOL.md`.
 4. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
 5. Inspect current implementation when the request depends on implementation reality.
-6. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, or architecture boundaries.
+6. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, workflow, or architecture boundaries.
 
 Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon.
+
+## Alignment stewardship
+
+- The Director is the final authority for product direction, canon, and consequential approval.
+- ChatGPT acts as alignment steward: retrieve current repository state, compare new work against canon, detect drift, challenge contradictions, and keep Codex and documentation pointed in the same approved direction.
+- Codex is an implementation agent. It must implement approved direction and must not treat stale branches, mockups, or prototype navigation as current canon.
+- No AI may promote its own recommendation to canon without explicit Director approval.
 
 ## Canonical truth rule
 
@@ -82,13 +89,25 @@ CI treats failed canonical or alignment checks as release blockers, not warnings
 
 Sophia (or another selected AI Producer) is the Director-facing collaboration/personality layer. Brain is the underlying intelligence/status/health layer. Do not turn Brain into a competing chat persona.
 
-## Product journey
+## Product entry and creative workflow
 
-The shared stage model is:
+Do not collapse onboarding/account entry, creative workflow, and Production/Studio deep editing into one ambiguous flow.
+
+Normal new-project entry:
+
+`Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> IDEA`
+
+Alternate screenplay-import entry:
+
+`Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> Import Script -> SHAPE`
+
+Canonical creative workflow:
 
 `IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION`
 
 Studio is not another top-level stage. Production is the movie-wide control room; Studio is the contextual precision scene/shot editor opened from Production. Returning from Studio sends edited work back through Brain validation before production approval.
+
+The legacy prototype navigation `PRE-PRODUCTION -> SET -> STUDIO -> REVIEW -> RENDER` is superseded. It may remain temporarily in an unmerged prototype branch for reconciliation, but it is not current product canon and must not be merged unchanged.
 
 Preserve this shared shell and canonical brand identity unless an explicit Director-approved decision supersedes them.
 
