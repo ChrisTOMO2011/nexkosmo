@@ -6,24 +6,25 @@ These instructions apply to the entire repository.
 
 Alignment is a repository and evidence property, not a memory property.
 
-Before significant architecture, product, UI, or implementation work:
+Before significant architecture, product, UI, implementation, or defect-repair work:
 
 1. Read this file.
 2. Read `governance/alignment-manifest.yaml` and report its manifest version.
 3. Read `docs/CURRENT_STATE.md`.
 4. Read `docs/ALIGNMENT_PROTOCOL.md`.
-5. Read `docs/ENGINEERING_STATUS.md`.
-6. Read `docs/REPOSITORY_PROTECTION.md`.
-7. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
-8. Inspect current implementation when the request depends on implementation reality.
-9. Compare the working branch with current `main` when freshness matters.
-10. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, or deployment identity.
+5. Read `docs/ERROR_CORRECTION_PROTOCOL.md` for significant defect, failure, regression, or repair work.
+6. Read `docs/ENGINEERING_STATUS.md`.
+7. Read `docs/REPOSITORY_PROTECTION.md`.
+8. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
+9. Inspect current implementation when the request depends on implementation reality.
+10. Compare the working branch with current `main` when freshness matters.
+11. Resolve contradictions before changing code. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, deployment identity, or data integrity.
 
 Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon.
 
 ## Alignment manifest
 
-`governance/alignment-manifest.yaml` is the machine-readable identity of the current alignment contract. It points to authoritative repository sources, canonical flows, required decision records, fail-closed domains, verifier requirements, and future build/runtime attestation contracts.
+`governance/alignment-manifest.yaml` is the machine-readable identity of the current Agent Alignment and Agent Error Correction contract. It points to authoritative repository sources, canonical flows, required decision records, fail-closed domains, verifier requirements, error-correction rules, and future build/runtime attestation contracts.
 
 The manifest does not replace the underlying source documents. It makes their current identity and required relationships machine-checkable.
 
@@ -46,6 +47,33 @@ Human-facing status is presented vertically, one result per line. Before signifi
 - Codex is an implementation agent. It must implement approved direction and must not treat stale branches, mockups, or prototype navigation as current canon.
 - No AI may promote its own recommendation to canon without explicit Director approval.
 - CI/tests are deterministic evidence gates. They do not define product direction and must not certify themselves as authority.
+
+## Agent error correction
+
+`docs/ERROR_CORRECTION_PROTOCOL.md` is the independent engineering correction path for ChatGPT and Codex.
+
+This path is separate from the Nexkosmo Brain:
+
+- ChatGPT provides independent engineering oversight, evidence review, defect classification, root-cause challenge, and verification review.
+- Codex reproduces, implements, tests, and repairs against current repository contracts.
+- CI/tests provide independent deterministic evidence.
+- Brain may later consume validated defect/recovery records as external evidence, but Brain is not the sole detector, verifier, repair authority, or correction record for ChatGPT/Codex defects.
+
+For significant defects:
+
+1. preserve evidence before repair;
+2. classify severity and defect class;
+3. reproduce when practical or explicitly report `NOT_REPRODUCED`;
+4. separate symptom, trigger, causal defect, and systemic contributor;
+5. add regression proof where practical;
+6. make the minimum safe causal repair;
+7. run all relevant validation families;
+8. do not claim runtime recovery without runtime evidence;
+9. use accurate intermediate states such as `FIXED_IN_CODE` or `VERIFIED_IN_CI` until later proof exists.
+
+Codex must not weaken/delete failing tests merely to make CI green. A failing test may be corrected only when the test itself is proven defective and the intended contract remains preserved or strengthened.
+
+ChatGPT must not declare a defect fixed solely because Codex says so. Independent evidence is required.
 
 ## Independent drift verification
 
@@ -183,6 +211,7 @@ Significant PRs must use the repository PR template and identify:
 - canonical assets/state touched;
 - fixture/hard-coded project data added or removed;
 - deterministic and drift-injection validation performed;
+- for defect repairs: defect ID/status, reproduction status, root-cause evidence, regression proof, repair commit, CI verification, runtime verification where applicable;
 - known placeholders, estimates, inferences, unknowns, or conflicts.
 
 If a change intentionally modifies canon, include the Director-approved decision record, `docs/CURRENT_STATE.md` update, and any necessary manifest revision in the same reviewed change.
