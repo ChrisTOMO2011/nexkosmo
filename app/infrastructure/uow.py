@@ -30,13 +30,18 @@ class SqlAlchemyUnitOfWork:
         )
         return self
 
+    def _require_session(self) -> AsyncSession:
+        if self.session is None:
+            raise RuntimeError("unit of work session is not active")
+        return self.session
+
     async def commit(self) -> None:
-        assert self.session is not None
-        await self.session.commit()
+        session = self._require_session()
+        await session.commit()
 
     async def rollback(self) -> None:
-        assert self.session is not None
-        await self.session.rollback()
+        session = self._require_session()
+        await session.rollback()
 
     async def __aexit__(
         self,
