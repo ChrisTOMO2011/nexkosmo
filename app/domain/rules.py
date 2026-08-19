@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import TypedDict, Unpack
 from uuid import UUID
 
-from app.domain.enums import AgentKind, EpistemicStatus, PolicyEffect
+from app.domain.enums import AgentKind, AssertionObjectKind, EpistemicStatus, PolicyEffect
 from app.domain.errors import AuthorizationDenied, InvariantViolation
 from app.domain.types import Assertion, Decision, Policy, Principal
 
@@ -42,6 +42,16 @@ def validate_assertion(assertion: Assertion) -> None:
         raise InvariantViolation("Assertion requires an identity object or literal value.")
     if assertion.object_identity_id is not None and assertion.object_value is not None:
         raise InvariantViolation("Assertion cannot have both identity and literal objects.")
+    if (
+        assertion.object_kind is AssertionObjectKind.IDENTITY
+        and assertion.object_identity_id is None
+    ):
+        raise InvariantViolation("Identity assertions require object_identity_id.")
+    if (
+        assertion.object_kind is AssertionObjectKind.LITERAL
+        and assertion.object_value is None
+    ):
+        raise InvariantViolation("Literal assertions require object_value.")
     if assertion.valid_from and assertion.valid_to and assertion.valid_to <= assertion.valid_from:
         raise InvariantViolation("valid_to must be later than valid_from.")
     if assertion.epistemic_status is EpistemicStatus.ACCEPTED:
