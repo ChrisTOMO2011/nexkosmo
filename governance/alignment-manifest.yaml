@@ -1,8 +1,19 @@
 schema_version: 1
-manifest_version: 1
+manifest_version: 2
 status: APPROVED
 authority: Director
-purpose: "Machine-readable alignment identity for Nexkosmo engineering agents, CI, builds, deployments, and future Brain observation."
+purpose: "Machine-readable Agent Alignment Layer for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
+
+scope:
+  primary_subjects:
+    - ChatGPT
+    - Codex
+  supporting_enforcement:
+    - repository
+    - CI
+    - tests
+  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume Agent Alignment Layer outputs as external evidence, but this layer must not become a duplicate Brain truth, reasoning, confidence, continuity, Guardian, or recovery engine."
+  no_duplicate_brain_truth_engine: true
 
 sources_of_truth:
   current_state: docs/CURRENT_STATE.md
@@ -28,6 +39,7 @@ roles:
   chatgpt: "Alignment steward; detects drift and challenges contradictions but cannot supersede Director-approved canon."
   codex: "Implementation agent; must implement current approved repository direction, not conversational or stale-branch assumptions."
   ci: "Deterministic evidence gate; verifies enforceable constraints but does not define product direction."
+  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation agent by this Agent Alignment Layer."
 
 fail_closed:
   critical_unknowns_block: true
@@ -60,6 +72,7 @@ agent_handshake:
 
 build_attestation_contract:
   status: PLANNED
+  purpose: "External evidence for engineering alignment and future Brain observation; not a new Brain subsystem."
   required_fields:
     - source_commit_sha
     - alignment_manifest_version
@@ -69,6 +82,7 @@ build_attestation_contract:
 
 runtime_attestation_contract:
   status: PLANNED
+  purpose: "External runtime evidence that may be consumed by authorized engineering tools and the existing Brain architecture."
   required_fields:
     - deployed_commit_sha
     - alignment_manifest_version
@@ -83,6 +97,8 @@ independent_verification:
 
 drift_assurance:
   deliberate_injection_tests: REQUIRED
-  quarantine_on_critical_runtime_drift: PLANNED
-  immutable_audit_event_ledger: PLANNED
-  rollback_to_known_good_state: PLANNED
+  agent_scope: "Protect ChatGPT and Codex alignment with repository canon."
+  future_brain_use: "Consume resulting evidence through existing Brain responsibilities rather than duplicating them."
+  quarantine_on_critical_runtime_drift: PLANNED_EXTERNAL_CONTROL
+  immutable_audit_event_ledger: PLANNED_EXTERNAL_EVIDENCE
+  rollback_to_known_good_state: PLANNED_EXTERNAL_CONTROL
