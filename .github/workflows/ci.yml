@@ -22,9 +22,11 @@ jobs:
       - run: python scripts/verify_drift_guards.py
       - run: python scripts/verify_latent_defect_assurance.py
       - run: python scripts/verify_authority_model.py
+      - name: Verify security baseline
+        run: python scripts/verify_security_baseline.py
       - name: Run fast generated and replay assurance tests
         run: pytest -q tests/test_domain_invariants.py tests/test_latent_sequence_and_fuzz.py tests/test_assurance_primitives.py
-      - run: ruff check app tests scripts/verify_authority_model.py
+      - run: ruff check app tests scripts/verify_authority_model.py scripts/verify_security_baseline.py
       - run: mypy app
       - run: python -m compileall -q migrations
       - name: Prepare CI environment
