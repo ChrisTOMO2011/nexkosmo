@@ -12,6 +12,7 @@ REQUIRED_FILES = [
     ROOT / "docs" / "ALIGNMENT_PROTOCOL.md",
     ROOT / "docs" / "ERROR_CORRECTION_PROTOCOL.md",
     ROOT / "docs" / "DEVELOPMENT_TIME_VERIFICATION.md",
+    ROOT / "docs" / "LATENT_DEFECT_ASSURANCE.md",
     ROOT / "docs" / "ENGINEERING_STATUS.md",
     ROOT / "docs" / "REPOSITORY_PROTECTION.md",
     ROOT / "docs" / "decisions" / "DEC-0001-product-journey.md",
@@ -53,6 +54,7 @@ def main() -> int:
     protocol = read(ROOT / "docs" / "ALIGNMENT_PROTOCOL.md")
     error_protocol = read(ROOT / "docs" / "ERROR_CORRECTION_PROTOCOL.md")
     development_protocol = read(ROOT / "docs" / "DEVELOPMENT_TIME_VERIFICATION.md")
+    latent_protocol = read(ROOT / "docs" / "LATENT_DEFECT_ASSURANCE.md")
     status = read(ROOT / "docs" / "ENGINEERING_STATUS.md")
     protection = read(ROOT / "docs" / "REPOSITORY_PROTECTION.md")
     entry_decision = read(ROOT / "docs" / "decisions" / "DEC-0004-entry-routing-and-flow-layers.md")
@@ -153,17 +155,39 @@ def main() -> int:
         if phrase not in development_protocol:
             fail(f"development-time verification protocol missing required rule: {phrase}", failures)
 
+    required_latent_phrases = [
+        "Latent Defect Assurance Protocol",
+        "latent defects",
+        "Property-based testing",
+        "Mutation testing",
+        "State-machine and sequence testing",
+        "Concurrency and race testing",
+        "Deterministic replay",
+        "Fault injection",
+        "Runtime invariants",
+        "Observability and anomaly detection",
+        "A previously unknown defect should surprise us at most once.",
+        "separate from the Nexkosmo Brain",
+    ]
+    for phrase in required_latent_phrases:
+        if phrase not in latent_protocol:
+            fail(f"latent defect assurance protocol missing required rule: {phrase}", failures)
+
     required_manifest_phrases = [
-        "manifest_version: 4",
+        "manifest_version: 5",
         "primary_subjects:",
         "- ChatGPT",
         "- Codex",
         "no_duplicate_brain_truth_engine: true",
         "agent_error_correction_separate_from_brain: true",
         "development_time_verification_separate_from_brain: true",
+        "latent_defect_assurance_separate_from_brain: true",
         "error_correction_protocol: docs/ERROR_CORRECTION_PROTOCOL.md",
         "development_time_verification: docs/DEVELOPMENT_TIME_VERIFICATION.md",
+        "latent_defect_assurance: docs/LATENT_DEFECT_ASSURANCE.md",
+        "scripts/verify_latent_defect_assurance.py",
         "require_development_time_verification_for_implementation_work: true",
+        "require_latent_defect_assurance_for_high_risk_invariants: true",
         "critical_unknowns_block: true",
         "disagreement_policy: BLOCK_AND_RECONCILE",
         "deliberate_injection_tests: REQUIRED",
@@ -177,10 +201,13 @@ def main() -> int:
         "targeted_tests_during_implementation_required: true",
         "unexplained_failure_blocks_expansion: true",
         "ci_is_second_independent_verifier: true",
+        "property_based_testing: INITIAL_IMPLEMENTATION",
+        "targeted_mutation_testing: INITIAL_IMPLEMENTATION",
+        "discovered_latent_defect_must_gain_durable_detector: true",
     ]
     for phrase in required_manifest_phrases:
         if phrase not in manifest:
-            fail(f"alignment manifest missing required drift/error/development guard/scope: {phrase}", failures)
+            fail(f"alignment manifest missing required drift/error/development/latent guard: {phrase}", failures)
 
     required_status_phrases = [
         "**Alignment:** `<🟢 PASS|🟠 WARN|🔴 FAIL|⚪ UNKNOWN>`",
