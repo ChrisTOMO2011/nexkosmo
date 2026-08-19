@@ -1,0 +1,188 @@
+/*
+ * Character Identity has a page-specific visual contract. Shared Studio
+ * primitives remain in use, while this variant owns reference-only artwork
+ * crops and may diverge from generic workflow-page dimensions when required.
+ */
+
+.nexkosmo-studio--character-identity .project-thumb {
+  background-position: -158px -67px;
+  background-size: 1536px 1024px;
+}
+
+.nexkosmo-studio--character-identity .preview-image {
+  background-image: url("../assets/pre-production/character-preview.jpeg");
+  background-position: center top;
+  background-size: cover;
+}
+
+.nexkosmo-studio--character-identity .preview-controls {
+  right: 10px;
+}
+
+.nexkosmo-studio--character-identity .character-roster {
+  background-image: linear-gradient(180deg, #111217, #0e0f14);
+}
+
+.nexkosmo-studio--character-identity .profile-avatar.avatar-chris {
+  background-position: -1455px -13px;
+}
+
+.nexkosmo-studio--character-identity .copilot-card > button {
+  height: 45px;
+  margin-top: 18px;
+}
+
+.nexkosmo-studio--character-identity .editor-tabs {
+  grid-template-columns: 104px 90px 92px 90px 94px 102px 90px 124px;
+  justify-content: start;
+}
+
+.nexkosmo-studio--character-identity .style-card {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.nexkosmo-studio--character-identity .style-crop-1 {
+  background-image: url("../assets/pre-production/style-realistic.jpeg");
+}
+
+.nexkosmo-studio--character-identity .style-crop-2 {
+  background-image: url("../assets/pre-production/style-cartoon.jpeg");
+}
+
+.nexkosmo-studio--character-identity .style-crop-3 {
+  background-image: url("../assets/pre-production/style-anime.jpeg");
+}
+
+.nexkosmo-studio--character-identity .style-crop-4 {
+  background-image: url("../assets/pre-production/style-game.jpeg");
+}
+
+.nexkosmo-studio--character-identity .style-crop-5 {
+  background-image: url("../assets/pre-production/style-comic.jpeg");
+}
+
+.nexkosmo-studio--character-identity .style-crop-6 {
+  background-image: url("../assets/pre-production/style-stylized.jpeg");
+}
+
+.nexkosmo-studio--character-identity .filter-row button {
+  padding-inline: 16px;
+}
+
+.nexkosmo-studio--character-identity .species-row {
+  grid-template-columns: repeat(8, minmax(0, 1fr)) 26px;
+  min-width: 0;
+}
+
+.nexkosmo-studio--character-identity
+  .species-card
+  .species-portrait {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(1)
+  .species-portrait {
+  background-image: url("../assets/pre-production/species-human.jpeg");
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(2)
+  .species-portrait {
+  background-image: url("../assets/pre-production/species-elf.jpeg");
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(3)
+  .species-portrait {
+  background-image: url("../assets/pre-production/species-orc.jpeg");
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(4)
+  .species-portrait {
+  background-image: url("../assets/pre-production/species-robot.jpeg");
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(5)
+  .species-portrait {
+  background-image: url("../assets/pre-production/species-dragon.jpeg");
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(6)
+  .species-portrait {
+  background-image: url("../assets/pre-production/species-alien.jpeg");
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(7)
+  .species-portrait {
+  background-image: url("../assets/pre-production/species-monkey.jpeg");
+}
+
+.nexkosmo-studio--character-identity
+  .species-card:nth-child(8)
+  .species-portrait {
+  background-image: url("../assets/pre-production/species-demon.jpeg");
+}
+
+.nexkosmo-studio--character-identity .accessory-tabs button {
+  padding-inline: 20px;
+}
+
+.nexkosmo-studio--character-identity .glasses-card {
+  background-image: none;
+}
+
+.nexkosmo-studio--character-identity
+  .glasses-card:nth-child(n + 3):nth-child(-n + 9) {
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: 100% 68%;
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(3) {
+  background-image: url("../assets/pre-production/glasses-aviator.jpeg");
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(4) {
+  background-image: url("../assets/pre-production/glasses-wayfarer.jpeg");
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(5) {
+  background-image: url("../assets/pre-production/glasses-round.jpeg");
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(6) {
+  background-image: url("../assets/pre-production/glasses-rectangle.jpeg");
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(7) {
+  background-image: url("../assets/pre-production/glasses-vintage.jpeg");
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(8) {
+  background-image: url("../assets/pre-production/glasses-clear-frame.jpeg");
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(9) {
+  background-image: url("../assets/pre-production/glasses-sunglasses.jpeg");
+}
+
+.nexkosmo-studio--character-identity .glasses-card:nth-child(1) svg,
+.nexkosmo-studio--character-identity .glasses-card:nth-child(2) svg,
+.nexkosmo-studio--character-identity .glasses-card:nth-child(10) svg {
+  opacity: 1;
+}
+
+@media (max-width: 1360px) {
+  .nexkosmo-studio--character-identity .filter-row button {
+    padding-inline: 8px;
+  }
+}

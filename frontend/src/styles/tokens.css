@@ -1,0 +1,60 @@
+:root {
+  color-scheme: dark;
+  font-family:
+    Bahnschrift, "Arial Narrow", Inter, ui-sans-serif, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  --color-bg: #07080c;
+  --color-panel: #101116;
+  --color-raised: #15161c;
+  --color-soft: #191a21;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.11);
+  --color-text: #f4f2f8;
+  --color-secondary: #a9a5b3;
+  --color-muted: #74717d;
+  --color-purple: #571caf;
+  --color-purple-bright: #6828ce;
+  --color-purple-soft: rgba(124, 58, 237, 0.18);
+  --color-green: #36c96f;
+  --color-blue: #2f93ff;
+  --color-orange: #f59e0b;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+  --color-focus: #a78bfa;
+  --color-overlay: rgba(3, 4, 7, 0.72);
+  --color-skeleton: rgba(255, 255, 255, 0.055);
+
+  --shadow-panel: 0 16px 40px rgba(0, 0, 0, 0.28);
+  --shadow-purple: 0 0 22px rgba(109, 40, 217, 0.24);
+  --shadow-modal: 0 30px 80px rgba(0, 0, 0, 0.56);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --control-sm: 30px;
+  --control-md: 38px;
+  --control-lg: 46px;
+  --font-xs: 9px;
+  --font-sm: 11px;
+  --font-md: 13px;
+  --font-lg: 18px;
+  --transition-fast: 150ms ease;
+  --transition-normal: 220ms ease;
+  --z-dropdown: 50;
+  --z-overlay: 80;
+  --z-toast: 100;
+  --header-height: 64px;
+  --scene-bar-height: 76px;
+  --sidebar-width: 232px;
+  --properties-width: 353px;
+}
