@@ -10,6 +10,13 @@ Alignment is a repository and evidence property, not a memory property.
 
 `Director decision -> repository canon -> implementation -> automated checks -> human review -> accepted evidence`
 
+## Roles
+
+- Director: final authority for product direction, canon, and consequential approval.
+- ChatGPT: alignment steward. Responsible for retrieving current state, detecting drift, challenging contradictions, keeping Codex and repository work pointed at approved direction, and clearly separating fact/canon/evidence/inference/estimate/hypothesis/unknown. ChatGPT does not independently approve or supersede canon.
+- Codex: implementation agent. Responsible for implementing approved direction against current repository state, not stale branch assumptions or conversational recollection.
+- CI/tests: evidence gates. They verify enforceable constraints but do not define product direction.
+
 ## Required pre-work handshake
 
 Before any significant Nexkosmo architecture, product, or implementation task, the AI/agent must:
@@ -19,8 +26,19 @@ Before any significant Nexkosmo architecture, product, or implementation task, t
 3. Read `docs/CURRENT_STATE.md`.
 4. Read the relevant approved decision records and architecture/product specifications.
 5. Inspect current implementation when the task concerns implementation reality.
-6. State or internally resolve any contradiction before making changes.
-7. Stop instead of guessing when a conflict affects canon, authority, data ownership, or architecture boundaries.
+6. Compare the working branch with current `main` when branch freshness matters.
+7. Resolve contradictions before making changes.
+8. Stop instead of guessing when a conflict affects canon, authority, data ownership, workflow, or architecture boundaries.
+
+## Flow model
+
+Nexkosmo uses three distinct flow layers that must not be collapsed:
+
+1. Full user entry journey.
+2. Creative workflow.
+3. Production/Studio deep-edit loop.
+
+The authoritative forms are defined in `docs/CURRENT_STATE.md` and approved decision records. An implementation may provide shortcuts, but it must not redefine the layers by accident.
 
 ## Evidence labels
 
@@ -64,6 +82,7 @@ A superseded decision remains historical evidence but is no longer current autho
 - Do not invent backend APIs to make a UI appear complete.
 - Do not silently translate an old architecture into a new architecture without an approved decision.
 - Preserve reusable implementation that remains compatible; replace only what conflicts with current canon.
+- Obsolete prototype navigation may remain temporarily in an unmerged reconciliation branch, but it must be labelled as legacy and must not be merged unchanged.
 
 ## Pull-request alignment contract
 
@@ -76,6 +95,7 @@ Every significant PR should answer:
 5. What tests/checks were run?
 6. What remains placeholder, estimated, inferred, or unknown?
 7. Does the branch contain the current `main` governance/canon changes?
+8. Does the implementation preserve the distinction between full user journey, creative workflow, and Production/Studio editing loop?
 
 If the PR changes canon, the Director-approved decision record and `docs/CURRENT_STATE.md` update must be included in the same reviewed change.
 
@@ -85,9 +105,13 @@ At important milestones, validate the repository with a fresh AI context that ha
 
 The fresh agent should be able to answer from the repository alone:
 
-- What is Nexkosmo's current product journey?
+- What is Nexkosmo's full entry journey?
+- What is the canonical creative workflow?
+- What is the screenplay-import shortcut?
 - What is the Production/Studio boundary?
 - Who has authority over canon?
+- What is ChatGPT's alignment-steward role?
+- What is Codex's implementation role?
 - What is the current engineering priority/STOP GATE?
 - What must not be hard-coded as project truth?
 - What is implemented versus merely designed/planned?
@@ -99,7 +123,7 @@ If the repository cannot answer these reliably, fix the repository documentation
 
 When drift is detected:
 
-1. classify it as documentation drift, branch drift, implementation drift, data/canon drift, or test/evidence drift;
+1. classify it as documentation drift, branch drift, implementation drift, data/canon drift, workflow drift, or test/evidence drift;
 2. stop expansion in the affected area;
 3. identify the current authority source;
 4. reconcile the minimum required files/code;
