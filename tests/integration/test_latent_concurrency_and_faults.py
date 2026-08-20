@@ -1,21 +1,43 @@
 import asyncio
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import pytest
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncConnection, AsyncEngine
+
+
+async def _create_workspace(
+    workspace_admin_engine: AsyncEngine,
+    workspace_id: UUID,
+    canonical_key: str,
+) -> None:
+    async with workspace_admin_engine.begin() as setup:
+        await setup.execute(
+            text("insert into workspaces (id, canonical_key) values (:id, :key)"),
+            {"id": workspace_id, "key": canonical_key},
+        )
+
+
+async def _set_workspace_context(conn: AsyncConnection, workspace_id: UUID) -> None:
+    await conn.execute(
+        text("select set_config('app.workspace_id', :value, true)"),
+        {"value": str(workspace_id)},
+    )
 
 
 @pytest.mark.asyncio
-async def test_concurrent_idempotency_claim_allows_one_logical_owner(db):
+async def test_concurrent_idempotency_claim_allows_one_logical_owner(
+    db, workspace_admin_engine
+):
     engine = db.engine
     workspace_id = uuid4()
     key = f"latent-{uuid4()}"
-    async with engine.begin() as setup:
-        await setup.execute(
-            text("insert into workspaces (id, canonical_key) values (:id, :key)"),
-            {"id": workspace_id, "key": f"latent-workspace-{workspace_id}"},
-        )
+    await _create_workspace(
+        workspace_admin_engine,
+        workspace_id,
+        f"latent-workspace-{workspace_id}",
+    )
 
     barrier = asyncio.Event()
     ready = 0
@@ -26,6 +48,7 @@ async def test_concurrent_idempotency_claim_allows_one_logical_owner(db):
         async with engine.connect() as conn:
             tx = await conn.begin()
             try:
+                await _set_workspace_context(conn, workspace_id)
                 async with ready_lock:
                     ready += 1
                     if ready == 2:
@@ -55,7 +78,8 @@ async def test_concurrent_idempotency_claim_allows_one_logical_owner(db):
     claimed = await asyncio.gather(claimant(), claimant())
     assert sum(claimed) == 1
 
-    async with engine.connect() as verify:
+    async with engine.begin() as verify:
+        await _set_workspace_context(verify, workspace_id)
         count = await verify.scalar(
             text(
                 "select count(*) from idempotency_records "
@@ -67,8 +91,8 @@ async def test_concurrent_idempotency_claim_allows_one_logical_owner(db):
 
 
 @pytest.mark.asyncio
-async def test_transaction_fault_rolls_back_partial_state(db):
-    engine = db.engine
+async def test_transaction_fault_rolls_back_partial_state(workspace_admin_engine):
+    engine = workspace_admin_engine
     workspace_id = uuid4()
     canonical_key = f"fault-workspace-{workspace_id}"
     tx = None
@@ -94,13 +118,17 @@ async def test_transaction_fault_rolls_back_partial_state(db):
 
 
 @pytest.mark.asyncio
-async def test_duplicate_primary_claim_without_conflict_handling_is_detected(db):
+async def test_duplicate_primary_claim_without_conflict_handling_is_detected(
+    db, workspace_admin_engine
+):
     workspace_id = uuid4()
     key = f"duplicate-{uuid4()}"
-    await db.execute(
-        text("insert into workspaces (id, canonical_key) values (:id, :key)"),
-        {"id": workspace_id, "key": f"dup-workspace-{workspace_id}"},
+    await _create_workspace(
+        workspace_admin_engine,
+        workspace_id,
+        f"dup-workspace-{workspace_id}",
     )
+    await _set_workspace_context(db, workspace_id)
     await db.execute(
         text(
             """
