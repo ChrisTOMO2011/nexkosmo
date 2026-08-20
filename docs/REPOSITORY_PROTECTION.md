@@ -3,7 +3,7 @@
 Status: APPROVED ENGINEERING GOVERNANCE
 Owner: Director
 Alignment steward: ChatGPT
-Last updated: 2026-08-19
+Last updated: 2026-08-20
 
 ## Purpose
 
@@ -11,7 +11,19 @@ Protect `main` so repository canon, CI evidence, and approved implementation can
 
 ## Current verified repository state
 
-As verified on 2026-08-19, `main` is not protected and required status checks are not enforced by GitHub settings. This is a governance STOP GATE.
+As verified on 2026-08-20, `main` is protected by live GitHub branch-protection settings.
+
+The current enforced configuration is:
+
+- a pull request is required before merging;
+- the required status check is `quality-and-integration`;
+- the protected branch must be up to date before merging;
+- conversations must be resolved before merging;
+- the rules apply to repository administrators/owners;
+- required approving reviews are set to `0` for the current solo-owner configuration;
+- CODEOWNER approval is not required;
+- force pushes are blocked; and
+- deletion of `main` is blocked.
 
 Repository files such as `CODEOWNERS`, `AGENTS.md`, CI workflows, and alignment scripts do not by themselves prevent a repository administrator from bypassing the intended process. GitHub branch protection or a branch ruleset must enforce the merge path.
 
@@ -31,7 +43,7 @@ Required rules:
 
 ## Solo-owner review constraint
 
-Do not require a numeric approving review or required CODEOWNER review while the only available approver is also the pull-request author.
+The current required approving-review count of zero is intentional while the only available approver is also the pull-request author.
 
 GitHub does not allow a pull-request author to approve their own pull request. Enabling a mandatory approval or mandatory CODEOWNER approval with no independent eligible reviewer can deadlock the repository.
 
@@ -43,12 +55,12 @@ Until an independent reviewer is available, Director approval is recorded explic
 
 ## Team hardening when an independent reviewer exists
 
-Once Nexkosmo has at least one trusted independent reviewer with the required repository access, strengthen the ruleset to add:
+Once Nexkosmo has at least one trusted independent eligible reviewer with the required repository access, strengthen the ruleset to add:
 
 - at least 1 approving review;
 - required review from Code Owners for owned paths;
 - dismissal of stale approvals when new commits are pushed;
-- approval of the most recent reviewable push where practical.
+- approval of the latest push.
 
 At that point the merge gate becomes:
 

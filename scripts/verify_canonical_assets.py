@@ -1,16 +1,30 @@
 from __future__ import annotations
 
-import hashlib
 import json
+import re
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "assets" / "brand" / "canonical-assets.json"
 
 
-def git_blob_sha1(data: bytes) -> str:
-    header = f"blob {len(data)}\0".encode("utf-8")
-    return hashlib.sha1(header + data).hexdigest()
+def canonical_git_blob_sha1(path: Path, registered_path: str) -> str:
+    result = subprocess.run(
+        ["git", "hash-object", f"--path={registered_path}", str(path)],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        detail = result.stderr.strip() or "git hash-object failed"
+        raise RuntimeError(detail)
+
+    digest = result.stdout.strip()
+    if re.fullmatch(r"[0-9a-f]{40}", digest) is None:
+        raise RuntimeError(f"git hash-object returned an invalid digest: {digest!r}")
+    return digest
 
 
 def main() -> int:
@@ -26,7 +40,14 @@ def main() -> int:
             failures.append(f"MISSING canonical asset: {asset['id']} -> {asset['path']}")
             continue
 
-        actual = git_blob_sha1(path.read_bytes())
+        try:
+            actual = canonical_git_blob_sha1(path, asset["path"])
+        except (OSError, RuntimeError) as exc:
+            failures.append(
+                f"UNVERIFIABLE canonical asset: {asset['id']} -> {exc}"
+            )
+            continue
+
         if expected and actual != expected:
             failures.append(
                 f"DRIFT detected for {asset['id']}: expected {expected}, got {actual}"
