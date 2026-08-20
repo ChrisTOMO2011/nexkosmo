@@ -5,6 +5,16 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.domain.types import Principal
+from app.infrastructure.audit_delivery import SqlAuditDeliveryQueueRepository
+from app.infrastructure.idempotency import SqlTransactionalIdempotencyRepository
+from app.infrastructure.project_repositories import (
+    SqlOutboxRepository,
+    SqlProductionRepository,
+    SqlProjectMembershipRepository,
+    SqlProjectRepository,
+)
+from app.infrastructure.semantic_repositories import SqlSemanticProjectRepository
+from app.infrastructure.workspace_repositories import SqlWorkspaceAuthorityRepository
 
 
 class SqlAlchemyUnitOfWork:
@@ -12,6 +22,14 @@ class SqlAlchemyUnitOfWork:
         self._factory = factory
         self._principal = principal
         self.session: AsyncSession | None = None
+        self.semantic_projects: SqlSemanticProjectRepository
+        self.workspace_authority: SqlWorkspaceAuthorityRepository
+        self.projects: SqlProjectRepository
+        self.project_memberships: SqlProjectMembershipRepository
+        self.productions: SqlProductionRepository
+        self.transactional_idempotency: SqlTransactionalIdempotencyRepository
+        self.audit_delivery_queue: SqlAuditDeliveryQueueRepository
+        self.outbox: SqlOutboxRepository
 
     async def __aenter__(self) -> Self:
         self.session = self._factory()
@@ -28,6 +46,14 @@ class SqlAlchemyUnitOfWork:
             text("select set_config('app.agent_id', :value, true)"),
             {"value": str(self._principal.agent_id)},
         )
+        self.semantic_projects = SqlSemanticProjectRepository(self.session)
+        self.workspace_authority = SqlWorkspaceAuthorityRepository(self.session)
+        self.projects = SqlProjectRepository(self.session)
+        self.project_memberships = SqlProjectMembershipRepository(self.session)
+        self.productions = SqlProductionRepository(self.session)
+        self.transactional_idempotency = SqlTransactionalIdempotencyRepository(self.session)
+        self.audit_delivery_queue = SqlAuditDeliveryQueueRepository(self.session)
+        self.outbox = SqlOutboxRepository(self.session, self._principal.workspace_id)
         return self
 
     def _require_session(self) -> AsyncSession:

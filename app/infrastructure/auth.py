@@ -27,7 +27,17 @@ class OidcJwksPrincipalVerifier:
             audience=self._audience,
             issuer=self._issuer,
             options={
-                "require": ["exp", "iat", "iss", "aud", "sub", "jti", "workspace_id", "agent_id"]
+                "require": [
+                    "exp",
+                    "iat",
+                    "iss",
+                    "aud",
+                    "sub",
+                    "jti",
+                    "workspace_id",
+                    "agent_id",
+                    "agent_kind",
+                ]
             },
         )
         return Principal(

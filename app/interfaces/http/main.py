@@ -5,17 +5,24 @@ from sqlalchemy import text
 from app.domain.errors import DomainError
 from app.infrastructure.database import engine
 from app.interfaces.http.problem import ProblemDetails
+from app.interfaces.http.project_routes import router as project_router
 
 app = FastAPI(
     title="Nexkosmo Semantic Kernel",
     version="0.1.0",
     description="Milestone 1R++ controlled semantic-kernel proof.",
 )
+app.include_router(project_router)
 
 
 @app.exception_handler(DomainError)
 async def domain_error_handler(request: Request, exc: DomainError) -> JSONResponse:
-    status = 403 if exc.code == "authorization_denied" else 409
+    if exc.code == "authorization_denied":
+        status = 403
+    elif exc.code == "resource_not_found":
+        status = 404
+    else:
+        status = 409
     body = ProblemDetails(
         type=f"urn:nexkosmo:problem:{exc.code}",
         title="Domain rule rejected the request",
