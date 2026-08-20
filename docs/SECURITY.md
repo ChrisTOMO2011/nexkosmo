@@ -7,6 +7,10 @@
 - Tenant tables use `ENABLE ROW LEVEL SECURITY` and `FORCE ROW LEVEL SECURITY`.
 - Application and audit database roles are separate.
 - Capability and authority are separate domain concepts.
-- Audit success, denial and failure are designed for an independent commit path.
+- Audit success, denial and failure use a durable delivery queue and an independent
+  audit-role commit path.
+- The application role cannot read or mutate the immutable audit ledger.
 
-Full authorization coverage and audit sequencing are not yet proven.
+The OIDC adapter is validated with a mocked provider. A real production identity
+provider has not been exercised and remains an explicit release gate. See
+[`architecture/security-model.md`](architecture/security-model.md).

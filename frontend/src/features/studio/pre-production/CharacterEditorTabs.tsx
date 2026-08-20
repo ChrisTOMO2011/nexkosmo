@@ -7,12 +7,13 @@ import {
   Sparkles,
   UserRound,
 } from "lucide-react";
-import { Tabs } from "../../../components/ui";
+import { DomainEditorTabs } from "./shared";
 import { editorTabs } from "./data";
 
 type CharacterEditorTabsProps = {
   activeTab: string;
   onChange: (tab: string) => void;
+  tabs?: readonly string[];
 };
 
 const tabIcons = [
@@ -29,14 +30,14 @@ const tabIcons = [
 export function CharacterEditorTabs({
   activeTab,
   onChange,
+  tabs = editorTabs,
 }: CharacterEditorTabsProps) {
   return (
-    <Tabs
-      className="editor-tabs"
-      label="Character editor"
-      value={activeTab}
+    <DomainEditorTabs
+      activeTab={activeTab}
       onChange={onChange}
-      items={editorTabs.map((tab, index) => {
+      label="Character editor"
+      tabs={tabs.map((tab, index) => {
         const Icon = tabIcons[index];
         return { id: tab, label: tab, icon: <Icon aria-hidden="true" /> };
       })}

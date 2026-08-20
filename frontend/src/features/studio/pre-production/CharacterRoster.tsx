@@ -1,6 +1,5 @@
-import { Plus } from "lucide-react";
-import { Button } from "../../../components/ui";
 import type { Character } from "./data";
+import { DomainSelectionRail, type DomainSelectionItem } from "./shared";
 
 type CharacterRosterProps = {
   characters: Character[];
@@ -9,42 +8,37 @@ type CharacterRosterProps = {
   onAdd: () => void;
 };
 
+type CharacterSelectionItem = DomainSelectionItem & {
+  character: Character;
+};
+
 export function CharacterRoster({
   characters,
   selectedId,
   onSelect,
   onAdd,
 }: CharacterRosterProps) {
+  const items: CharacterSelectionItem[] = characters.map((character) => ({
+    id: character.id,
+    primaryText: character.name,
+    secondaryText: character.role,
+    thumbnail: (
+      <span
+        className={`roster-avatar ${character.crop}`}
+        aria-hidden="true"
+      />
+    ),
+    character,
+  }));
+
   return (
-    <aside className="character-roster" aria-label="Characters">
-      <div className="roster-list">
-        {characters.map((character) => (
-          <Button
-            className={`roster-card ${selectedId === character.id ? "is-selected" : ""}`}
-            key={character.id}
-            aria-label={`${character.name}, ${character.role}`}
-            aria-pressed={selectedId === character.id}
-            onClick={() => onSelect(character.id)}
-          >
-            <span
-              className={`roster-avatar ${character.crop}`}
-              aria-hidden="true"
-            />
-            <span className="roster-copy">
-              <strong>{character.name}</strong>
-              <small>{character.role}</small>
-            </span>
-            {selectedId === character.id && <i className="roster-status" />}
-          </Button>
-        ))}
-      </div>
-      <Button
-        className="add-character"
-        leadingIcon={<Plus aria-hidden="true" />}
-        onClick={onAdd}
-      >
-        Add Character
-      </Button>
-    </aside>
+    <DomainSelectionRail
+      label="Characters"
+      items={items}
+      selectedId={selectedId}
+      addLabel="Add Character"
+      onSelect={(item) => onSelect(item.character.id)}
+      onAdd={onAdd}
+    />
   );
 }

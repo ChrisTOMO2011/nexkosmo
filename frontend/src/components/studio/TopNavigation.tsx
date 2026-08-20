@@ -1,14 +1,15 @@
-import { Bell, ChevronDown, CircleHelp, Sparkles } from "lucide-react";
-import nexkosmoMark from "../../assets/branding/nexkosmo-mark.png";
+import approvedLogoSymbol from "../../assets/branding/nexkosmo-approved-symbol.jpeg";
 import type { WorkflowStageId } from "../../features/studio/config/navigation";
-import { Button, Tooltip } from "../ui";
+import { StudioHeaderUtilities } from "./StudioHeaderUtilities";
 import { WorkflowNavigation } from "./WorkflowNavigation";
+import { Brain, Camera, ChevronDown, Menu } from "lucide-react";
 
 type TopNavigationProps = {
   activeStage: WorkflowStageId;
   projectId: string;
   characterId?: string;
   onPlaceholder: (message: string) => void;
+  ariaLabel?: string;
 };
 
 export function TopNavigation({
@@ -16,14 +17,20 @@ export function TopNavigation({
   projectId,
   characterId,
   onPlaceholder,
+  ariaLabel = "Creator workflow",
 }: TopNavigationProps) {
   return (
-    <header className="studio-topbar">
-      <a className="brand" href="/" aria-label="Nexkosmo Studio home">
-        <img className="brand-mark" src={nexkosmoMark} alt="" aria-hidden="true" />
-        <span className="brand-copy">
+    <header className="studio-topbar discovery-header creator-header">
+      <a className="discovery-brand creator-brand" href="/" aria-label="Nexkosmo home">
+        <img
+          src={approvedLogoSymbol}
+          alt=""
+          width="1280"
+          height="1280"
+        />
+        <span aria-hidden="true">
           <strong>NEXKOSMO</strong>
-          <small>STUDIO</small>
+          <small>Your AI Producer</small>
         </span>
       </a>
 
@@ -31,41 +38,40 @@ export function TopNavigation({
         activeStage={activeStage}
         projectId={projectId}
         characterId={characterId}
+        className="discovery-progress"
+        ariaLabel={ariaLabel}
       />
 
-      <div className="topbar-actions">
-        <Button
-          className="ai-director-button"
-          leadingIcon={<Sparkles aria-hidden="true" />}
-          onClick={() => onPlaceholder("AI Director is ready for integration.")}
+      <div
+        className="discovery-utilities creator-utilities"
+        aria-label="Global tools"
+      >
+        <StudioHeaderUtilities onAction={onPlaceholder} />
+        <button
+          className="discovery-brain"
+          type="button"
+          aria-label="Open Nexkosmo Brain"
+          title="Nexkosmo Brain"
+          onClick={() => onPlaceholder("Nexkosmo Brain opened.")}
         >
-          <span>AI Director</span>
-        </Button>
-        <Tooltip content="Help">
-          <Button
-            className="icon-button"
-            size="icon"
-            aria-label="Help"
-            onClick={() => onPlaceholder("Help centre placeholder opened.")}
-          >
-            <CircleHelp aria-hidden="true" />
-          </Button>
-        </Tooltip>
-        <Tooltip content="Notifications">
-          <Button
-            className="icon-button notification-button"
-            size="icon"
-            aria-label="Notifications, one unread"
-            onClick={() => onPlaceholder("No new production alerts.")}
-          >
-            <Bell aria-hidden="true" />
-            <span className="notification-dot" />
-          </Button>
-        </Tooltip>
-        <Button className="profile-button" aria-label="Open user menu">
-          <span className="profile-avatar avatar-chris" aria-hidden="true" />
+          <Brain aria-hidden="true" />
+        </button>
+        <button
+          className="discovery-project"
+          type="button"
+          aria-label="Untitled Movie"
+          onClick={() => onPlaceholder("Project menu opened.")}
+        >
+          <Camera aria-hidden="true" /> Untitled Movie{" "}
           <ChevronDown aria-hidden="true" />
-        </Button>
+        </button>
+        <button
+          type="button"
+          aria-label="Open menu"
+          onClick={() => onPlaceholder("Menu opened.")}
+        >
+          <Menu aria-hidden="true" />
+        </button>
       </div>
     </header>
   );

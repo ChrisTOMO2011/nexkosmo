@@ -7,7 +7,6 @@ import {
   Cuboid,
   LayoutDashboard,
   Lightbulb,
-  MessageSquare,
   Music2,
   PlaySquare,
   SlidersHorizontal,
@@ -18,11 +17,14 @@ import {
 } from "lucide-react";
 
 export type WorkflowStageId =
-  | "pre-production"
-  | "set"
-  | "studio"
-  | "review"
-  | "render";
+  | "idea"
+  | "discover"
+  | "shape"
+  | "build"
+  | "ready"
+  | "production";
+
+export type ProductionWorkspaceId = "set" | "studio" | "render";
 
 export type WorkflowStage = {
   id: WorkflowStageId;
@@ -35,11 +37,12 @@ export type StudioNavItem = {
 };
 
 export const workflowStages: readonly WorkflowStage[] = [
-  { id: "pre-production", label: "PRE-PRODUCTION" },
-  { id: "set", label: "SET" },
-  { id: "studio", label: "STUDIO" },
-  { id: "review", label: "REVIEW" },
-  { id: "render", label: "RENDER" },
+  { id: "idea", label: "IDEA" },
+  { id: "discover", label: "DISCOVER" },
+  { id: "shape", label: "SHAPE" },
+  { id: "build", label: "BUILD" },
+  { id: "ready", label: "READY" },
+  { id: "production", label: "PRODUCTION" },
 ];
 
 export const preProductionNavigation: readonly StudioNavItem[] = [
@@ -54,12 +57,11 @@ export const preProductionNavigation: readonly StudioNavItem[] = [
 ];
 
 export const workflowScaffoldNavigation: Record<
-  Exclude<WorkflowStageId, "pre-production">,
+  ProductionWorkspaceId,
   readonly StudioNavItem[]
 > = {
   set: [{ label: "Set Overview", icon: LayoutDashboard }],
   studio: [{ label: "Studio Overview", icon: PlaySquare }],
-  review: [{ label: "Review Overview", icon: MessageSquare }],
   render: [{ label: "Render Overview", icon: SlidersHorizontal }],
 };
 
@@ -100,8 +102,29 @@ export function workflowHref(
   stage: WorkflowStageId,
   characterId = "christopher",
 ) {
-  if (stage === "pre-production") {
-    return `/studio/projects/${projectId}/pre-production/characters/${characterId}`;
+  const safeProjectId = encodeURIComponent(projectId);
+  const safeCharacterId = encodeURIComponent(characterId);
+  if (stage === "idea") {
+    return `/studio/projects/${safeProjectId}/idea`;
   }
-  return `/studio/projects/${projectId}/${stage}`;
+  if (stage === "discover") {
+    return `/discovery?projectId=${safeProjectId}&characterId=${safeCharacterId}`;
+  }
+  if (stage === "shape") {
+    return `/studio/projects/${safeProjectId}/script`;
+  }
+  if (stage === "build") {
+    return `/studio/projects/${safeProjectId}/pre-production/characters/${safeCharacterId}`;
+  }
+  if (stage === "ready") {
+    return `/studio/projects/${safeProjectId}/ready`;
+  }
+  return `/studio/projects/${safeProjectId}/studio`;
+}
+
+export function productionWorkspaceHref(
+  projectId: string,
+  workspace: ProductionWorkspaceId,
+) {
+  return `/studio/projects/${encodeURIComponent(projectId)}/${workspace}`;
 }

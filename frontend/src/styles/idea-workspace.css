@@ -1,0 +1,576 @@
+.idea-page {
+  --idea-purple: #c35aff;
+  --idea-violet: #7134ff;
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  min-width: 1024px;
+  height: 100vh;
+  min-height: 720px;
+  overflow: hidden;
+  color: #f7f5fb;
+  background:
+    radial-gradient(ellipse at 82% 53%, rgba(91, 33, 170, 0.28), transparent 28%),
+    radial-gradient(ellipse at 55% 44%, rgba(23, 25, 73, 0.32), transparent 47%),
+    #02030a;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+.idea-page::before {
+  position: absolute;
+  z-index: -2;
+  right: -4vw;
+  bottom: -8vh;
+  width: 48vw;
+  height: 82vh;
+  content: "";
+  opacity: 0.72;
+  filter: blur(0.2px);
+  background:
+    radial-gradient(circle at 50% 47%, rgba(255, 233, 255, 0.9) 0 0.08%, transparent 0.18%),
+    radial-gradient(circle at 58% 31%, rgba(228, 176, 255, 0.75) 0 0.08%, transparent 0.19%),
+    radial-gradient(circle at 63% 56%, rgba(255, 255, 255, 0.65) 0 0.06%, transparent 0.17%),
+    radial-gradient(ellipse at 54% 52%, rgba(226, 104, 255, 0.54), transparent 9%),
+    radial-gradient(ellipse at 65% 48%, rgba(97, 49, 226, 0.46), transparent 16%),
+    radial-gradient(ellipse at 48% 66%, rgba(93, 29, 179, 0.35), transparent 24%);
+  transform: rotate(-16deg);
+}
+
+.idea-page::after {
+  position: absolute;
+  z-index: -1;
+  inset: 88px 0 0;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(2, 3, 10, 0.06), rgba(2, 3, 10, 0.24) 52%, rgba(2, 3, 10, 0.12)),
+    radial-gradient(circle at 38% 56%, rgba(123, 65, 255, 0.08), transparent 34%);
+}
+
+.idea-page__stars {
+  position: absolute;
+  z-index: -1;
+  inset: 88px 0 0;
+  opacity: 0.75;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 72% 9%, #ad78ff 0 1px, transparent 1.6px),
+    radial-gradient(circle at 89% 16%, #fff 0 0.7px, transparent 1.2px),
+    radial-gradient(circle at 78% 33%, #955dff 0 0.8px, transparent 1.4px),
+    radial-gradient(circle at 93% 45%, #fff 0 0.6px, transparent 1.2px),
+    radial-gradient(circle at 67% 66%, #8f60ff 0 0.8px, transparent 1.4px),
+    radial-gradient(circle at 86% 72%, #fff 0 0.8px, transparent 1.4px),
+    radial-gradient(circle at 58% 23%, #8564ff 0 0.6px, transparent 1.1px);
+  background-size: 190px 160px, 241px 214px, 173px 231px, 260px 190px, 221px 193px, 179px 248px, 276px 225px;
+}
+
+.idea-sophia {
+  position: absolute;
+  top: max(111px, 10.84vh);
+  bottom: 39px;
+  left: 17px;
+  width: 290px;
+}
+
+.idea-sophia__portrait {
+  position: absolute;
+  top: 0;
+  left: -11px;
+  width: 315px;
+  height: max(460px, 44.92vh);
+  object-fit: contain;
+  object-position: center bottom;
+  filter: saturate(1.04) contrast(1.03) brightness(1.04) drop-shadow(0 14px 22px rgba(0, 0, 0, 0.38));
+}
+
+.idea-sophia__card {
+  position: absolute;
+  top: max(460px, 44.92vh);
+  right: 0;
+  left: 0;
+  min-height: 306px;
+  padding: 24px 25px 20px;
+  border: 1px solid rgba(159, 111, 223, 0.2);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(9, 10, 20, 0.94), rgba(5, 6, 14, 0.94));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.38), inset 0 1px rgba(255, 255, 255, 0.025);
+}
+
+.idea-sophia__online {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 8px;
+  color: #67df7b;
+  font-size: 13px;
+}
+
+.idea-sophia__online span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #53e578;
+  box-shadow: 0 0 9px rgba(83, 229, 120, 0.7);
+}
+
+.idea-sophia__card h2 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.16;
+}
+
+.idea-sophia__role {
+  margin: 7px 0 0;
+  color: #c674ff;
+  font-size: 16px;
+}
+
+.idea-sophia__rule {
+  width: 29px;
+  height: 1px;
+  margin: 19px 0;
+  background: #a73def;
+}
+
+.idea-sophia__message {
+  max-width: 215px;
+  margin: 0;
+  color: #e4e0e9;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+.idea-sophia__partner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 15px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.075);
+  color: #d488ff;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.idea-sophia__partner svg {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+}
+
+.idea-composer {
+  position: absolute;
+  top: 170px;
+  left: 50%;
+  width: min(790px, 57vw);
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.idea-composer__heading h1 {
+  margin: 0;
+  font-size: clamp(39px, 3.15vw, 50px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -1.6px;
+}
+
+.idea-composer__heading h1 span {
+  color: #c05bff;
+  background: linear-gradient(100deg, #c068ff, #8c4bff);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.idea-composer__heading p {
+  margin: 17px 0 13px;
+  color: #d3ceda;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.idea-composer__heading em {
+  color: #bb76ee;
+  font-style: normal;
+}
+
+.idea-composer__heading > svg {
+  width: 29px;
+  height: 29px;
+  margin-bottom: 10px;
+  color: #b95dff;
+  stroke-width: 1.4;
+}
+
+.idea-input-shell {
+  position: relative;
+  height: 320px;
+  padding: 34px 38px 76px;
+  border: 1px solid #c06cff;
+  border-radius: 17px;
+  text-align: left;
+  background:
+    radial-gradient(circle at 72% 31%, rgba(45, 34, 103, 0.19), transparent 38%),
+    rgba(7, 8, 22, 0.86);
+  box-shadow: 0 0 0 1px rgba(153, 73, 255, 0.13), 0 0 34px rgba(111, 49, 216, 0.3), inset 0 0 38px rgba(40, 30, 93, 0.15);
+}
+
+.idea-input-shell > label {
+  display: block;
+  margin-bottom: 17px;
+  color: #d9d4e0;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.idea-input-shell textarea {
+  width: 100%;
+  height: 126px;
+  resize: none;
+  border: 0;
+  outline: 0;
+  color: #f7f5fb;
+  background: transparent;
+  font: 300 16px/1.75 Inter, "Segoe UI", sans-serif;
+}
+
+.idea-input-shell textarea::placeholder {
+  max-width: 510px;
+  color: #c7c0cb;
+  opacity: 0.92;
+}
+
+.idea-input-shell__count {
+  position: absolute;
+  right: 38px;
+  bottom: 105px;
+  color: #aca6b3;
+  font-size: 13px;
+}
+
+.idea-mode-toolbar {
+  position: absolute;
+  right: 38px;
+  bottom: 27px;
+  left: 38px;
+  display: grid;
+  grid-template-columns: 0.75fr 0.88fr 0.82fr 1.22fr 1.18fr;
+  height: 70px;
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.idea-mode-toolbar button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  color: #f0edf4;
+  background: transparent;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.idea-mode-toolbar button:last-child {
+  border-right: 0;
+}
+
+.idea-mode-toolbar button::after {
+  position: absolute;
+  right: 14px;
+  bottom: -1px;
+  left: 14px;
+  height: 2px;
+  content: "";
+  opacity: 0;
+  background: #c05bff;
+  box-shadow: 0 0 8px rgba(190, 85, 255, 0.72);
+}
+
+.idea-mode-toolbar button.is-active {
+  color: #c96fff;
+}
+
+.idea-mode-toolbar button.is-active::after {
+  opacity: 1;
+}
+
+.idea-mode-toolbar svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 1.45;
+}
+
+.idea-privacy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 23px 0 22px;
+  color: #aaa4b0;
+  font-size: 14px;
+}
+
+.idea-privacy svg {
+  width: 18px;
+  height: 18px;
+}
+
+.idea-explore {
+  display: inline-flex;
+  width: 510px;
+  height: 78px;
+  align-items: center;
+  justify-content: center;
+  gap: 21px;
+  border: 1px solid rgba(127, 85, 222, 0.16);
+  border-radius: 12px;
+  color: #f8f5fb;
+  background: linear-gradient(100deg, #4e1dc0, #7222da);
+  box-shadow: 0 12px 30px rgba(37, 16, 80, 0.34);
+  font-size: 22px;
+  cursor: pointer;
+  transition: filter 160ms ease, transform 160ms ease, opacity 160ms ease;
+}
+
+.idea-explore:not(:disabled):hover,
+.idea-explore:not(:disabled):focus-visible {
+  filter: brightness(1.16);
+  transform: translateY(-1px);
+}
+
+.idea-explore:disabled {
+  color: #6d6874;
+  background: rgba(32, 27, 53, 0.78);
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+.idea-explore svg {
+  width: 25px;
+}
+
+.idea-explore-help {
+  margin: 13px 0 0;
+  color: #8e8995;
+  font-size: 14px;
+}
+
+.idea-insight-strip {
+  position: absolute;
+  right: 17.7%;
+  bottom: 28px;
+  left: 17.7%;
+  display: grid;
+  height: 63px;
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  border-radius: 15px;
+  background: rgba(7, 8, 16, 0.72);
+}
+
+.idea-insight-strip p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 0;
+  color: #b7b1bc;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.idea-insight-strip > span {
+  width: 1px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.idea-insight-strip svg {
+  width: 25px;
+  height: 25px;
+  color: #c35cff;
+  stroke-width: 1.35;
+}
+
+.idea-status {
+  position: fixed;
+  z-index: 80;
+  right: 24px;
+  bottom: 101px;
+  max-width: 360px;
+  margin: 0;
+  padding: 9px 13px;
+  border: 1px solid rgba(184, 86, 255, 0.25);
+  border-radius: 9px;
+  color: #d8cfe1;
+  background: rgba(9, 7, 17, 0.9);
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.idea-status:not(:empty) {
+  opacity: 1;
+}
+
+@media (max-width: 1250px) {
+  .idea-sophia {
+    left: 12px;
+    width: 238px;
+  }
+
+  .idea-sophia__portrait {
+    left: -31px;
+    transform: scale(0.9);
+    transform-origin: bottom left;
+  }
+
+  .idea-sophia__card {
+    padding-inline: 19px;
+  }
+
+  .idea-composer {
+    left: 57%;
+    width: min(700px, 63vw);
+  }
+
+  .idea-insight-strip {
+    right: 9%;
+    left: 24%;
+  }
+}
+
+@media (max-height: 850px) {
+  .idea-page::after,
+  .idea-page__stars {
+    inset-block-start: 74px;
+  }
+
+  .idea-sophia {
+    top: 78px;
+    bottom: 14px;
+  }
+
+  .idea-sophia__portrait {
+    height: 320px;
+  }
+
+  .idea-sophia__card {
+    top: 320px;
+    min-height: 254px;
+    padding-block: 17px 14px;
+  }
+
+  .idea-sophia__rule {
+    margin-block: 11px;
+  }
+
+  .idea-sophia__message {
+    font-size: 13px;
+    line-height: 1.58;
+  }
+
+  .idea-sophia__partner {
+    margin-top: 9px;
+    padding-top: 9px;
+  }
+
+  .idea-composer {
+    top: 106px;
+  }
+
+  .idea-composer__heading h1 {
+    font-size: 38px;
+  }
+
+  .idea-composer__heading p {
+    margin-block: 10px 4px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .idea-composer__heading > svg {
+    width: 22px;
+    height: 22px;
+    margin-bottom: 3px;
+  }
+
+  .idea-input-shell {
+    height: 255px;
+    padding: 26px 32px 68px;
+  }
+
+  .idea-input-shell > label {
+    margin-bottom: 12px;
+    font-size: 25px;
+  }
+
+  .idea-input-shell textarea {
+    height: 82px;
+    font-size: 14px;
+  }
+
+  .idea-input-shell__count {
+    right: 32px;
+    bottom: 90px;
+  }
+
+  .idea-mode-toolbar {
+    right: 32px;
+    bottom: 18px;
+    left: 32px;
+    height: 59px;
+  }
+
+  .idea-privacy {
+    margin-block: 13px 11px;
+  }
+
+  .idea-explore {
+    height: 58px;
+    font-size: 18px;
+  }
+
+  .idea-explore-help {
+    margin-top: 7px;
+  }
+
+  .idea-insight-strip {
+    bottom: 11px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .idea-sophia__portrait {
+    opacity: 0.68;
+  }
+
+  .idea-composer {
+    left: 60%;
+    width: 68vw;
+  }
+
+  .idea-mode-toolbar button {
+    gap: 7px;
+    font-size: 12px;
+  }
+
+  .idea-mode-toolbar svg {
+    width: 21px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .idea-explore {
+    transition: none;
+  }
+}

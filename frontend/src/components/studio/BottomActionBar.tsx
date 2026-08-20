@@ -9,6 +9,7 @@ type BottomActionBarProps = {
   secondaryLabel?: string;
   onPrimary: () => void;
   onSecondary?: () => void;
+  primaryDisabled?: boolean;
 };
 
 export function BottomActionBar({
@@ -19,6 +20,7 @@ export function BottomActionBar({
   secondaryLabel = "Preview Scene",
   onPrimary,
   onSecondary,
+  primaryDisabled = false,
 }: BottomActionBarProps) {
   return (
     <footer className="scene-action-bar">
@@ -48,6 +50,7 @@ export function BottomActionBar({
           className="next-set-button"
           trailingIcon={<ChevronRight aria-hidden="true" />}
           onClick={onPrimary}
+          disabled={primaryDisabled}
         >
           {primaryLabel}
         </Button>

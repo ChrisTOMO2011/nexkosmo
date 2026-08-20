@@ -1,4 +1,3 @@
-import { ChevronRight } from "lucide-react";
 import {
   workflowHref,
   workflowStages,
@@ -9,29 +8,35 @@ type WorkflowNavigationProps = {
   activeStage: WorkflowStageId;
   projectId: string;
   characterId?: string;
+  className?: string;
+  ariaLabel?: string;
 };
 
 export function WorkflowNavigation({
   activeStage,
   projectId,
   characterId,
+  className = "",
+  ariaLabel = "Creator workflow",
 }: WorkflowNavigationProps) {
   return (
-    <nav className="workflow-navigation" aria-label="Production workflow">
+    <nav
+      className={`module-navigation creator-workflow-navigation ${className}`.trim()}
+      aria-label={ariaLabel}
+    >
       {workflowStages.map((stage, index) => (
-        <div className="workflow-step-wrap" key={stage.id}>
           <a
-            className={`workflow-step ${activeStage === stage.id ? "is-active" : ""}`}
-            aria-current={activeStage === stage.id ? "step" : undefined}
+            className={`module-button ${activeStage === stage.id ? "is-active" : ""}`}
+            aria-current={activeStage === stage.id ? "page" : undefined}
+            aria-label={stage.label}
             href={workflowHref(projectId, stage.id, characterId)}
+            key={stage.id}
           >
-            <span className="workflow-number">{index + 1}</span>
-            <span className="workflow-label">{stage.label}</span>
+            <span className="creator-stage-dot" aria-hidden="true">
+              {index + 1}
+            </span>
+            <span className="creator-stage-label">{stage.label}</span>
           </a>
-          {index < workflowStages.length - 1 && (
-            <ChevronRight className="workflow-chevron" aria-hidden="true" />
-          )}
-        </div>
       ))}
     </nav>
   );

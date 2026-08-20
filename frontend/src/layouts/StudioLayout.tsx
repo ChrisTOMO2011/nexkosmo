@@ -16,6 +16,7 @@ type StudioLayoutProps = {
   onOpenRightSidebar?: () => void;
   onPlaceholder: (message: string) => void;
   statusMessage: string;
+  statusNotice?: ReactNode;
   workspaceClassName?: string;
   children: ReactNode;
 };
@@ -32,6 +33,7 @@ export function StudioLayout({
   onOpenRightSidebar,
   onPlaceholder,
   statusMessage,
+  statusNotice,
   workspaceClassName = "",
   children,
 }: StudioLayoutProps) {
@@ -67,7 +69,7 @@ export function StudioLayout({
         )}
       </div>
       {bottomActionBar}
-      <Toast key={statusMessage} message={statusMessage} />
+      {statusNotice ?? <Toast key={statusMessage} message={statusMessage} />}
     </div>
   );
 }

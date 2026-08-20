@@ -1,5 +1,27 @@
 const announcer = document.querySelector('#action-announcer');
 
+const legacyWorkspace = new URLSearchParams(window.location.search).get('workspace');
+const legacyProjectId = new URLSearchParams(window.location.search).get('projectId') || 'the-last-dawn';
+const legacyCharacterId = new URLSearchParams(window.location.search).get('characterId') || 'christopher';
+const safeLegacySegment = (value, fallback) => /^[a-z0-9][a-z0-9_-]{0,127}$/i.test(value) ? value : fallback;
+const legacyProject = safeLegacySegment(legacyProjectId, 'the-last-dawn');
+const legacyCharacter = safeLegacySegment(legacyCharacterId, 'christopher');
+const legacyWorkflowRoutes = {
+  idea: `/studio/projects/${legacyProject}/idea`,
+  discovery: `/discovery?projectId=${legacyProject}&characterId=${legacyCharacter}`,
+  script: `/studio/projects/${legacyProject}/script`,
+  'pre-production': `/studio/projects/${legacyProject}/pre-production/characters/${legacyCharacter}`,
+  ready: `/studio/projects/${legacyProject}/ready`,
+  set: `/studio/projects/${legacyProject}/set`,
+  studio: `/studio/projects/${legacyProject}/studio`,
+  render: `/studio/projects/${legacyProject}/render`,
+  production: `/studio/projects/${legacyProject}/studio`,
+};
+
+if (legacyWorkspace && legacyWorkflowRoutes[legacyWorkspace]) {
+  window.location.replace(legacyWorkflowRoutes[legacyWorkspace]);
+}
+
 const announce = (message) => {
   if (announcer) {
     announcer.textContent = message;

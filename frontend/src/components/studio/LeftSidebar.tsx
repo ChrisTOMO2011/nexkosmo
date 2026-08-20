@@ -1,4 +1,5 @@
 import { Bot, ChevronDown, ExternalLink } from "lucide-react";
+import type { ReactNode } from "react";
 import {
   advancedStudios,
   aiTools,
@@ -11,7 +12,9 @@ type LeftSidebarProps = {
   activeItem: string;
   sectionLabel: string;
   onNavigate: (label: string) => void;
+  onOpenAdvancedStudio?: (label: string) => void;
   onPlaceholder: (message: string) => void;
+  producerPanel?: ReactNode;
 };
 
 export function LeftSidebar({
@@ -19,7 +22,9 @@ export function LeftSidebar({
   activeItem,
   sectionLabel,
   onNavigate,
+  onOpenAdvancedStudio,
   onPlaceholder,
+  producerPanel,
 }: LeftSidebarProps) {
   return (
     <aside className="project-sidebar" aria-label="Project navigation">
@@ -68,7 +73,16 @@ export function LeftSidebar({
           <Button
             className="advanced-studio-item"
             key={label}
-            onClick={() => onPlaceholder(`${label} placeholder opened.`)}
+            onClick={() => {
+              if (
+                (label === "CGI Studio" || label === "VFX Studio") &&
+                onOpenAdvancedStudio
+              ) {
+                onOpenAdvancedStudio(label);
+                return;
+              }
+              onPlaceholder(`${label} placeholder opened.`);
+            }}
           >
             <span className={`studio-icon tone-${tone}`}>
               <Icon aria-hidden="true" />
@@ -81,21 +95,23 @@ export function LeftSidebar({
         ))}
       </section>
 
-      <section className="copilot-card">
-        <div className="copilot-heading">
-          <span className="bot-orbit">
-            <Bot aria-hidden="true" />
-          </span>
-          <strong>AI COPILOT</strong>
-        </div>
-        <p>Need ideas for your scene?</p>
-        <Button
-          trailingIcon={<ExternalLink aria-hidden="true" />}
-          onClick={() => onPlaceholder("AI Copilot is ready for integration.")}
-        >
-          Ask AI Copilot
-        </Button>
-      </section>
+      {producerPanel ?? (
+        <section className="copilot-card">
+          <div className="copilot-heading">
+            <span className="bot-orbit">
+              <Bot aria-hidden="true" />
+            </span>
+            <strong>AI COPILOT</strong>
+          </div>
+          <p>Need ideas for your scene?</p>
+          <Button
+            trailingIcon={<ExternalLink aria-hidden="true" />}
+            onClick={() => onPlaceholder("AI Copilot is ready for integration.")}
+          >
+            Ask AI Copilot
+          </Button>
+        </section>
+      )}
     </aside>
   );
 }

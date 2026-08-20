@@ -7,24 +7,21 @@ import {
 } from "../../../components/studio";
 import { LoadingSkeleton, Panel } from "../../../components/ui";
 import { StudioLayout } from "../../../layouts/StudioLayout";
+import { navigateInApp } from "../../../app/navigation";
 import {
-  workflowHref,
+  productionWorkspaceHref,
   workflowScaffoldNavigation,
-  workflowStages,
-  type WorkflowStageId,
+  type ProductionWorkspaceId,
 } from "../config/navigation";
-
-type ScaffoldStage = Exclude<WorkflowStageId, "pre-production">;
 
 type WorkflowScaffoldPageProps = {
   projectId: string;
-  stage: ScaffoldStage;
+  stage: ProductionWorkspaceId;
 };
 
-const nextStage: Record<ScaffoldStage, WorkflowStageId | null> = {
+const nextStage: Record<ProductionWorkspaceId, ProductionWorkspaceId | null> = {
   set: "studio",
-  studio: "review",
-  review: "render",
+  studio: "render",
   render: null,
 };
 
@@ -32,18 +29,14 @@ export function WorkflowScaffoldPage({
   projectId,
   stage,
 }: WorkflowScaffoldPageProps) {
-  const stageLabel =
-    workflowStages.find((workflowStage) => workflowStage.id === stage)?.label ??
-    stage;
+  const stageLabel = stage.toUpperCase();
   const navigation = workflowScaffoldNavigation[stage];
   const [activeItem, setActiveItem] = useState(navigation[0].label);
   const [inspectorOpen, setInspectorOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
 
   const followingStage = nextStage[stage];
-  const followingLabel = followingStage
-    ? workflowStages.find((item) => item.id === followingStage)?.label
-    : undefined;
+  const followingLabel = followingStage?.toUpperCase();
 
   function showStatus(message: string) {
     setStatusMessage(message);
@@ -51,7 +44,7 @@ export function WorkflowScaffoldPage({
 
   return (
     <StudioLayout
-      activeStage={stage}
+      activeStage="production"
       projectId={projectId}
       leftSidebar={
         <LeftSidebar
@@ -93,7 +86,7 @@ export function WorkflowScaffoldPage({
           onSecondary={() => showStatus("Scene preview is not implemented yet.")}
           onPrimary={() => {
             if (followingStage) {
-              window.location.assign(workflowHref(projectId, followingStage));
+              navigateInApp(productionWorkspaceHref(projectId, followingStage));
             } else {
               showStatus("Render actions will be implemented in the Render workflow.");
             }

@@ -11,7 +11,11 @@ Memory, Graph, World State, Search, Embedding, or Explainability truth stores.
 - Infrastructure: authentication adapter, PostgreSQL, RLS and migrations.
 - Interfaces: HTTP and operational endpoints.
 
-The current increment deliberately stops before claiming full implementation.
-Repository adapters, the complete Aiden database fixture, event dispatcher,
-consumer worker, API command surface, metrics/traces wiring, and all twenty
-integration proofs remain blocking.
+The current foundation includes Character and Project/Production repository and
+HTTP slices, a transactional outbox dispatcher foundation, a durable audit
+delivery queue and a unified frontend route surface. Product consumers and the
+semantic-kernel runtime are deliberately not activated.
+
+The maintained baseline and status are in
+[`architecture/master-architecture-baseline.md`](architecture/master-architecture-baseline.md)
+and [`roadmap/phase-status.md`](roadmap/phase-status.md).

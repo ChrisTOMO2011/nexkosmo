@@ -6,6 +6,7 @@ type UploadAreaProps = {
   helperText?: string;
   accept?: string;
   onFile: (file: File) => void;
+  onActivate?: () => boolean | void;
   preview?: ReactNode;
   className?: string;
 };
@@ -15,6 +16,7 @@ export function UploadArea({
   helperText,
   accept,
   onFile,
+  onActivate,
   preview,
   className = "",
 }: UploadAreaProps) {
@@ -26,7 +28,13 @@ export function UploadArea({
 
   function handleDrop(event: DragEvent<HTMLButtonElement>) {
     event.preventDefault();
+    if (onActivate?.() === false) return;
     selectFile(event.dataTransfer.files[0]);
+  }
+
+  function handleActivate() {
+    if (onActivate?.() === false) return;
+    inputRef.current?.click();
   }
 
   return (
@@ -34,7 +42,7 @@ export function UploadArea({
       <button
         className={`ui-upload-area ${className}`.trim()}
         type="button"
-        onClick={() => inputRef.current?.click()}
+        onClick={handleActivate}
         onDragOver={(event) => event.preventDefault()}
         onDrop={handleDrop}
       >

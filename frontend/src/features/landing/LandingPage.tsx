@@ -1,14 +1,10 @@
-const studioEntryRoute =
-  "/studio/projects/the-last-dawn/pre-production/characters/christopher";
+const studioEntryRoute = "/studio";
 
 export function LandingPage() {
   return (
     <main className="landing-page">
-      <iframe
-        className="landing-page__frame"
-        src="/landing/index.html"
-        title="Nexkosmo cinematic home"
-      />
+      <h1>Nexkosmo</h1>
+      <p>The cinematic landing is served directly at this route.</p>
       <a className="landing-page__skip" href={studioEntryRoute}>
         Open Nexkosmo Studio
       </a>

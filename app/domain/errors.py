@@ -20,3 +20,11 @@ class IdempotencyConflict(DomainError):
 
 class ConsentDenied(DomainError):
     code = "consent_denied"
+
+
+class NotFound(DomainError):
+    code = "not_found"
+
+
+class ValidationFailed(DomainError):
+    code = "validation_failed"

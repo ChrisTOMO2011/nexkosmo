@@ -1,3 +1,4 @@
+import asyncio
 from typing import Protocol
 from uuid import UUID
 
@@ -19,15 +20,26 @@ class OidcJwksPrincipalVerifier:
         self._jwks = PyJWKClient(jwks_url)
 
     async def verify(self, bearer_token: str) -> Principal:
-        signing_key = self._jwks.get_signing_key_from_jwt(bearer_token)
-        claims = jwt.decode(
+        signing_key = await asyncio.to_thread(self._jwks.get_signing_key_from_jwt, bearer_token)
+        claims = await asyncio.to_thread(
+            jwt.decode,
             bearer_token,
             signing_key.key,
             algorithms=["RS256", "ES256"],
             audience=self._audience,
             issuer=self._issuer,
             options={
-                "require": ["exp", "iat", "iss", "aud", "sub", "jti", "workspace_id", "agent_id"]
+                "require": [
+                    "exp",
+                    "iat",
+                    "iss",
+                    "aud",
+                    "sub",
+                    "jti",
+                    "workspace_id",
+                    "agent_id",
+                    "agent_kind",
+                ]
             },
         )
         return Principal(

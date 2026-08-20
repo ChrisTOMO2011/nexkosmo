@@ -1,6 +1,6 @@
-import { Check } from "lucide-react";
 import { SelectionGrid } from "../../../components/ui";
 import { styles } from "./data";
+import { AssetSelectionSection } from "./shared";
 
 type StyleSelectorProps = {
   selected: string;
@@ -9,8 +9,11 @@ type StyleSelectorProps = {
 
 export function StyleSelector({ selected, onChange }: StyleSelectorProps) {
   return (
-    <section className="selector-section style-selector" aria-labelledby="style-title">
-      <h3 id="style-title">STYLE</h3>
+    <AssetSelectionSection
+      title="STYLE"
+      titleId="style-title"
+      className="style-selector"
+    >
       <SelectionGrid className="style-grid">
         {styles.map((style, index) => (
           <button
@@ -20,15 +23,10 @@ export function StyleSelector({ selected, onChange }: StyleSelectorProps) {
             aria-pressed={selected === style}
             onClick={() => onChange(style)}
           >
-            {selected === style && (
-              <span className="selection-check">
-                <Check aria-hidden="true" />
-              </span>
-            )}
             <span>{style}</span>
           </button>
         ))}
       </SelectionGrid>
-    </section>
+    </AssetSelectionSection>
   );
 }
