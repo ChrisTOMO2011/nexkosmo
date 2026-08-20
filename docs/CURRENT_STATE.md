@@ -3,7 +3,7 @@
 Status: CANONICAL CURRENT-STATE SNAPSHOT
 Owner: Director
 Alignment steward: ChatGPT
-Last updated: 2026-08-19
+Last updated: 2026-08-20
 
 This file is the compact authoritative snapshot of Nexkosmo's current approved direction. It is intentionally smaller than the full architecture documentation. Detailed specifications remain in their dedicated documents.
 
@@ -109,28 +109,74 @@ Demo fixtures are allowed only when clearly isolated and labelled as fixtures. F
 
 ## Current implementation reality
 
-- The repository contains the Brain/backend foundation, architecture documents, canonical asset enforcement, and CI.
-- The existing Studio frontend work remains a draft branch/PR and includes prototype local state and fixtures.
-- That frontend predates the current six-stage creative workflow, the full-entry routing clarification, and the current Production/Studio boundary.
-- Therefore it must be reconciled with this state before becoming the production UI foundation.
-- Preserve reusable layout/components that remain compatible; do not delete useful prototype work merely because its navigation assumptions are obsolete.
-- Do not infer that a designed screen, mockup, placeholder route, or documented architecture is already implemented end-to-end.
+- The trusted governance baseline is branch `governance/alignment-system` at commit
+  `e34d2aaba4cda1aa9563242edc3df48b230833f7`. It contains the approved governance,
+  Brain/backend foundation, architecture documents, canonical asset enforcement and
+  CI evidence used for controlled migration review.
+- The preserved candidate source is branch
+  `candidate/preserve-nexkosmo-inspection-2026-08-20` at commit
+  `c26ee95fccc34891d514dcb528684698d933f758`, recorded under preservation digest
+  `585CED3089C167A55A09D01E408C81A2BD668734204F53763EB288E6BB3B59BF`.
+- The candidate contains substantial frontend, Project, Character, Environment,
+  adapter, migration, test and infrastructure capability source. Presence on that
+  branch is evidence for review, not proof that those capabilities are implemented,
+  approved, migrated or production-ready in the trusted baseline.
+- Candidate frontend work includes prototype local state, fixtures, obsolete routing
+  assumptions, page-specific branding, and unresolved Production/Studio boundaries.
+  Reusable capability may be extracted only through independently approved migration
+  slices.
+- Candidate migrations `0003-0011` have not been approved or executed by the
+  controlled migration. Their schemas, grants, RLS policies, product catalogues and
+  seed decisions remain separate review gates.
+- Preserve reusable layout/components and all useful legacy Set, Studio, CGI, VFX,
+  Render and Pre-Production capability source. Do not delete useful prototype work
+  merely because its navigation assumptions are obsolete.
+- Do not infer that a candidate file, designed screen, mockup, placeholder route,
+  test, migration or documented architecture is implemented end-to-end in the
+  trusted baseline.
+
+## Controlled migration state
+
+Migration Slice 1 — Governance and Current-State Reconciliation — is the only
+Director-approved candidate migration slice. Its scope is documentation-only:
+
+- maintain `docs/migration/CANDIDATE_MIGRATION_REGISTER_2026-08-20.md`;
+- reconcile this current-state snapshot and `docs/ENGINEERING_STATUS.md` with
+  verified trusted-baseline evidence; and
+- preserve candidate capabilities, conflicts and STOP gates without promoting them
+  to canon.
+
+All later slices remain blocked pending separate Director review. Candidate ADRs,
+roadmaps, architecture maps and implementation-status documents remain read-only
+evidence and do not replace approved decisions or trusted architecture.
 
 ## Current engineering priority
 
-ALIGNMENT STOP GATE.
+CONTROLLED MIGRATION STOP GATE. The existing status remains: ALIGNMENT STOP GATE.
 
-Before major new feature construction:
+Before candidate implementation is extracted:
 
-1. Reconcile active Codex/frontend work with current `main` and this approved alignment branch once merged.
-2. Replace obsolete workflow assumptions with the approved full-entry routing and six-stage creative workflow.
-3. Preserve reusable frontend components where they remain compatible.
-4. Remove project-specific prototype hard-coding from production data paths.
-5. Wire UI state to canonical project contracts incrementally rather than inventing fake backend APIs.
-6. Keep canonical asset and alignment checks passing.
-7. Prove one end-to-end new-project vertical slice before expanding breadth:
+1. Complete and validate the Slice 1 register without changing candidate evidence,
+   application code, migrations, frontend code, Production, branch protection or
+   frozen assets.
+2. Require separate Director approval for the exact files and controls of every
+   later migration slice. Do not merge the candidate branch wholesale.
+3. Replace obsolete workflow assumptions only inside a separately approved slice,
+   preserving the approved full-entry routing, six-stage creative workflow and
+   contextual Studio boundary.
+4. Preserve reusable frontend and legacy capability source where compatible; compare
+   before consolidating or retiring it.
+5. Remove project-specific prototype hard-coding from production data paths before
+   candidate UI can represent canonical project state.
+6. Wire UI state to canonical Python/PostgreSQL contracts incrementally rather than
+   inventing fake backend APIs or a frontend Brain.
+7. Keep canonical asset, alignment, authority, security, latent-defect and repository
+   protection checks passing.
+8. Do not execute candidate migrations `0003-0011` until their domain, security,
+   schema, restore and Director gates are separately satisfied.
+9. Prove one end-to-end new-project vertical slice before expanding breadth:
    `Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION -> Open in Studio -> edit -> revalidate -> approve`.
-8. Prove the alternate screenplay-import entry separately:
+10. Prove the alternate screenplay-import entry separately:
    `Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> Import Script -> SHAPE`.
 
 ## Change rule

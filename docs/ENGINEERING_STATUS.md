@@ -3,6 +3,7 @@
 Status: LIVE ENGINEERING SNAPSHOT
 Owner: Director
 Alignment steward: ChatGPT
+Last updated: 2026-08-20
 
 This file is the human-readable engineering health page for Nexkosmo. It is a projection of repository, CI, runtime, context, token-usage, and cost evidence. It is not a new source of product canon and must never override `docs/CURRENT_STATE.md`, approved decisions, verified tests, or runtime evidence.
 
@@ -10,24 +11,44 @@ This file is the human-readable engineering health page for Nexkosmo. It is a pr
 
 Display engineering health vertically, one result per line, rather than as a long horizontal status string.
 
-**Alignment:** 🟠 WARN  
-**Repository:** 🔴 FAIL  
-**CI:** 🔴 BLOCKED BY REPO PROTECTION  
-**Runtime:** ⚪ UNKNOWN  
-**Context:** ⚪ UNKNOWN  
-**Usage:** ⚪ UNKNOWN  
-**Estimate Costings (AUD):** ⚪ UNKNOWN  
+**Alignment:** 🟠 WARN — controlled Migration Slice 1 is active<br>
+**Repository:** 🟠 WARN — trusted governance baseline is on draft PR #4 and has not been merged<br>
+**CI:** 🟢 PASS — trusted baseline commit `e34d2aa`<br>
+**Runtime:** ⚪ UNKNOWN<br>
+**Context:** ⚪ UNKNOWN<br>
+**Usage:** ⚪ UNKNOWN<br>
+**Estimate Costings (AUD):** ⚪ UNKNOWN<br>
 **Project Estimate (AUD):** ⚪ UNKNOWN
 
-Current objective: complete the alignment/governance stop gate, protect `main`, merge the approved alignment system, realign Codex, and only then migrate normal development to the Server 1 development environment.
+Current objective: complete and review the documentation-only Governance and
+Current-State Reconciliation slice before any candidate implementation is extracted.
 
 Current known conditions:
 
-- Alignment governance is being established on `governance/alignment-system` / PR #4.
-- `main` is currently unprotected. This is a governance STOP GATE.
-- The old Studio frontend PR must be reconciled against current canon before merge.
-- Codex realignment is pending until the alignment system is merged and current canon is available from `main`.
-- Server 1 development migration is pending Codex realignment.
+- Trusted governance baseline: `governance/alignment-system` at
+  `e34d2aaba4cda1aa9563242edc3df48b230833f7`.
+- PR #4 is open in draft, targets `main`, reports mergeable/clean, and its trusted
+  baseline head is `e34d2aaba4cda1aa9563242edc3df48b230833f7`.
+- Two GitHub `quality-and-integration` check runs reported `SUCCESS` for that trusted
+  baseline on 2026-08-20. This is CI evidence for the baseline, not runtime or
+  candidate-migration evidence.
+- GitHub `main` protection was verified on 2026-08-20 with strict
+  `quality-and-integration`, pull-request enforcement, conversation resolution,
+  administrator enforcement, force pushes disabled and deletion disabled. Required
+  approving review count remains zero for the approved solo-owner model.
+- The preserved candidate remains separate at
+  `c26ee95fccc34891d514dcb528684698d933f758`, with preservation digest
+  `585CED3089C167A55A09D01E408C81A2BD668734204F53763EB288E6BB3B59BF`.
+- Only Migration Slice 1 is Director-approved. It creates the candidate migration
+  register and reconciles current-state documentation; later slices remain blocked.
+- Candidate Project, Character, Environment, frontend stages, migrations, render
+  workflows and integrations are not current trusted-baseline implementation merely
+  because they exist on the candidate branch.
+- No candidate migration has been approved or executed by Slice 1.
+- Candidate frontend and Studio capability source must be reconciled against current
+  canon before any promotion or merge.
+- Server 1 development migration remains pending controlled candidate reconciliation
+  and separate Director approval.
 - Runtime commit identity is not yet reported into this status surface.
 - Authoritative live context-token telemetry is not yet available to this repository status surface.
 - Authoritative cumulative token-usage telemetry is not yet available to this repository status surface.
