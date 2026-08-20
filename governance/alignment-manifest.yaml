@@ -33,8 +33,13 @@ sources_of_truth:
   threat_model_template: docs/THREAT_MODEL_TEMPLATE.md
   growth_marketing_framework: docs/GROWTH_MARKETING_FRAMEWORK.md
   growth_marketing_matrix: governance/growth-marketing-matrix.yaml
+  market_opportunity_intelligence: docs/MARKET_OPPORTUNITY_INTELLIGENCE.md
+  growth_intelligence: docs/GROWTH_INTELLIGENCE.md
   social_automation_protocol: docs/SOCIAL_AUTOMATION_PROTOCOL.md
   social_automation_matrix: governance/social-automation-matrix.yaml
+  migration_alignment: docs/MIGRATION_ALIGNMENT.md
+  architecture: docs/ARCHITECTURE.md
+  brand_guidelines: docs/BRAND_GUIDELINES.md
   engineering_status: docs/ENGINEERING_STATUS.md
   repository_protection: docs/REPOSITORY_PROTECTION.md
   canonical_asset_registry: assets/brand/canonical-assets.json
@@ -98,7 +103,12 @@ agent_handshake:
     - docs/LATENT_DEFECT_ASSURANCE.md
     - docs/SECURE_DEVELOPMENT_PROTOCOL.md
     - docs/GROWTH_MARKETING_FRAMEWORK.md
+    - docs/MARKET_OPPORTUNITY_INTELLIGENCE.md
+    - docs/GROWTH_INTELLIGENCE.md
     - docs/SOCIAL_AUTOMATION_PROTOCOL.md
+    - docs/MIGRATION_ALIGNMENT.md
+    - docs/ARCHITECTURE.md
+    - docs/BRAND_GUIDELINES.md
     - docs/ENGINEERING_STATUS.md
   require_manifest_version_report: true
   require_branch_freshness_check: true

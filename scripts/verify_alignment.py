@@ -20,7 +20,12 @@ REQUIRED_FILES = [
     ROOT / "docs" / "SECURE_DEVELOPMENT_PROTOCOL.md",
     ROOT / "docs" / "THREAT_MODEL_TEMPLATE.md",
     ROOT / "docs" / "GROWTH_MARKETING_FRAMEWORK.md",
+    ROOT / "docs" / "MARKET_OPPORTUNITY_INTELLIGENCE.md",
+    ROOT / "docs" / "GROWTH_INTELLIGENCE.md",
     ROOT / "docs" / "SOCIAL_AUTOMATION_PROTOCOL.md",
+    ROOT / "docs" / "MIGRATION_ALIGNMENT.md",
+    ROOT / "docs" / "ARCHITECTURE.md",
+    ROOT / "docs" / "BRAND_GUIDELINES.md",
     ROOT / "docs" / "ENGINEERING_STATUS.md",
     ROOT / "docs" / "REPOSITORY_PROTECTION.md",
     ROOT / "docs" / "decisions" / "DEC-0001-product-journey.md",
@@ -72,7 +77,12 @@ def main() -> int:
     security_protocol = read(ROOT / "docs" / "SECURE_DEVELOPMENT_PROTOCOL.md")
     threat_template = read(ROOT / "docs" / "THREAT_MODEL_TEMPLATE.md")
     growth_framework = read(ROOT / "docs" / "GROWTH_MARKETING_FRAMEWORK.md")
+    market_intelligence = read(ROOT / "docs" / "MARKET_OPPORTUNITY_INTELLIGENCE.md")
+    growth_intelligence = read(ROOT / "docs" / "GROWTH_INTELLIGENCE.md")
     social_protocol = read(ROOT / "docs" / "SOCIAL_AUTOMATION_PROTOCOL.md")
+    migration_alignment = read(ROOT / "docs" / "MIGRATION_ALIGNMENT.md")
+    architecture = read(ROOT / "docs" / "ARCHITECTURE.md")
+    brand_guidelines = read(ROOT / "docs" / "BRAND_GUIDELINES.md")
     status = read(ROOT / "docs" / "ENGINEERING_STATUS.md")
     protection = read(ROOT / "docs" / "REPOSITORY_PROTECTION.md")
     entry_decision = read(ROOT / "docs" / "decisions" / "DEC-0004-entry-routing-and-flow-layers.md")
@@ -267,12 +277,21 @@ def main() -> int:
             "manifest_version: 9",
             "- ChatGPT",
             "- Codex",
+            "agent_error_correction_separate_from_brain: true",
+            "development_time_verification_separate_from_brain: true",
+            "latent_defect_assurance_separate_from_brain: true",
+            "secure_development_separate_from_brain: true",
             "growth_marketing_framework_separate_from_brain: true",
             "social_automation_separate_from_brain: true",
             "growth_marketing_framework: docs/GROWTH_MARKETING_FRAMEWORK.md",
             "growth_marketing_matrix: governance/growth-marketing-matrix.yaml",
+            "market_opportunity_intelligence: docs/MARKET_OPPORTUNITY_INTELLIGENCE.md",
+            "growth_intelligence: docs/GROWTH_INTELLIGENCE.md",
             "social_automation_protocol: docs/SOCIAL_AUTOMATION_PROTOCOL.md",
             "social_automation_matrix: governance/social-automation-matrix.yaml",
+            "migration_alignment: docs/MIGRATION_ALIGNMENT.md",
+            "architecture: docs/ARCHITECTURE.md",
+            "brand_guidelines: docs/BRAND_GUIDELINES.md",
             "require_growth_framework_for_material_marketing_or_growth_work: true",
             "require_social_automation_protocol_for_social_publishing_or_provider_integration_work: true",
             "critical_unknowns_block: true",
@@ -291,6 +310,92 @@ def main() -> int:
             "manual_approval_first: REQUIRED",
             "provider_credentials: TIER_4_CRITICAL",
             "publish_idempotency: REQUIRED",
+        ],
+        failures,
+    )
+
+    require(
+        "docs/MARKET_OPPORTUNITY_INTELLIGENCE.md",
+        market_intelligence,
+        [
+            (
+                "architectural direction and product contract, not a claim that "
+                "the capability is implemented"
+            ),
+            "Visible Feedback Is Not Market Size",
+            (
+                "A public review, feature request, forum post, or comment is "
+                "evidence of a need. It is not a population count."
+            ),
+            "A Capability Gap is not synonymous with `build`.",
+            "Human Approval",
+            "Never equate visible feedback with market size.",
+        ],
+        failures,
+    )
+
+    require(
+        "docs/GROWTH_INTELLIGENCE.md",
+        growth_intelligence,
+        [
+            (
+                "architectural direction and product contract, not a claim that "
+                "the capability is implemented"
+            ),
+            "Optimise for Retained Creator Value",
+            "Growth Intelligence MUST NOT misrepresent the product.",
+            (
+                "Clicks, impressions, open rates, video views, and page visits are "
+                "useful diagnostic signals"
+            ),
+            "significant budget changes require explicit approval",
+            "Do not optimise AI marketing for attention.",
+        ],
+        failures,
+    )
+
+    require(
+        "docs/MIGRATION_ALIGNMENT.md",
+        migration_alignment,
+        [
+            (
+                "The migration is a controlled engineering operation, not an "
+                "opportunity for an unapproved redesign."
+            ),
+            "Set, Studio, CGI, VFX, Render, Pre-Production",
+            (
+                "Preserve -> Catalogue -> Compare -> Extract Best Capabilities -> "
+                "Director Review -> Canonical Workspace -> Implement"
+            ),
+            "Skipped blocking tests remain blocking.",
+            "the Director explicitly accepts the cutover",
+        ],
+        failures,
+    )
+
+    require(
+        "docs/ARCHITECTURE.md",
+        architecture,
+        [
+            "Market & Opportunity Intelligence",
+            "Visible feedback must never be treated as market size or automatic roadmap authority.",
+            "Growth Intelligence",
+            "This direction does not create a duplicate Market, Growth, Marketing, Truth,",
+        ],
+        failures,
+    )
+
+    require(
+        "docs/BRAND_GUIDELINES.md",
+        brand_guidelines,
+        [
+            "## Current Product Color Direction",
+            "newer, brighter cinematic color concept",
+            (
+                "The brighter direction does not authorise arbitrary recoloring "
+                "of frozen canonical assets."
+            ),
+            CANONICAL_JOURNEY,
         ],
         failures,
     )

@@ -2,6 +2,23 @@
 
 These instructions apply to the entire repository.
 
+## Authority hierarchy
+
+Codex and all AI engineering agents are implementation agents operating inside the Nexkosmo architecture. They are not the authority to redefine Nexkosmo for implementation convenience.
+
+When requirements appear to conflict, use this authority order:
+
+1. Explicit current Director instruction.
+2. Frozen constitutional / identity principles and approved architectural contracts.
+3. Approved milestone and STOP-GATE decisions.
+4. Repository specifications and canonical registries.
+5. Implementation code and tests.
+6. Agent assumptions or convenience.
+
+If a lower level conflicts with a higher level, STOP and report the conflict. Do not silently reinterpret the higher-level contract.
+
+Architectural improvements may be proposed with evidence, but permanent architecture changes require explicit human approval. Do not perform blank-slate redesigns while implementing an approved increment.
+
 ## Alignment authority
 
 Alignment is a repository and evidence property, not a memory property.
@@ -12,19 +29,20 @@ Before significant architecture, product, UI, implementation, defect-repair, or 
 2. Read `governance/alignment-manifest.yaml` and report its manifest version.
 3. Read `governance/latent-assurance-matrix.yaml` when implementation touches high-risk state, authority, concurrency, retries, persistence, runtime recovery, or release controls.
 4. Read `governance/security-assurance-matrix.yaml` when implementation touches authentication, authorization, ownership, external inputs, APIs, uploads, integrations, secrets, payments, worker execution, network boundaries, or other security-sensitive behavior.
-5. Read `governance/growth-marketing-matrix.yaml` and `docs/GROWTH_MARKETING_FRAMEWORK.md` for material marketing, positioning, acquisition, activation, retention, referral, analytics, experimentation, launch, or growth work.
-6. Read `docs/CURRENT_STATE.md`.
-7. Read `docs/ALIGNMENT_PROTOCOL.md`.
-8. Read `docs/ERROR_CORRECTION_PROTOCOL.md` for significant defect, failure, regression, or repair work.
-9. Read `docs/DEVELOPMENT_TIME_VERIFICATION.md` for implementation, refactor, migration, or repair work.
-10. Read `docs/LATENT_DEFECT_ASSURANCE.md` for high-risk or hard-to-observe defect classes.
-11. Read `docs/SECURE_DEVELOPMENT_PROTOCOL.md` for security-relevant implementation work and use `docs/THREAT_MODEL_TEMPLATE.md` when its threat-model trigger applies.
-12. Read `docs/ENGINEERING_STATUS.md`.
-13. Read `docs/REPOSITORY_PROTECTION.md`.
-14. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
-15. Inspect current implementation when the request depends on implementation reality.
-16. Compare the working branch with current `main` when freshness matters.
-17. Resolve contradictions before changing code or publishing consequential claims. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, deployment identity, data integrity, or material public claims.
+5. Read `governance/growth-marketing-matrix.yaml`, `docs/GROWTH_MARKETING_FRAMEWORK.md`, `docs/MARKET_OPPORTUNITY_INTELLIGENCE.md`, and `docs/GROWTH_INTELLIGENCE.md` for material marketing, positioning, market/opportunity evidence, acquisition, activation, retention, referral, analytics, experimentation, launch, or growth work.
+6. Read `docs/MIGRATION_ALIGNMENT.md` for repository, environment, architecture, or creative-workspace migration work.
+7. Read `docs/CURRENT_STATE.md`.
+8. Read `docs/ALIGNMENT_PROTOCOL.md`.
+9. Read `docs/ERROR_CORRECTION_PROTOCOL.md` for significant defect, failure, regression, or repair work.
+10. Read `docs/DEVELOPMENT_TIME_VERIFICATION.md` for implementation, refactor, migration, or repair work.
+11. Read `docs/LATENT_DEFECT_ASSURANCE.md` for high-risk or hard-to-observe defect classes.
+12. Read `docs/SECURE_DEVELOPMENT_PROTOCOL.md` for security-relevant implementation work and use `docs/THREAT_MODEL_TEMPLATE.md` when its threat-model trigger applies.
+13. Read `docs/ENGINEERING_STATUS.md`.
+14. Read `docs/REPOSITORY_PROTECTION.md`.
+15. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
+16. Inspect current implementation when the request depends on implementation reality.
+17. Compare the working branch with current `main` when freshness matters.
+18. Resolve contradictions before changing code or publishing consequential claims. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, deployment identity, data integrity, or material public claims.
 
 Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon or evidence.
 
@@ -37,6 +55,21 @@ The manifest does not replace the underlying source documents. It makes their cu
 Every engineering/growth agent must report the manifest version it is following. A stale or conflicting manifest version is a STOP condition until reconciled.
 
 For critical domains listed in the manifest, `UNKNOWN` is not permission to continue. Consequential work must fail closed until authoritative evidence is available.
+
+## Migration mode
+
+Migration is a controlled engineering operation, not authority for an unapproved redesign. During an approved repository, environment, architecture, or creative-workspace migration:
+
+- preserve Git history, provenance, and rollback capability where practical;
+- inventory before moving, replacing, archiving, or deleting;
+- define the destination structure before reorganising content;
+- move authoritative architecture and governance documents before dependent implementation;
+- never copy secrets into source control;
+- do not delete, archive, or decommission the source before destination validation;
+- preserve useful legacy Set, Studio, CGI, VFX, Render, and Pre-Production capabilities until they have been inventoried, compared, and deliberately resolved with Director approval;
+- treat skipped blocking builds, migrations, tests, security checks, or milestone proofs as blocking rather than passed.
+
+Follow `docs/MIGRATION_ALIGNMENT.md`. Classify migration work as `MIGRATION_ONLY`, `REQUIRED_FIX`, `ARCHITECTURE_PROPOSAL`, or `DEFERRED` so migration scope does not silently become redesign.
 
 ## Visible engineering health
 
@@ -82,6 +115,17 @@ For material growth/marketing work, ChatGPT and Codex must:
 Codex may implement approved analytics events, attribution plumbing, landing experiences, referral mechanics, experiments, dashboards, and product-led growth features. Those changes remain subject to all engineering, security, privacy, data-isolation, and evidence rules.
 
 Before a material growth change is complete, report target audience, user outcome, claim evidence, funnel stage, metric/event definitions, experiment status where applicable, privacy/security impact, expected spend/cost, implementation reality, observed result versus estimate, unknowns/risks, and whether Director approval is required/obtained for consequential public claims, launch, brand, or spend decisions.
+
+### Market, opportunity, and growth intelligence
+
+`docs/MARKET_OPPORTUNITY_INTELLIGENCE.md` and `docs/GROWTH_INTELLIGENCE.md` define enduring intelligence responsibilities, not claims that those capabilities are implemented in the current increment.
+
+- Treat competitor reviews and public feedback as evidence of needs, never as market-size claims or automatic roadmap authority.
+- Preserve source provenance, independence, uncertainty, and the distinction between observation and inference.
+- Route capability gaps through architecture/feasibility review, Steward review, explicit human approval, and behavioural validation before production promotion.
+- Growth Intelligence may prepare controlled experiments only for needs Nexkosmo can truthfully satisfy; it must optimise for retained creator value and sustainable economics rather than attention or vanity metrics.
+- Material claims, campaigns, publishing, spend, partnerships, and roadmap changes remain under explicit human authority.
+- Keep these responsibilities within Nexkosmo's existing intelligence architecture; do not create duplicate market, marketing, growth, correction, security, truth, or social-publishing Brains.
 
 ## Development-time verification
 
