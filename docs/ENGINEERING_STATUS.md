@@ -11,17 +11,18 @@ This file is the human-readable engineering health page for Nexkosmo. It is a pr
 
 Display engineering health vertically, one result per line, rather than as a long horizontal status string.
 
-**Alignment:** 🟠 WARN — controlled Migration Slice 1 is active<br>
+**Alignment:** 🟠 WARN — controlled Migration Slice 4 is active and uncommitted<br>
 **Repository:** 🟠 WARN — trusted governance baseline is on draft PR #4 and has not been merged<br>
-**CI:** 🟢 PASS — trusted baseline commit `e34d2aa`<br>
+**CI:** 🟢 PASS — trusted published baseline; Slice 4 CI unavailable before commit<br>
 **Runtime:** ⚪ UNKNOWN<br>
 **Context:** ⚪ UNKNOWN<br>
 **Usage:** ⚪ UNKNOWN<br>
 **Estimate Costings (AUD):** ⚪ UNKNOWN<br>
 **Project Estimate (AUD):** ⚪ UNKNOWN
 
-Current objective: complete and review the documentation-only Governance and
-Current-State Reconciliation slice before any candidate implementation is extracted.
+Current objective: validate the minimal Project-owned Character domain, API,
+persistence, RLS, migration, rollback, and restore evidence, then stop before
+commit for Director review.
 
 Current known conditions:
 
@@ -39,12 +40,18 @@ Current known conditions:
 - The preserved candidate remains separate at
   `c26ee95fccc34891d514dcb528684698d933f758`, with preservation digest
   `585CED3089C167A55A09D01E408C81A2BD668734204F53763EB288E6BB3B59BF`.
-- Only Migration Slice 1 is Director-approved. It creates the candidate migration
-  register and reconciles current-state documentation; later slices remain blocked.
+- Slices 1, 2, and 3B are Director-approved controlled lineage checkpoints. Slice 4
+  is separately approved for local implementation on
+  `migration/slice-04-character`, based directly on `6cd4a20`.
+- Slice 4 is limited to the minimal Project-owned Character aggregate and the
+  approved 20-file allowlist. It has no frontend, catalogue, asset, readiness,
+  generation, Production-binding, deployment, or Server 1 scope.
 - Candidate Project, Character, Environment, frontend stages, migrations, render
   workflows and integrations are not current trusted-baseline implementation merely
   because they exist on the candidate branch.
-- No candidate migration has been approved or executed by Slice 1.
+- Candidate migrations remain unapproved as written. Controlled migration
+  `0003_project_authority` is trusted; `0004_character_foundation` is under
+  disposable-database validation and is not authorised for persistent environments.
 - Candidate frontend and Studio capability source must be reconciled against current
   canon before any promotion or merge.
 - Server 1 development migration remains pending controlled candidate reconciliation

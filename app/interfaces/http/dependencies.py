@@ -4,6 +4,7 @@ from typing import Annotated, cast
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
+from app.application.character_service import CharacterService
 from app.application.ports import UnitOfWorkFactory
 from app.application.project_service import ProjectService
 from app.domain.types import Principal
@@ -63,5 +64,21 @@ def project_service() -> ProjectService:
     )
 
 
+@lru_cache
+def character_service() -> CharacterService:
+    independent_audit = SqlIndependentAuditPort(audit_session_factory)
+    audit_delivery = SqlAuditDeliveryDispatcher(session_factory, independent_audit)
+    uow_factory = cast(
+        UnitOfWorkFactory,
+        lambda principal: SqlAlchemyUnitOfWork(session_factory, principal),
+    )
+    return CharacterService(
+        uow_factory,
+        SqlTransactionalIdempotency(session_factory),
+        audit_delivery,
+    )
+
+
 PrincipalDependency = Annotated[Principal, Depends(get_principal)]
 ProjectServiceDependency = Annotated[ProjectService, Depends(project_service)]
+CharacterServiceDependency = Annotated[CharacterService, Depends(character_service)]

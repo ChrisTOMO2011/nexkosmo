@@ -38,6 +38,20 @@ async def test_project_authority_tables_have_forced_rls(db):
     assert all(row.relrowsecurity and row.relforcerowsecurity for row in rows)
 
 
+async def test_character_table_has_forced_rls(db):
+    row = (
+        await db.execute(
+            text(
+                """
+                SELECT relrowsecurity, relforcerowsecurity
+                FROM pg_class WHERE relname = 'characters'
+                """
+            )
+        )
+    ).one()
+    assert row.relrowsecurity and row.relforcerowsecurity
+
+
 async def test_app_role_workspace_membership_is_read_only(db):
     privileges = (
         await db.execute(
@@ -67,6 +81,7 @@ async def test_app_role_cannot_read_without_transaction_workspace_context(db):
         "productions",
         "project_authority_remediations",
         "audit_delivery_queue",
+        "characters",
     ):
         counts.append(await db.scalar(text(f"SELECT count(*) FROM {table}")))
-    assert counts == [0, 0, 0, 0, 0, 0]
+    assert counts == [0, 0, 0, 0, 0, 0, 0]

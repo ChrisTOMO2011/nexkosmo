@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Any, Protocol
 from uuid import UUID
 
+from app.domain.characters import Character
 from app.domain.projects import (
     Production,
     Project,
@@ -91,6 +92,13 @@ class ProductionRepository(Protocol):
     async def add(self, production: Production) -> None: ...
     async def get(self, production_id: UUID, *, lock: bool = False) -> Production | None: ...
     async def update(self, production: Production, *, expected_version: int) -> None: ...
+
+
+class CharacterRepository(Protocol):
+    async def add(self, character: Character) -> None: ...
+    async def get(self, character_id: UUID, *, lock: bool = False) -> Character | None: ...
+    async def list_for_project(self, project_id: UUID) -> list[Character]: ...
+    async def update(self, character: Character, *, expected_version: int) -> None: ...
 
 
 class TransactionalIdempotencyRepository(Protocol):
@@ -202,6 +210,7 @@ class UnitOfWork(Protocol, AbstractAsyncContextManager["UnitOfWork"]):
     projects: ProjectRepository
     project_memberships: ProjectMembershipRepository
     productions: ProductionRepository
+    characters: CharacterRepository
     transactional_idempotency: TransactionalIdempotencyRepository
     audit_delivery_queue: AuditDeliveryQueueRepository
 

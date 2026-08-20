@@ -4,6 +4,7 @@ from sqlalchemy import text
 
 from app.domain.errors import DomainError
 from app.infrastructure.database import engine
+from app.interfaces.http.character_routes import router as character_router
 from app.interfaces.http.problem import ProblemDetails
 from app.interfaces.http.project_routes import router as project_router
 
@@ -13,6 +14,7 @@ app = FastAPI(
     description="Milestone 1R++ controlled semantic-kernel proof.",
 )
 app.include_router(project_router)
+app.include_router(character_router)
 
 
 @app.exception_handler(DomainError)

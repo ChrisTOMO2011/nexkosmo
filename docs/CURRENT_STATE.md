@@ -125,9 +125,11 @@ Demo fixtures are allowed only when clearly isolated and labelled as fixtures. F
   assumptions, page-specific branding, and unresolved Production/Studio boundaries.
   Reusable capability may be extracted only through independently approved migration
   slices.
-- Candidate migrations `0003-0011` have not been approved or executed by the
-  controlled migration. Their schemas, grants, RLS policies, product catalogues and
-  seed decisions remain separate review gates.
+- Candidate migrations `0003-0011` have not been approved or executed wholesale.
+  The controlled lineage independently replaced candidate Project/Production work
+  with trusted migration `0003_project_authority`; approved Slice 4 now validates a
+  new minimal `0004_character_foundation` rather than promoting candidate schema,
+  catalogues, seeds, grants, or policies.
 - Preserve reusable layout/components and all useful legacy Set, Studio, CGI, VFX,
   Render and Pre-Production capability source. Do not delete useful prototype work
   merely because its navigation assumptions are obsolete.
@@ -137,18 +139,21 @@ Demo fixtures are allowed only when clearly isolated and labelled as fixtures. F
 
 ## Controlled migration state
 
-Migration Slice 1 — Governance and Current-State Reconciliation — is the only
-Director-approved candidate migration slice. Its scope is documentation-only:
+Director-approved controlled slices now form this reviewed lineage:
 
-- maintain `docs/migration/CANDIDATE_MIGRATION_REGISTER_2026-08-20.md`;
-- reconcile this current-state snapshot and `docs/ENGINEERING_STATUS.md` with
-  verified trusted-baseline evidence; and
-- preserve candidate capabilities, conflicts and STOP gates without promoting them
-  to canon.
+- Slice 1 reconciles governance/current state and records candidate provenance.
+- The maintenance checkpoint fixes verifier portability and protection-status docs.
+- Slice 2 introduces the canonical shared frontend shell without frontend Brain
+  authority.
+- Slice 3B implements the canonical Workspace -> Project -> Production authority
+  foundation through `DEC-0005` and migration `0003_project_authority`.
+- Slice 4 is the active, uncommitted implementation review for the minimal
+  Project-owned Character foundation defined by `DEC-0006`.
 
-All later slices remain blocked pending separate Director review. Candidate ADRs,
-roadmaps, architecture maps and implementation-status documents remain read-only
-evidence and do not replace approved decisions or trusted architecture.
+Slice 4 does not promote candidate catalogues, assets, compatibility/readiness,
+frontend Character authority, or Production-specific Character state. All later
+slices remain blocked pending separate Director approval. Candidate ADRs, roadmaps,
+architecture maps and implementation-status documents remain evidence only.
 
 ## Current engineering priority
 
@@ -156,9 +161,8 @@ CONTROLLED MIGRATION STOP GATE. The existing status remains: ALIGNMENT STOP GATE
 
 Before candidate implementation is extracted:
 
-1. Complete and validate the Slice 1 register without changing candidate evidence,
-   application code, migrations, frontend code, Production, branch protection or
-   frozen assets.
+1. Complete and validate Slice 4 on the approved branch and 20-file allowlist,
+   stopping before commit for Director review.
 2. Require separate Director approval for the exact files and controls of every
    later migration slice. Do not merge the candidate branch wholesale.
 3. Replace obsolete workflow assumptions only inside a separately approved slice,
@@ -172,8 +176,8 @@ Before candidate implementation is extracted:
    inventing fake backend APIs or a frontend Brain.
 7. Keep canonical asset, alignment, authority, security, latent-defect and repository
    protection checks passing.
-8. Do not execute candidate migrations `0003-0011` until their domain, security,
-   schema, restore and Director gates are separately satisfied.
+8. Do not execute candidate migrations `0003-0011`; controlled replacements require
+   separate domain, security, schema, restore and Director gates.
 9. Prove one end-to-end new-project vertical slice before expanding breadth:
    `Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION -> Open in Studio -> edit -> revalidate -> approve`.
 10. Prove the alternate screenplay-import entry separately:

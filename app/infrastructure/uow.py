@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.domain.types import Principal
 from app.infrastructure.audit_delivery import SqlAuditDeliveryQueueRepository
+from app.infrastructure.character_repositories import SqlCharacterRepository
 from app.infrastructure.idempotency import SqlTransactionalIdempotencyRepository
 from app.infrastructure.project_repositories import (
     SqlOutboxRepository,
@@ -27,6 +28,7 @@ class SqlAlchemyUnitOfWork:
         self.projects: SqlProjectRepository
         self.project_memberships: SqlProjectMembershipRepository
         self.productions: SqlProductionRepository
+        self.characters: SqlCharacterRepository
         self.transactional_idempotency: SqlTransactionalIdempotencyRepository
         self.audit_delivery_queue: SqlAuditDeliveryQueueRepository
         self.outbox: SqlOutboxRepository
@@ -51,6 +53,7 @@ class SqlAlchemyUnitOfWork:
         self.projects = SqlProjectRepository(self.session)
         self.project_memberships = SqlProjectMembershipRepository(self.session)
         self.productions = SqlProductionRepository(self.session)
+        self.characters = SqlCharacterRepository(self.session)
         self.transactional_idempotency = SqlTransactionalIdempotencyRepository(self.session)
         self.audit_delivery_queue = SqlAuditDeliveryQueueRepository(self.session)
         self.outbox = SqlOutboxRepository(self.session, self._principal.workspace_id)
