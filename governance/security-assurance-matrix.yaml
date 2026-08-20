@@ -1,0 +1,142 @@
+schema_version: 1
+status: APPROVED
+authority: Director
+scope: "ChatGPT/Codex secure development assurance; separate from Nexkosmo Brain."
+
+controls:
+  secure_development_protocol:
+    status: IMPLEMENTED
+    evidence:
+      - docs/SECURE_DEVELOPMENT_PROTOCOL.md
+      - docs/THREAT_MODEL_TEMPLATE.md
+
+  current_tree_secret_scan:
+    status: INITIAL_IMPLEMENTATION
+    evidence:
+      - scripts/verify_security_baseline.py
+    limits:
+      - "Does not prove repository history never contained a secret."
+      - "Pattern matching cannot identify every credential format."
+
+  dependency_vulnerability_scan:
+    status: IMPLEMENTED_IN_CI
+    evidence:
+      - scripts/verify_security_baseline.py
+      - requirements.txt
+    tool: pip-audit
+
+  python_static_security_scan:
+    status: IMPLEMENTED_IN_CI
+    evidence:
+      - scripts/verify_security_baseline.py
+    tool: Bandit
+
+  dangerous_pattern_guard:
+    status: INITIAL_IMPLEMENTATION
+    evidence:
+      - scripts/verify_security_baseline.py
+    checks:
+      - shell_true
+      - eval_exec
+      - unsafe_pickle_load
+      - yaml_load
+      - tls_verify_false
+
+  authentication:
+    status: FOUNDATION_IMPLEMENTED
+    evidence:
+      - app/infrastructure/auth.py
+    guarantees_under_current_scope:
+      - signed_token_verification
+      - issuer_validation
+      - audience_validation
+      - required_identity_claims
+
+  human_authority_boundary:
+    status: IMPLEMENTED_AND_TESTED
+    evidence:
+      - app/domain/rules.py
+      - tests/test_domain_invariants.py
+      - scripts/verify_authority_model.py
+
+  database_workspace_isolation:
+    status: FOUNDATION_PRESENT_PARTIAL_PROOF
+    evidence:
+      - migrations/versions/0001_semantic_kernel.py
+      - tests/integration/test_migration_and_rls.py
+    note: "Do not treat authored RLS/schema controls as complete application security proof without current integration/runtime evidence."
+
+  container_least_privilege:
+    status: FOUNDATION_IMPLEMENTED
+    evidence:
+      - Dockerfile
+    guarantees_under_current_scope:
+      - application_runs_as_non_root_user
+
+  threat_modeling:
+    status: REQUIRED_FOR_HIGH_RISK_CHANGES
+    evidence:
+      - docs/SECURE_DEVELOPMENT_PROTOCOL.md
+      - docs/THREAT_MODEL_TEMPLATE.md
+
+  api_abuse_testing:
+    status: PARTIAL_AND_EXPANDS_WITH_API_SURFACE
+    environment_pending:
+      - rate_limit_tests
+      - csrf_cors_policy_tests_where_applicable
+      - idor_workspace_access_campaign
+      - ssrf_campaign
+      - endpoint_schema_fuzzing
+
+  file_upload_security:
+    status: NOT_YET_APPLICABLE_IMPLEMENTATION_PENDING
+    required_before_feature_complete:
+      - path_traversal_protection
+      - storage_isolation
+      - content_and_size_validation
+      - ownership_checks
+      - private_delivery_policy
+
+  server_1_server_2_security:
+    status: CONTRACT_DEFINED_RUNTIME_PENDING
+    required_controls:
+      - authenticated_control_plane
+      - signed_or_integrity_protected_jobs
+      - strict_job_schema
+      - allow_listed_execution
+      - replay_idempotency_control
+      - resource_limits
+      - restricted_network_access
+      - correlation_audit_identity
+    reason: "Actual Server 1/Server 2 runtime path is not connected to this repository CI environment."
+
+  payment_security:
+    status: NOT_YET_APPLICABLE_IMPLEMENTATION_PENDING
+    required_controls:
+      - provider_signature_verification
+      - server_authoritative_price_and_entitlement
+      - idempotent_financial_effects
+      - auditable_ledger
+      - reconciliation
+      - duplicate_replay_reorder_tests
+
+  container_vulnerability_scan:
+    status: PLANNED
+    note: "Add when image build/release lane is separated and scanner choice is approved."
+
+  dependency_locking:
+    status: PLANNED_BEFORE_PRODUCTION_MATURITY
+    note: "Current requirements use compatible ranges; reproducible lock/pin workflow is still required."
+
+  github_action_immutable_pinning:
+    status: PLANNED
+    note: "Current CI actions use major-version tags and should move to reviewed immutable SHAs as supply-chain hardening matures."
+
+rules:
+  - "Security is a build-time responsibility."
+  - "Every new external trust boundary requires an explicit security contract before or alongside implementation."
+  - "Network location alone is not authentication."
+  - "Critical security UNKNOWN blocks consequential progression."
+  - "Security tests and scanners are evidence, not proof that no vulnerability exists."
+  - "Scanner findings must not be broadly suppressed merely to obtain green CI."
+  - "Brain may consume validated security evidence later but cannot self-certify ChatGPT/Codex security correctness."

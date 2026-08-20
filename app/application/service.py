@@ -9,7 +9,7 @@ from app.domain.belief import resolve_belief
 from app.domain.contradiction import detect_literal_conflicts
 from app.domain.rules import (
     authorize_by_policies,
-    require_human_authority,
+    require_human_decision_authority,
     require_workspace,
     validate_assertion,
 )
@@ -90,7 +90,7 @@ class SemanticKernelService:
         idempotency_key: str,
     ) -> dict[str, Any]:
         require_workspace(principal, decision.workspace_id)
-        require_human_authority(principal, "knowledge.decide")
+        require_human_decision_authority(principal, decision)
         request_hash = self._hash({"decision_id": str(decision.id)})
         await self._idempotency.acquire(
             decision.workspace_id, idempotency_key, request_hash
