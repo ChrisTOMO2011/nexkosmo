@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 import hashlib
 import json
-from typing import Any, Callable, Generic, TypeVar
-
-StateT = TypeVar("StateT")
+from collections.abc import Callable
+from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass(frozen=True, slots=True)
@@ -29,12 +28,12 @@ class ReplayEnvelope:
 
 
 @dataclass(frozen=True, slots=True)
-class ReplayResult(Generic[StateT]):
+class ReplayResult[StateT]:
     envelope_digest: str
     final_state: StateT
 
 
-def replay(
+def replay[StateT](
     envelope: ReplayEnvelope,
     *,
     initial_state: StateT,

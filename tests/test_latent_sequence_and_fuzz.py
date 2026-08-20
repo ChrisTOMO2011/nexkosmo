@@ -2,7 +2,8 @@ from datetime import UTC, datetime, timedelta
 from uuid import UUID
 
 import pytest
-from hypothesis import given, strategies as st
+from hypothesis import given
+from hypothesis import strategies as st
 
 from app.domain.belief import resolve_belief
 from app.domain.enums import AssertionObjectKind, DecisionOutcome, EpistemicStatus

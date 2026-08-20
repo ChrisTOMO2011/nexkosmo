@@ -101,7 +101,10 @@ def scan_dangerous_patterns(failures: list[str]) -> None:
         text = path.read_text(encoding="utf-8")
         for name, pattern in DANGEROUS_SOURCE_PATTERNS:
             if pattern.search(text):
-                failures.append(f"security-sensitive pattern ({name}) requires explicit review: {path.relative_to(ROOT)}")
+                failures.append(
+                    f"security-sensitive pattern ({name}) requires explicit review: "
+                    f"{path.relative_to(ROOT)}"
+                )
 
 
 def run_dependency_audit(failures: list[str]) -> None:
@@ -146,7 +149,10 @@ def main() -> int:
             print(f"SECURITY BASELINE FAIL: {failure}")
         return 1
 
-    print("SECURITY BASELINE PASS: required security docs, current-tree secret patterns, source patterns, dependency audit, and Bandit checks passed")
+    print(
+        "SECURITY BASELINE PASS: required security docs, current-tree secret patterns, "
+        "source patterns, dependency audit, and Bandit checks passed"
+    )
     return 0
 
 
