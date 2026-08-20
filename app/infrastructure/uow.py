@@ -9,6 +9,7 @@ from app.infrastructure.audit_delivery import SqlAuditDeliveryQueueRepository
 from app.infrastructure.character_repositories import SqlCharacterRepository
 from app.infrastructure.idempotency import SqlTransactionalIdempotencyRepository
 from app.infrastructure.project_repositories import (
+    SqlOperationalStatusRepository,
     SqlOutboxRepository,
     SqlProductionRepository,
     SqlProjectMembershipRepository,
@@ -31,6 +32,7 @@ class SqlAlchemyUnitOfWork:
         self.characters: SqlCharacterRepository
         self.transactional_idempotency: SqlTransactionalIdempotencyRepository
         self.audit_delivery_queue: SqlAuditDeliveryQueueRepository
+        self.operational_status: SqlOperationalStatusRepository
         self.outbox: SqlOutboxRepository
 
     async def __aenter__(self) -> Self:
@@ -56,6 +58,7 @@ class SqlAlchemyUnitOfWork:
         self.characters = SqlCharacterRepository(self.session)
         self.transactional_idempotency = SqlTransactionalIdempotencyRepository(self.session)
         self.audit_delivery_queue = SqlAuditDeliveryQueueRepository(self.session)
+        self.operational_status = SqlOperationalStatusRepository(self.session)
         self.outbox = SqlOutboxRepository(self.session, self._principal.workspace_id)
         return self
 

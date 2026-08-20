@@ -11,18 +11,18 @@ This file is the human-readable engineering health page for Nexkosmo. It is a pr
 
 Display engineering health vertically, one result per line, rather than as a long horizontal status string.
 
-**Alignment:** 🟠 WARN — controlled Migration Slice 4 is active and uncommitted<br>
+**Alignment:** 🟠 WARN — controlled Staging Batch 1 is active and uncommitted<br>
 **Repository:** 🟠 WARN — trusted governance baseline is on draft PR #4 and has not been merged<br>
-**CI:** 🟢 PASS — trusted published baseline; Slice 4 CI unavailable before commit<br>
+**CI:** 🟢 PASS — trusted published baseline; Batch 1 CI unavailable before commit<br>
 **Runtime:** ⚪ UNKNOWN<br>
 **Context:** ⚪ UNKNOWN<br>
 **Usage:** ⚪ UNKNOWN<br>
 **Estimate Costings (AUD):** ⚪ UNKNOWN<br>
 **Project Estimate (AUD):** ⚪ UNKNOWN
 
-Current objective: validate the minimal Project-owned Character domain, API,
-persistence, RLS, migration, rollback, and restore evidence, then stop before
-commit for Director review.
+Current objective: validate the minimum authentication, Project/Character vertical
+slice, operational delivery, readiness, bootstrap, backup, and CI changes required
+for a first Staging deployment, then stop before commit for Director review.
 
 Current known conditions:
 
@@ -43,6 +43,11 @@ Current known conditions:
 - Slices 1, 2, and 3B are Director-approved controlled lineage checkpoints. Slice 4
   is separately approved for local implementation on
   `migration/slice-04-character`, based directly on `6cd4a20`.
+- Slice 4 is published at `cbd899246917566002a94de2bc939e5684fea065`.
+- Staging Batch 1 is isolated on
+  `migration/staging-batch-01-application-readiness` and based directly on the
+  published Slice 4 commit. Environment and Redis are deferred because neither is
+  a current API boot/runtime dependency.
 - Slice 4 is limited to the minimal Project-owned Character aggregate and the
   approved 20-file allowlist. It has no frontend, catalogue, asset, readiness,
   generation, Production-binding, deployment, or Server 1 scope.

@@ -18,6 +18,10 @@ describe("canonical shell routes", () => {
     });
   });
 
+  it("resolves the OIDC callback without inventing a user", () => {
+    expect(resolveAppRoute("/auth/callback")).toEqual({ kind: "auth-callback" });
+  });
+
   it("rejects unsafe project identifiers", () => {
     expect(resolveAppRoute("/studio/projects/%2E%2E/build")).toEqual({
       kind: "invalid-context",
@@ -33,4 +37,3 @@ describe("canonical shell routes", () => {
     });
   });
 });
-

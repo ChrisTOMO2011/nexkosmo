@@ -63,6 +63,9 @@ class FakeCollection:
     async def add(self, item: object) -> None:
         self.items.append(item)
 
+    async def list_for_principal(self, **_: object) -> list[object]:
+        return self.items
+
 
 class FakeTransactionalIdempotency:
     def __init__(self) -> None:
@@ -143,6 +146,19 @@ def _principal(kind: AgentKind = AgentKind.HUMAN) -> Principal:
         agent_id=uuid4(),
         agent_kind=kind,
     )
+
+
+@pytest.mark.asyncio
+async def test_project_listing_requires_workspace_and_project_membership_visibility() -> None:
+    uow = FakeUow()
+    service = ProjectService(
+        lambda _: uow,
+        FakeIdempotency(),
+        FakeAuditDelivery(),
+        clock=lambda: NOW,
+    )
+    result = await service.list_projects(_principal())
+    assert result == []
 
 
 @pytest.mark.asyncio

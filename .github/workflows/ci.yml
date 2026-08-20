@@ -29,6 +29,25 @@ jobs:
       - run: ruff check app tests scripts/verify_authority_model.py scripts/verify_security_baseline.py
       - run: mypy app
       - run: python -m compileall -q migrations
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: pnpm install --frozen-lockfile
+      - name: Validate frontend
+        working-directory: frontend
+        run: |
+          pnpm lint
+          pnpm typecheck
+          pnpm test
+          pnpm build
       - name: Prepare CI environment
         run: cp .env.example .env
       - run: docker compose up --build --abort-on-container-exit --exit-code-from test test

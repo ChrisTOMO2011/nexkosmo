@@ -62,6 +62,33 @@ class SqlProjectRepository:
         )
         return None if row is None else _project_from_row(row)
 
+    async def list_for_principal(
+        self, *, principal_id: UUID, at: datetime
+    ) -> list[Project]:
+        rows = (
+            (
+                await self._session.execute(
+                    text(
+                        """
+                        select p.*
+                        from projects p
+                        join project_memberships pm
+                          on pm.workspace_id = p.workspace_id
+                         and pm.project_id = p.id
+                        where pm.principal_id = :principal_id
+                          and pm.valid_from <= :at
+                          and (pm.valid_to is null or :at < pm.valid_to)
+                        order by p.updated_at desc, p.id
+                        """
+                    ),
+                    {"principal_id": principal_id, "at": at},
+                )
+            )
+            .mappings()
+            .all()
+        )
+        return [_project_from_row(row) for row in rows]
+
     async def require_unlocked(self, project_id: UUID) -> None:
         locked = await self._session.scalar(
             text("select nexkosmo_private.project_authority_locked(:project_id)"),
@@ -344,6 +371,52 @@ class SqlOutboxRepository:
                 "payload": json.dumps(payload),
             },
         )
+
+
+class SqlOperationalStatusRepository:
+    def __init__(self, session: AsyncSession) -> None:
+        self._session = session
+
+    async def delivery_status(self, *, workspace_id: UUID) -> dict[str, Any]:
+        values = (
+            await self._session.execute(
+                text(
+                    """
+                    select
+                      (select count(*) from outbox_events
+                       where workspace_id = :workspace_id
+                         and delivered_at is null) as outbox_pending,
+                      (select count(*) from outbox_events
+                       where workspace_id = :workspace_id
+                         and delivered_at is not null) as outbox_delivered,
+                      (select count(*) from audit_delivery_queue
+                       where workspace_id = :workspace_id
+                         and delivered_at is null and failed_at is null) as audit_pending,
+                      (select count(*) from audit_delivery_queue
+                       where workspace_id = :workspace_id
+                         and failed_at is not null) as audit_failed,
+                      (select count(*) from audit_delivery_queue
+                       where workspace_id = :workspace_id
+                         and delivered_at is not null) as audit_delivered
+                    """
+                ),
+                {"workspace_id": workspace_id},
+            )
+        ).mappings().one()
+        return {
+            "workspace_id": workspace_id,
+            "outbox": {
+                "mode": "durable-storage-only",
+                "pending": int(values["outbox_pending"]),
+                "delivered": int(values["outbox_delivered"]),
+                "consumer_configured": False,
+            },
+            "audit_delivery": {
+                "pending": int(values["audit_pending"]),
+                "failed": int(values["audit_failed"]),
+                "delivered": int(values["audit_delivered"]),
+            },
+        }
 
 
 def _project_params(project: Project) -> dict[str, object]:

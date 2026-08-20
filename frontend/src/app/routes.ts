@@ -2,6 +2,7 @@ import { WORKFLOW_STAGES, type WorkflowStage } from "./workflow";
 
 export type AppRoute =
   | { kind: "stage"; projectId: string; stage: WorkflowStage }
+  | { kind: "auth-callback" }
   | { kind: "project-required" }
   | { kind: "invalid-context" }
   | { kind: "not-found" };
@@ -11,6 +12,7 @@ const stageRoute =
 const validIdentifier = /^[a-z0-9][a-z0-9_-]{0,127}$/iu;
 
 export function resolveAppRoute(pathname: string): AppRoute {
+  if (pathname === "/auth/callback") return { kind: "auth-callback" };
   if (
     pathname === "/" ||
     pathname === "/index.html" ||
@@ -43,4 +45,3 @@ export function resolveAppRoute(pathname: string): AppRoute {
 
   return { kind: "stage", projectId, stage };
 }
-

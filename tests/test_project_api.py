@@ -20,6 +20,21 @@ from app.interfaces.http.main import app  # noqa: E402
 
 
 class FakeProjectService:
+    async def list_projects(self, principal: Principal) -> list[dict[str, object]]:
+        project_id = uuid4()
+        return [
+            {
+                "project_id": project_id,
+                "workspace_id": principal.workspace_id,
+                "identity_id": project_id,
+                "context_id": uuid4(),
+                "owner_principal_id": principal.principal_id,
+                "name": "Visible Project",
+                "lifecycle": "active",
+                "version": 1,
+            }
+        ]
+
     async def create_project(
         self, principal: Principal, *, name: str, idempotency_key: str
     ) -> dict[str, object]:
@@ -61,6 +76,9 @@ async def test_create_project_http_contract_requires_idempotency_and_workspace_m
         )
         assert created.status_code == 201
         assert UUID(created.json()["workspace_id"]) == workspace_id
+        listed = await client.get(f"/v1/workspaces/{workspace_id}/projects")
+        assert listed.status_code == 200
+        assert [item["name"] for item in listed.json()] == ["Visible Project"]
         denied = await client.post(
             f"/v1/workspaces/{uuid4()}/projects",
             headers={"Idempotency-Key": "create-2"},

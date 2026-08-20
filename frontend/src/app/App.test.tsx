@@ -1,5 +1,5 @@
 import { cleanup, render, screen, within } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 import { WORKFLOW_STAGE_DEFINITIONS } from "./workflow";
 
@@ -8,8 +8,29 @@ function renderAt(pathname: string) {
   return render(<App />);
 }
 
+const testToken = [
+  "eyJhbGciOiJub25lIn0",
+  btoa(
+    JSON.stringify({
+      sub: "00000000-0000-4000-8000-000000000001",
+      workspace_id: "00000000-0000-4000-8000-000000000002",
+    }),
+  ).replaceAll("=", ""),
+  "signature",
+].join(".");
+
+beforeEach(() => {
+  sessionStorage.setItem("nexkosmo.oidc.access_token", testToken);
+  vi.stubGlobal(
+    "fetch",
+    vi.fn().mockResolvedValue({ ok: true, json: async () => [] }),
+  );
+});
+
 afterEach(() => {
   cleanup();
+  sessionStorage.clear();
+  vi.unstubAllGlobals();
   window.history.replaceState({}, "", "/");
 });
 
@@ -59,10 +80,8 @@ describe("canonical Nexkosmo shell", () => {
   it("shows a safe state when project context is missing", () => {
     renderAt("/studio");
 
-    expect(
-      screen.getByRole("heading", { name: "Project context required" }),
-    ).toBeInTheDocument();
-    expect(screen.getByText(/no project has been assumed/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Your Projects" })).toBeInTheDocument();
+    expect(screen.getByText(/only projects with an active project membership/i)).toBeInTheDocument();
   });
 
   it("does not render unsupported public claims", () => {

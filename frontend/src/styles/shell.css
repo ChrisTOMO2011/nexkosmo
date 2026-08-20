@@ -2,6 +2,104 @@
   min-height: 100vh;
 }
 
+.project-directory,
+.auth-callback {
+  min-height: 100vh;
+  padding: var(--space-5) clamp(1rem, 3vw, 3rem);
+}
+
+.project-directory > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-directory main,
+.auth-callback {
+  display: grid;
+  place-items: center;
+}
+
+.project-directory__panel {
+  width: min(52rem, 100%);
+  margin-top: var(--space-7);
+  padding: var(--space-6);
+}
+
+.project-directory form,
+.character-workspace form {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.project-directory input,
+.character-workspace input {
+  min-height: 2.75rem;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  background: rgba(8, 5, 15, 0.82);
+}
+
+.project-list,
+.character-workspace ul {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.project-list a,
+.character-workspace li button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  background: rgba(12, 8, 22, 0.76);
+  text-decoration: none;
+}
+
+.character-workspace {
+  padding: var(--space-6);
+}
+
+.character-workspace > header,
+.character-workspace__grid {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.85fr) minmax(20rem, 1.15fr);
+  gap: var(--space-6);
+}
+
+.character-workspace > header {
+  grid-template-columns: 1fr auto;
+  align-items: start;
+}
+
+.character-workspace li button {
+  cursor: pointer;
+  text-align: left;
+}
+
+.character-workspace li button span {
+  color: var(--color-text-muted);
+}
+
+.auth-callback > .panel {
+  width: min(32rem, 100%);
+  padding: var(--space-6);
+}
+
+@media (max-width: 55rem) {
+  .character-workspace__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .top-navigation {
   position: sticky;
   z-index: 20;
@@ -324,4 +422,3 @@
     transition-duration: 0.01ms !important;
   }
 }
-

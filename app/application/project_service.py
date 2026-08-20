@@ -61,6 +61,17 @@ class ProjectService:
             )
             return _project_response(project)
 
+    async def list_projects(self, principal: Principal) -> list[dict[str, Any]]:
+        self._require_human_actor(principal, "project:list")
+        now = self._clock()
+        async with self._uow_factory(principal) as uow:
+            await self._require_current_workspace_actor(uow, principal, now)
+            projects = await uow.projects.list_for_principal(
+                principal_id=principal.principal_id,
+                at=now,
+            )
+            return [_project_response(project) for project in projects]
+
     async def create_project(
         self,
         principal: Principal,

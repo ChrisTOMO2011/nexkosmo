@@ -1,6 +1,6 @@
 import hashlib
 import json
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import Any
 from uuid import UUID
 
@@ -26,6 +26,7 @@ class SqlIndependentAuditPort:
         outcome: str,
         resource_id: UUID | None,
         details: dict[str, Any],
+        delivery_key: str | None = None,
     ) -> None:
         workspace_id = principal.workspace_id if principal is not None else None
         stream_key = f"workspace:{workspace_id}" if workspace_id else "system"
@@ -34,6 +35,18 @@ class SqlIndependentAuditPort:
                 text("select pg_advisory_xact_lock(hashtextextended(:stream_key, 0))"),
                 {"stream_key": stream_key},
             )
+            if delivery_key is not None:
+                existing = await session.scalar(
+                    text(
+                        """
+                        select 1 from audit_log
+                        where stream_key = :stream_key and delivery_key = :delivery_key
+                        """
+                    ),
+                    {"stream_key": stream_key, "delivery_key": delivery_key},
+                )
+                if existing is not None:
+                    return
             head = (
                 await session.execute(
                     text(
@@ -59,6 +72,7 @@ class SqlIndependentAuditPort:
                 "outcome": outcome,
                 "resource_id": str(resource_id) if resource_id else None,
                 "details": details,
+                "delivery_key": delivery_key,
                 "previous_hash": previous_hash,
             }
             entry_hash = hashlib.sha256(
@@ -70,16 +84,18 @@ class SqlIndependentAuditPort:
                     insert into audit_log (
                         stream_key, sequence, recorded_at, workspace_id,
                         principal_id, agent_id, action, outcome, resource_id,
-                        details, previous_hash, entry_hash
+                        details, delivery_key, previous_hash, entry_hash
                     ) values (
                         :stream_key, :sequence, :recorded_at, :workspace_id,
                         :principal_id, :agent_id, :action, :outcome, :resource_id,
-                        cast(:details as jsonb), :previous_hash, :entry_hash
+                        cast(:details as jsonb), :delivery_key, :previous_hash, :entry_hash
                     )
                     """
                 ),
                 {
                     **payload,
+                    "recorded_at": recorded_at,
+                    "workspace_id": workspace_id,
                     "principal_id": principal.principal_id if principal else None,
                     "agent_id": principal.agent_id if principal else None,
                     "resource_id": resource_id,
@@ -154,9 +170,16 @@ class SqlAuditDeliveryDispatcher:
         self,
         factory: async_sessionmaker[AsyncSession],
         audit: AuditPort,
+        *,
+        max_attempts: int = 8,
+        base_delay_seconds: int = 30,
+        max_delay_seconds: int = 3600,
     ) -> None:
         self._factory = factory
         self._audit = audit
+        self._max_attempts = max_attempts
+        self._base_delay_seconds = base_delay_seconds
+        self._max_delay_seconds = max_delay_seconds
 
     async def deliver_pending(self, *, principal: Principal) -> int:
         delivered = 0
@@ -168,10 +191,12 @@ class SqlAuditDeliveryDispatcher:
                         text(
                             """
                             select id, principal_id, agent_id, action, outcome,
-                                   resource_id, details, deduplication_key
+                                   resource_id, details, deduplication_key, attempts
                             from audit_delivery_queue
                             where workspace_id = :workspace_id
                               and delivered_at is null
+                              and failed_at is null
+                              and attempts < :max_attempts
                               and available_at <= now()
                               and (lease_expires_at is null or lease_expires_at <= now())
                             order by created_at, id
@@ -179,7 +204,10 @@ class SqlAuditDeliveryDispatcher:
                             limit 1
                             """
                         ),
-                        {"workspace_id": principal.workspace_id},
+                        {
+                            "workspace_id": principal.workspace_id,
+                            "max_attempts": self._max_attempts,
+                        },
                     )
                 ).mappings().one_or_none()
                 if row is None:
@@ -215,8 +243,16 @@ class SqlAuditDeliveryDispatcher:
                         "authority_principal_id": str(row["principal_id"]),
                         "acting_agent_id": str(row["agent_id"]),
                     },
+                    delivery_key=row["deduplication_key"],
                 )
             except Exception as exc:
+                attempt = int(row["attempts"]) + 1
+                exhausted = attempt >= self._max_attempts
+                delay = retry_delay_seconds(
+                    attempt,
+                    base_seconds=self._base_delay_seconds,
+                    max_seconds=self._max_delay_seconds,
+                )
                 async with self._factory() as session, session.begin():
                     await _set_actor_context(session, principal)
                     await session.execute(
@@ -224,12 +260,18 @@ class SqlAuditDeliveryDispatcher:
                             """
                             update audit_delivery_queue
                             set lease_owner = null, lease_expires_at = null,
-                                available_at = now() + interval '30 seconds',
+                                available_at = :available_at,
+                                failed_at = case when :exhausted then now() else null end,
                                 last_error = :error
                             where id = :id and delivered_at is null
                             """
                         ),
-                        {"id": row["id"], "error": type(exc).__name__},
+                        {
+                            "id": row["id"],
+                            "error": type(exc).__name__,
+                            "exhausted": exhausted,
+                            "available_at": datetime.now(UTC) + timedelta(seconds=delay),
+                        },
                     )
                 return delivered
 
@@ -239,14 +281,38 @@ class SqlAuditDeliveryDispatcher:
                     text(
                         """
                         update audit_delivery_queue
-                        set delivered_at = now(), lease_owner = null,
-                            lease_expires_at = null, last_error = null
+                            set delivered_at = now(), lease_owner = null,
+                            lease_expires_at = null, last_error = null, failed_at = null
                         where id = :id and delivered_at is null
                         """
                     ),
                     {"id": row["id"]},
                 )
             delivered += 1
+
+    async def requeue_failed(self, *, principal: Principal, delivery_id: UUID) -> bool:
+        async with self._factory() as session, session.begin():
+            await _set_actor_context(session, principal)
+            result = await session.execute(
+                text(
+                    """
+                    update audit_delivery_queue
+                    set attempts = 0, failed_at = null, available_at = now(),
+                        lease_owner = null, lease_expires_at = null, last_error = null
+                    where id = :id and workspace_id = :workspace_id
+                      and delivered_at is null and failed_at is not null
+                    returning id
+                    """
+                ),
+                {"id": delivery_id, "workspace_id": principal.workspace_id},
+            )
+            return result.scalar_one_or_none() is not None
+
+
+def retry_delay_seconds(attempt: int, *, base_seconds: int, max_seconds: int) -> int:
+    exponent = max(attempt - 1, 0)
+    delay = base_seconds * pow(2, exponent)
+    return delay if delay < max_seconds else max_seconds
 
 
 async def _set_actor_context(session: AsyncSession, principal: Principal) -> None:

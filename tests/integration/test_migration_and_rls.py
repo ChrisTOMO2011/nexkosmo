@@ -52,6 +52,28 @@ async def test_character_table_has_forced_rls(db):
     assert row.relrowsecurity and row.relforcerowsecurity
 
 
+async def test_staging_readiness_migration_adds_delivery_state_and_deduplication(db):
+    columns = (
+        await db.execute(
+            text(
+                """
+                select table_name, column_name
+                from information_schema.columns
+                where (table_name='audit_log' and column_name='delivery_key')
+                   or (table_name='audit_delivery_queue' and column_name='failed_at')
+                order by table_name, column_name
+                """
+            )
+        )
+    ).all()
+    assert [tuple(row) for row in columns] == [
+        ("audit_delivery_queue", "failed_at"),
+        ("audit_log", "delivery_key"),
+    ]
+    head = await db.scalar(text("select version_num from alembic_version"))
+    assert head == "0005_staging_readiness"
+
+
 async def test_app_role_workspace_membership_is_read_only(db):
     privileges = (
         await db.execute(

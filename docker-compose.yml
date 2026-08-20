@@ -48,6 +48,9 @@ services:
   restore-test:
     build: .
     env_file: .env
+    environment:
+      BACKUP_DATABASE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}
+      EXPECTED_MIGRATION_HEAD: ${EXPECTED_MIGRATION_HEAD:?EXPECTED_MIGRATION_HEAD must be set in .env}
     user: root
     command: ["bash", "scripts/backup_restore_rehearsal.sh"]
     depends_on:

@@ -1,11 +1,17 @@
 import asyncio
+import os
 from datetime import UTC, datetime, timedelta
 from uuid import UUID, uuid4, uuid5
 
 import pytest
 from sqlalchemy import text
 from sqlalchemy.exc import DBAPIError
-from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from app.application.project_service import ProjectService
 from app.domain.enums import AgentKind
@@ -20,6 +26,7 @@ from app.domain.types import Principal
 from app.infrastructure.audit_delivery import (
     SqlAuditDeliveryDispatcher,
     SqlAuditDeliveryQueueRepository,
+    SqlIndependentAuditPort,
 )
 from app.infrastructure.idempotency import SqlTransactionalIdempotency
 from app.infrastructure.project_repositories import SqlOutboxRepository
@@ -43,13 +50,20 @@ class CapturingIndependentAudit:
         outcome: str,
         resource_id: UUID | None,
         details: dict[str, object],
+        delivery_key: str | None = None,
     ) -> None:
         assert action == "project.create"
         assert outcome == "success"
         assert resource_id is not None
         assert details["audit_delivery_key"]
+        assert delivery_key == details["audit_delivery_key"]
         assert principal is not None
         self.principals.append(principal)
+
+
+class FailingIndependentAudit:
+    async def record_independent(self, **_: object) -> None:
+        raise RuntimeError("audit unavailable")
 
 
 async def _seed_human_member(
@@ -124,6 +138,43 @@ def _service(factory: async_sessionmaker[AsyncSession]) -> ProjectService:
         SqlTransactionalIdempotency(factory),
         NoopAuditDelivery(),
     )
+
+
+@pytest.mark.asyncio
+async def test_project_list_rediscovery_requires_active_project_membership(
+    db, workspace_admin_engine
+) -> None:
+    workspace_id = uuid4()
+    owner_id, owner_agent = uuid4(), uuid4()
+    admin_id, admin_agent = uuid4(), uuid4()
+    await _seed_human_member(
+        workspace_admin_engine,
+        workspace_id=workspace_id,
+        principal_id=owner_id,
+        agent_id=owner_agent,
+        role="owner",
+    )
+    await _seed_human_member(
+        workspace_admin_engine,
+        workspace_id=workspace_id,
+        principal_id=admin_id,
+        agent_id=admin_agent,
+        role="admin",
+    )
+    factory = async_sessionmaker(db.engine, expire_on_commit=False)
+    owner = _principal(workspace_id, owner_id, owner_agent)
+    created = await _service(factory).create_project(
+        owner, name="Reloadable Project", idempotency_key=f"reload-{uuid4()}"
+    )
+    reloaded = await _service(factory).list_projects(owner)
+    assert [item["project_id"] for item in reloaded] == [created["project_id"]]
+
+    workspace_admin = _principal(workspace_id, admin_id, admin_agent)
+    assert await _service(factory).list_projects(workspace_admin) == []
+    with pytest.raises(ResourceNotFound):
+        await _service(factory).get_project(
+            workspace_admin, project_id=created["project_id"]
+        )
 
 
 async def _set_context(conn, principal: Principal) -> None:
@@ -859,3 +910,89 @@ async def test_audit_delivery_preserves_original_authority_principal(
             {"workspace_id": workspace_id},
         )
     assert pending == 0
+
+
+@pytest.mark.asyncio
+async def test_audit_delivery_failure_is_bounded_and_observable(
+    db, workspace_admin_engine
+) -> None:
+    workspace_id = uuid4()
+    owner_id, owner_agent = uuid4(), uuid4()
+    await _seed_human_member(
+        workspace_admin_engine,
+        workspace_id=workspace_id,
+        principal_id=owner_id,
+        agent_id=owner_agent,
+        role="owner",
+    )
+    factory = async_sessionmaker(db.engine, expire_on_commit=False)
+    owner = _principal(workspace_id, owner_id, owner_agent)
+    created = await _service(factory).create_project(
+        owner, name="Audit Retry", idempotency_key=f"audit-retry-{uuid4()}"
+    )
+    dispatcher = SqlAuditDeliveryDispatcher(
+        factory,
+        FailingIndependentAudit(),
+        max_attempts=1,
+        base_delay_seconds=1,
+        max_delay_seconds=1,
+    )
+    assert await dispatcher.deliver_pending(principal=owner) == 0
+    async with workspace_admin_engine.connect() as verify:
+        row = (
+            await verify.execute(
+                text(
+                    """
+                    select attempts, failed_at is not null, delivered_at
+                    from audit_delivery_queue where resource_id=:project_id
+                    """
+                ),
+                {"project_id": created["project_id"]},
+            )
+        ).one()
+    assert tuple(row) == (1, True, None)
+
+
+@pytest.mark.asyncio
+async def test_independent_audit_delivery_is_idempotent_across_replay(
+    db, workspace_admin_engine
+) -> None:
+    workspace_id = uuid4()
+    owner_id, owner_agent = uuid4(), uuid4()
+    await _seed_human_member(
+        workspace_admin_engine,
+        workspace_id=workspace_id,
+        principal_id=owner_id,
+        agent_id=owner_agent,
+        role="owner",
+    )
+    factory = async_sessionmaker(db.engine, expire_on_commit=False)
+    owner = _principal(workspace_id, owner_id, owner_agent)
+    created = await _service(factory).create_project(
+        owner, name="Audit Deduplication", idempotency_key=f"audit-dedup-{uuid4()}"
+    )
+    audit_url = os.environ["AUDIT_DATABASE_URL"]
+    audit_engine = create_async_engine(audit_url)
+    try:
+        audit_factory = async_sessionmaker(audit_engine, expire_on_commit=False)
+        dispatcher = SqlAuditDeliveryDispatcher(
+            factory, SqlIndependentAuditPort(audit_factory)
+        )
+        assert await dispatcher.deliver_pending(principal=owner) == 1
+        assert await dispatcher.deliver_pending(principal=owner) == 0
+        async with workspace_admin_engine.connect() as verify:
+            count = await verify.scalar(
+                text(
+                    """
+                    select count(*) from audit_log
+                    where delivery_key = (
+                      select deduplication_key from audit_delivery_queue
+                      where resource_id=:project_id
+                    )
+                    """
+                ),
+                {"project_id": created["project_id"]},
+            )
+        assert count == 1
+    finally:
+        await audit_engine.dispose()

@@ -42,6 +42,16 @@ async def create_project(
     )
 
 
+@router.get("/projects", response_model=list[ProjectResponse])
+async def list_projects(
+    workspace_id: UUID,
+    principal: PrincipalDependency,
+    service: ProjectServiceDependency,
+) -> list[dict[str, object]]:
+    _require_path_workspace(workspace_id, principal.workspace_id)
+    return await service.list_projects(principal)
+
+
 @router.get("/projects/{project_id}", response_model=ProjectResponse)
 async def get_project(
     workspace_id: UUID,
