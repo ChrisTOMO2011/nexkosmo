@@ -165,6 +165,19 @@ Nexkosmo uses separate Development, Staging, and Production responsibilities.
 
 Secrets, data, permissions, and infrastructure must remain appropriately separated between environments.
 
+### Agent, database, and MCP validation
+
+Database-affecting migration evidence must prove the actual Development or Staging
+PostgreSQL state. Record the environment, code commit/version, Alembic migration
+head, expected state, actual state, and acceptance evidence. Apply the relevant
+schema, constraint, RLS, permission, transaction/concurrency, audit,
+outbox/inbox, idempotency, rights/consent, projection, and backup/restore checks.
+
+AI, database, and MCP access must use least privilege. Agent reasoning, MCP output,
+mocks, or generated SQL cannot replace required deterministic validation against
+the real target state. These rules add evidence requirements and do not weaken any
+existing STOP gate.
+
 ## Change Discipline
 
 During migration, classify proposed work as one of:
