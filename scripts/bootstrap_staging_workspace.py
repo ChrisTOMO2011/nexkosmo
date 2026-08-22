@@ -13,7 +13,7 @@ from pathlib import Path
 from uuid import UUID
 
 from sqlalchemy import text
-from sqlalchemy.engine import make_url
+from sqlalchemy.engine import URL, make_url
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     async_sessionmaker,
@@ -138,8 +138,8 @@ async def bootstrap_workspace_records(
         )
 
 
-def _async_url(value: str) -> str:
-    return str(make_url(value).set(drivername="postgresql+asyncpg"))
+def _async_url(value: str) -> URL:
+    return make_url(value).set(drivername="postgresql+asyncpg")
 
 
 async def run(request: BootstrapRequest) -> None:
