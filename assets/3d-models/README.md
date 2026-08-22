@@ -35,6 +35,21 @@ assets/3d-models/
 └── schemas/                # Validation rules for asset metadata
 ```
 
+## External governed binary storage
+
+The Server 1 external governed binary store is:
+
+```text
+/opt/nexkosmo/assets/3d-models
+```
+
+The Git path `assets/3d-models/` is the logical namespace for metadata and
+automation. Large binary payloads live in the external Server 1 store, and
+original transferred imports land under `source/`. Transfer into `source/`
+does not constitute approval: Brain registration and approval remain
+authoritative. Server 2 may retain working or execution copies, but those
+copies are not authoritative after governed intake.
+
 ## Brain registration
 
 Every approved 3D asset receives a permanent `asset_id` and a metadata record validated against `schemas/3d-asset.schema.json`.
