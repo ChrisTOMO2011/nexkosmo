@@ -1,0 +1,7 @@
+FROM postgres:16
+
+WORKDIR /app
+
+COPY scripts/backup_restore_rehearsal.sh /app/scripts/backup_restore_rehearsal.sh
+
+RUN chmod 0555 /app/scripts/backup_restore_rehearsal.sh

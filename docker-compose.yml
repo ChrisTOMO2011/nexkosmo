@@ -46,7 +46,9 @@ services:
         condition: service_completed_successfully
 
   restore-test:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.restore-test
     env_file: .env
     environment:
       BACKUP_DATABASE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}
