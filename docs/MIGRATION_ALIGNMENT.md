@@ -141,7 +141,10 @@ Creative-workspace validation should also confirm that no approved or still-unde
 
 Skipped blocking tests remain blocking.
 
-The existing `docs/STOP_GATE.md` remains authoritative for the currently documented milestone until explicitly superseded.
+The existing `docs/STOP_GATE.md` remains an accurate historical rejection for its
+earlier environment. `docs/STOP_GATE_ACCEPTANCE_2026-08-22.md` supersedes that
+rejection only for the exact accepted commit and database increment identified in
+the acceptance record.
 
 ### Gate 7 — Cutover
 
