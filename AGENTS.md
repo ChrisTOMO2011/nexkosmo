@@ -19,6 +19,25 @@ If a lower level conflicts with a higher level, STOP and report the conflict. Do
 
 Architectural improvements may be proposed with evidence, but permanent architecture changes require explicit human approval. Do not perform blank-slate redesigns while implementing an approved increment.
 
+## Human-replaceable role rule
+
+Nexkosmo responsibilities belong to named roles, not permanently to a specific AI model, vendor, agent identity, or service.
+
+Where a responsibility represents judgement, supervision, creative decision-making, review, approval, coordination, or operational control, that role MUST support assignment to:
+
+- an authorised human;
+- an authorised AI agent;
+- an approved human-plus-AI hybrid; or
+- an unassigned/paused state in which no autonomous action occurs.
+
+AI agents MUST NOT be architecturally indispensable merely because they currently occupy a role. A human must be able to assume the responsibility without redesigning canonical Nexkosmo state or authority relationships.
+
+Deterministic infrastructure services such as databases, event dispatchers, cryptographic audit mechanisms, and compute workers are not treated as human employees. Humans must nevertheless be able to supervise, pause, isolate, override, replace, or recover those services through governed operational controls.
+
+A role assignment change MUST preserve identity, provenance, permissions, audit history, outstanding obligations, and canonical project state.
+
+No agent may assign itself to a more privileged role, increase its own authority, reactivate itself after human suspension, or make itself the sole irreplaceable holder of a Nexkosmo responsibility.
+
 ## Migration mode
 
 During an approved repository or environment migration:
