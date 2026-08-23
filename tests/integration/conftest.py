@@ -1,7 +1,8 @@
 import os
 
 import pytest_asyncio
-from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.engine import make_url
+from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 
 @pytest_asyncio.fixture
@@ -13,5 +14,20 @@ async def db():
     try:
         async with engine.begin() as conn:
             yield conn
+    finally:
+        await engine.dispose()
+
+
+@pytest_asyncio.fixture
+async def workspace_admin_engine():
+    url = os.environ.get("MIGRATION_DATABASE_URL")
+    if not url:
+        raise RuntimeError(
+            "MIGRATION_DATABASE_URL is mandatory for privileged test setup."
+        )
+    admin_url = make_url(url).set(drivername="postgresql+asyncpg")
+    engine: AsyncEngine = create_async_engine(admin_url, pool_pre_ping=True)
+    try:
+        yield engine
     finally:
         await engine.dispose()

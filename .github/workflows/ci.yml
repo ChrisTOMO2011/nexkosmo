@@ -7,6 +7,8 @@ on:
 jobs:
   quality-and-integration:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -16,9 +18,22 @@ jobs:
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -r requirements.txt
       - run: python scripts/verify_canonical_assets.py
-      - run: ruff check app tests
+      - run: python scripts/verify_alignment.py
+      - run: python scripts/verify_drift_guards.py
+      - run: python scripts/verify_latent_defect_assurance.py
+      - run: python scripts/verify_authority_model.py
+      - name: Verify security baseline
+        run: python scripts/verify_security_baseline.py
+      - name: Run fast generated and replay assurance tests
+        run: pytest -q tests/test_domain_invariants.py tests/test_latent_sequence_and_fuzz.py tests/test_assurance_primitives.py
+      - run: ruff check app tests scripts/verify_authority_model.py scripts/verify_security_baseline.py
       - run: mypy app
       - run: python -m compileall -q migrations
       - name: Prepare CI environment
         run: cp .env.example .env
       - run: docker compose up --build --abort-on-container-exit --exit-code-from test test
+      - name: Verify repository protection
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/verify_repo_protection.py
