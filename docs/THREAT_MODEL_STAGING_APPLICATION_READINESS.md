@@ -16,6 +16,7 @@ credentials, access tokens, tenant data, and human ownership are protected asset
 | Browser claim treated as authority | Frontend claims select request context only; server token verification, route/context agreement, membership, and RLS decide access. |
 | Authorization-code interception | OIDC Authorization Code with random state and PKCE S256; no password or implicit-flow fallback. |
 | Token leakage in logs | Structured request logs exclude headers, tokens, query payloads, and bodies. |
+| Generic proxy CSP blocks Keycloak initialization | `/auth/` replaces duplicate upstream/proxy security headers with a scoped same-origin CSP that permits Keycloak's required trusted inline initialization while retaining frame, object, base, form, image, font, and connection restrictions. |
 | Workspace Admin enumerates Project content | Project list joins active Project membership and remains guarded by forced RLS. |
 | Public Workspace provisioning | No bootstrap route exists; the privileged command requires explicit human IDs and reason. |
 | Synthetic or hard-coded owner | Bootstrap has required owner parameters and fails on existing identifiers. |
@@ -36,8 +37,10 @@ failure deny the operation or readiness result.
 
 - The Staging IdP and client registration are deployment inputs and remain unknown
   until the Director approves the provider configuration.
-- Session storage remains exposed to same-origin script; strict CSP and final proxy
-  headers belong to the deployment batch and must be verified before public access.
+- Session storage remains exposed to same-origin script. The deployed proxy keeps
+  frontend scripts same-origin and uses a separately tested Keycloak-compatible CSP
+  only for `/auth/`; browser acceptance must fail on any relevant CSP, console,
+  asset, or network error.
 - There is no outbox consumer by design. A consumer requires a real integration,
   separate contract, and approval.
 - The audit retry command is operator-triggered in Batch 1; scheduler/service

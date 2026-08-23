@@ -3,7 +3,7 @@
 Status: LIVE ENGINEERING SNAPSHOT
 Owner: Director
 Alignment steward: ChatGPT
-Last updated: 2026-08-20
+Last updated: 2026-08-23
 
 This file is the human-readable engineering health page for Nexkosmo. It is a projection of repository, CI, runtime, context, token-usage, and cost evidence. It is not a new source of product canon and must never override `docs/CURRENT_STATE.md`, approved decisions, verified tests, or runtime evidence.
 
@@ -11,18 +11,19 @@ This file is the human-readable engineering health page for Nexkosmo. It is a pr
 
 Display engineering health vertically, one result per line, rather than as a long horizontal status string.
 
-**Alignment:** 🟠 WARN — controlled Staging Batch 1 is active and uncommitted<br>
-**Repository:** 🟠 WARN — trusted governance baseline is on draft PR #4 and has not been merged<br>
-**CI:** 🟢 PASS — trusted published baseline; Batch 1 CI unavailable before commit<br>
-**Runtime:** ⚪ UNKNOWN<br>
+**Alignment:** 🟠 WARN — Manifest v9 aligned; Staging login repair awaits Director interactive acceptance<br>
+**Repository:** 🟠 WARN — controlled Staging branch is published but remains ahead of protected `main`<br>
+**CI:** 🟠 RUNNING — login repair local/governance evidence in progress; remote required check pending<br>
+**Runtime:** 🟠 WARN — Staging healthy at migration `0005_staging_readiness`; corrected immutable release pending rollout<br>
 **Context:** ⚪ UNKNOWN<br>
 **Usage:** ⚪ UNKNOWN<br>
 **Estimate Costings (AUD):** ⚪ UNKNOWN<br>
 **Project Estimate (AUD):** ⚪ UNKNOWN
 
-Current objective: validate the minimum authentication, Project/Character vertical
-slice, operational delivery, readiness, bootstrap, backup, and CI changes required
-for a first Staging deployment, then stop before commit for Director review.
+Current objective: complete the Director-authorized permanent Staging login repair,
+including browser/CSP regression evidence, immutable Staging-only rollout,
+interactive authentication, read-only Project/Character acceptance, and verified
+data non-mutation. Production remains out of scope.
 
 Current known conditions:
 
@@ -62,6 +63,8 @@ Current known conditions:
 - Server 1 development migration remains pending controlled candidate reconciliation
   and separate Director approval.
 - Runtime commit identity is not yet reported into this status surface.
+- Staging loopback mappings are API `18000 -> 8000`, Keycloak `18080 -> 8080`,
+  and frontend `18081 -> 8080`; see `docs/STAGING_RUNBOOK.md`.
 - Authoritative live context-token telemetry is not yet available to this repository status surface.
 - Authoritative cumulative token-usage telemetry is not yet available to this repository status surface.
 - Authoritative AI cost telemetry is not yet available to this repository status surface. Do not invent a token count or AUD cost when telemetry is unavailable.

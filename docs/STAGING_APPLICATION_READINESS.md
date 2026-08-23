@@ -1,6 +1,6 @@
 # Staging Batch 1 Application Readiness
 
-Status: implementation under Director review; not deployed.
+Status: Staging deployed; permanent login repair awaiting final Director interactive acceptance.
 
 ## Dependency decision
 
@@ -57,6 +57,15 @@ dependency and does not block readiness.
 
 ## Deployment boundary
 
-This batch does not authorize Server 1 changes, persistent migration execution,
-deployment, DNS, proxy, firewall, Environment, other creative stages, Studio, or
-Production changes.
+Director authorization is limited to the existing Server 1 Staging deployment and
+the bounded login repair. Canonical loopback mappings are API `18000 -> 8000`,
+Keycloak `18080 -> 8080`, and frontend `18081 -> 8080`. Production, DNS, firewall,
+Environment, other creative stages, Studio, and Production workflow changes remain
+out of scope. Operational release, rollback, browser, and read-only data-integrity
+steps are defined in `docs/STAGING_RUNBOOK.md`.
+
+The login proxy uses a path-scoped CSP because Keycloak 26 requires trusted inline
+import maps and per-flow initialization. The generic frontend CSP must not be added
+as a second intersecting policy on `/auth/`; doing so blocks required Keycloak
+behavior. Third-party scripts remain disallowed and Keycloak assets remain
+same-origin and versioned.
