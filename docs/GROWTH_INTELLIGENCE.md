@@ -70,6 +70,23 @@ For an approved opportunity, the system may prepare:
 
 Preparation may be highly automated. Publishing, paid spend, material brand claims, major budget changes, and other consequential actions remain subject to policy and human approval.
 
+## Official Distribution Channels
+
+Growth Intelligence may prepare channel-specific recommendations for the current official Nexkosmo public accounts defined in `BRAND_GUIDELINES.md`:
+
+- LinkedIn: Nexkosmo company page
+- Instagram: `@nexkosmo`
+- TikTok: `@nexkosmo`
+- Reddit: `u/Nexkosmo`
+- Discord: `@Nexkosmo_`
+- YouTube: `@NexkosmoOfficial`
+
+These accounts are approved destinations, not blanket authority for autonomous publication. Growth Intelligence may research, draft, adapt, schedule-propose, and measure content for them, but public publishing remains subject to the applicable human-approval and operational-permission boundaries in this document.
+
+The Nexkosmo Google/Gmail business account is an operational communications account, not a public social destination. Email activity must separately respect consent, communication preferences, applicable anti-spam requirements, and approved sender identity.
+
+Credentials, API keys, access tokens, cookies, and account recovery information MUST remain outside repository source and documentation.
+
 ## Controlled Creative Experimentation
 
 The system should be able to generate and compare multiple legitimate ways of communicating the same validated value proposition.
