@@ -1,7 +1,7 @@
 # Build Render Specification Contract
 
 **Status:** Proposed canonical architecture for Director review  
-**Applies to:** BUILD, Scene/Shot preparation, Studio handoff, render orchestration, renderer adapters, previews, regeneration, and provenance  
+**Applies to:** BUILD, Scene/Shot preparation, Studio handoff, render orchestration, renderer adapters, previews, regeneration, provenance, and Production render control  
 **Authority:** Nexkosmo Canon and explicit Director instruction
 
 ## 1. Purpose
@@ -493,6 +493,121 @@ Amendment 001 already establishes that:
 
 This BUILD contract defines the missing upstream preparation layer that converts Director-visible decisions into the approved structured state from which Continuity Snapshots and Render Manifests are produced.
 
-## 18. Permanent Rule
+## 18. Production Render Controls and Cost Transparency
 
-> Before approval, help the Director explore. After approval, execute the approved state. Never silently reinterpret what the Director approved.
+After READY validates the approved preparation, PRODUCTION becomes the Director's live render-control board. The Scene/Shot structure remains visible, but cards now represent execution state rather than planning alone.
+
+### 18.1 Scene-level controls
+
+Every renderable Scene card should show, where calculable:
+
+- Scene identity/title;
+- number of Shots;
+- Scene duration;
+- readiness state;
+- estimated render cost;
+- estimated completion time;
+- selected quality tier or render profile;
+- current execution state;
+- a clear `Render Scene` action.
+
+`Render Scene` is a Director-facing batch action. It does not turn the Scene into one indivisible generation request.
+
+Underneath, Nexkosmo shall preserve the canonical hierarchy:
+
+`Scene -> Shot -> Render Job -> Render Result`
+
+The Render Orchestrator may further segment a Shot internally when technically required, but that segmentation remains an implementation detail and must not replace the Director's Scene/Shot model.
+
+### 18.2 Shot-level controls
+
+Opening a Scene should expose its Shots individually. Each Shot should show, where calculable:
+
+- Shot identity;
+- duration;
+- readiness state;
+- estimated render cost;
+- estimated completion time;
+- render/validation status;
+- last accepted result or preview;
+- a `Render` or `Re-render` action;
+- a route to Studio when specialist repair or deep editing is required.
+
+The Director may render one Shot without rendering the entire Scene.
+
+### 18.3 Cost estimates
+
+Render prices shown before execution are estimates unless the selected route provides a guaranteed fixed price.
+
+The estimate should be derived from the best available execution evidence, including as applicable:
+
+- Shot duration;
+- resolution and frame rate;
+- quality tier;
+- renderer/provider pricing;
+- model or engine selection;
+- character and motion complexity;
+- camera movement;
+- VFX/simulation requirements;
+- number of layers/passes;
+- expected retries or sampling requirements;
+- compute route and hardware class;
+- reusable cached/intermediate work;
+- current provider/runtime cost data.
+
+The UI must distinguish estimated cost from final actual cost.
+
+Before a paid render is dispatched, the Director should be able to see the current estimate and the scope of what will be rendered. Where cost may materially exceed the estimate, Nexkosmo should require renewed confirmation or apply an explicit approved spending limit rather than silently overspend.
+
+After completion, Nexkosmo shall retain the actual charged/consumed cost, compute usage, renderer/provider, duration, and relevant execution evidence for audit and future estimation.
+
+### 18.4 No unnecessary re-rendering
+
+Rendering or re-rendering a Scene must not automatically regenerate already valid unaffected Shots when the dependency graph permits reuse.
+
+If only one Shot, layer, frame range, simulation, audio element, or other dependency requires regeneration, Nexkosmo should identify and execute the smallest valid affected scope.
+
+Successful unaffected work should be reused when technically safe and traceable.
+
+This principle protects:
+
+- Director time;
+- creator money/credits;
+- compute resources;
+- renderer capacity;
+- approved continuity;
+- reproducibility.
+
+### 18.5 Scene estimate roll-up
+
+A Scene estimate should normally be the current aggregate of its eligible Shot estimates plus any Scene-level shared execution costs that cannot be attributed to one Shot.
+
+A Production-level estimate may similarly roll up Scene estimates, but must remain visibly an estimate until execution is fixed or completed.
+
+If a renderer/provider changes, a specification changes, quality changes, caches become invalid, or another material cost input changes, the estimate should be recalculated and visibly marked as updated.
+
+### 18.6 Execution states
+
+Production cards should communicate clear states such as:
+
+- Ready to Render;
+- Queued;
+- Rendering;
+- Validating;
+- Preview Ready;
+- Needs Repair;
+- Re-render Required;
+- Approved;
+- Blocked.
+
+A job reporting technical success is not automatically equivalent to creative or continuity approval.
+
+### 18.7 Director authority
+
+A `Render Scene` or `Render Shot` action authorises execution of the currently displayed approved specification scope. It does not authorise the renderer, orchestrator, Studio, or AI to modify the Director's approved creative meaning.
+
+If execution requires a material creative change, Nexkosmo must stop that affected path and request approval or create an explicit proposed Variation.
+
+## 19. Permanent Rule
+
+> Before approval, help the Director explore. After approval, execute the approved state. Never silently reinterpret what the Director approved. In PRODUCTION, show the Director what will be rendered, what it is expected to cost, and what actually happened.
