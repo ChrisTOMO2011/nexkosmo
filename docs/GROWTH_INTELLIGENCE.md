@@ -70,6 +70,32 @@ For an approved opportunity, the system may prepare:
 
 Preparation may be highly automated. Publishing, paid spend, material brand claims, major budget changes, and other consequential actions remain subject to policy and human approval.
 
+## Official Distribution Channels
+
+Growth Intelligence may prepare channel-specific recommendations for the current official Nexkosmo public accounts defined in `BRAND_GUIDELINES.md`:
+
+- LinkedIn: Nexkosmo company page
+- Instagram: `@nexkosmo`
+- TikTok: `@nexkosmo`
+- Reddit: `u/Nexkosmo`
+- Discord: `@Nexkosmo_`
+- YouTube: `@NexkosmoOfficial`
+
+These accounts are approved destinations, not blanket authority for autonomous publication. Growth Intelligence may research, draft, adapt, schedule-propose, and measure content for them, but public publishing remains subject to the applicable human-approval and operational-permission boundaries in this document.
+
+### Google and email identities
+
+Nexkosmo currently distinguishes its general company mailbox from its owner/administrator identity:
+
+- `office@nexkosmo.com` — general company/office communications identity and existing Hostinger-managed mailbox unless a future migration explicitly changes that role.
+- `chris@nexkosmo.com` — Christopher Tomson's Nexkosmo identity and current Google owner/administrator identity where applicable.
+
+Growth Intelligence MUST NOT assume these addresses use the same provider, licence, billing arrangement, mailbox, or permissions. Sender identity for any email campaign or operational workflow must be explicitly approved and must respect consent, communication preferences, applicable anti-spam requirements, authentication, and domain reputation.
+
+The presence of two identities does not itself justify two paid Google Workspace subscriptions. Before any Google or email account/licence is cancelled, ownership and dependencies must be checked, including Drive files, calendars, YouTube assets, recovery methods, third-party sign-ins, administrator roles, and billing.
+
+Credentials, API keys, access tokens, cookies, and account recovery information MUST remain outside repository source and documentation.
+
 ## Controlled Creative Experimentation
 
 The system should be able to generate and compare multiple legitimate ways of communicating the same validated value proposition.

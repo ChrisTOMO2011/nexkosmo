@@ -37,6 +37,37 @@ For the frozen logo, validation is a release gate. `python scripts/verify_canoni
 
 This protects canonical identity from conversational forgetting, prompt drift, regenerated approximations, and accidental page-specific substitutions.
 
+## Official Public Channels
+
+The following are the current official Nexkosmo public social and community channels. Product surfaces, public-facing documentation, marketing systems, Growth Intelligence, and automated publishing workflows must treat these as canonical account references unless an explicit future brand decision supersedes them.
+
+- LinkedIn: `https://www.linkedin.com/company/nexkosmo/`
+- Instagram: `https://www.instagram.com/nexkosmo/`
+- TikTok: `https://www.tiktok.com/@nexkosmo`
+- Reddit: `https://www.reddit.com/user/Nexkosmo/`
+- Discord: `https://discord.com/channels/@Nexkosmo_`
+- YouTube: `https://www.youtube.com/@NexkosmoOfficial`
+
+### Google and email identities
+
+Nexkosmo currently uses more than one business identity for Google and email-related operations. These identities are complementary and MUST NOT be treated as contradictory or automatically interchangeable.
+
+- `office@nexkosmo.com` — general Nexkosmo company/office communications identity and existing Hostinger-managed business mailbox unless a future migration explicitly changes its mail provider or role.
+- `chris@nexkosmo.com` — Christopher Tomson's Nexkosmo identity and the current owner/administrator Google-account identity where applicable.
+
+The Gmail web application URL is not a public brand destination and MUST NOT be published as a public social link.
+
+The existence of both identities does not by itself mean that two paid Google Workspace licences or subscriptions are required. Account-provider, mailbox-hosting, Workspace-licence, alias, group, recovery, billing, and administrator roles must be verified before any account or subscription is cancelled.
+
+### Channel governance
+
+- Use the exact approved account/handle for each platform.
+- Do not create or advertise alternate Nexkosmo accounts as official without explicit human approval.
+- Public profile links shown inside Nexkosmo products or websites should resolve to these canonical destinations.
+- Automated marketing or publishing systems must preserve platform credentials outside source control and must not embed passwords, tokens, session cookies, or other secrets in repository documentation.
+- A channel may be retired, renamed, or replaced only through an explicit documented brand/governance decision.
+- Do not cancel, delete, rename, or repurpose a Google/email identity until ownership of Drive files, calendars, YouTube assets, recovery methods, third-party sign-ins, billing, and other dependent services has been checked or transferred.
+
 ## Current Product Color Direction
 
 The current Nexkosmo product UI uses the newer, brighter cinematic color concept as the preferred visual direction.
