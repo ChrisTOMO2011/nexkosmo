@@ -11,6 +11,24 @@ Memory, Graph, World State, Search, Embedding, or Explainability truth stores.
 - Infrastructure: authentication adapter, PostgreSQL, RLS and migrations.
 - Interfaces: HTTP and operational endpoints.
 
+## BUILD and render preparation direction
+
+BUILD is the Director-facing preparation layer that converts visible Scene and Shot decisions into a complete, machine-readable, versioned Render Specification.
+
+The governing rule is:
+
+`What the Director sees in BUILD must be what the rendering system receives.`
+
+Material visible edits must map to structured state. Canonical asset identity/version, scoped Scene/Shot overrides, character state, spatial placement, environment, camera, lighting, materials, CGI/VFX/audio references, uploaded guidance, masks/depth/control data, positive instructions, explicit exclusions, continuity, generation metadata, provenance, and accepted preview evidence must be represented when applicable.
+
+Director approval freezes an immutable Render Specification version. AI may propose creative alternatives before approval, but approved state must not be silently reinterpreted by BUILD, Studio, orchestration, renderer adapters, or rendering models. Variations branch from existing state rather than mutating approved state.
+
+Studio may enrich approved BUILD preparation with performance and timing, but it must not silently change frozen identity, composition, canonical assets, camera preparation, environment preparation, wardrobe, continuity, or other material approved state.
+
+The Render Orchestrator converts approved Render Specifications and Continuity Snapshots into executable Render Manifests. Renderer adapters translate those manifests into provider-specific controls without changing approved creative meaning.
+
+See `architecture/BUILD_RENDER_SPECIFICATION_CONTRACT.md` and `architecture/ARCHITECTURE_AMENDMENT_001_CONTINUITY_AND_RENDER_ORCHESTRATION.md` for the normative contracts.
+
 ## Product intelligence direction
 
 Market & Opportunity Intelligence is an enduring higher-level product-intelligence

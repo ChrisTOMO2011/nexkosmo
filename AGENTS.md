@@ -63,6 +63,29 @@ Before changing any UI, page, shell, mockup implementation, brand surface, or ot
 
 If a requested change does not explicitly authorize changing a frozen canonical item, that item MUST remain byte-for-byte and semantically unchanged.
 
+## BUILD render-specification rule
+
+BUILD is not merely a visual editor. It is the Director-facing preparation system that creates the versioned machine-readable Render Specification used to reproduce a Scene or Shot as consistently as technically possible.
+
+Before changing BUILD, Scene/Shot preparation, Studio handoff, render manifests, renderer adapters, previews, regeneration, or related persistence, read:
+
+`docs/architecture/BUILD_RENDER_SPECIFICATION_CONTRACT.md`
+
+Mandatory rules:
+
+1. **What the Director sees in BUILD must be what the rendering system receives.** Material visible edits must map to structured state.
+2. Canonical masters must remain separate from Scene- and Shot-scoped overrides.
+3. AI may be creative before approval. After approval it must execute the approved state unless the Director explicitly requests a variation.
+4. No subsystem may silently reinterpret approved identity, composition, continuity, camera preparation, wardrobe, environment, lighting, explicit exclusions, or other material creative state.
+5. Variations branch from existing state; they do not mutate an approved Render Specification.
+6. Approved Render Specifications are immutable and versioned.
+7. Renderer adapters translate canonical meaning into provider-specific controls; they do not creatively redesign it.
+8. Studio may enrich performance and timing but must not silently change frozen BUILD preparation.
+9. A failed render must remain diagnosable and regenerable from the same approved evidence when creative intent has not changed.
+10. Do not claim generative perfection or determinism where the selected renderer cannot provide it.
+
+If implementation convenience conflicts with these rules, STOP and report the conflict.
+
 ## Frozen Nexkosmo logo
 
 The canonical Nexkosmo product logo is:
@@ -80,7 +103,7 @@ Rules:
 3. Do not substitute an older cyan/blue-heavy logo.
 4. Do not change the X silhouette, violet/lilac palette, white-violet centre star, or progression-inspired light streak unless the Director explicitly requests a brand revision.
 5. Page-specific work must preserve the canonical logo even when surrounding layout, imagery, theme, or controls change.
-6. Discovery, Shape, Build, Ready, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
+6. Discovery, Shape, Build, Ready, Production, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
 7. If a task would require changing the canonical logo but the task is not explicitly a brand-change task, STOP and report the conflict instead of modifying it.
 
 ## Canonical asset workflow
@@ -120,6 +143,8 @@ Sophia (or another selected AI Producer) is the Director-facing collaboration/pe
 
 The shared stage model is:
 
-`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY`
+`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION`
+
+Studio remains a specialist/deep-edit workspace within the production system, not a seventh top-level stage.
 
 Preserve this shared shell and canonical brand identity unless an explicit product decision supersedes them.

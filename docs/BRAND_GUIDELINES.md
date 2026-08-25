@@ -19,7 +19,7 @@ The canonical asset is also registered in `assets/brand/canonical-assets.json` a
 
 ### Product-wide usage
 
-Codex and future UI work must use this canonical logo on all Nexkosmo product pages and shared shells, including Discovery, Shape, Build, Ready, Studio, onboarding, account surfaces, and future production workspaces.
+Codex and future UI work must use this canonical logo on all Nexkosmo product pages and shared shells, including Discovery, Shape, Build, Ready, Production, Studio, onboarding, account surfaces, and future production workspaces.
 
 Do not reintroduce the older cyan/blue-heavy X as the default brand mark.
 
@@ -63,7 +63,9 @@ The brighter direction does not authorise arbitrary recoloring of frozen canonic
 
 The product journey uses the shared progression model:
 
-`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY`
+`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION`
+
+Studio remains a specialist/deep-edit workspace within the production system, not a seventh top-level stage.
 
 The active stage may use the same violet/lilac star-glow language as the canonical logo.
 
@@ -80,6 +82,90 @@ Global controls belong in the persistent top-right shell and should remain visua
 - Profile
 
 The icons remain available at all times. Attention states such as unread messages, collaborators coming online, approval requests, or Brain warnings may add badges, presence indicators, or restrained temporary emphasis. The creative workspace remains the visual priority.
+
+## BUILD Workspace UX Contract
+
+BUILD is a visual creation workspace backed by a machine-readable Render Specification. The Director should not experience it as an engineering dashboard or a wall of permanent controls.
+
+The governing UX principle is:
+
+> What the Director sees in BUILD must be what the rendering system receives.
+
+The simple Director-facing flow is:
+
+`SEE -> SELECT -> ADJUST -> PREVIEW -> APPROVE`
+
+The interface must support that flow while the system captures structured Scene/Shot state underneath.
+
+### Visual hierarchy
+
+BUILD should:
+
+- make the active character, asset, or assembled Scene/Shot preview the primary visual focus;
+- avoid large empty decorative panels that overpower useful creative content;
+- minimise permanent borders, nested boxes, and inspector clutter;
+- use violet/lilac emphasis for selected states, active workflow markers, important warnings, and primary actions rather than outlining everything;
+- preserve enough breathing room that the workspace feels cinematic rather than administrative;
+- remain usable at ordinary laptop heights without hiding core creative controls below the fold.
+
+### Progressive disclosure
+
+BUILD should not display every possible parameter simultaneously.
+
+Controls should appear contextually based on the selected creative object or task. For example:
+
+- selecting Eyes reveals eye-related controls;
+- selecting a Hat reveals hat-related controls;
+- selecting Camera reveals camera/framing controls;
+- selecting Environment reveals environment and set controls.
+
+Advanced technical state may be inspected when needed, but beginners should not be forced to navigate renderer terminology for ordinary creative work.
+
+### Visual selection
+
+Where practical, BUILD should prefer visual choices, thumbnails, previews, and direct manipulation over dense forms.
+
+Character preparation may expose categories such as:
+
+- Identity
+- Style
+- Face
+- Hair
+- Eyes
+- Beard
+- Age
+- Expression
+- Accessories
+
+The exact categories may evolve, but the interaction model should remain visual and contextual.
+
+### Scope clarity
+
+BUILD must make scope understandable before consequential edits are committed.
+
+The user must be able to distinguish:
+
+`Canonical Asset -> Scene Override -> Shot Override`
+
+A Shot-specific injury, expression, pose, wardrobe state, placement, or local environment condition must not silently rewrite the canonical reusable asset.
+
+Broader-scope changes must be deliberate and auditable.
+
+### Preview and approval
+
+BUILD's preview is creative evidence, not decoration.
+
+When the Director approves a Scene/Shot configuration, the accepted preview must be bound to the exact versioned Render Specification that represents the visible state.
+
+The interface should provide a clear preview/approve path and should not present multiple ambiguous apply actions that obscure whether a change targets the canonical asset, Scene, or Shot.
+
+### AI Producer presence
+
+The selected AI Producer may assist, explain, propose, compare, or warn without taking visual priority away from the Director's creative workspace.
+
+AI may propose broad alternatives before approval. Approved state must not be silently reinterpreted afterward.
+
+See `docs/architecture/BUILD_RENDER_SPECIFICATION_CONTRACT.md` for the canonical machine-readable and approval rules governing BUILD.
 
 ## Intelligence distinction
 
