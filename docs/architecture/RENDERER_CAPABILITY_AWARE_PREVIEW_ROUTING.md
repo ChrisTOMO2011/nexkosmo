@@ -2,7 +2,7 @@
 
 **Status:** Adopted product/architecture contract  
 **Applies to:** BUILD, PRODUCTION, Brain, Continuity Engine, Render Orchestrator, Renderer Adapters  
-**Related contract:** `ARCHITECTURE_AMENDMENT_001_CONTINUITY_AND_RENDER_ORCHESTRATION.md`
+**Related contracts:** `ARCHITECTURE_AMENDMENT_001_CONTINUITY_AND_RENDER_ORCHESTRATION.md`, `PHYSICS_FIRST_CINEMATOGRAPHY.md`
 
 ## 1. Purpose
 
@@ -45,7 +45,21 @@ A Renderer Capability Profile may include, where relevant:
 - skeleton/rig controls;
 - 3D geometry conditioning;
 - camera position/orientation controls;
+- sensor/filmback controls;
 - focal length/lens controls;
+- field-of-view controls;
+- aperture controls;
+- focus-distance controls;
+- optical depth-of-field support;
+- shutter-angle/exposure-time controls;
+- motion-blur controls;
+- lens distortion controls;
+- vignetting controls;
+- chromatic-aberration controls;
+- focus-breathing controls;
+- flare/ghosting controls;
+- anamorphic squeeze/optical controls;
+- measured lens-profile support;
 - framing controls;
 - camera movement controls;
 - depth-map input;
@@ -55,6 +69,7 @@ A Renderer Capability Profile may include, where relevant:
 - alpha/matte output;
 - depth/normal/motion passes;
 - lighting controls;
+- physical-light transport support;
 - environment conditioning;
 - object-placement controls;
 - multi-character consistency capability;
@@ -62,12 +77,15 @@ A Renderer Capability Profile may include, where relevant:
 - lip-sync/performance controls;
 - VFX/simulation support;
 - compositing/layer output;
+- colour-management / camera-response support where verified;
 - cancellation/retry/resume support;
 - expected cost and latency;
 - model/engine/checkpoint/version metadata;
 - licence/provenance constraints.
 
 The profile must describe real verified adapter capability, not marketing claims.
+
+A single broad claim such as `supports camera`, `supports lens` or `supports lighting` is insufficient when only a subset of the physical relationship is actually supported.
 
 ## 4. Shot Requirement Profile
 
@@ -84,12 +102,17 @@ Example:
 ```text
 Shot 12 preview requirements
 - Sarah identity reference: required
-- exact 50mm lens: required
+- physical camera transform: required
+- 50mm focal length on established filmback: required
+- camera-to-Sarah distance: required
+- T2.8 / focus distance: preferred
 - shared 3D blocking: preferred
 - depth conditioning: preferred
 - alpha output: optional
 - final-quality lighting: optional
 ```
+
+Where physical cinematography is required, related controls must be evaluated as a coupled requirement rather than independently. For example, exact focal length without filmback or camera position may be insufficient to preserve the intended field of view and perspective.
 
 ## 5. Capability matching
 
@@ -115,6 +138,7 @@ Rules:
 4. Unknown capability must not be treated as supported.
 5. Preferred controls may be omitted only when the preview remains useful and the omission is recorded as a known limitation.
 6. Optional controls may be omitted without changing canonical state.
+7. Coupled physical controls must not be split in a way that creates false fidelity. If a route supports a focal-length text hint but not filmback/camera geometry, it cannot be treated as physically lens-accurate.
 
 ## 6. No false fidelity
 
@@ -123,9 +147,11 @@ A preview must not imply that a renderer honoured controls it never received or 
 Examples:
 
 - If an AI renderer cannot consume exact camera focal length, Nexkosmo must not label the result as exact 50mm camera compliance.
+- If it accepts `50mm` only as text conditioning but does not consume filmback, camera transform or optical parameters, the result is a creative approximation rather than a physically defined 50mm image.
 - If it cannot use the approved 3D scene structure, the result must not be treated as evidence that spatial blocking matches the 3D source.
 - If identity locking is weak or unsupported, the preview must not silently become an approved identity reference.
 - If depth conditioning is unsupported, the adapter must not pretend the depth map constrained the output.
+- If a renderer cannot model a measured lens profile, it must not claim exact reproduction of that lens family merely because the prompt names it.
 
 The permanent rule is:
 
@@ -148,6 +174,8 @@ Possible routes include:
 
 Renderer limitations must not cause Brain to mutate canonical Scene or Shot truth merely to fit the renderer.
 
+When a Shot depends on physically coherent cinematography, route selection should prefer a renderer or hybrid route that preserves the required camera/lens/light relationships defined by `PHYSICS_FIRST_CINEMATOGRAPHY.md`.
+
 ## 8. Hybrid preview routing
 
 A hybrid route may satisfy requirements that no single renderer supports.
@@ -155,8 +183,8 @@ A hybrid route may satisfy requirements that no single renderer supports.
 Example:
 
 ```text
-Shared 3D Scene + camera
--> render depth / camera / blocking reference
+Shared 3D Scene + physical camera/lens/light setup
+-> render camera-valid depth / blocking / lighting reference
 
 Approved human identity references
 -> AI appearance/performance renderer
@@ -183,7 +211,7 @@ An approximate preview should record:
 - expected fidelity limitations;
 - whether the preview is suitable for composition, identity, camera, motion, lighting or only general mood/look exploration.
 
-The normal UI may simplify this into an understandable label such as `Composition preview`, `Identity-approximate`, `Camera-accurate`, or another approved presentation.
+The normal UI may simplify this into an understandable label such as `Composition preview`, `Identity-approximate`, `Camera-accurate`, `Lens-look approximation`, `Physics-valid`, or another approved presentation.
 
 ## 10. Preview acceptance classes
 
@@ -192,7 +220,11 @@ Nexkosmo may classify derived previews by what they are reliable enough to evalu
 Examples:
 
 - **Composition-valid** — useful for framing/layout but not identity proof;
-- **Camera-valid** — camera/lens/blocking controls were faithfully consumed;
+- **Camera-valid** — camera transform/filmback/framing controls were faithfully consumed;
+- **Lens-geometry-valid** — focal length/FOV and applicable optical geometry were faithfully consumed;
+- **Optics-valid** — required aperture/focus/optical controls were physically or measurably honoured according to policy;
+- **Lighting-geometry-valid** — required light positions/sizes/directions were faithfully consumed;
+- **Physics-valid** — the required coupled physical image-forming relationships were faithfully executed for the claimed scope;
 - **Identity-valid** — approved identity controls and validation passed;
 - **Continuity-valid** — required continuity inputs were consumed and validation passed;
 - **Look-only** — useful for mood/style exploration only;
@@ -213,6 +245,8 @@ Every preview result must retain enough evidence to determine:
 - controls actually mapped;
 - controls omitted/approximated;
 - canonical Scene/Shot/Continuity Snapshot revisions;
+- physical cinematography specification revision where applicable;
+- lens/camera profile evidence class where applicable;
 - renderer/model/checkpoint/version;
 - output validation results;
 - cost/compute/latency;
@@ -236,6 +270,7 @@ BUILD asks for a preview of the canonical Shot. It does not need to force the Di
 Brain/Render Orchestrator should normally choose a compatible route automatically from:
 
 - required Shot controls;
+- required physical cinematography fidelity;
 - quality purpose;
 - expected fidelity;
 - time;
@@ -261,7 +296,11 @@ A critical blocker exists only when no approved production route can satisfy a r
 
 > Required Shot controls must be matched to supported adapter capabilities before execution.
 
+> Camera, lens, filmback, distance, aperture, focus, shutter and lighting may form one coupled physical requirement; capability matching must preserve that relationship where required.
+
 > Unsupported controls are not silently dropped. Reroute, hybridize, declare approximation, or do not use that renderer for the requirement.
+
+> AI imitation of a lens/camera look is not automatically equivalent to a physically defined camera/lens system.
 
 > Renderer limitations never rewrite canonical Scene/Shot truth.
 
