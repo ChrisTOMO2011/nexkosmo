@@ -80,7 +80,7 @@ Rules:
 3. Do not substitute an older cyan/blue-heavy logo.
 4. Do not change the X silhouette, violet/lilac palette, white-violet centre star, or progression-inspired light streak unless the Director explicitly requests a brand revision.
 5. Page-specific work must preserve the canonical logo even when surrounding layout, imagery, theme, or controls change.
-6. Discovery, Shape, Build, Ready, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
+6. Discovery, Shape, Build, Ready, Production, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
 7. If a task would require changing the canonical logo but the task is not explicitly a brand-change task, STOP and report the conflict instead of modifying it.
 
 ## Canonical asset workflow
@@ -120,6 +120,172 @@ Sophia (or another selected AI Producer) is the Director-facing collaboration/pe
 
 The shared stage model is:
 
-`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY`
+`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION -> STUDIO`
 
 Preserve this shared shell and canonical brand identity unless an explicit product decision supersedes them.
+
+## Idea project type and destination inference
+
+IDEA should capture what the Director knows without forcing project classification before creativity can begin.
+
+Rules:
+
+1. Brain SHOULD infer the project type when the Director's input makes it reasonably clear, including formats such as feature film, short film, commercial, music video, documentary, game cinematic, social video, review, training video, or another supported format.
+2. Brain SHOULD infer the intended destination or distribution surface separately when that is clear, including cinema, YouTube, TikTok, Instagram, television, web, internal business use, or another supported destination.
+3. Project type and destination are separate properties. For example, a short film may have YouTube as its destination.
+4. If either property is unclear, it may remain explicitly **Not established yet** rather than being guessed as canonical truth.
+5. IDEA MUST NOT block the Director from entering DISCOVER merely because project type, destination, duration, aspect ratio, or similar downstream production details are not yet established.
+6. Brain should ask for an unresolved property only when that information becomes materially necessary for the next useful operation, such as script structure, duration planning, aspect ratio, delivery requirements, or production settings.
+7. If later Director input makes the project type or destination clear, Brain may update that property automatically and propagate the consequence through connected project state when the intended meaning is unambiguous.
+8. Inference must remain distinguishable from explicit Director specification until the Director's actions or later information make the classification clear enough to become established project state.
+
+The permanent rule is:
+
+> Infer when the Director has already told us enough. Leave it unknown when they have not. Ask only when the answer becomes necessary.
+
+## Discover scene snapshots and Build This Moment
+
+DISCOVER represents each scene with a visible snapshot frame. The snapshot may look like a single image to the Director, but its editable scene state must not be flattened when the scene contains assets the Director can manipulate.
+
+Rules:
+
+1. The environment or background may be used as the base layer and does not require transparency merely because it is the scene background.
+2. Any asset that can be dragged, dropped, moved, scaled, replaced, reordered in front of or behind another asset, reused, or independently adjusted in **Build This Moment** MUST remain an isolated element with alpha/transparency or an equivalent persistent isolation mask.
+3. This applies to characters, creatures, vehicles, props, movable set pieces, and effects whenever independent manipulation is intended.
+4. The visible Discover snapshot is a composite of the base environment plus the isolated scene assets. A flattened preview is a derived view and must not replace the underlying editable composition.
+5. **Build This Moment** is an advanced DISCOVER interaction. It uses drag-and-drop to compose the Discover scene with whole isolated scene assets. The Director may add, remove, reposition, resize, replace and reorder those assets and may create additional ordered scene-moment frames while preserving the identity of the underlying assets.
+6. If the Director needs an asset that does not yet exist, **Build This Moment MUST allow the Director to create that asset with AI from within the scene-building flow** instead of forcing them to leave the scene or use a separate creation page.
+7. AI asset creation may be used for characters, creatures, vehicles, props, movable set pieces, effects, and other whole scene elements the Director needs.
+8. A newly AI-created asset intended for independent manipulation must be produced or converted into an isolated editable form with alpha/transparency or an equivalent persistent isolation mask before it is treated as a draggable scene asset.
+9. The created asset must be added to the current scene composition and preserved as a reusable project asset with identity, provenance, source-generation information, and version history so it can be reused consistently in later scenes.
+10. If a suitable approved asset already exists, Nexkosmo should retrieve and reuse it before generating a new one. AI generation is used when the Director wants a new asset or no suitable approved asset exists.
+11. **Asset truth and scene representation are separate.** When an asset benefits from 3D because it may need perspective changes, animation, relighting, multiple camera angles, physical interaction, or repeated reuse, Nexkosmo should preserve or create the 3D asset as the reusable source representation.
+12. For those 3D-backed assets, Nexkosmo may generate a 2D transparent render or equivalent isolated view for fast drag-and-drop use inside DISCOVER and Build This Moment. The 2D representation is derived from the richer asset and MUST NOT replace or destroy the underlying 3D source.
+13. The Director therefore effectively receives both representations where 3D is useful: the reusable 3D source asset underneath and the lightweight 2D scene representation used for the current snapshot or moment.
+14. Assets that do not benefit meaningfully from 3D, such as simple graphics, decals, distant background elements, or limited-use visual elements, may remain 2D when that is the more appropriate representation.
+15. A representation change must preserve asset identity, provenance, approvals, and links between the source asset and every derived scene representation.
+16. **For a photoreal human, the 3D model is the structural representation, not the complete visual identity.** Nexkosmo MUST preserve the person's approved photoreal identity information separately from the 3D geometry.
+17. A realistic-human identity package may include approved photographic or photoreal reference images, high-fidelity head and body structure, skin/eye/hair appearance, textures and materials, clothing and accessories, rigging/facial controls, measurements or landmarks, and approved 2D identity/reference frames.
+18. When AI video or another renderer supports the relevant controls, Nexkosmo should provide the approved visual identity references for appearance together with the 3D asset or structural data for pose, camera, perspective, motion, scale, spatial relationships, and physical interaction.
+19. No derived 3D model, 2D render, generated frame, or video result may silently replace the approved human identity source. All representations remain linked to the same canonical identity and must be validated against it.
+20. **A production-ready character deliverable is a package, not only a model file.** When Nexkosmo creates or delivers a reusable character, the Director should receive the usable 3D asset together with the character's production/reference package where those components exist.
+21. The character production/reference package may include the canonical identity bible; approved hero portraits; face, eye, skin, hand, foot, anatomy and proportion references; front/side/back/turnaround views; expression sheets; clothing and accessory references; colour palette; materials and texture references; topology/UV information; skeletal and muscle references; body and facial rig information; blendshapes/FACS information; motion/animation references; voice and behavioural references; software/export compatibility; asset breakdown; technical specifications; approved cinematic reference frames; and related production notes.
+22. Technical source components such as meshes, geometry, textures, materials, UVs, rigs, animation data, simulation data and source files remain connected to the same canonical character identity rather than becoming unrelated files.
+23. The character package MUST preserve provenance, ownership/rights information where applicable, approvals, dependency links, version history, and the relationship between the canonical identity, the 3D production asset, every visual reference sheet, and all derived renders.
+24. Reference sheets and character bibles are not decorative documentation. They are identity and production evidence that may be supplied to human artists, AI systems, renderers, animation tools, validation systems, or downstream production stages to preserve the intended character.
+25. The 3D asset is the production object; the character bible and reference package describe and constrain what that object represents. Neither representation alone silently replaces the complete canonical character package.
+26. **Build This Moment drag-and-drop operates at whole-scene-asset composition level.** Dropping an isolated asset into the Discover scene places that asset in the composition, after which it may be moved, resized, reordered, replaced or removed as a whole scene element.
+27. **Build This Moment does not provide global BUILD's deep target-aware attachment/editing model.** It does not need to support dropping glasses onto a face, placing a bruise on a body location, attaching a weapon to a hand, or placing one object onto another object as its detailed editing interaction.
+28. Existing character appearance, wardrobe, injury or other approved states may be represented in the Discover composition, but detailed application, attachment, removal or modification of those target-specific states belongs to global BUILD.
+29. The layered assets, identities and approved scene states established in DISCOVER and Build This Moment flow forward into SHAPE and BUILD rather than being recreated from scratch.
+30. Core face identity, fundamental body proportions, species and other defining identity-bearing characteristics remain governed identity state and must not be silently changed by ordinary scene-composition drag-and-drop.
+31. **Global BUILD owns the richer target-aware drag-and-drop interaction:** drag into scene space to place an asset; drag onto a valid character/object target to apply or attach it where appropriate.
+32. **Characters and reusable objects must preserve a clean base representation.** Temporary additions MUST NOT be baked destructively into the canonical base asset merely because they are visible in a scene.
+33. Glasses, hats, jewellery, clothing, weapons, backpacks, attachments, decals, dirt, blood, damage and similar additions should remain separate linked assets, modifiers or states wherever independent removal, replacement, movement, reuse or continuity tracking is useful.
+34. **Injury is a distinct asset class rather than ordinary appearance.** An Injury Asset defines the reusable injury concept; an Injury State records how that injury currently exists on a specific character, including body location, severity, healing stage, visible treatment, deformation, material/texture effects, movement restrictions and continuity where applicable.
+35. In global BUILD, applying an accessory, injury, damage element or other non-destructive addition to a clean base asset creates a composed production state without replacing the base identity or source asset. Removing that addition must restore the clean base representation without regeneration of the identity.
+36. When a clean 3D-backed asset is modified through these linked additions, Nexkosmo may regenerate or update the lightweight 2D scene projection to show the composed result while preserving the clean 3D source and each applied addition separately underneath.
+37. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
+38. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
+
+The permanent rules are:
+
+> If the Director can manipulate an asset independently in Build This Moment, Nexkosmo must preserve that asset independently beneath the visible scene snapshot.
+
+> If the Director needs an asset that does not exist, Build This Moment can create it with AI in place, isolate it for editing, add it to the scene, and preserve it as a reusable project asset.
+
+> When 3D adds lasting value, preserve the 3D asset as the reusable source and use a lightweight 2D representation for the scene. The Director gets both without making the scene-building experience more complicated.
+
+> For a photoreal human, 3D preserves structure but does not alone define identity. Preserve the approved visual identity package and use it together with structural 3D information wherever the renderer supports both.
+
+> A reusable character is delivered as a canonical character package: the production-ready 3D asset plus its identity bible, visual references, technical specifications, production data, and provenance/version history.
+
+> Build This Moment uses drag-and-drop to compose the Discover moment with whole isolated assets. Global BUILD performs the deeper target-aware modifications and attachments inside that scene.
+
+> Keep the base asset clean. Accessories, injuries, damage and other additions remain separate non-destructive assets or states that can be applied, changed or removed without destroying the original.
+
+## Non-linear Discover and anchor scenes
+
+The Director does not need to know the whole movie before using DISCOVER. DISCOVER MUST support non-linear story development.
+
+Rules:
+
+1. The Director may create only the scenes they currently know, including a beginning, a middle moment, an ending, or any other isolated scene in any order.
+2. Known scenes are treated as **anchor scenes**. Missing story between anchors remains explicitly unresolved rather than being silently invented as decided project truth.
+3. Brain may identify the gaps between anchor scenes and may help the Director explore possible connecting scenes, beats, or transitions.
+4. AI-generated suggestions for missing material remain proposals. They MUST NOT become canonical Discover cards or approved story events until the Director explicitly accepts, creates, or approves them.
+5. The Director may add, remove, reorder, replace, or refine anchor scenes as the story develops.
+6. DISCOVER must preserve the distinction between what the Director knows, what has been approved, and what is still unknown or merely suggested.
+7. A project may remain intentionally incomplete in DISCOVER while still preserving its known structure and allowing continued development.
+
+Example:
+
+`KNOWN OPENING -> UNRESOLVED GAP -> KNOWN MIDDLE -> UNRESOLVED GAP -> KNOWN ENDING`
+
+Brain may help explore the unresolved gaps, but the gaps remain unresolved until the Director decides what belongs there.
+
+The permanent rule is:
+
+> Unknown story is allowed to remain unknown. Brain may help explore it, but only the Director turns a suggestion into the movie.
+
+## Discover scene minimum and progression
+
+DISCOVER must not force every project type into an arbitrary scene count.
+
+Rules:
+
+1. The hard minimum to establish a DISCOVER project is **one scene**. A Director may begin with only one scene or moment they can clearly imagine.
+2. **Three anchor scenes** - typically a beginning, a meaningful middle point, and an ending - are a useful basic story skeleton when that structure fits the project, but they are guidance rather than a mandatory requirement.
+3. A Director MUST NOT be blocked from continuing to SHAPE merely because fewer than three scenes exist.
+4. Progression from DISCOVER is based on whether the project has enough established structure and intent for meaningful continued development, not on reaching a fixed number of cards.
+5. Brain may identify important unresolved structural gaps and explain them to the Director, but unresolved gaps do not become invented canonical scenes merely to satisfy a numeric minimum.
+6. The same rule applies across project types and lengths, including commercials, music videos, short films, feature films, game cinematics, and other supported formats.
+
+The permanent rule is:
+
+> One established scene is enough to begin. Story sufficiency, not scene count, determines when the project is ready to continue.
+
+## Shape / Script audio asset creation
+
+SHAPE is where the written scene becomes specific enough for the Director to establish what should be heard as well as what should happen. Audio creation should be available directly from the Script/Shape workflow without forcing the Director into a separate audio-production stage.
+
+Rules:
+
+1. The Director may ask AI from SHAPE to create **character voices, dialogue performances, sound effects, ambience, music, score, themes, transitions, and other required audio assets** for the script at hand.
+2. Character voice selection or creation may include attributes such as masculine/feminine presentation, age range, accent, language, tone, texture, energy, emotional delivery, pacing, and performance style while remaining linked to the intended character or authorised performer identity.
+3. Dialogue generation should be linked at the smallest useful unit, normally to the character and specific script line or dialogue beat, so a changed line can be regenerated without recreating unrelated dialogue or the entire soundtrack.
+4. Sound effects should remain separate assets linked to the relevant scripted event, action, prop, environment, scene beat, or timing reference. Removing or changing the scripted event should update the dependency rather than leave an unrelated baked sound behind.
+5. Ambience and environmental sound should remain separate assets or layers linked to the relevant environment, location, scene state, or time span.
+6. Music and score should remain separate cues linked to the relevant scene, sequence, beat, emotional intention, transition, character theme, or other narrative purpose rather than being permanently flattened into dialogue or effects.
+7. AI-created audio is editable project material. Dialogue, SFX, ambience and music MUST remain independently replaceable, regenerable, muteable, versioned and traceable through later BUILD, PRODUCTION and STUDIO workflows.
+8. When a suitable approved voice, sound effect, ambience or music asset already exists, Nexkosmo should retrieve and reuse it before generating a new asset unless the Director explicitly wants a new variation.
+9. Voice identity must remain separate from an individual generated line. A character or authorised performer may have an approved reusable Voice Asset or voice profile, while each dialogue performance is a derived line-level or beat-level asset linked back to that voice identity.
+10. If an AI voice is based on an identifiable real person's voice, Nexkosmo must preserve the relevant authorisation, rights/consent and provenance information and must not treat an unauthorised imitation as an approved reusable performer identity.
+11. Script changes should propagate only to affected audio dependencies when the consequence is unambiguous. Changing one line should not force unrelated music, SFX or dialogue to be regenerated.
+12. SHAPE establishes and previews the audio intent and may create production-usable assets, but STUDIO remains the place for detailed editing, timing, sound design, mixing, mastering and final delivery decisions.
+
+The permanent rule is:
+
+> Script establishes what is heard. AI may create the required voice, dialogue, sound-effect, ambience and music assets there, while every audio element remains separate, linked, reusable and editable through final Studio finishing.
+
+## Ready as the Production gate
+
+READY is the single serious validation gate before full PRODUCTION. Earlier creative stages should remain fluid and should not repeatedly interrupt the Director to reconfirm decisions that have already been made.
+
+Rules:
+
+1. Director edits made in IDEA, DISCOVER, SHAPE, or BUILD may propagate through connected project state without requiring repeated confirmation when the intended consequence is unambiguous.
+2. READY validates whether the connected creative state is sufficiently synchronized, complete, and technically usable for full PRODUCTION.
+3. READY must distinguish at least three outcomes:
+   - **Not Ready** - one or more critical unresolved items remain. Full PRODUCTION is blocked.
+   - **Ready with warnings** - only non-critical issues remain. Full PRODUCTION is allowed, with the warnings preserved and visible.
+   - **Ready** - required validation has passed. Full PRODUCTION is allowed.
+4. Critical blockers include unresolved or conflicting information that would force PRODUCTION to invent a material creative decision, break approved continuity or identity, or proceed without required production information.
+5. Non-critical warnings MUST NOT become artificial blockers merely because they exist.
+6. Test renders, previews, camera tests, look-development, AI experiments, and other exploratory outputs may be performed before READY passes. These are development activities and do not count as entering committed full PRODUCTION.
+7. The system must preserve the reason for every blocking condition so the Director can see what must be fixed rather than encountering an unexplained stop.
+8. Once a critical blocker is resolved, READY should re-evaluate automatically rather than forcing the Director through unnecessary duplicate steps.
+
+The permanent rule is:
+
+> Creative work stays fluid until READY. Full PRODUCTION is blocked only when READY finds a critical unresolved condition.
