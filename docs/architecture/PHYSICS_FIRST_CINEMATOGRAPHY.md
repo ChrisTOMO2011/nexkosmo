@@ -12,7 +12,7 @@ Those labels may describe an intended result, but authentic photographic appeara
 
 The governing rule is:
 
-> Cinematic appearance should emerge from a coherent physical and perceptual setup wherever the production route supports it. Camera, sensor/filmback, camera-to-subject distance, lens, aperture, focus, shutter, geometry, material response, lighting, exposure and movement are interdependent causes of the image, not isolated stylistic labels.
+> Cinematic appearance should emerge from a coherent physical and perceptual setup wherever the production route supports it. Camera, camera-support/movement rig, sensor/filmback, camera-to-subject distance, lens, aperture, focus, shutter, geometry, material response, lighting, exposure and movement are interdependent causes of the image, not isolated stylistic labels.
 
 A second permanent rule is:
 
@@ -28,6 +28,8 @@ Conceptually:
 Director intent
 -> desired audience perception
 -> spatial/blocking design
+-> camera support / movement rig
+-> camera path / pivot / constraints / stabilisation
 -> camera position and height
 -> sensor / filmback
 -> lens / focal length / optical model
@@ -53,6 +55,7 @@ Nexkosmo should prefer physically coherent relationships before adding decorativ
 Examples of coherent relationships include:
 
 - perspective agrees with camera position;
+- camera movement agrees with the selected support/rig where that rig materially defines the Shot;
 - field of view agrees with focal length and sensor/filmback;
 - depth of field agrees with focal length, aperture, focus distance, subject distance and format;
 - motion blur agrees with shutter and movement;
@@ -91,6 +94,7 @@ A canonical camera profile may include, where relevant:
 - camera position and orientation;
 - camera height;
 - camera movement path;
+- camera support / movement-rig reference;
 - stabilisation/rig behaviour where relevant;
 - lens mount / compatible lens profile references.
 
@@ -112,6 +116,129 @@ camera white balance / tint / response
 ```
 
 A generic `warm` or `cool` label is not a substitute for this relationship when physical or camera-response fidelity is required.
+
+### 4.2 Camera Support & Movement Rig State
+
+Nexkosmo should represent how the camera is physically supported or moved as part of the Shot's cinematography state when that support materially affects movement, perspective, parallax, framing or audience perception.
+
+A Camera Support / Movement Rig State may classify the platform as one or more of:
+
+- locked/static camera;
+- tripod / fluid head;
+- monopod where useful;
+- slider;
+- dolly / track dolly;
+- doorway dolly or floor dolly;
+- pedestal / studio pedestal;
+- jib;
+- fixed-arm crane;
+- telescopic crane / Technocrane-style system;
+- handheld;
+- shoulder rig;
+- body-mounted stabilised rig / Steadicam-type system;
+- motorized gimbal / stabiliser;
+- drone / aerial platform;
+- vehicle mount / process rig;
+- cable cam;
+- motion-control / robotic arm;
+- body / head / chest / POV mount;
+- remote head;
+- virtual camera rig;
+- another declared future support system.
+
+The class name alone is not sufficient. Where relevant, the state should preserve physical or kinematic properties such as:
+
+- camera-to-rig mount offset;
+- pivot position;
+- boom/arm length;
+- telescoping range;
+- rail/track/path geometry;
+- constrained movement axes;
+- pan range and speed;
+- tilt range and speed;
+- roll/bank behaviour;
+- camera height range;
+- altitude range for aerial systems;
+- path start/end and intermediate key positions;
+- velocity;
+- acceleration/deceleration;
+- easing;
+- maximum speed / acceleration constraints where materially relevant;
+- damping / inertia;
+- stabilisation strength / response;
+- operator-induced micro-motion where intentionally modelled;
+- horizon-lock behaviour;
+- target-tracking behaviour;
+- repeatability / motion-control precision;
+- parent platform motion such as a car, boat, actor or aircraft;
+- environmental influence such as wind where intentionally modelled;
+- collision/clearance constraints where the virtual/physical route supports them.
+
+The permanent rule is:
+
+> `Tripod`, `dolly`, `jib`, `crane`, `handheld`, `Steadicam`, `gimbal`, `drone` and similar terms are movement semantics, not decorative labels, when they materially define the Shot.
+
+### 4.3 Support type changes the motion signature
+
+Different support systems may reach similar start and end camera positions while producing different motion between them.
+
+Examples:
+
+```text
+Tripod pan:
+  position remains fixed
+  orientation changes around the head/pivot
+
+Dolly:
+  camera translates through space
+  perspective/parallax change continuously
+
+Jib/crane:
+  camera follows an arc or articulated/telescoping path
+  height and distance may change together
+
+Steadicam/body-stabilised rig:
+  free operator translation
+  stabilised but not perfectly inertial orientation
+  human movement remains part of the motion signature
+
+Motorized gimbal:
+  free translation from operator/platform
+  electronically stabilised orientation
+  response/smoothing may differ from body-stabilised rigs
+
+Handheld/shoulder:
+  operator-driven translation and rotation
+  deliberate or natural micro-motion, sway and acceleration
+
+Drone:
+  six-degree-of-freedom aerial translation/orientation
+  altitude, yaw, bank, acceleration, wind/stabilisation behaviour may matter
+
+Motion control/robot arm:
+  repeatable programmed trajectory
+  high path/pivot precision where supported
+```
+
+Nexkosmo must not assume these are equivalent simply because a generic transform curve can approximate their visible path.
+
+### 4.4 Movement intent and rig choice
+
+The Director may specify the movement directly (`slow push toward Sarah`) without naming a rig. Brain/Producer may then propose a compatible support system according to the required movement character, physical constraints and production route.
+
+Conversely, the Director may explicitly request `tripod`, `jib`, `drone`, `Steadicam`, `gimbal`, `handheld`, `dolly` or another support class. In that case the support semantics become part of the Shot unless the Director changes them.
+
+Examples of perceptual intent include:
+
+- locked tripod for stillness, observation or tension;
+- slow dolly for controlled spatial approach/withdrawal;
+- jib/crane for vertical revelation or spatial expansion;
+- Steadicam/gimbal for fluid movement through a space;
+- handheld for embodied instability or immediacy;
+- drone for scale, geography, height or continuous aerial movement;
+- motion-control for exact repeatability or compositing/VFX requirements.
+
+These associations are suggestions, not fixed artistic rules.
 
 ## 5. Lens intelligence
 
@@ -271,6 +398,7 @@ Relevant properties include:
 - frame rate;
 - camera velocity;
 - subject velocity;
+- support-rig motion signature;
 - rolling/global shutter behaviour where relevant;
 - rolling-shutter readout time where relevant;
 - motion-vector or temporal-sampling support.
@@ -295,6 +423,30 @@ Where relevant, Nexkosmo should support versioned/time-keyed trajectories for:
 A zoom is not merely a change in crop. A focus pull is not merely a blur transition. An iris ramp is not merely a brightness keyframe. Where physical fidelity is claimed, the renderer must honour the corresponding optical/exposure relationship.
 
 Nexkosmo should preserve temporal continuity of exposure and colour through camera motion, subject motion, focus pulls, zooms and lighting changes unless the Director intentionally changes that continuity.
+
+### 9.2 Camera movement is a trajectory with physical character
+
+Where camera-motion fidelity matters, Nexkosmo should preserve more than position keyframes.
+
+A Camera Movement Trajectory may include:
+
+- support/rig reference;
+- camera transform over time;
+- parent-platform transform where applicable;
+- pivot/arm/rail constraints;
+- velocity profile;
+- acceleration/deceleration profile;
+- easing;
+- pan/tilt/roll behaviour;
+- stabilisation response;
+- damping/inertia;
+- intentional micro-motion;
+- horizon behaviour;
+- tracking/look-at target where used;
+- spatial clearance/collision constraints where supported;
+- repeatability tolerance where motion-control fidelity is required.
+
+The same path rendered with different motion signatures may create a different audience experience and different physical relationships with parallax and motion blur.
 
 ## 10. Lighting as geometry and energy, not a style word
 
@@ -406,6 +558,14 @@ Possible strategy:
 - lighting that keeps the surrounding space perceptually present
 ```
 
+```text
+Intent: reveal scale around Sarah
+Possible strategy:
+- crane/jib/drone or another justified elevated movement route
+- movement that changes height and spatial relationship rather than merely zooming out
+- maintain coherent parallax and horizon behaviour
+```
+
 These are reasoning strategies, not mandatory formulas. The Director may choose another valid visual language.
 
 ## 13. Authenticity over generic beautification
@@ -468,15 +628,19 @@ A creative approximation must not be labelled as an exact reproduction of a real
 
 ## 15. Camera profile evidence classes
 
-The same distinction applies to cameras.
+The same distinction applies to cameras and movement rigs.
 
 Nexkosmo may know:
 
 - physical/virtual filmback geometry;
 - measured or licensed camera/sensor behaviour;
-- creative approximation of a camera look.
+- physically/kinematically defined movement-rig behaviour;
+- measured/calibrated movement-rig behaviour where available;
+- creative approximation of a camera or movement look.
 
 An exact filmback and field of view do not prove exact sensor colour science, dynamic range, noise, highlight roll-off, spectral sensitivity, white-balance behaviour or shutter/readout behaviour.
+
+Likewise, a path that visually resembles a drone, Steadicam, jib or handheld Shot does not prove the corresponding movement-rig physics were preserved.
 
 The UI/evidence system must not overclaim fidelity.
 
@@ -488,12 +652,13 @@ A renderer adapter must state which parts it can consume faithfully.
 
 Examples:
 
-### Offline physically based renderer
+### Offline physically based / 3D renderer
 
 May support:
 
 - exact geometry;
 - exact camera transform;
+- camera rig hierarchy/constraints;
 - filmback;
 - focal length;
 - aperture/focus;
@@ -505,21 +670,29 @@ May support:
 
 May support only:
 
-- textual lens/camera descriptions;
+- textual lens/camera/rig descriptions;
 - reference images;
 - pose/depth inputs;
 - camera-motion conditioning;
 - limited identity controls.
 
-If so, `50mm` may be a conditioning hint rather than a physically defined camera.
+If so, `50mm`, `drone shot`, `jib shot` or `Steadicam` may be conditioning hints rather than physically defined camera and rig states.
 
 The adapter must record that distinction.
 
-## 17. Capability-aware optical fidelity
+## 17. Capability-aware optical and movement fidelity
 
 Renderer capability profiles should independently declare support for properties such as:
 
 - physical camera transform;
+- camera support / movement-rig semantics;
+- rig pivot/arm/rail constraints;
+- parent-platform motion;
+- path/velocity/acceleration controls;
+- stabilisation/damping/inertia controls;
+- repeatable motion-control trajectories;
+- handheld/operator micro-motion controls where relevant;
+- aerial/drone altitude, banking, yaw and stabilisation controls where relevant;
 - filmback/sensor dimensions;
 - focal length;
 - field of view;
@@ -548,7 +721,7 @@ Renderer capability profiles should independently declare support for properties
 - temporal exposure/colour continuity;
 - spectral/colour pipeline support.
 
-A single `supportsLens=true`, `supportsCamera=true` or `supportsLighting=true` flag is insufficient.
+A single `supportsLens=true`, `supportsCamera=true`, `supportsCameraMovement=true` or `supportsLighting=true` flag is insufficient.
 
 ## 18. Route selection
 
@@ -557,14 +730,14 @@ When physical cinematography fidelity is required, Render Orchestration should c
 Possible patterns include:
 
 ```text
-Canonical 3D scene + physical camera/lens/light setup
+Canonical 3D scene + physical camera/lens/light setup + movement-rig state
 -> Arnold / V-Ray / Blender / Unreal or another capable renderer
 ```
 
 or:
 
 ```text
-Physical 3D camera/blocking/depth reference
+Physical 3D camera/blocking/depth/movement reference
 + approved identity references
 -> AI appearance/motion renderer
 -> validation/compositing
@@ -584,6 +757,7 @@ Canonical state may resolve:
 Sarah identity: approved identity package
 Sarah position: 1.4m from camera
 background distance: 6.0m behind Sarah
+camera support: tripod locked, slow pan only
 camera height: 1.25m
 filmback: defined
 lens: 50mm spherical
@@ -600,6 +774,8 @@ practical lamp: background-right
 exposure intent: protect window highlights while keeping Sarah lower
 ```
 
+If the Director changes the support to a slow jib rise, dolly push, handheld move, gimbal follow or drone move, Nexkosmo should preserve that support-specific movement state rather than merely attaching a new text label.
+
 The appearance should emerge from the coherent setup where the renderer supports it.
 
 If another route can only approximate those controls, the preview/result must carry the appropriate approximation evidence.
@@ -615,7 +791,7 @@ The Director may intentionally choose:
 - exaggerated perspective;
 - nonphysical materials;
 - animation/anime/cartoon language;
-- surreal motion;
+- surreal movement or impossible camera rigs;
 - deliberate continuity or exposure breaks.
 
 The system should preserve the distinction between:
@@ -630,10 +806,18 @@ Intentional stylisation is valid creative truth. Renderer limitation must not ma
 
 ## 21. BUILD interaction
 
-BUILD should expose camera/lens controls progressively rather than as a wall of technical parameters.
+BUILD should expose camera/lens/rig controls progressively rather than as a wall of technical parameters.
 
 A normal Director may work with meaningful choices such as:
 
+- locked tripod;
+- pan / tilt;
+- dolly in / dolly out;
+- jib/crane rise or descend;
+- handheld;
+- Steadicam / stabilised walk;
+- gimbal follow;
+- drone move;
 - wider / closer;
 - longer / more isolated;
 - more / less background focus;
@@ -642,11 +826,17 @@ A normal Director may work with meaningful choices such as:
 - brighter / darker exposure intent;
 - softer / harder light;
 - warmer / cooler camera interpretation;
-- handheld / locked / moving;
-- choose camera/lens/filter preset.
+- choose camera/lens/filter/rig preset.
 
 Advanced users may expose:
 
+- camera support/rig class;
+- pivot/mount/arm/rail geometry;
+- path and transform trajectory;
+- velocity/acceleration/easing;
+- stabilisation/damping/inertia;
+- operator micro-motion;
+- horizon/target-tracking behaviour;
 - sensor/filmback;
 - exact focal length;
 - exact camera distance/transform;
@@ -672,6 +862,10 @@ A physically significant preview/result may be validated at separate levels such
 
 - geometry/perspective valid;
 - camera/filmback valid;
+- camera-support/movement-rig valid;
+- path/pivot/constraint valid;
+- movement-velocity/acceleration valid;
+- stabilisation/motion-character valid;
 - focal-length/FOV valid;
 - optical-depth-of-field valid;
 - focus-trajectory valid;
@@ -697,6 +891,10 @@ Validation labels are evidence, not a substitute for Director judgement.
 
 > Camera position determines perspective. Lens and filmback determine field of view. Framing alone does not define the optical experience.
 
+> Camera-support and movement-rig choice can determine the physical path, pivot, constraints, stabilisation and motion character of a Shot; it is part of cinematography when material.
+
+> `Tripod`, `dolly`, `jib`, `crane`, `handheld`, `Steadicam`, `gimbal`, `drone`, `vehicle mount` and similar support terms are movement semantics, not decorative labels.
+
 > Nexkosmo knows lens behaviour, not just lens names.
 
 > A lens profile may be physical, measured or creatively approximated; Nexkosmo must not confuse those evidence levels.
@@ -705,13 +903,13 @@ Validation labels are evidence, not a substitute for Director judgement.
 
 > Exposure is a coupled relationship between the scene, lens/filter transmission, shutter, aperture/T-stop, ISO/EI, sensor/camera response and colour interpretation; it is not merely a brightness label.
 
-> Time-varying focus, zoom, iris and exposure state must remain physically/temporally coherent where the selected route claims that fidelity.
+> Time-varying camera movement, focus, zoom, iris and exposure state must remain physically/temporally coherent where the selected route claims that fidelity.
 
 > Physical filtration and post-production look effects are distinct evidence classes unless validated as equivalent for the intended purpose.
 
 > Depth of field, motion blur, lighting, reflections and material response should arise from their physical causes whenever the selected renderer supports them.
 
-> AI imitation of a lens or camera look is not automatically equivalent to a physically defined camera/lens system.
+> AI imitation of a lens, camera or camera-rig look is not automatically equivalent to a physically defined camera/lens/movement system.
 
 > Renderer limitations never erase the canonical physical cinematography specification.
 
