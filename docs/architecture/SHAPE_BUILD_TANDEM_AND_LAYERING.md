@@ -61,6 +61,86 @@ BUILD primarily translates the established scene into cinematic and production c
 
 BUILD must follow the scene's established narrative intent rather than silently rewriting the story for implementation convenience.
 
+## Seamless SHAPE scene -> BUILD shot workflow
+
+By the time a scene reaches SHAPE, the scene is established narratively enough for BUILD to work from it directly. BUILD MUST NOT require the Director to recreate, re-enter, re-import or manually reconcile the scene.
+
+The SHAPE scene and the BUILD scene are the same canonical scene identity.
+
+Rules:
+
+1. SHAPE establishes the scene's narrative content: what happens, who is present, what is said, meaningful actions and reactions, entrances/exits, important object interactions, narrative timing/intent and relevant audio intent.
+2. Entering BUILD opens that same scene state with its existing characters, assets, environment, approved scene states, dialogue/audio references and continuity information already resolved where available.
+3. BUILD adds cinematic coverage and production construction to the existing scene rather than creating a disconnected copy.
+4. The normal scene hierarchy is **Scene -> 1..N Shots**. A scene may contain one shot or many shots according to what the scene actually requires.
+5. **Fifteen shots is not a fixed architectural requirement.** Shot count is variable and must not be used as a mandatory minimum or maximum.
+6. Brain/Producer may propose an initial shot structure from the established script scene, but that proposal remains editable by the Director.
+7. The Director may add, remove, duplicate, reorder, replace, merge or refine proposed shots while BUILD remains fluid.
+8. Each shot must have its own stable identity and version history even though it references the same parent scene.
+9. BUILD should make the transition feel like: **Script scene -> open in BUILD -> proposed cinematic shot structure appears -> Director refines it.**
+10. No manual synchronization step is required between SHAPE and BUILD. Brain propagates unambiguous changes between the two views.
+
+The permanent rule is:
+
+> SHAPE figures out the scene. BUILD does not rebuild it; BUILD turns that same scene into the shots required to express it cinematically.
+
+## Shared scene assets, 3D structure and shot views
+
+Shots are views and timed constructions of the scene; they are not independent duplicate worlds.
+
+Rules:
+
+1. Reusable scene assets such as characters, props, vehicles, environments, wardrobe, injuries and other persistent scene elements remain linked to their canonical source assets at scene/project level.
+2. Where a reusable 3D representation exists or adds lasting value, the scene preserves that 3D source as shared structural state rather than creating a separate duplicate 3D model for every shot.
+3. Individual shots reference the shared scene/3D state and add shot-specific information such as camera position, lens, framing, movement, focus, timing, blocking refinements, visibility and other supported overrides.
+4. Approved visual identity references remain available alongside 3D structural data where needed. A 3D model alone does not silently replace approved identity.
+5. Shot construction should reuse the same canonical character/object/environment identities unless the Director explicitly creates a new version or state.
+6. A shot-specific representation, preview image, video or render is a derived view of the canonical scene and shot state; it does not become a new independent source of truth.
+
+The permanent rule is:
+
+> One canonical scene can support many shots. Reuse the same scene identities and 3D source structure; vary the camera, timing and justified shot-specific state rather than duplicating the world for every shot.
+
+## Shot proposal, preview-frame generation and Director control
+
+BUILD may help the Director create the initial coverage, but the Director remains in control of both shot count and shot design.
+
+Rules:
+
+1. Brain/Producer may analyse the established SHAPE scene and propose the number and type of shots that would cover it effectively.
+2. The proposal is contextual, not numeric doctrine. A scene may legitimately use a single continuous shot, a small set of shots, or many shots.
+3. Shot count remains editable until the relevant production decision is approved. The Director may reorder shots, remove them, add new ones, duplicate one as a variation or replace one coverage idea with another.
+4. A shot may be changed from wide to medium, close-up, over-the-shoulder, insert, moving shot or another supported construction without changing the underlying scene identity.
+5. BUILD first establishes the shot definition: the scene moment, subject(s), camera, lens/framing, timing, relevant blocking, lighting intent and required scene state.
+6. The Render Orchestrator may then create a **derived shot preview frame** using the best supported route for that shot, including traditional 3D/rendering, real-time engines, AI image/video systems or a hybrid route.
+7. Where available, the preview route should use the approved scene state, shared 3D structure, visual identity references and shot camera definition together rather than asking a renderer to invent those facts again.
+8. The preview frame is evidence and a working visual representation of the shot. It MUST NOT replace the canonical scene, character, asset or shot definition.
+9. A changed shot should regenerate only the affected preview/derived material where practical rather than forcing every other shot in the scene to be rebuilt.
+10. READY, not the initial AI proposal, is where the chosen shot structure is validated for committed full PRODUCTION.
+
+The permanent rule is:
+
+> AI may propose the coverage and Render Orchestration may create the preview, but the Director controls the shot list and every shot remains editable until approved for Production.
+
+## Scene-level inheritance and shot-level overrides
+
+BUILD must distinguish a scene-wide decision from a change that belongs only to one shot.
+
+Rules:
+
+1. **Scene-level state** is inherited by every relevant shot unless a valid shot-specific override exists.
+2. Examples of scene-level state may include character identity, base wardrobe for that scene, a scene-wide injury state, environment, persistent props, time/weather state and other continuity-bearing facts.
+3. If the Director changes a scene-level fact, all dependent shots must update or be marked for revalidation as appropriate.
+4. **Shot-level state** applies only to the specified shot when the Director's intention is local to that shot.
+5. Examples may include camera/lens/framing, a temporary composition adjustment, object placement required only for a specific angle, visibility, foreground staging or other shot-specific construction.
+6. A shot-level override MUST NOT silently mutate the shared scene-wide source state.
+7. The Director may explicitly promote a useful shot-level change to scene-level state when they intend that change to persist across the scene.
+8. Brain/Continuity must track inheritance, overrides and dependencies so later edits do not create hidden contradictions.
+
+The permanent rule is:
+
+> Scene decisions flow down to the shots. Shot-specific decisions stay local unless the Director promotes them to the scene.
+
 ## BUILD target-aware drag and drop
 
 The global BUILD page is the detailed scene-construction surface. It SHOULD use target-aware drag and drop as a primary interaction for adding, removing and modifying scene contents.
@@ -208,16 +288,18 @@ READY validates the SHAPE <-> BUILD relationship before committed full PRODUCTIO
 - missing or conflicting character state;
 - incompatible wardrobe, injury, prop or environment continuity;
 - timing contradictions that would force PRODUCTION to invent a creative decision;
-- missing critical audio or production dependency when required for the intended production route.
+- missing critical audio or production dependency when required for the intended production route;
+- unresolved conflicts between scene-level inherited state and shot-level overrides;
+- a proposed shot structure that cannot represent the established scene without inventing a material creative decision.
 
 Non-critical incompleteness may remain a warning rather than an artificial blocker.
 
 ## Downstream continuity
 
-PRODUCTION consumes the same canonical layered scene package rather than a disconnected copy. The Render Orchestrator may translate supported subsets into renderer-specific instructions while preserving the richer Nexkosmo scene state.
+PRODUCTION consumes the same canonical layered scene package and approved shot definitions rather than disconnected copies. The Render Orchestrator may translate supported subsets into renderer-specific instructions while preserving the richer Nexkosmo scene state.
 
 STUDIO receives production results plus useful retained layers, source assets, audio elements, passes, masks, metadata and dependencies so targeted changes can be made without destroying the canonical source structure.
 
 ## Permanent summary
 
-> SHAPE defines what happens and what is heard. BUILD defines how that same scene is constructed cinematically, supports deep target-aware scene modification, and can create missing production assets in place. Build This Moment remains a Discover composition tool. SHAPE and BUILD operate on one canonical layered scene, synchronize meaningful changes in both directions, preserve independently editable layers underneath, and flatten only for derived output.
+> SHAPE defines what happens and what is heard. BUILD takes that same established scene, proposes and refines a variable 1..N shot structure, reuses the scene's canonical identities and shared 3D/source assets, supports deep target-aware scene modification, and can create missing production assets in place. Scene-level decisions flow to dependent shots; shot-specific decisions remain local unless promoted. Build This Moment remains a Discover composition tool. SHAPE and BUILD operate on one canonical layered scene, synchronize meaningful changes in both directions, preserve independently editable layers underneath, and flatten only for derived output.
