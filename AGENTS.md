@@ -154,12 +154,19 @@ Rules:
 3. This applies to characters, creatures, vehicles, props, movable set pieces, and effects whenever independent manipulation is intended.
 4. The visible Discover snapshot is a composite of the base environment plus the isolated scene assets. A flattened preview is a derived view and must not replace the underlying editable composition.
 5. **Build This Moment** is an advanced DISCOVER interaction. It may add, remove, reposition, resize, replace, and reorder isolated assets and may create additional ordered scene-moment frames while preserving the identity of the underlying assets.
-6. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
-7. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
+6. If the Director needs an asset that does not yet exist, **Build This Moment MUST allow the Director to create that asset with AI from within the scene-building flow** instead of forcing them to leave the scene or use a separate creation page.
+7. AI asset creation may be used for characters, creatures, vehicles, props, movable set pieces, effects, and other scene elements the Director needs.
+8. A newly AI-created asset intended for independent manipulation must be produced or converted into an isolated editable form with alpha/transparency or an equivalent persistent isolation mask before it is treated as a draggable scene asset.
+9. The created asset must be added to the current scene composition and preserved as a reusable project asset with identity, provenance, source-generation information, and version history so it can be reused consistently in later scenes.
+10. If a suitable approved asset already exists, Nexkosmo should retrieve and reuse it before generating a new one. AI generation is used when the Director wants a new asset or no suitable approved asset exists.
+11. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
+12. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
 
-The permanent rule is:
+The permanent rules are:
 
 > If the Director can manipulate an asset independently in Build This Moment, Nexkosmo must preserve that asset independently beneath the visible scene snapshot.
+
+> If the Director needs an asset that does not exist, Build This Moment can create it with AI in place, isolate it for editing, add it to the scene, and preserve it as a reusable project asset.
 
 ## Non-linear Discover and anchor scenes
 
