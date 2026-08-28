@@ -80,7 +80,7 @@ Rules:
 3. Do not substitute an older cyan/blue-heavy logo.
 4. Do not change the X silhouette, violet/lilac palette, white-violet centre star, or progression-inspired light streak unless the Director explicitly requests a brand revision.
 5. Page-specific work must preserve the canonical logo even when surrounding layout, imagery, theme, or controls change.
-6. Discovery, Shape, Build, Ready, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
+6. Discovery, Shape, Build, Ready, Production, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
 7. If a task would require changing the canonical logo but the task is not explicitly a brand-change task, STOP and report the conflict instead of modifying it.
 
 ## Canonical asset workflow
@@ -120,6 +120,6 @@ Sophia (or another selected AI Producer) is the Director-facing collaboration/pe
 
 The shared stage model is:
 
-`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY`
+`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION -> STUDIO`
 
 Preserve this shared shell and canonical brand identity unless an explicit product decision supersedes them.
