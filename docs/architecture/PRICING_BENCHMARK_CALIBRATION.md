@@ -2,7 +2,7 @@
 
 **Status:** Adopted commercial-calibration rule; numerical economics intentionally unfrozen  
 **Applies to:** Pricing Engine, BUILD estimates, PRODUCTION quoting, distributed compute economics  
-**Related contract:** `PRICING_CREDITS_AND_RENDER_COST_TARGET.md`
+**Related contract:** `PRICING_CREDITS_AND_RENDER_COST_TARGET.md`, `RENDERER_CAPABILITY_AWARE_PREVIEW_ROUTING.md`
 
 ## 1. Purpose
 
@@ -29,7 +29,8 @@ The following pricing principles are architectural and should remain stable:
 - cache/reuse lowers repeated compute cost;
 - partial rerender charges only affected work where technically practical;
 - user-owned hardware is not billed as if Nexkosmo paid external cloud GPU cost;
-- distributed compute pricing accounts for node payout, Nexkosmo cost, failure/retry overhead and sustainable margin.
+- distributed compute pricing accounts for node payout, Nexkosmo cost, failure/retry overhead and sustainable margin;
+- guaranteed production pricing must be supported by measured route reliability evidence for the relevant execution scope.
 
 The following remain commercial variables:
 
@@ -41,7 +42,8 @@ The following remain commercial variables:
 - gross-margin targets;
 - node payout percentages;
 - retry/refund allowances;
-- promotional/free credits.
+- promotional/free credits;
+- numeric reliability thresholds required for QUALIFIED/GUARANTEED production status.
 
 ## 3. Benchmark before freeze
 
@@ -64,11 +66,19 @@ A benchmark record should capture, where applicable:
 - orchestration overhead;
 - queue/wall time;
 - retry/failure rate;
+- first-pass Brain acceptance rate;
+- attempts per Brain-accepted result;
+- cost per Brain-accepted result;
+- elapsed time per Brain-accepted result;
+- targeted-repair success rate;
+- fallback/reroute success rate;
+- unresolved failure rate after approved recovery policy;
 - cache hit/reuse rate;
 - successful reusable intermediates;
 - achieved output quality/fidelity;
 - human review/rework requirement where materially attributable;
-- actual total internal cost.
+- actual total internal cost;
+- sample size, evidence recency and route/model/provider version.
 
 ## 4. Benchmark classes
 
@@ -86,6 +96,7 @@ Representative classes should include, where applicable:
 - action Shot;
 - VFX/simulation-heavy Shot;
 - hybrid AI + 3D Shot;
+- layer/pass/AOV-sensitive Shot;
 - preview-quality execution;
 - production-quality execution;
 - targeted partial rerender;
@@ -139,7 +150,19 @@ For a 60-Scene feature-film planning example:
 
 The difference is economically material. Costing must therefore measure both first-time creation and later reuse rather than assuming every Scene starts from nothing.
 
-### 5.2 Commercial readiness STOP-GATE
+### 5.2 Reliability compounding at film scale
+
+A route that appears acceptable in isolated demos may become commercially unsafe when its rejection rate is multiplied across hundreds or more than a thousand executions.
+
+Nexkosmo must therefore model how first-pass Brain acceptance and attempts-per-accepted-result compound across the expected film workload.
+
+The costing model must not assume that a low per-attempt price remains economical at scale when repeated rejection, retry and rerouting are required.
+
+Permanent rule:
+
+> **Small reliability losses compound into large token/compute, time and margin losses at film scale. Route qualification must therefore be evaluated against the expected accepted-result workload, not isolated demo success.**
+
+### 5.3 Commercial readiness STOP-GATE
 
 Before Nexkosmo freezes production pricing, the costing model must be capable of estimating and reconciling the cost and elapsed time of film-scale workloads in approximately the **600-1,500+ logical-job range**, with uncertainty bands appropriate to workload complexity.
 
@@ -151,13 +174,13 @@ At minimum, the comparison must cover where technically applicable:
 - third-party/cloud/API execution;
 - hybrid routing across those options.
 
-The comparison must account for actual effective successful-output cost, including retries, failures, storage/transfer, licences, orchestration, cache/reuse behaviour and quality/rework.
+The comparison must account for actual effective successful-output cost, including retries, failures, storage/transfer, licences, orchestration, cache/reuse behaviour, route reliability, fallback behaviour and quality/rework.
 
-If Nexkosmo cannot reliably explain what a 60-, 90- or 100-Scene film could cost under the supported routes, including the effect of reuse, then the commercial pricing schedule is **not ready to be frozen**.
+If Nexkosmo cannot reliably explain what a 60-, 90- or 100-Scene film could cost under the supported routes, including the effect of reuse and rejection/recovery behaviour, then the commercial pricing schedule is **not ready to be frozen**.
 
 Permanent reminder:
 
-> **A small per-job costing error becomes a large film-scale business error when multiplied across hundreds or more than a thousand executions. Costing accuracy is therefore a release-level commercial requirement, not a cosmetic pricing exercise.**
+> **A small per-job costing or reliability error becomes a large film-scale business error when multiplied across hundreds or more than a thousand executions. Costing and reliability accuracy are release-level commercial requirements, not cosmetic pricing exercises.**
 
 ## 6. Quality-adjusted cost
 
@@ -226,7 +249,63 @@ Permanent rule:
 
 > **Brain rejection is a quality decision; it must also be visible to economics. Rejected attempts are measured as internal cost and reliability evidence, not silently converted into repeated customer charges for the same agreed outcome.**
 
-## 8. Cache and reuse economics
+## 8. Reliability-qualified pricing and guarantee envelope
+
+A technically capable renderer/model/route is not automatically eligible to support guaranteed paid production.
+
+Pricing for a guaranteed production promise must be based on a route that is reliability-qualified for the relevant Shot class and execution scope under `RENDERER_CAPABILITY_AWARE_PREVIEW_ROUTING.md`.
+
+The route/scope should carry a governed state such as:
+
+- `EXPERIMENTAL`;
+- `QUALIFIED`;
+- `GUARANTEED`;
+- `DEGRADED`;
+- `QUARANTINED`.
+
+Commercial rules:
+
+1. `EXPERIMENTAL` routes may be benchmarked and tested but must not silently support the same guarantee as a proven production route.
+2. `QUALIFIED` routes may enter controlled production according to policy.
+3. `GUARANTEED` routes are inside the approved customer guarantee envelope for the declared scope and pricing policy.
+4. `DEGRADED` or `QUARANTINED` routes must not be priced as healthy guaranteed capacity.
+5. A material provider/model/adapter version change may require requalification before guaranteed status is restored.
+6. Guaranteed pricing must include the measured recovery economics of expected targeted repair, retry and qualified fallback use.
+7. If no qualified route/fallback exists for a required material capability, READY/pricing must expose a STOP-GATE rather than sell certainty that Nexkosmo has not earned.
+
+### 8.1 Required reliability economics
+
+Before guaranteed pricing is frozen for a route/scope, Nexkosmo must understand at minimum:
+
+- first-pass Brain acceptance rate;
+- attempts per Brain-accepted result;
+- cost per Brain-accepted result;
+- elapsed time per Brain-accepted result;
+- targeted-repair success;
+- fallback/reroute success;
+- unresolved failure rate after the approved recovery policy;
+- evidence sample size and recency;
+- sensitivity to provider/model/version drift.
+
+No universal numeric threshold is frozen here. Thresholds must be evidence-based and may differ by workload class, but they must be explicit commercial/operational policy before the route supports a guarantee.
+
+### 8.2 Cheap-proof economics
+
+Where a materially risky requirement can be tested cheaply before full-quality execution, costing should include that proof when it lowers expected failed-work cost.
+
+The proof may test identity, multi-character interaction, camera/rig motion, lip-sync, VFX/simulation, layering/passes/AOVs, hybrid alignment or other material uncertainty.
+
+A small proof cost is economically preferred when it avoids a materially larger expected failure cost later.
+
+### 8.3 Circuit-breaker economics
+
+Route health must be monitored continuously.
+
+If observed acceptance/reliability materially degrades, Brain/Render Orchestrator must be able to stop assigning new guaranteed work and downgrade/quarantine the affected scope before failure compounds across a film-scale workload.
+
+Costing must treat a circuit breaker as margin protection and customer protection, not as an optional monitoring feature.
+
+## 9. Cache and reuse economics
 
 Benchmarks must distinguish first-time creation from reuse.
 
@@ -241,7 +320,7 @@ Examples:
 
 Pricing must not be calibrated as though every Shot recreates every reusable asset.
 
-## 9. Local and distributed compute
+## 10. Local and distributed compute
 
 Benchmarking must keep execution routes economically distinct.
 
@@ -273,7 +352,7 @@ Measure:
 - payment overhead;
 - sustainable Nexkosmo margin.
 
-## 10. Calibration process
+## 11. Calibration process
 
 Commercial calibration should follow:
 
@@ -281,9 +360,12 @@ Commercial calibration should follow:
 Measure representative workloads
 -> normalize cost evidence
 -> identify route-specific cost distributions
--> measure attempts required per Brain-accepted result
+-> measure first-pass Brain acceptance and attempts per accepted result
+-> measure targeted repair / fallback behaviour
+-> qualify route for explicit production scope
 -> include failure/retry/reuse behaviour
 -> stress-test whole-film workload scale
+-> establish circuit-breaker thresholds
 -> select sustainable margin policy
 -> test user-facing credit mapping
 -> validate price clarity and competitiveness
@@ -292,7 +374,7 @@ Measure representative workloads
 
 Numerical pricing should remain changeable independently of canonical creative architecture.
 
-## 11. BUILD relationship
+## 12. BUILD relationship
 
 BUILD may show estimated credits and money value before final commercial calibration is frozen, but prototype/internal figures must be clearly treated as provisional.
 
@@ -300,13 +382,14 @@ BUILD architecture must not hard-code permanent commercial constants into Scene/
 
 Pricing configuration should remain a replaceable/versioned commercial policy consumed by the quote engine.
 
-## 12. Versioned price policy
+## 13. Versioned price policy
 
 When pricing is eventually launched, each quote should reference the price-policy version used to calculate it.
 
 Historical render evidence should remain traceable to:
 
 - execution route;
+- reliability qualification/version;
 - metered work;
 - quote/reservation;
 - pricing-policy version;
@@ -314,15 +397,15 @@ Historical render evidence should remain traceable to:
 
 Later pricing-policy changes must not rewrite historical charges.
 
-## 13. No invented certainty
+## 14. No invented certainty
 
-Until benchmarking is sufficient, Nexkosmo documentation and internal planning must not present speculative numerical margins, credit conversions or per-Shot prices as proven economics.
+Until benchmarking is sufficient, Nexkosmo documentation and internal planning must not present speculative numerical margins, credit conversions, reliability percentages or per-Shot prices as proven economics.
 
 Scenario modelling is allowed, but scenario assumptions must remain distinguishable from measured production evidence.
 
 The 15-per-Scene film-scale reference in this contract is explicitly a **stress-test scenario**, not measured production truth and not a frozen commercial constant.
 
-## 14. Permanent rules
+## 15. Permanent rules
 
 > The pricing architecture is ready before the final price table is ready.
 
@@ -337,6 +420,10 @@ The 15-per-Scene film-scale reference in this contract is explicitly a **stress-
 > Calibrate against successful-output cost, not theoretical compute cost alone.
 
 > **Cost per Brain-accepted result is the primary production-economics metric; failed attempts remain measured internal cost and do not automatically become repeated customer charges for the same approved outcome.**
+
+> **Guaranteed paid production requires reliability-qualified routes for the relevant scope; experimental, degraded or quarantined routes do not silently inherit the guarantee.**
+
+> **Use cheap proofs and circuit breakers where they reduce expected failure cost before it compounds at film scale.**
 
 > Reuse, caching and partial rerendering must be represented in both cost evidence and user pricing.
 
