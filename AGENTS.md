@@ -164,8 +164,12 @@ Rules:
 13. The Director therefore effectively receives both representations where 3D is useful: the reusable 3D source asset underneath and the lightweight 2D scene representation used for the current snapshot or moment.
 14. Assets that do not benefit meaningfully from 3D, such as simple graphics, decals, distant background elements, or limited-use visual elements, may remain 2D when that is the more appropriate representation.
 15. A representation change must preserve asset identity, provenance, approvals, and links between the source asset and every derived scene representation.
-16. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
-17. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
+16. **For a photoreal human, the 3D model is the structural representation, not the complete visual identity.** Nexkosmo MUST preserve the person's approved photoreal identity information separately from the 3D geometry.
+17. A realistic-human identity package may include approved photographic or photoreal reference images, high-fidelity head and body structure, skin/eye/hair appearance, textures and materials, clothing and accessories, rigging/facial controls, measurements or landmarks, and approved 2D identity/reference frames.
+18. When AI video or another renderer supports the relevant controls, Nexkosmo should provide the approved visual identity references for appearance together with the 3D asset or structural data for pose, camera, perspective, motion, scale, spatial relationships, and physical interaction.
+19. No derived 3D model, 2D render, generated frame, or video result may silently replace the approved human identity source. All representations remain linked to the same canonical identity and must be validated against it.
+20. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
+21. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
 
 The permanent rules are:
 
@@ -174,6 +178,8 @@ The permanent rules are:
 > If the Director needs an asset that does not exist, Build This Moment can create it with AI in place, isolate it for editing, add it to the scene, and preserve it as a reusable project asset.
 
 > When 3D adds lasting value, preserve the 3D asset as the reusable source and use a lightweight 2D representation for the scene. The Director gets both without making the scene-building experience more complicated.
+
+> For a photoreal human, 3D preserves structure but does not alone define identity. Preserve the approved visual identity package and use it together with structural 3D information wherever the renderer supports both.
 
 ## Non-linear Discover and anchor scenes
 
