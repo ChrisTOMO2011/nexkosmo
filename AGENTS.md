@@ -123,3 +123,21 @@ The shared stage model is:
 `IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION -> STUDIO`
 
 Preserve this shared shell and canonical brand identity unless an explicit product decision supersedes them.
+
+## Discover scene snapshots and Build This Moment
+
+DISCOVER represents each scene with a visible snapshot frame. The snapshot may look like a single image to the Director, but its editable scene state must not be flattened when the scene contains assets the Director can manipulate.
+
+Rules:
+
+1. The environment or background may be used as the base layer and does not require transparency merely because it is the scene background.
+2. Any asset that can be dragged, dropped, moved, scaled, replaced, reordered in front of or behind another asset, reused, or independently adjusted in **Build This Moment** MUST remain an isolated element with alpha/transparency or an equivalent persistent isolation mask.
+3. This applies to characters, creatures, vehicles, props, movable set pieces, and effects whenever independent manipulation is intended.
+4. The visible Discover snapshot is a composite of the base environment plus the isolated scene assets. A flattened preview is a derived view and must not replace the underlying editable composition.
+5. **Build This Moment** is an advanced DISCOVER interaction. It may add, remove, reposition, resize, replace, and reorder isolated assets and may create additional ordered scene-moment frames while preserving the identity of the underlying assets.
+6. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
+7. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
+
+The permanent rule is:
+
+> If the Director can manipulate an asset independently in Build This Moment, Nexkosmo must preserve that asset independently beneath the visible scene snapshot.
