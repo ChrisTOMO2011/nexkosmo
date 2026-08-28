@@ -2,7 +2,7 @@
 
 **Status:** Adopted product/architecture contract  
 **Applies to:** BUILD frontend, Brain/Producer interaction, design system and future BUILD tools  
-**Related contracts:** `SCENE_SHOT_DATA_CONTRACT.md`, `AUTOMATIC_SYNCHRONIZATION_RULES.md`, `SHOT_COVERAGE_SUFFICIENCY.md`
+**Related contracts:** `SCENE_SHOT_DATA_CONTRACT.md`, `AUTOMATIC_SYNCHRONIZATION_RULES.md`, `SHOT_COVERAGE_SUFFICIENCY.md`, `PHYSICS_FIRST_CINEMATOGRAPHY.md`
 
 ## 1. Purpose
 
@@ -50,14 +50,25 @@ Do not show full camera, rig, lighting, VFX and object-inspector panels simultan
 
 ### Camera selected
 
-Reveal relevant controls such as:
+Reveal relevant controls progressively such as:
 
 - position/orientation;
+- camera height and distance to subject;
+- camera/sensor/filmback preset where relevant;
 - lens/focal length;
-- framing;
+- framing and field of view;
+- aperture/T-stop where supported;
+- focus distance/depth of field;
+- shutter/motion behaviour where relevant;
 - camera movement;
-- focus/depth of field;
+- lighting relationship/preview impact;
 - camera-linked preview controls.
+
+A simple Director should be able to work with perceptual choices such as `wider / closer`, `longer / more isolated`, `more / less background focus`, `locked / handheld / moving`, or approved camera/lens presets without seeing every optical parameter.
+
+Advanced users may expose exact filmback, focal length, camera transform/distance, aperture/T-stop, focus distance, shutter, measured lens profile, distortion, breathing, vignetting and other supported optical characteristics.
+
+Changing one camera/lens variable should not imply that the others are independent. Where the result depends on a coupled physical relationship, BUILD/Brain should update or explain the consequence rather than presenting controls as unrelated style sliders.
 
 Hide unrelated deep character, prop or lighting tools unless explicitly opened.
 
@@ -88,11 +99,18 @@ Reveal relevant controls such as:
 
 Reveal relevant controls such as:
 
-- light placement;
-- intensity/intent;
+- light placement/orientation;
+- source size/softness;
+- intensity/exposure contribution;
+- distance to subject where relevant;
+- colour temperature/colour intent;
 - practicals;
+- modifiers/negative fill where supported;
 - scene-wide vs shot-local lighting;
+- camera/exposure relationship;
 - preview impact.
+
+Lighting controls should preserve the principle that the visible result emerges from source geometry, camera/exposure and material response where the selected route supports physical treatment.
 
 ### VFX/CGI element selected
 
@@ -111,6 +129,7 @@ Reveal relevant controls such as:
 
 - preview vs production quality;
 - supported route choices;
+- physical/optical fidelity limitations when material;
 - estimated credits and money value;
 - expected duration;
 - capability limitations when material;
@@ -130,7 +149,9 @@ Level 2 - Contextual
   camera/lens, blocking, attachments, lighting, VFX, audio links
 
 Level 3 - Advanced
-  precise transforms, renderer route, technical passes, dependency/provenance, detailed pricing/compute diagnostics
+  exact filmback/camera/lens/optical controls, precise transforms,
+  renderer route, technical passes, dependency/provenance,
+  detailed pricing/compute diagnostics
 ```
 
 The exact UI may evolve, but the Director should not need to open Level 3 controls to perform ordinary creative work.
@@ -144,6 +165,7 @@ Examples:
 - drag character into Scene instead of requiring coordinates;
 - drag accessory onto valid target instead of manually editing relationship IDs;
 - move camera visually, then expose lens/focus controls contextually;
+- choose a perceptual camera change and let Brain preserve the underlying physical relationships;
 - select a Shot preview to edit it rather than navigating through backend entities;
 - use natural-language/voice creation for missing assets while preserving typed canonical state underneath.
 
@@ -168,6 +190,7 @@ Likewise:
 ```text
 Select Shot 4 camera
 -> adjust lens
+-> Brain preserves/explains coupled field-of-view, distance and focus implications
 -> preview
 -> compare result
 -> continue Shot work
@@ -195,6 +218,7 @@ Controls should appear when they become relevant to what the Director is trying 
 Examples:
 
 - do not expose rig controls until character motion/animation requires them;
+- do not expose full optical/lens calibration data during ordinary camera composition;
 - do not expose renderer capability matrices during ordinary scene composition;
 - do not expose detailed VFX simulation settings when no VFX element is selected;
 - do not expose full pricing breakdown until the Director is considering a materially chargeable operation;
@@ -208,6 +232,8 @@ Producer may:
 
 - suggest the next useful control;
 - explain what a selected item can do;
+- explain the perceptual effect of a camera/lens/lighting change;
+- preserve physics-first camera/lens relationships behind simple Director language;
 - create/configure assets from natural language;
 - propose Shot coverage;
 - explain cost/quality trade-offs;
@@ -247,13 +273,15 @@ The normal BUILD experience should be understandable through actions such as:
 - Add Character
 - Move
 - Camera
+- Lens
+- Focus
 - Light
 - Effect
 - Create
 - Preview
 - Next
 
-Terms such as dependency graph, Continuity Snapshot, renderer adapter, motion vectors, normal passes or manifest revision belong in advanced/diagnostic views, not the default creative surface.
+Terms such as filmback, T-stop, entrance pupil, MTF, focus breathing, dependency graph, Continuity Snapshot, renderer adapter, motion vectors, normal passes or manifest revision belong in advanced/diagnostic views unless the Director asks for them.
 
 ## 12. Advanced-user access
 
@@ -262,7 +290,13 @@ Progressive disclosure must not remove professional control.
 Advanced Directors may intentionally expose:
 
 - numeric transforms;
-- exact lens/camera metadata;
+- sensor/filmback metadata;
+- exact lens/focal-length and camera-distance metadata;
+- aperture/T-stop and focus distance;
+- shutter/exposure-time controls;
+- measured or physical lens profiles;
+- distortion/breathing/vignetting/aberration controls where supported;
+- precise lighting measurements where supported;
 - layer/pass configuration;
 - renderer/route selection;
 - asset versions;
@@ -294,6 +328,7 @@ The UI may hide complexity, but it must still communicate when an operation:
 
 - changes the whole Scene rather than one Shot;
 - changes canonical identity;
+- materially changes camera/lens/perspective or physical cinematography intent;
 - replaces/removes a shared asset;
 - causes a materially chargeable operation;
 - invalidates significant downstream work;
@@ -313,7 +348,7 @@ BUILD is a creative construction workspace, not the main validation gate.
 
 The Director should be free to explore incomplete or unconventional configurations.
 
-BUILD may surface useful warnings in context, but READY remains the serious point where production-critical unresolved conditions are evaluated before committed PRODUCTION.
+BUILD may surface useful warnings in context, including renderer/physics approximations, but READY remains the serious point where production-critical unresolved conditions are evaluated before committed PRODUCTION.
 
 ## 17. Permanent rules
 
@@ -322,6 +357,8 @@ BUILD may surface useful warnings in context, but READY remains the serious poin
 > Reveal controls because the Director selected something or started a task, not because the capability exists somewhere in the system.
 
 > Direct manipulation first where safe; technical depth remains available when requested.
+
+> Simple camera/lens choices may control a deep physical model underneath; BUILD must not reduce optics to unrelated style sliders.
 
 > Progressive disclosure hides interface complexity, never canonical truth or consequential effects.
 
