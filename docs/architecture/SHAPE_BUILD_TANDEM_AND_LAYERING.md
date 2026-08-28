@@ -60,6 +60,28 @@ BUILD primarily translates the established scene into cinematic and production c
 
 BUILD must follow the scene's established narrative intent rather than silently rewriting the story for implementation convenience.
 
+## BUILD target-aware drag and drop
+
+The global BUILD page is the detailed scene-construction surface. It SHOULD use target-aware drag and drop as a primary interaction for adding, removing and modifying scene contents.
+
+Rules:
+
+1. The Director may select or highlight a character, object, vehicle, prop, set element or open scene space as a target.
+2. **Drag into open scene space = place the asset in the scene.**
+3. **Drag onto a character or object = apply, attach or place the dragged asset on that target when the relationship is valid.**
+4. Character-targeted examples include glasses, hats, jewellery, clothing, weapons, backpacks, pimples, makeup, scars, Injury Assets, bruises, dirt, blood, damage and other approved additions or states.
+5. Object-targeted examples include placing an item on a table or box, attaching an element to a vehicle, adding a decal or damage state, or placing one reusable object on another.
+6. The Director may remove, replace, reposition, resize or otherwise adjust an applied or attached addition without destroying the clean underlying character or object.
+7. Accessories, injuries, damage and other temporary additions remain separate linked assets, modifiers or states wherever independent editing, reuse or continuity tracking is useful.
+8. Injury remains a distinct asset class. An Injury Asset defines the injury concept; an Injury State records how that injury currently exists on a specific character, including body location, severity, healing stage and other relevant continuity state.
+9. Core identity-bearing changes such as replacing the defining face, fundamental body proportions or species are identity revisions, not ordinary drag-and-drop appearance edits.
+10. BUILD must preserve the layered scene package beneath the composed view so a target-aware drop does not destructively bake the addition into the canonical base asset.
+11. When a BUILD edit materially changes what happens in the story, the affected SHAPE state must synchronize. Purely presentational or cosmetic additions do not automatically rewrite the script.
+
+The permanent rule is:
+
+> In BUILD, drag into scene space to place an asset; drag onto a valid target to apply or attach it. Keep the clean base asset underneath and preserve the addition as a separate non-destructive layer or state.
+
 ## Bidirectional synchronization
 
 A meaningful narrative or action change made in SHAPE must update the affected BUILD state when the consequence is unambiguous.
@@ -142,9 +164,17 @@ When an edit has an obvious consequence, Brain propagates it automatically. When
 
 ## Relationship to DISCOVER and Build This Moment
 
-Build This Moment remains an advanced DISCOVER interaction used to develop a scene visually before the global BUILD stage. Its layered assets and approved scene states should flow forward into SHAPE and BUILD rather than being recreated from scratch.
+Build This Moment remains an advanced DISCOVER interaction used to compose and explore a scene moment visually before the global BUILD stage. It may add, remove, reposition, resize, replace and reorder whole isolated scene assets and may create additional ordered scene-moment frames.
 
-DISCOVER establishes and explores scene moments. SHAPE establishes what happens and what is heard. BUILD turns that same established scene into cinematic construction.
+**Build This Moment does not provide the global BUILD page's deep target-aware attachment/editing function.** It does not need to support dropping glasses onto a face, placing a bruise on a body location, attaching a weapon to a hand, or placing an object onto another object as its detailed editing model.
+
+Its layered assets and approved scene states should flow forward into SHAPE and BUILD rather than being recreated from scratch. Once the project reaches global BUILD, the Director can use the richer target-aware drag-and-drop tools against those same characters, objects and layers.
+
+DISCOVER establishes and explores scene moments. Build This Moment composes those moments. SHAPE establishes what happens and what is heard. BUILD performs detailed cinematic construction and target-aware scene modification.
+
+The permanent rule is:
+
+> Build This Moment composes the Discover moment with whole scene assets. Global BUILD performs the deeper target-aware modifications inside that scene.
 
 ## READY validation
 
@@ -167,4 +197,4 @@ STUDIO receives production results plus useful retained layers, source assets, a
 
 ## Permanent summary
 
-> SHAPE defines what happens and what is heard. BUILD defines how that same scene is constructed cinematically. Both operate on one canonical layered scene, synchronize meaningful changes in both directions, preserve independently editable layers underneath, and flatten only for derived output.
+> SHAPE defines what happens and what is heard. BUILD defines how that same scene is constructed cinematically and supports deep target-aware scene modification. Build This Moment remains a Discover composition tool. SHAPE and BUILD operate on one canonical layered scene, synchronize meaningful changes in both directions, preserve independently editable layers underneath, and flatten only for derived output.
