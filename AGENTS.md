@@ -159,14 +159,21 @@ Rules:
 8. A newly AI-created asset intended for independent manipulation must be produced or converted into an isolated editable form with alpha/transparency or an equivalent persistent isolation mask before it is treated as a draggable scene asset.
 9. The created asset must be added to the current scene composition and preserved as a reusable project asset with identity, provenance, source-generation information, and version history so it can be reused consistently in later scenes.
 10. If a suitable approved asset already exists, Nexkosmo should retrieve and reuse it before generating a new one. AI generation is used when the Director wants a new asset or no suitable approved asset exists.
-11. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
-12. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
+11. **Asset truth and scene representation are separate.** When an asset benefits from 3D because it may need perspective changes, animation, relighting, multiple camera angles, physical interaction, or repeated reuse, Nexkosmo should preserve or create the 3D asset as the reusable source representation.
+12. For those 3D-backed assets, Nexkosmo may generate a 2D transparent render or equivalent isolated view for fast drag-and-drop use inside DISCOVER and Build This Moment. The 2D representation is derived from the richer asset and MUST NOT replace or destroy the underlying 3D source.
+13. The Director therefore effectively receives both representations where 3D is useful: the reusable 3D source asset underneath and the lightweight 2D scene representation used for the current snapshot or moment.
+14. Assets that do not benefit meaningfully from 3D, such as simple graphics, decals, distant background elements, or limited-use visual elements, may remain 2D when that is the more appropriate representation.
+15. A representation change must preserve asset identity, provenance, approvals, and links between the source asset and every derived scene representation.
+16. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
+17. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
 
 The permanent rules are:
 
 > If the Director can manipulate an asset independently in Build This Moment, Nexkosmo must preserve that asset independently beneath the visible scene snapshot.
 
 > If the Director needs an asset that does not exist, Build This Moment can create it with AI in place, isolate it for editing, add it to the scene, and preserve it as a reusable project asset.
+
+> When 3D adds lasting value, preserve the 3D asset as the reusable source and use a lightweight 2D representation for the scene. The Director gets both without making the scene-building experience more complicated.
 
 ## Non-linear Discover and anchor scenes
 
