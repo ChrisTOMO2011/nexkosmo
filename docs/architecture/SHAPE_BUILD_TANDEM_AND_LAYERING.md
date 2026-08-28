@@ -38,6 +38,60 @@ SHAPE primarily manages narrative and performance intent, including:
 
 SHAPE is not required to define final camera, lens, framing, lighting, shot breakdown, or other cinematic construction unless the Director explicitly establishes those details there.
 
+## SHAPE narrative expansion contract
+
+SHAPE must be able to turn sparse DISCOVER material into useful screenplay material without creating artificial roadblocks for the Director and without silently converting AI invention into established story truth.
+
+A project may enter SHAPE with one established Discover scene, several anchor scenes, a complete story map, an imported script, or any intermediate amount of known story. SHAPE must remain useful across that entire range.
+
+Nexkosmo should preserve four narrative states underneath the screenplay experience:
+
+1. **Established** — story material explicitly supplied, imported, edited, accepted or otherwise unambiguously adopted by the Director.
+2. **Inferred** — an unambiguous expression or formatting consequence of established material that does not introduce a new material creative fact.
+3. **Proposed** — AI-created dialogue, action, connecting beats, scenes, motivations, reveals, transitions or other screenplay material that extends beyond established story truth.
+4. **Unknown** — story information the Director has not yet established and that remains intentionally unresolved.
+
+These states are an internal truth/provenance distinction, not a requirement to interrupt the Director continuously.
+
+Rules:
+
+1. SHAPE may convert established Discover material directly into screenplay form when doing so does not invent a new material creative decision.
+2. SHAPE may expand sparse material into a coherent screenplay draft, including dialogue, action and connecting material, when that helps the Director develop the project.
+3. Any AI expansion that introduces a new material story fact remains **Proposed** underneath until the Director adopts it. AI generation alone does not make the proposal canonical.
+4. Unknown story is allowed to remain unknown. SHAPE must not force missing story to be invented merely to satisfy completeness, scene count, screenplay length or formatting expectations.
+5. A missing story gap may be explored through one or more AI proposals without those proposals replacing the unresolved gap as canonical truth.
+6. The Director MUST NOT be required to approve every generated sentence, line of dialogue or action beat individually. Nexkosmo should preserve proposal provenance underneath while allowing the Director to work with a coherent draft naturally.
+7. Proposed material may become established when the Director explicitly accepts it or deliberately edits, selects, reuses or works from it in a way that unambiguously adopts the creative decision. Merely viewing a proposal or navigating past it does not by itself establish it as canon.
+8. Where practical, acceptance may occur at a useful unit such as scene, beat, passage or selected change rather than through repetitive line-by-line confirmation.
+9. SHAPE must not block the Director from continuing merely because some screenplay material remains proposed or unknown. The Director may continue developing, previewing and moving between SHAPE and BUILD while those states remain traceable.
+10. BUILD may consume proposed SHAPE material for exploratory shot planning or previews when the Director chooses to continue, but the proposal status must remain preserved rather than being silently upgraded to established story truth.
+11. READY remains the serious downstream validation point for unresolved material that would otherwise force committed PRODUCTION to invent a consequential creative decision. Earlier stages should remain fluid.
+12. Brain should ask a question only when the unresolved answer is materially necessary for the next useful operation or when proceeding would create a consequential ambiguity that cannot be represented safely as a proposal.
+13. Formatting, screenplay conventions and unambiguous elaboration of established facts may propagate automatically without a confirmation step.
+14. The system should preserve provenance from Discover truth through SHAPE draft material so the Director, Brain and downstream systems can distinguish what came from the Director, what was inferred, what AI proposed and what remains unknown.
+15. Editing or accepting one proposal must not silently approve unrelated proposed material elsewhere in the scene or project.
+16. The Director may reject, replace, regenerate or leave proposed material unresolved without losing the established story underneath.
+
+Example:
+
+If DISCOVER establishes:
+
+`Sarah finds Chris injured beside a crashed car.`
+
+SHAPE may express that established event in screenplay form automatically. If AI adds:
+
+`Chris reveals that Sarah's father caused the crash.`
+
+that reveal is a new material story fact and remains Proposed until the Director adopts it.
+
+The permanent rules are:
+
+> SHAPE may expand sparse Director material into a complete screenplay draft, but expansion beyond established story truth remains proposal state until adopted by the Director.
+
+> Proposal tracking happens underneath the experience. It must protect authorship without turning SHAPE into an approval obstacle course.
+
+> Unknown story may remain unknown, and proposed material must not block creative progress before READY unless the next requested operation genuinely cannot proceed without resolving it.
+
 ## BUILD responsibilities
 
 BUILD primarily translates the established scene into cinematic and production construction, including:
@@ -79,6 +133,7 @@ Rules:
 8. Each shot must have its own stable identity and version history even though it references the same parent scene.
 9. BUILD should make the transition feel like: **Script scene -> open in BUILD -> proposed cinematic shot structure appears -> Director refines it.**
 10. No manual synchronization step is required between SHAPE and BUILD. Brain propagates unambiguous changes between the two views.
+11. If the Director enters BUILD while some SHAPE material is still Proposed, BUILD may plan or preview against that draft state without silently establishing it as canon; the proposal status remains traceable until adopted or rejected.
 
 The permanent rule is:
 
@@ -263,7 +318,7 @@ SHAPE and BUILD may present different tools because the Director is solving diff
 
 The Director should be able to move from SHAPE to BUILD and back without performing a manual sync step.
 
-When an edit has an obvious consequence, Brain propagates it automatically. When an edit is genuinely ambiguous or would require inventing a material creative decision, the ambiguity remains explicit for the Director rather than being silently guessed.
+When an edit has an obvious consequence, Brain propagates it automatically. When an edit is genuinely ambiguous or would require inventing a material creative decision, the ambiguity remains explicit for the Director rather than being silently guessed. When a useful draft can continue safely as Proposed material, Nexkosmo should prefer that fluid path over interrupting the Director with a premature stop.
 
 ## Relationship to DISCOVER and Build This Moment
 
@@ -292,7 +347,7 @@ READY validates the SHAPE <-> BUILD relationship before committed full PRODUCTIO
 - unresolved conflicts between scene-level inherited state and shot-level overrides;
 - a proposed shot structure that cannot represent the established scene without inventing a material creative decision.
 
-Non-critical incompleteness may remain a warning rather than an artificial blocker.
+Non-critical incompleteness may remain a warning rather than an artificial blocker. Proposed screenplay material that can still be resolved without breaking committed production should remain visible and traceable rather than becoming an unnecessary earlier-stage roadblock.
 
 ## Downstream continuity
 
@@ -302,4 +357,4 @@ STUDIO receives production results plus useful retained layers, source assets, a
 
 ## Permanent summary
 
-> SHAPE defines what happens and what is heard. BUILD takes that same established scene, proposes and refines a variable 1..N shot structure, reuses the scene's canonical identities and shared 3D/source assets, supports deep target-aware scene modification, and can create missing production assets in place. Scene-level decisions flow to dependent shots; shot-specific decisions remain local unless promoted. Build This Moment remains a Discover composition tool. SHAPE and BUILD operate on one canonical layered scene, synchronize meaningful changes in both directions, preserve independently editable layers underneath, and flatten only for derived output.
+> SHAPE defines what happens and what is heard, and may fluidly expand sparse Director material into a screenplay draft while preserving the distinction between established truth, inference, proposal and unknown material underneath. BUILD takes that same scene, proposes and refines a variable 1..N shot structure, reuses the scene's canonical identities and shared 3D/source assets, supports deep target-aware scene modification, and can create missing production assets in place. Scene-level decisions flow to dependent shots; shot-specific decisions remain local unless promoted. Build This Moment remains a Discover composition tool. SHAPE and BUILD operate on one canonical layered scene, synchronize meaningful changes in both directions, preserve independently editable layers underneath, and flatten only for derived output.
