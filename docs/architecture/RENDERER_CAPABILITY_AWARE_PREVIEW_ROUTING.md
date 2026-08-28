@@ -45,6 +45,15 @@ A Renderer Capability Profile may include, where relevant:
 - skeleton/rig controls;
 - 3D geometry conditioning;
 - camera position/orientation controls;
+- camera support / movement-rig controls;
+- support-rig class semantics such as tripod, slider, dolly, jib/crane, pedestal, handheld, shoulder, Steadicam, motorized gimbal, drone, vehicle mount, cable cam, motion-control rig, body/POV mount, or another declared platform;
+- mount offset / pivot / boom / arm geometry where relevant;
+- constrained-axis and pan/tilt/roll controls;
+- camera path controls;
+- velocity / acceleration / deceleration / easing controls;
+- stabilisation / damping / inertia controls;
+- operator-like micro-motion or rig-character controls where supported;
+- repeatable motion-control path support where applicable;
 - sensor/filmback controls;
 - focal length/lens controls;
 - field-of-view controls;
@@ -85,7 +94,7 @@ A Renderer Capability Profile may include, where relevant:
 
 The profile must describe real verified adapter capability, not marketing claims.
 
-A single broad claim such as `supports camera`, `supports lens` or `supports lighting` is insufficient when only a subset of the physical relationship is actually supported.
+A single broad claim such as `supports camera`, `supports lens`, `supports camera movement` or `supports lighting` is insufficient when only a subset of the physical relationship is actually supported.
 
 ## 4. Shot Requirement Profile
 
@@ -103,6 +112,7 @@ Example:
 Shot 12 preview requirements
 - Sarah identity reference: required
 - physical camera transform: required
+- support rig: jib with pivoted boom movement: required
 - 50mm focal length on established filmback: required
 - camera-to-Sarah distance: required
 - T2.8 / focus distance: preferred
@@ -113,6 +123,8 @@ Shot 12 preview requirements
 ```
 
 Where physical cinematography is required, related controls must be evaluated as a coupled requirement rather than independently. For example, exact focal length without filmback or camera position may be insufficient to preserve the intended field of view and perspective.
+
+Likewise, a camera path described as a `jib`, `dolly`, `Steadicam`, `gimbal`, `handheld`, `drone` or other support class may carry physical movement semantics beyond a generic transform curve. The required platform behaviour must not be silently reduced to an arbitrary camera animation when it materially affects the Shot.
 
 ## 5. Capability matching
 
@@ -139,6 +151,7 @@ Rules:
 5. Preferred controls may be omitted only when the preview remains useful and the omission is recorded as a known limitation.
 6. Optional controls may be omitted without changing canonical state.
 7. Coupled physical controls must not be split in a way that creates false fidelity. If a route supports a focal-length text hint but not filmback/camera geometry, it cannot be treated as physically lens-accurate.
+8. Camera support / movement-rig semantics must be capability-matched when they materially define the Shot. A generic smooth camera path is not automatically equivalent to a dolly, jib, crane, stabilised body rig, handheld rig or drone trajectory.
 
 ## 6. No false fidelity
 
@@ -148,6 +161,9 @@ Examples:
 
 - If an AI renderer cannot consume exact camera focal length, Nexkosmo must not label the result as exact 50mm camera compliance.
 - If it accepts `50mm` only as text conditioning but does not consume filmback, camera transform or optical parameters, the result is a creative approximation rather than a physically defined 50mm image.
+- If the Shot requires a jib arc but the renderer only supports a generic camera-motion text hint, the result must not be labelled jib-motion accurate.
+- If the Shot requires a tripod-locked translation state, the renderer must not introduce unexplained floating or travelling camera motion and still claim rig fidelity.
+- If the Shot requires handheld, Steadicam, gimbal or drone movement, a visually similar path is not automatically equivalent unless the required movement/stabilisation characteristics were actually controlled or validated.
 - If it cannot use the approved 3D scene structure, the result must not be treated as evidence that spatial blocking matches the 3D source.
 - If identity locking is weak or unsupported, the preview must not silently become an approved identity reference.
 - If depth conditioning is unsupported, the adapter must not pretend the depth map constrained the output.
@@ -174,7 +190,7 @@ Possible routes include:
 
 Renderer limitations must not cause Brain to mutate canonical Scene or Shot truth merely to fit the renderer.
 
-When a Shot depends on physically coherent cinematography, route selection should prefer a renderer or hybrid route that preserves the required camera/lens/light relationships defined by `PHYSICS_FIRST_CINEMATOGRAPHY.md`.
+When a Shot depends on physically coherent cinematography, route selection should prefer a renderer or hybrid route that preserves the required camera/lens/light and camera-support/movement-rig relationships defined by `PHYSICS_FIRST_CINEMATOGRAPHY.md`.
 
 ## 8. Hybrid preview routing
 
@@ -183,8 +199,8 @@ A hybrid route may satisfy requirements that no single renderer supports.
 Example:
 
 ```text
-Shared 3D Scene + physical camera/lens/light setup
--> render camera-valid depth / blocking / lighting reference
+Shared 3D Scene + physical camera/lens/light setup + camera rig path
+-> render camera-valid depth / blocking / motion / lighting reference
 
 Approved human identity references
 -> AI appearance/performance renderer
@@ -196,7 +212,7 @@ Result
 -> derived preview linked to all participating adapters and inputs
 ```
 
-Hybrid routing must preserve a unified timing, camera, continuity and identity contract where those controls are required.
+Hybrid routing must preserve a unified timing, camera, movement-rig, continuity and identity contract where those controls are required.
 
 ## 9. Approximate previews
 
@@ -209,9 +225,9 @@ An approximate preview should record:
 - which controls were unsupported/omitted;
 - renderer/model/version;
 - expected fidelity limitations;
-- whether the preview is suitable for composition, identity, camera, motion, lighting or only general mood/look exploration.
+- whether the preview is suitable for composition, identity, camera, rig motion, motion, lighting or only general mood/look exploration.
 
-The normal UI may simplify this into an understandable label such as `Composition preview`, `Identity-approximate`, `Camera-accurate`, `Lens-look approximation`, `Physics-valid`, or another approved presentation.
+The normal UI may simplify this into an understandable label such as `Composition preview`, `Identity-approximate`, `Camera-accurate`, `Rig-motion approximate`, `Lens-look approximation`, `Physics-valid`, or another approved presentation.
 
 ## 10. Preview acceptance classes
 
@@ -221,6 +237,7 @@ Examples:
 
 - **Composition-valid** — useful for framing/layout but not identity proof;
 - **Camera-valid** — camera transform/filmback/framing controls were faithfully consumed;
+- **Rig-motion-valid** — required support-platform, path, pivot/constraint and stabilisation/movement characteristics were faithfully consumed or validated for the claimed scope;
 - **Lens-geometry-valid** — focal length/FOV and applicable optical geometry were faithfully consumed;
 - **Optics-valid** — required aperture/focus/optical controls were physically or measurably honoured according to policy;
 - **Lighting-geometry-valid** — required light positions/sizes/directions were faithfully consumed;
@@ -246,6 +263,7 @@ Every preview result must retain enough evidence to determine:
 - controls omitted/approximated;
 - canonical Scene/Shot/Continuity Snapshot revisions;
 - physical cinematography specification revision where applicable;
+- camera support / movement-rig profile and revision where applicable;
 - lens/camera profile evidence class where applicable;
 - renderer/model/checkpoint/version;
 - output validation results;
@@ -271,6 +289,7 @@ Brain/Render Orchestrator should normally choose a compatible route automaticall
 
 - required Shot controls;
 - required physical cinematography fidelity;
+- required camera-support/movement-rig fidelity;
 - quality purpose;
 - expected fidelity;
 - time;
@@ -286,7 +305,7 @@ READY should not reject a Scene merely because an exploratory renderer lacks a c
 
 READY cares whether committed PRODUCTION has a viable route capable of expressing required canonical intent.
 
-If Renderer A cannot consume exact camera or identity state but Renderer B or a hybrid route can, READY may still pass.
+If Renderer A cannot consume exact camera, movement-rig or identity state but Renderer B or a hybrid route can, READY may still pass.
 
 A critical blocker exists only when no approved production route can satisfy a required material constraint without changing canonical creative meaning.
 
@@ -296,11 +315,13 @@ A critical blocker exists only when no approved production route can satisfy a r
 
 > Required Shot controls must be matched to supported adapter capabilities before execution.
 
-> Camera, lens, filmback, distance, aperture, focus, shutter and lighting may form one coupled physical requirement; capability matching must preserve that relationship where required.
+> Camera, camera-support/movement rig, lens, filmback, distance, aperture, focus, shutter and lighting may form one coupled physical requirement; capability matching must preserve that relationship where required.
+
+> `Tripod`, `dolly`, `jib`, `crane`, `handheld`, `Steadicam`, `gimbal`, `drone`, `vehicle mount` and other support classes are movement semantics, not decorative labels, when they materially define the Shot.
 
 > Unsupported controls are not silently dropped. Reroute, hybridize, declare approximation, or do not use that renderer for the requirement.
 
-> AI imitation of a lens/camera look is not automatically equivalent to a physically defined camera/lens system.
+> AI imitation of a lens/camera/movement look is not automatically equivalent to a physically defined camera, lens and movement-rig system.
 
 > Renderer limitations never rewrite canonical Scene/Shot truth.
 
