@@ -176,7 +176,57 @@ effective cost
 
 A route that costs less per attempt but fails identity/continuity repeatedly may be more expensive overall than a higher-cost reliable route.
 
-## 7. Cache and reuse economics
+## 7. Brain-accepted result economics
+
+Nexkosmo must distinguish **generation attempts** from **accepted production results**.
+
+A Render Result that Brain rejects for technical, continuity, identity, creative, output-contract or other required validation failure is not a completed Shot merely because compute was consumed.
+
+The governing commercial metric is:
+
+> **Cost per Brain-accepted result, not cost per generation attempt.**
+
+Internal attempts may still consume real provider tokens, API charges, GPU time, storage, orchestration and validation resources. Those costs must be measured because Nexkosmo must understand its true COGS. However, a rejected attempt must not automatically create a new customer charge for the same already-approved Shot outcome.
+
+For a supported, quoted Shot or other production outcome:
+
+1. the customer authorises the outcome and the visible maximum charge;
+2. Nexkosmo internally meters every attempt required to achieve it;
+3. Brain validates each result against the approved acceptance contract;
+4. a rejected result remains internal failed/retry work rather than a completed customer deliverable;
+5. retries, reroutes, targeted repairs and dependency-aware rerenders remain inside the quoted outcome economics while the approved maximum remains valid;
+6. Nexkosmo must stop and obtain new approval rather than silently exceed the approved maximum where the existing quote can no longer support delivery;
+7. a user-requested creative change after an accepted result, or an explicitly requested additional variation/alternative, may constitute newly authorised work and may be quoted separately.
+
+Internal accounting should distinguish at least:
+
+- accepted production work;
+- expected retry allowance;
+- rejected renderer/model attempts;
+- infrastructure/provider failure;
+- validation/review overhead;
+- user-authorised revisions after acceptance;
+- user-authorised alternative/variation generation.
+
+This prevents Nexkosmo from hiding unreliable routes inside apparently cheap per-attempt pricing.
+
+Example:
+
+```text
+Route A: $1 internal cost per attempt x 3 average attempts to Brain acceptance
+         = approximately $3 internal generation cost before other overhead
+
+Route B: $2 internal cost per attempt x 1.1 average attempts to Brain acceptance
+         = approximately $2.20 internal generation cost before other overhead
+```
+
+Route B may therefore be economically superior even though its single-attempt price is higher.
+
+Permanent rule:
+
+> **Brain rejection is a quality decision; it must also be visible to economics. Rejected attempts are measured as internal cost and reliability evidence, not silently converted into repeated customer charges for the same agreed outcome.**
+
+## 8. Cache and reuse economics
 
 Benchmarks must distinguish first-time creation from reuse.
 
@@ -191,7 +241,7 @@ Examples:
 
 Pricing must not be calibrated as though every Shot recreates every reusable asset.
 
-## 8. Local and distributed compute
+## 9. Local and distributed compute
 
 Benchmarking must keep execution routes economically distinct.
 
@@ -223,7 +273,7 @@ Measure:
 - payment overhead;
 - sustainable Nexkosmo margin.
 
-## 9. Calibration process
+## 10. Calibration process
 
 Commercial calibration should follow:
 
@@ -231,6 +281,7 @@ Commercial calibration should follow:
 Measure representative workloads
 -> normalize cost evidence
 -> identify route-specific cost distributions
+-> measure attempts required per Brain-accepted result
 -> include failure/retry/reuse behaviour
 -> stress-test whole-film workload scale
 -> select sustainable margin policy
@@ -241,7 +292,7 @@ Measure representative workloads
 
 Numerical pricing should remain changeable independently of canonical creative architecture.
 
-## 10. BUILD relationship
+## 11. BUILD relationship
 
 BUILD may show estimated credits and money value before final commercial calibration is frozen, but prototype/internal figures must be clearly treated as provisional.
 
@@ -249,7 +300,7 @@ BUILD architecture must not hard-code permanent commercial constants into Scene/
 
 Pricing configuration should remain a replaceable/versioned commercial policy consumed by the quote engine.
 
-## 11. Versioned price policy
+## 12. Versioned price policy
 
 When pricing is eventually launched, each quote should reference the price-policy version used to calculate it.
 
@@ -263,7 +314,7 @@ Historical render evidence should remain traceable to:
 
 Later pricing-policy changes must not rewrite historical charges.
 
-## 12. No invented certainty
+## 13. No invented certainty
 
 Until benchmarking is sufficient, Nexkosmo documentation and internal planning must not present speculative numerical margins, credit conversions or per-Shot prices as proven economics.
 
@@ -271,7 +322,7 @@ Scenario modelling is allowed, but scenario assumptions must remain distinguisha
 
 The 15-per-Scene film-scale reference in this contract is explicitly a **stress-test scenario**, not measured production truth and not a frozen commercial constant.
 
-## 13. Permanent rules
+## 14. Permanent rules
 
 > The pricing architecture is ready before the final price table is ready.
 
@@ -284,6 +335,8 @@ The 15-per-Scene film-scale reference in this contract is explicitly a **stress-
 > A pricing schedule is not ready to freeze if Nexkosmo cannot model the cost and elapsed time of approximately 600-1,500+ logical film-production jobs across supported compute routes.
 
 > Calibrate against successful-output cost, not theoretical compute cost alone.
+
+> **Cost per Brain-accepted result is the primary production-economics metric; failed attempts remain measured internal cost and do not automatically become repeated customer charges for the same approved outcome.**
 
 > Reuse, caching and partial rerendering must be represented in both cost evidence and user pricing.
 
