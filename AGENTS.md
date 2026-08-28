@@ -168,8 +168,14 @@ Rules:
 17. A realistic-human identity package may include approved photographic or photoreal reference images, high-fidelity head and body structure, skin/eye/hair appearance, textures and materials, clothing and accessories, rigging/facial controls, measurements or landmarks, and approved 2D identity/reference frames.
 18. When AI video or another renderer supports the relevant controls, Nexkosmo should provide the approved visual identity references for appearance together with the 3D asset or structural data for pose, camera, perspective, motion, scale, spatial relationships, and physical interaction.
 19. No derived 3D model, 2D render, generated frame, or video result may silently replace the approved human identity source. All representations remain linked to the same canonical identity and must be validated against it.
-20. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
-21. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
+20. **A production-ready character deliverable is a package, not only a model file.** When Nexkosmo creates or delivers a reusable character, the Director should receive the usable 3D asset together with the character's production/reference package where those components exist.
+21. The character production/reference package may include the canonical identity bible; approved hero portraits; face, eye, skin, hand, foot, anatomy and proportion references; front/side/back/turnaround views; expression sheets; clothing and accessory references; colour palette; materials and texture references; topology/UV information; skeletal and muscle references; body and facial rig information; blendshapes/FACS information; motion/animation references; voice and behavioural references; software/export compatibility; asset breakdown; technical specifications; approved cinematic reference frames; and related production notes.
+22. Technical source components such as meshes, geometry, textures, materials, UVs, rigs, animation data, simulation data and source files remain connected to the same canonical character identity rather than becoming unrelated files.
+23. The character package MUST preserve provenance, ownership/rights information where applicable, approvals, dependency links, version history, and the relationship between the canonical identity, the 3D production asset, every visual reference sheet, and all derived renders.
+24. Reference sheets and character bibles are not decorative documentation. They are identity and production evidence that may be supplied to human artists, AI systems, renderers, animation tools, validation systems, or downstream production stages to preserve the intended character.
+25. The 3D asset is the production object; the character bible and reference package describe and constrain what that object represents. Neither representation alone silently replaces the complete canonical character package.
+26. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
+27. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
 
 The permanent rules are:
 
@@ -180,6 +186,8 @@ The permanent rules are:
 > When 3D adds lasting value, preserve the 3D asset as the reusable source and use a lightweight 2D representation for the scene. The Director gets both without making the scene-building experience more complicated.
 
 > For a photoreal human, 3D preserves structure but does not alone define identity. Preserve the approved visual identity package and use it together with structural 3D information wherever the renderer supports both.
+
+> A reusable character is delivered as a canonical character package: the production-ready 3D asset plus its identity bible, visual references, technical specifications, production data, and provenance/version history.
 
 ## Non-linear Discover and anchor scenes
 
