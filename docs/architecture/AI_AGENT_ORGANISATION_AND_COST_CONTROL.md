@@ -31,6 +31,7 @@ Nexkosmo Brain
       |
       +--> determine current task and authoritative state
       +--> retrieve exact context / library data / tool capability
+      +--> check governed state of required role(s)
       +--> assign only required bounded agent role(s)
       +--> receive structured result + evidence + cost telemetry
       +--> validate / update canonical state when authorised
@@ -200,7 +201,92 @@ The Brain should activate:
 
 No agent is activated merely to make the architecture look intelligent.
 
-## 9. Cost telemetry per agent invocation
+Before assignment, Brain MUST verify that the required role is in an operational state that permits work.
+
+## 9. Governed per-role state and Director/Admin control
+
+Every one of the 50 specialist roles MUST expose an individually governed operational state through the authorised Nexkosmo administration surface.
+
+The admin experience must make it possible to view and control each role independently rather than providing only one global agent-system switch.
+
+The minimum governed states are:
+
+- **ACTIVE** — the role is available for assignment by Brain and may perform its bounded responsibility subject to normal authority, stage, tool and cost controls.
+- **PAUSED** — the role is not available for new assignments. Brain must not route new work to it until an authorised admin returns it to ACTIVE. The implementation must stop, hold or complete already-running work only at a safe governed boundary appropriate to that task.
+- **ISOLATED** — the role is quarantined. It must receive no new work and must not initiate agent-to-agent communication, MCP/library access, external model/provider calls, tool execution or other autonomous operations while isolated, except for explicitly authorised diagnostics required to investigate the isolation itself.
+
+The administration panel should present an immediately understandable control model:
+
+```text
+Admin -> Agents -> Role
+
+ON   = ACTIVE
+OFF  = PAUSED
+ISOLATE = governed quarantine
+```
+
+Isolation is intentionally stronger than ordinary OFF/PAUSED state.
+
+### 9.1 Authoritative state enforcement
+
+The governed role state is authoritative orchestration state, not a cosmetic UI preference.
+
+Brain MUST check it before assigning work.
+
+If a required role is PAUSED or ISOLATED:
+
+1. Brain must not silently activate it;
+2. Brain must not route the same responsibility to an unrelated agent merely to bypass the control;
+3. Brain may use an explicitly approved compatible fallback role or authorised human assignment only when governance permits that substitution;
+4. otherwise Brain reports that the required responsibility is unavailable and preserves the pending work without inventing completion.
+
+An agent MUST NOT:
+
+- change its own governed state;
+- reactivate itself;
+- remove its own isolation;
+- ask another agent to bypass its state;
+- increase its permissions to escape the control;
+- continue autonomous work after the authoritative state forbids it.
+
+Only an authorised human/admin control path, or a separately approved governance mechanism acting within explicit human authority, may change these states.
+
+### 9.2 Audit requirement
+
+Every governed state change must preserve an auditable record containing, where applicable:
+
+- role ID and role name;
+- previous state;
+- new state;
+- authorised actor / principal;
+- timestamp;
+- reason or incident reference where supplied;
+- affected project/workspace scope if the control is scoped rather than global;
+- outstanding work at the moment of transition;
+- restoration/reactivation event when the role returns to ACTIVE.
+
+The state history must not be erased merely because a role is reactivated or reassigned.
+
+### 9.3 Admin visibility
+
+The authorised admin surface should make the following visible for each role where data exists:
+
+- current governed state;
+- current assignee type: human, AI, hybrid, or unassigned;
+- whether work is currently running;
+- most recent invocation/result;
+- recent failures/retries;
+- current or recent token/API/compute cost;
+- last state change and actor;
+- dependency warnings caused by PAUSED or ISOLATED state.
+
+This visibility allows the Director/Admin to control not only whether an agent exists, but whether it is currently permitted to act and what cost or operational consequence it is producing.
+
+Permanent rule:
+
+> **Every specialist role is individually controllable. Human governance can pause or isolate it, and no agent can override or self-reverse that decision.**
+
+## 10. Cost telemetry per agent invocation
 
 Every materially billable or measurable agent invocation should be attributable where practical to:
 
@@ -231,7 +317,7 @@ from
 retry/failure waste
 ```
 
-## 10. Cost-control order
+## 11. Cost-control order
 
 Before invoking an expensive external AI agent/model, Brain should evaluate in this order:
 
@@ -246,7 +332,7 @@ Can canonical data answer it directly?
 
 The objective is not to eliminate AI. It is to avoid paying AI to repeatedly relearn information Nexkosmo already knows.
 
-## 11. Relationship to the creative flow
+## 12. Relationship to the creative flow
 
 The organisational roster does not change the product journey:
 
@@ -258,7 +344,7 @@ Information may accumulate continuously while capabilities unlock progressively.
 
 The Brain may retain knowledge needed by later stages without exposing later-stage execution controls early.
 
-## 12. Review and change control
+## 13. Review and change control
 
 The baseline count is now explicit: **50 roles**.
 
@@ -271,16 +357,21 @@ Any future change must preserve:
 - bounded responsibility;
 - human replaceability;
 - Director authority;
+- individually governed role state;
 - canonical Brain state;
 - provenance and auditability;
 - context minimisation;
 - measurable cost attribution.
 
-## 13. Permanent rules
+## 14. Permanent rules
 
 > **50 specialist roles is the current canonical organisational baseline; it does not mean 50 simultaneous model calls.**
 
 > **Brain owns project truth and orchestration; agents perform bounded jobs.**
+
+> **Every role has an individually governed ACTIVE / PAUSED / ISOLATED state exposed to authorised administration.**
+
+> **A PAUSED or ISOLATED role cannot self-reactivate or be silently bypassed by orchestration.**
 
 > **Retrieve exact information instead of repeatedly loading entire project history.**
 
