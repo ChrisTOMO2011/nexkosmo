@@ -19,7 +19,7 @@ The canonical asset is also registered in `assets/brand/canonical-assets.json` a
 
 ### Product-wide usage
 
-Codex and future UI work must use this canonical logo on all Nexkosmo product pages and shared shells, including Discovery, Shape, Build, Ready, Studio, onboarding, account surfaces, and future production workspaces.
+Codex and future UI work must use this canonical logo on all Nexkosmo product pages and shared shells, including Discovery, Shape, Build, Ready, Production, Studio, onboarding, account surfaces, and future production workspaces.
 
 Do not reintroduce the older cyan/blue-heavy X as the default brand mark.
 
@@ -63,7 +63,7 @@ The brighter direction does not authorise arbitrary recoloring of frozen canonic
 
 The product journey uses the shared progression model:
 
-`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY`
+`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION -> STUDIO`
 
 The active stage may use the same violet/lilac star-glow language as the canonical logo.
 
