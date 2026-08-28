@@ -1,18 +1,20 @@
 # Renderer Capability-Aware Preview Routing
 
 **Status:** Adopted product/architecture contract  
-**Applies to:** BUILD, PRODUCTION, Brain, Continuity Engine, Render Orchestrator, Renderer Adapters  
-**Related contracts:** `ARCHITECTURE_AMENDMENT_001_CONTINUITY_AND_RENDER_ORCHESTRATION.md`, `PHYSICS_FIRST_CINEMATOGRAPHY.md`
+**Applies to:** BUILD, READY, PRODUCTION, Brain, Continuity Engine, Render Orchestrator, Renderer Adapters  
+**Related contracts:** `ARCHITECTURE_AMENDMENT_001_CONTINUITY_AND_RENDER_ORCHESTRATION.md`, `PHYSICS_FIRST_CINEMATOGRAPHY.md`, `PRICING_BENCHMARK_CALIBRATION.md`
 
 ## 1. Purpose
 
-This contract defines how Nexkosmo creates shot preview frames without assuming that every renderer can consume every canonical control.
+This contract defines how Nexkosmo creates shot previews and chooses production routes without assuming that every renderer can consume every canonical control or that a technically capable route is reliable enough for guaranteed paid production.
 
 The canonical Scene/Shot state may contain approved 3D structure, camera definitions, depth, motion, identity references, masks, lighting, blocking and other rich production data. A renderer may support all, some or none of those controls.
 
-The governing rule is:
+The governing rules are:
 
 > A Renderer Adapter must explicitly declare which canonical controls it can faithfully consume. Render Orchestration may use only supported controls and must choose another compatible or hybrid route when required controls cannot be honoured.
+
+> Capability alone is not production qualification. A route used for guaranteed paid production must also have measured reliability evidence for the relevant Shot class and versioned execution configuration.
 
 ## 2. Capability declaration is mandatory
 
@@ -25,7 +27,7 @@ A capability must not be represented as a vague boolean when the renderer only p
 - `unsupported` — the renderer cannot consume the control in a reliable way;
 - `unknown` — support has not been verified and must not be assumed.
 
-A renderer with `unknown` support is treated as unsupported for requirements that materially affect continuity, identity or camera fidelity until verified.
+A renderer with `unknown` support is treated as unsupported for requirements that materially affect continuity, identity, camera fidelity or guaranteed production until verified.
 
 ## 3. Capability Profile
 
@@ -98,18 +100,18 @@ A single broad claim such as `supports camera`, `supports lens`, `supports camer
 
 ## 4. Shot Requirement Profile
 
-Before preview routing, Brain/Continuity/Render Orchestrator derives a Shot Requirement Profile from canonical Scene/Shot state.
+Before preview or production routing, Brain/Continuity/Render Orchestrator derives a Shot Requirement Profile from canonical Scene/Shot state.
 
 Requirements may be classified as:
 
 - **required** — losing the control would materially misrepresent the Shot, identity, continuity or Director intent;
 - **preferred** — improves fidelity but a declared approximation may still be useful for exploration;
-- **optional** — can be omitted without materially changing the intended preview purpose.
+- **optional** — can be omitted without materially changing the intended purpose.
 
 Example:
 
 ```text
-Shot 12 preview requirements
+Shot 12 requirements
 - Sarah identity reference: required
 - physical camera transform: required
 - support rig: jib with pivoted boom movement: required
@@ -119,7 +121,6 @@ Shot 12 preview requirements
 - shared 3D blocking: preferred
 - depth conditioning: preferred
 - alpha output: optional
-- final-quality lighting: optional
 ```
 
 Where physical cinematography is required, related controls must be evaluated as a coupled requirement rather than independently. For example, exact focal length without filmback or camera position may be insufficient to preserve the intended field of view and perspective.
@@ -137,9 +138,10 @@ Canonical Shot State
 -> Shot Requirement Profile
 -> candidate Renderer Capability Profiles
 -> capability match
--> compatible route / hybrid route / declared approximation
+-> reliability qualification check
+-> compatible qualified route / hybrid route / declared approximation
 -> Render Manifest
--> preview execution
+-> execution
 ```
 
 Rules:
@@ -148,14 +150,15 @@ Rules:
 2. Unsupported required controls disqualify a single-renderer route unless an approved hybrid route can satisfy them.
 3. Constrained capabilities may be used only when the Shot requirements fall inside the declared constraints.
 4. Unknown capability must not be treated as supported.
-5. Preferred controls may be omitted only when the preview remains useful and the omission is recorded as a known limitation.
+5. Preferred controls may be omitted only when the result remains useful and the omission is recorded as a known limitation.
 6. Optional controls may be omitted without changing canonical state.
 7. Coupled physical controls must not be split in a way that creates false fidelity. If a route supports a focal-length text hint but not filmback/camera geometry, it cannot be treated as physically lens-accurate.
 8. Camera support / movement-rig semantics must be capability-matched when they materially define the Shot. A generic smooth camera path is not automatically equivalent to a dolly, jib, crane, stabilised body rig, handheld rig or drone trajectory.
+9. A route that is technically capable but not reliability-qualified for the required production scope must not be represented as a guaranteed production route.
 
 ## 6. No false fidelity
 
-A preview must not imply that a renderer honoured controls it never received or cannot interpret.
+A preview or result must not imply that a renderer honoured controls it never received or cannot interpret.
 
 Examples:
 
@@ -171,7 +174,7 @@ Examples:
 
 The permanent rule is:
 
-> A visually plausible preview is not proof that unsupported canonical controls were obeyed.
+> A visually plausible result is not proof that unsupported canonical controls were obeyed.
 
 ## 7. Route selection
 
@@ -191,6 +194,8 @@ Possible routes include:
 Renderer limitations must not cause Brain to mutate canonical Scene or Shot truth merely to fit the renderer.
 
 When a Shot depends on physically coherent cinematography, route selection should prefer a renderer or hybrid route that preserves the required camera/lens/light and camera-support/movement-rig relationships defined by `PHYSICS_FIRST_CINEMATOGRAPHY.md`.
+
+For paid production, route selection must consider measured reliability and cost/time per Brain-accepted result, not only per-attempt price or nominal capability.
 
 ## 8. Hybrid preview routing
 
@@ -253,7 +258,7 @@ These classes are evidence labels, not new canonical truth.
 
 ## 11. Adapter evidence
 
-Every preview result must retain enough evidence to determine:
+Every preview/result must retain enough evidence to determine:
 
 - Renderer Adapter identity/version;
 - Renderer Capability Profile version;
@@ -268,7 +273,8 @@ Every preview result must retain enough evidence to determine:
 - renderer/model/checkpoint/version;
 - output validation results;
 - cost/compute/latency;
-- whether another route was considered or required.
+- whether another route was considered or required;
+- production reliability qualification state where applicable.
 
 ## 12. Failure and fallback
 
@@ -279,7 +285,8 @@ If execution shows that a declared capability is unreliable, Nexkosmo should:
 3. record adapter evidence;
 4. update or quarantine the capability claim if appropriate;
 5. reroute to another compatible renderer or hybrid path where useful;
-6. avoid charging the user for unusable platform-attributable failed work according to the approved pricing policy.
+6. avoid charging the user for unusable platform-attributable failed work according to the approved pricing policy;
+7. feed the failure into route reliability evidence and circuit-breaker evaluation.
 
 ## 13. BUILD behaviour
 
@@ -292,37 +299,173 @@ Brain/Render Orchestrator should normally choose a compatible route automaticall
 - required camera-support/movement-rig fidelity;
 - quality purpose;
 - expected fidelity;
+- measured reliability where available;
 - time;
-- cost;
+- cost per Brain-accepted result where available;
 - available compute;
 - validated Renderer Capability Profiles.
 
 Advanced users may inspect or select routes when useful.
 
+For materially expensive or high-risk production work, BUILD/READY may require a short proof or representative test before committing the full execution route.
+
 ## 14. READY relationship
 
 READY should not reject a Scene merely because an exploratory renderer lacks a capability.
 
-READY cares whether committed PRODUCTION has a viable route capable of expressing required canonical intent.
+READY cares whether committed PRODUCTION has a viable route capable of expressing required canonical intent **and, for a guaranteed production commitment, whether that route is reliability-qualified for the relevant scope**.
 
 If Renderer A cannot consume exact camera, movement-rig or identity state but Renderer B or a hybrid route can, READY may still pass.
 
-A critical blocker exists only when no approved production route can satisfy a required material constraint without changing canonical creative meaning.
+A critical blocker exists when:
 
-## 15. Permanent rules
+- no approved production route can satisfy a required material constraint without changing canonical creative meaning; or
+- Nexkosmo intends to make a guaranteed production commitment but no route has sufficient reliability evidence for that required Shot class and execution scope.
+
+An experimental/unproven capability may continue through explicitly labelled testing, but it must not silently inherit the same guarantee as a qualified route.
+
+## 15. Production Reliability Qualification
+
+Technical capability and measured production reliability are separate evidence classes.
+
+A route is scoped by the combination of material factors that affect its behaviour, including where relevant:
+
+- Renderer Adapter version;
+- provider/model/engine/checkpoint version;
+- Shot class and complexity band;
+- required identity/continuity/camera/motion/layer/output controls;
+- duration/resolution/frame rate/quality tier;
+- execution route and important hardware/runtime constraints;
+- hybrid components and compositing path.
+
+Reliability evidence from one materially different scope must not be silently generalized to another.
+
+### 15.1 Qualification states
+
+Nexkosmo should maintain a versioned reliability state for each material production route/scope:
+
+- **EXPERIMENTAL** — capability may be under test; insufficient evidence for guaranteed paid production.
+- **QUALIFIED** — repeatable measured evidence exists for the declared scope; route is eligible for controlled production according to policy.
+- **GUARANTEED** — qualified route is inside the currently approved Nexkosmo customer guarantee envelope for the declared scope and commercial policy.
+- **DEGRADED** — recent evidence has materially worsened or drifted; route remains under investigation and must not be treated as healthy guaranteed capacity unless policy explicitly permits a constrained use.
+- **QUARANTINED** — route is blocked from normal guaranteed production because evidence shows unacceptable failure, provider/model drift, capability mismatch, or another material risk.
+
+`GUARANTEED` does not mean every underlying attempt succeeds. It means Nexkosmo has enough evidence and recovery capacity to commercially stand behind the accepted outcome within the validated scope.
+
+### 15.2 Mandatory reliability measurements
+
+Qualification evidence should measure, by relevant Shot class and route scope:
+
+- first-pass Brain acceptance rate;
+- attempts per Brain-accepted result;
+- cost per Brain-accepted result;
+- elapsed time per Brain-accepted result;
+- technical failure rate;
+- identity failure rate where applicable;
+- continuity failure rate where applicable;
+- camera/movement/physics failure rate where applicable;
+- required layer/pass/output-contract failure rate where applicable;
+- targeted-repair success rate;
+- alternate-route/fallback success rate;
+- unresolved failure rate after approved retry/reroute policy;
+- sample size and recency of evidence;
+- provider/model/version drift indicators.
+
+Exact numerical qualification thresholds are commercial/operational policy and must be established from measured evidence rather than invented prematurely.
+
+### 15.3 Cheap proof before expensive execution
+
+Where a Shot contains material uncertainty, Brain/Render Orchestrator should prove the risky requirement using the shortest/lowest-cost meaningful test before committing expensive full-quality work.
+
+Examples include testing:
+
+- identity preservation;
+- multi-character interaction;
+- camera/movement-rig behaviour;
+- lip-sync/performance control;
+- VFX/simulation behaviour;
+- required layer/pass/AOV preservation;
+- hybrid timing/depth/matte alignment;
+- provider/model behaviour after a version change.
+
+A proof is not accepted final production. It is reliability evidence used to avoid discovering predictable failure after the expensive execution has already been consumed.
+
+### 15.4 Fallback plan before guarantee
+
+For a guaranteed production commitment, Brain should know the recovery path before expensive execution begins where a practical fallback exists.
+
+Conceptually:
+
+```text
+Primary qualified route
+-> targeted repair / partial rerender
+-> qualified alternate route
+-> qualified hybrid route
+-> unresolved STOP-GATE
+```
+
+The fallback may vary by Shot class. Nexkosmo must not promise a guaranteed capability solely because a primary route worked once.
+
+### 15.5 Circuit breaker and automatic downgrade
+
+Production evidence must continuously update route health.
+
+If a route's observed performance materially departs from its qualified evidence, Brain/Render Orchestrator must be able to:
+
+1. stop assigning new guaranteed work to the affected scope;
+2. mark the route `DEGRADED` or `QUARANTINED` according to policy;
+3. preserve in-flight and accepted evidence;
+4. reroute eligible work to a qualified fallback;
+5. require requalification after material provider/model/adapter changes;
+6. prevent an agent, adapter or provider from self-restoring guaranteed status without governed evidence and authority.
+
+The circuit breaker exists to prevent a degraded route from burning tokens/compute across hundreds of film-scale executions before Nexkosmo reacts.
+
+### 15.6 Guaranteed versus experimental capability boundary
+
+A capability that Nexkosmo has architecturally designed but not yet proven end to end remains `EXPERIMENTAL` for guarantee purposes.
+
+This includes any layering, auxiliary-output, hybrid or other production behaviour whose required fidelity/reliability has not yet been demonstrated for the route in question.
+
+Experimental capability may be tested and improved, but the user must not be led to believe it carries the same production guarantee as a qualified scope.
+
+### 15.7 Route choice objective
+
+For guaranteed production, Brain should optimize for the expected accepted outcome, not the cheapest attempt.
+
+Conceptually:
+
+```text
+route value
+= required fidelity and capability
++ measured acceptance reliability
++ recovery/fallback strength
++ time per Brain-accepted result
++ cost per Brain-accepted result
+```
+
+No single numeric formula is frozen here. The permanent requirement is that route choice must account for reliability and accepted-result economics at film scale.
+
+## 16. Permanent rules
 
 > Renderer capability is declared, verified and versioned; it is never assumed.
+
+> Capability is necessary but not sufficient for guaranteed paid production; the route must also be reliability-qualified for the relevant scope.
 
 > Required Shot controls must be matched to supported adapter capabilities before execution.
 
 > Camera, camera-support/movement rig, lens, filmback, distance, aperture, focus, shutter and lighting may form one coupled physical requirement; capability matching must preserve that relationship where required.
 
-> `Tripod`, `dolly`, `jib`, `crane`, `handheld`, `Steadicam`, `gimbal`, `drone`, `vehicle mount` and other support classes are movement semantics, not decorative labels, when they materially define the Shot.
-
 > Unsupported controls are not silently dropped. Reroute, hybridize, declare approximation, or do not use that renderer for the requirement.
 
-> AI imitation of a lens/camera/movement look is not automatically equivalent to a physically defined camera, lens and movement-rig system.
+> Brain must prefer cost/time per Brain-accepted result over deceptively cheap per-attempt pricing when selecting guaranteed production routes.
+
+> Use short, low-cost proofs to expose material uncertainty before expensive execution where practical.
+
+> A degraded route must be automatically stoppable and quarantinable before failure compounds across film-scale workloads.
+
+> Experimental/unproven capabilities do not inherit the guaranteed production promise until repeatable evidence qualifies them.
 
 > Renderer limitations never rewrite canonical Scene/Shot truth.
 
-> Preview evidence must say what the renderer actually controlled, not what Nexkosmo hoped it controlled.
+> Preview and production evidence must say what the renderer actually controlled and achieved, not what Nexkosmo hoped it controlled.
