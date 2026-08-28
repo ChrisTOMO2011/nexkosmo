@@ -245,6 +245,29 @@ The permanent rule is:
 
 > One established scene is enough to begin. Story sufficiency, not scene count, determines when the project is ready to continue.
 
+## Shape / Script audio asset creation
+
+SHAPE is where the written scene becomes specific enough for the Director to establish what should be heard as well as what should happen. Audio creation should be available directly from the Script/Shape workflow without forcing the Director into a separate audio-production stage.
+
+Rules:
+
+1. The Director may ask AI from SHAPE to create **character voices, dialogue performances, sound effects, ambience, music, score, themes, transitions, and other required audio assets** for the script at hand.
+2. Character voice selection or creation may include attributes such as masculine/feminine presentation, age range, accent, language, tone, texture, energy, emotional delivery, pacing, and performance style while remaining linked to the intended character or authorised performer identity.
+3. Dialogue generation should be linked at the smallest useful unit, normally to the character and specific script line or dialogue beat, so a changed line can be regenerated without recreating unrelated dialogue or the entire soundtrack.
+4. Sound effects should remain separate assets linked to the relevant scripted event, action, prop, environment, scene beat, or timing reference. Removing or changing the scripted event should update the dependency rather than leave an unrelated baked sound behind.
+5. Ambience and environmental sound should remain separate assets or layers linked to the relevant environment, location, scene state, or time span.
+6. Music and score should remain separate cues linked to the relevant scene, sequence, beat, emotional intention, transition, character theme, or other narrative purpose rather than being permanently flattened into dialogue or effects.
+7. AI-created audio is editable project material. Dialogue, SFX, ambience and music MUST remain independently replaceable, regenerable, muteable, versioned and traceable through later BUILD, PRODUCTION and STUDIO workflows.
+8. When a suitable approved voice, sound effect, ambience or music asset already exists, Nexkosmo should retrieve and reuse it before generating a new asset unless the Director explicitly wants a new variation.
+9. Voice identity must remain separate from an individual generated line. A character or authorised performer may have an approved reusable Voice Asset or voice profile, while each dialogue performance is a derived line-level or beat-level asset linked back to that voice identity.
+10. If an AI voice is based on an identifiable real person's voice, Nexkosmo must preserve the relevant authorisation, rights/consent and provenance information and must not treat an unauthorised imitation as an approved reusable performer identity.
+11. Script changes should propagate only to affected audio dependencies when the consequence is unambiguous. Changing one line should not force unrelated music, SFX or dialogue to be regenerated.
+12. SHAPE establishes and previews the audio intent and may create production-usable assets, but STUDIO remains the place for detailed editing, timing, sound design, mixing, mastering and final delivery decisions.
+
+The permanent rule is:
+
+> Script establishes what is heard. AI may create the required voice, dialogue, sound-effect, ambience and music assets there, while every audio element remains separate, linked, reusable and editable through final Studio finishing.
+
 ## Ready as the Production gate
 
 READY is the single serious validation gate before full PRODUCTION. Earlier creative stages should remain fluid and should not repeatedly interrupt the Director to reconfirm decisions that have already been made.
