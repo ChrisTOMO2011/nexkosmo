@@ -165,3 +165,20 @@ Brain may help explore the unresolved gaps, but the gaps remain unresolved until
 The permanent rule is:
 
 > Unknown story is allowed to remain unknown. Brain may help explore it, but only the Director turns a suggestion into the movie.
+
+## Discover scene minimum and progression
+
+DISCOVER must not force every project type into an arbitrary scene count.
+
+Rules:
+
+1. The hard minimum to establish a DISCOVER project is **one scene**. A Director may begin with only one scene or moment they can clearly imagine.
+2. **Three anchor scenes** - typically a beginning, a meaningful middle point, and an ending - are a useful basic story skeleton when that structure fits the project, but they are guidance rather than a mandatory requirement.
+3. A Director MUST NOT be blocked from continuing to SHAPE merely because fewer than three scenes exist.
+4. Progression from DISCOVER is based on whether the project has enough established structure and intent for meaningful continued development, not on reaching a fixed number of cards.
+5. Brain may identify important unresolved structural gaps and explain them to the Director, but unresolved gaps do not become invented canonical scenes merely to satisfy a numeric minimum.
+6. The same rule applies across project types and lengths, including commercials, music videos, short films, feature films, game cinematics, and other supported formats.
+
+The permanent rule is:
+
+> One established scene is enough to begin. Story sufficiency, not scene count, determines when the project is ready to continue.
