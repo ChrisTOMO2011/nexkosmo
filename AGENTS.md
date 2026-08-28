@@ -175,13 +175,18 @@ Rules:
 24. Reference sheets and character bibles are not decorative documentation. They are identity and production evidence that may be supplied to human artists, AI systems, renderers, animation tools, validation systems, or downstream production stages to preserve the intended character.
 25. The 3D asset is the production object; the character bible and reference package describe and constrain what that object represents. Neither representation alone silently replaces the complete canonical character package.
 26. **Build This Moment uses target-aware drag and drop.** Dropping an asset into open scene space means **place this asset in the scene**. Dropping an applicable asset directly onto a character means **apply this asset or change to that character** rather than create an unrelated scene object.
-27. Character-targeted drops may create or update an explicit **appearance state** linked to the same canonical character. Appearance states may include wardrobe, footwear, accessories, hairstyle, facial hair, makeup, dirt, blood, scars, injuries, age presentation, body condition, armour, costume, temporary damage, and other non-identity production variants.
+27. Character-targeted drops may create or update an explicit **appearance state** linked to the same canonical character. Appearance states may include wardrobe, footwear, accessories, hairstyle, facial hair, makeup, dirt, blood, scars, age presentation, body condition, armour, costume, temporary styling, and other non-identity production variants.
 28. An appearance state must preserve the underlying character identity and update every affected representation that depends on it, including the 3D production asset, materials/textures where applicable, the current 2D scene representation, and downstream continuity state.
 29. The same character may hold multiple named or scene-bound appearance states, such as base appearance, formal wardrobe, hospital state, battle-damaged state, aged state, or another production-specific variation, without creating a new character identity.
 30. A drag/drop operation that materially changes core face identity, fundamental body proportions, species, or another defining identity-bearing characteristic MUST NOT be treated as an ordinary appearance change. It is an **identity revision** and must preserve version history, provenance, and explicit identity lineage.
 31. The interface should make the distinction intuitive without adding unnecessary steps: **drag onto scene = place asset; drag onto character = modify that character**. Brain handles the underlying state update and propagation when the Director's intent is unambiguous.
-32. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
-33. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
+32. **Characters and reusable objects must preserve a clean base representation.** Temporary additions MUST NOT be baked destructively into the canonical base asset merely because they are visible in a scene.
+33. Glasses, hats, jewellery, clothing, weapons, backpacks, attachments, decals, dirt, blood, damage and similar additions should remain separate linked assets, modifiers or states wherever independent removal, replacement, movement, reuse or continuity tracking is useful.
+34. **Injury is a distinct asset class rather than ordinary appearance.** An Injury Asset defines the reusable injury concept; an Injury State records how that injury currently exists on a specific character, including body location, severity, healing stage, visible treatment, deformation, material/texture effects, movement restrictions and continuity where applicable.
+35. Applying an accessory, injury, damage element or other non-destructive addition to a clean base asset creates a composed production state without replacing the base identity or source asset. Removing that addition must restore the clean base representation without regeneration of the identity.
+36. When a clean 3D-backed asset is modified through these linked additions, Nexkosmo may regenerate or update the lightweight 2D scene projection to show the composed result while preserving the clean 3D source and each applied addition separately underneath.
+37. Flattening is permitted for previews, exports, or other derived media only when it does not destroy the persistent editable scene structure.
+38. If a source asset does not already contain alpha/transparency, Nexkosmo may create an equivalent isolation mask, but the isolated derivative must remain traceable to its source and must be validated before it is treated as an editable scene asset.
 
 The permanent rules are:
 
@@ -196,6 +201,8 @@ The permanent rules are:
 > A reusable character is delivered as a canonical character package: the production-ready 3D asset plus its identity bible, visual references, technical specifications, production data, and provenance/version history.
 
 > Drag onto the scene to place an asset. Drag onto a character to modify that character's appearance state. Core identity changes remain explicit identity revisions.
+
+> Keep the base asset clean. Accessories, injuries, damage and other additions remain separate non-destructive assets or states that can be applied, changed or removed without destroying the original.
 
 ## Non-linear Discover and anchor scenes
 
