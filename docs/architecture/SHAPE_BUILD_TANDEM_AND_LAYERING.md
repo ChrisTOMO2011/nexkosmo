@@ -53,6 +53,7 @@ BUILD primarily translates the established scene into cinematic and production c
 - environment use;
 - props and vehicles;
 - accessories, injuries, damage and scene-specific states;
+- AI creation of new scene assets when required;
 - CGI/VFX requirements;
 - timing needed for production execution;
 - visual references and anchor frames;
@@ -81,6 +82,28 @@ Rules:
 The permanent rule is:
 
 > In BUILD, drag into scene space to place an asset; drag onto a valid target to apply or attach it. Keep the clean base asset underneath and preserve the addition as a separate non-destructive layer or state.
+
+## BUILD in-place asset creation
+
+The Director must be able to create a required asset with AI directly from the global BUILD page without leaving the current scene-construction workflow.
+
+Rules:
+
+1. Asset creation may begin from open scene space, the currently selected target, a search/create control, Director text or voice instruction, or another clear BUILD interaction.
+2. The Director may create characters, creatures, props, vehicles, accessories, wardrobe, set pieces, Injury Assets, effects and other supported production assets needed by the scene.
+3. When the Director creates an asset for a selected target, BUILD should preserve the target context so the new asset can be immediately applied or attached where appropriate. Example: selecting a character and requesting black sunglasses creates the sunglasses as an asset and makes them immediately available to apply to that character.
+4. When the Director creates an asset for open scene space, the new asset may be placed directly into the current scene after creation while remaining a reusable project asset.
+5. Nexkosmo should retrieve a suitable approved existing asset before generating a new one unless the Director explicitly requests a new or different asset.
+6. AI-created assets must receive identity, provenance, generation/source information, version history and dependency links appropriate to their asset class.
+7. If the asset benefits from reusable 3D structure, Nexkosmo should preserve or create the richer 3D source and may provide a lightweight 2D isolated representation for fast scene interaction. The 2D representation must not replace the richer source.
+8. Assets intended for independent scene manipulation must remain isolated through alpha/transparency, masks, geometry or another appropriate representation rather than being destructively baked into the scene.
+9. A newly created asset must be available for later reuse in the same project and, where permissions/ownership allow, the appropriate Creator Vault or library context.
+10. Creating an asset in BUILD does not automatically make it part of the story. Only if its placement or use materially changes what happens in the movie should the affected SHAPE state synchronize.
+11. Asset creation should not force the Director through a separate creation page merely to complete a BUILD task.
+
+The permanent rule is:
+
+> In BUILD, the Director can create a missing asset in place, preserve it as a reusable canonical project asset, and immediately place, apply or attach it while keeping the scene layered and non-destructive.
 
 ## Bidirectional synchronization
 
@@ -168,13 +191,13 @@ Build This Moment remains an advanced DISCOVER interaction used to compose and e
 
 **Build This Moment does not provide the global BUILD page's deep target-aware attachment/editing function.** It does not need to support dropping glasses onto a face, placing a bruise on a body location, attaching a weapon to a hand, or placing an object onto another object as its detailed editing model.
 
-Its layered assets and approved scene states should flow forward into SHAPE and BUILD rather than being recreated from scratch. Once the project reaches global BUILD, the Director can use the richer target-aware drag-and-drop tools against those same characters, objects and layers.
+Its layered assets and approved scene states should flow forward into SHAPE and BUILD rather than being recreated from scratch. Once the project reaches global BUILD, the Director can use the richer target-aware drag-and-drop and in-place AI asset-creation tools against those same characters, objects and layers.
 
-DISCOVER establishes and explores scene moments. Build This Moment composes those moments. SHAPE establishes what happens and what is heard. BUILD performs detailed cinematic construction and target-aware scene modification.
+DISCOVER establishes and explores scene moments. Build This Moment composes those moments. SHAPE establishes what happens and what is heard. BUILD performs detailed cinematic construction, target-aware scene modification and in-place creation of missing production assets.
 
 The permanent rule is:
 
-> Build This Moment composes the Discover moment with whole scene assets. Global BUILD performs the deeper target-aware modifications inside that scene.
+> Build This Moment composes the Discover moment with whole scene assets. Global BUILD performs the deeper target-aware modifications and can create missing production assets directly inside the scene-construction workflow.
 
 ## READY validation
 
@@ -197,4 +220,4 @@ STUDIO receives production results plus useful retained layers, source assets, a
 
 ## Permanent summary
 
-> SHAPE defines what happens and what is heard. BUILD defines how that same scene is constructed cinematically and supports deep target-aware scene modification. Build This Moment remains a Discover composition tool. SHAPE and BUILD operate on one canonical layered scene, synchronize meaningful changes in both directions, preserve independently editable layers underneath, and flatten only for derived output.
+> SHAPE defines what happens and what is heard. BUILD defines how that same scene is constructed cinematically, supports deep target-aware scene modification, and can create missing production assets in place. Build This Moment remains a Discover composition tool. SHAPE and BUILD operate on one canonical layered scene, synchronize meaningful changes in both directions, preserve independently editable layers underneath, and flatten only for derived output.
