@@ -182,3 +182,25 @@ Rules:
 The permanent rule is:
 
 > One established scene is enough to begin. Story sufficiency, not scene count, determines when the project is ready to continue.
+
+## Ready as the Production gate
+
+READY is the single serious validation gate before full PRODUCTION. Earlier creative stages should remain fluid and should not repeatedly interrupt the Director to reconfirm decisions that have already been made.
+
+Rules:
+
+1. Director edits made in IDEA, DISCOVER, SHAPE, or BUILD may propagate through connected project state without requiring repeated confirmation when the intended consequence is unambiguous.
+2. READY validates whether the connected creative state is sufficiently synchronized, complete, and technically usable for full PRODUCTION.
+3. READY must distinguish at least three outcomes:
+   - **Not Ready** - one or more critical unresolved items remain. Full PRODUCTION is blocked.
+   - **Ready with warnings** - only non-critical issues remain. Full PRODUCTION is allowed, with the warnings preserved and visible.
+   - **Ready** - required validation has passed. Full PRODUCTION is allowed.
+4. Critical blockers include unresolved or conflicting information that would force PRODUCTION to invent a material creative decision, break approved continuity or identity, or proceed without required production information.
+5. Non-critical warnings MUST NOT become artificial blockers merely because they exist.
+6. Test renders, previews, camera tests, look-development, AI experiments, and other exploratory outputs may be performed before READY passes. These are development activities and do not count as entering committed full PRODUCTION.
+7. The system must preserve the reason for every blocking condition so the Director can see what must be fixed rather than encountering an unexplained stop.
+8. Once a critical blocker is resolved, READY should re-evaluate automatically rather than forcing the Director through unnecessary duplicate steps.
+
+The permanent rule is:
+
+> Creative work stays fluid until READY. Full PRODUCTION is blocked only when READY finds a critical unresolved condition.
