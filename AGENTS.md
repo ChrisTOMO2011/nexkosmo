@@ -141,3 +141,27 @@ Rules:
 The permanent rule is:
 
 > If the Director can manipulate an asset independently in Build This Moment, Nexkosmo must preserve that asset independently beneath the visible scene snapshot.
+
+## Non-linear Discover and anchor scenes
+
+The Director does not need to know the whole movie before using DISCOVER. DISCOVER MUST support non-linear story development.
+
+Rules:
+
+1. The Director may create only the scenes they currently know, including a beginning, a middle moment, an ending, or any other isolated scene in any order.
+2. Known scenes are treated as **anchor scenes**. Missing story between anchors remains explicitly unresolved rather than being silently invented as decided project truth.
+3. Brain may identify the gaps between anchor scenes and may help the Director explore possible connecting scenes, beats, or transitions.
+4. AI-generated suggestions for missing material remain proposals. They MUST NOT become canonical Discover cards or approved story events until the Director explicitly accepts, creates, or approves them.
+5. The Director may add, remove, reorder, replace, or refine anchor scenes as the story develops.
+6. DISCOVER must preserve the distinction between what the Director knows, what has been approved, and what is still unknown or merely suggested.
+7. A project may remain intentionally incomplete in DISCOVER while still preserving its known structure and allowing continued development.
+
+Example:
+
+`KNOWN OPENING -> UNRESOLVED GAP -> KNOWN MIDDLE -> UNRESOLVED GAP -> KNOWN ENDING`
+
+Brain may help explore the unresolved gaps, but the gaps remain unresolved until the Director decides what belongs there.
+
+The permanent rule is:
+
+> Unknown story is allowed to remain unknown. Brain may help explore it, but only the Director turns a suggestion into the movie.
