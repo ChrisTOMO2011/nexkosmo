@@ -124,6 +124,25 @@ The shared stage model is:
 
 Preserve this shared shell and canonical brand identity unless an explicit product decision supersedes them.
 
+## Idea project type and destination inference
+
+IDEA should capture what the Director knows without forcing project classification before creativity can begin.
+
+Rules:
+
+1. Brain SHOULD infer the project type when the Director's input makes it reasonably clear, including formats such as feature film, short film, commercial, music video, documentary, game cinematic, social video, review, training video, or another supported format.
+2. Brain SHOULD infer the intended destination or distribution surface separately when that is clear, including cinema, YouTube, TikTok, Instagram, television, web, internal business use, or another supported destination.
+3. Project type and destination are separate properties. For example, a short film may have YouTube as its destination.
+4. If either property is unclear, it may remain explicitly **Not established yet** rather than being guessed as canonical truth.
+5. IDEA MUST NOT block the Director from entering DISCOVER merely because project type, destination, duration, aspect ratio, or similar downstream production details are not yet established.
+6. Brain should ask for an unresolved property only when that information becomes materially necessary for the next useful operation, such as script structure, duration planning, aspect ratio, delivery requirements, or production settings.
+7. If later Director input makes the project type or destination clear, Brain may update that property automatically and propagate the consequence through connected project state when the intended meaning is unambiguous.
+8. Inference must remain distinguishable from explicit Director specification until the Director's actions or later information make the classification clear enough to become established project state.
+
+The permanent rule is:
+
+> Infer when the Director has already told us enough. Leave it unknown when they have not. Ask only when the answer becomes necessary.
+
 ## Discover scene snapshots and Build This Moment
 
 DISCOVER represents each scene with a visible snapshot frame. The snapshot may look like a single image to the Director, but its editable scene state must not be flattened when the scene contains assets the Director can manipulate.
