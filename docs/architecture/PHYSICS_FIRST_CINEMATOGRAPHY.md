@@ -2,7 +2,7 @@
 
 **Status:** Adopted product/architecture contract  
 **Applies to:** BUILD, READY, PRODUCTION, Brain, Continuity Engine, Render Orchestrator, Renderer Adapters, cinematography intelligence and future camera/lens systems  
-**Related contracts:** `ARCHITECTURE_AMENDMENT_001_CONTINUITY_AND_RENDER_ORCHESTRATION.md`, `RENDERER_CAPABILITY_AWARE_PREVIEW_ROUTING.md`, `SHOT_COVERAGE_SUFFICIENCY.md`, `BUILD_PROGRESSIVE_DISCLOSURE_UI.md`
+**Related contracts:** `ARCHITECTURE_AMENDMENT_001_CONTINUITY_AND_RENDER_ORCHESTRATION.md`, `RENDERER_CAPABILITY_AWARE_PREVIEW_ROUTING.md`, `SHOT_COVERAGE_SUFFICIENCY.md`, `BUILD_PROGRESSIVE_DISCLOSURE_UI.md`, `CINEMATIC_SPATIAL_LAYERING_AND_RENDER_OUTPUT.md`
 
 ## 1. Purpose
 
@@ -31,9 +31,11 @@ Director intent
 -> camera position and height
 -> sensor / filmback
 -> lens / focal length / optical model
+-> optical filtration
 -> aperture / T-stop
 -> focus distance and focus behaviour
 -> shutter / motion behaviour
+-> white balance / tint / camera interpretation
 -> lighting geometry and source properties
 -> material/light interaction
 -> exposure / dynamic range / colour pipeline
@@ -76,9 +78,16 @@ A canonical camera profile may include, where relevant:
 - pixel aspect where relevant;
 - shutter angle or exposure time;
 - ISO/exposure index when part of the simulated or measured model;
+- white balance;
+- tint / green-magenta compensation where relevant;
 - dynamic-range model where actually known;
+- highlight response / roll-off where actually measured or validated;
+- black-level / shadow response where actually measured or validated;
+- sensor-noise behaviour where actually measured or validated;
+- spectral sensitivity / colour-filter-array response where actually known;
 - colour science / input transform where actually known;
 - rolling/global shutter behaviour where relevant;
+- rolling-shutter readout time / scan behaviour where actually known;
 - camera position and orientation;
 - camera height;
 - camera movement path;
@@ -86,6 +95,23 @@ A canonical camera profile may include, where relevant:
 - lens mount / compatible lens profile references.
 
 Camera brand names MUST NOT be treated as proof of exact sensor or colour reproduction unless Nexkosmo has an authorised, measured or otherwise validated profile sufficient to support that claim.
+
+### 4.1 Camera interpretation is part of image formation
+
+The colour temperature of a light source and the camera's white-balance setting are different variables.
+
+For example, a 3200K source viewed with a 3200K white balance is not interpreted the same way as the same source viewed with a 5600K white balance.
+
+Where the route supports it, Nexkosmo should therefore preserve both:
+
+```text
+scene/source spectrum or colour temperature
++
+camera white balance / tint / response
+-> recorded colour relationship
+```
+
+A generic `warm` or `cool` label is not a substitute for this relationship when physical or camera-response fidelity is required.
 
 ## 5. Lens intelligence
 
@@ -124,6 +150,38 @@ A canonical or renderer-facing Lens Profile may include, where relevant:
 - measured calibration evidence and provenance.
 
 The exact implementation may support a subset initially, but unsupported properties must remain explicit rather than being silently invented.
+
+### 5.1 Optical filtration stack
+
+Nexkosmo should represent physical filtration placed in the capture path separately from post-production look effects.
+
+A filtration stack may include, where relevant:
+
+- neutral-density filtration;
+- variable ND where actually used/supported;
+- infrared/IRND filtration;
+- polariser and polariser orientation where meaningful;
+- diffusion filters;
+- mist/softening filters;
+- diopters / close-focus optical attachments;
+- colour-compensation or colour-effect filters;
+- graduated filters;
+- specialty optical filters;
+- filter order when materially significant;
+- measured transmission or colour shift where known.
+
+A physical diffusion filter that changes light before image capture is not automatically equivalent to adding a diffusion effect after rendering.
+
+The system must record whether the intended effect is:
+
+```text
+physical optical filtration
+measured filter profile
+creative approximation
+post-production effect
+```
+
+and must not silently treat those evidence classes as interchangeable.
 
 ## 6. Lens + camera coupling
 
@@ -173,6 +231,26 @@ Relevant factors include:
 
 An AI renderer that can only imitate shallow depth of field visually must not be treated as proving physically correct optical depth of field.
 
+### 7.1 Focus is dynamic in footage
+
+For moving footage, focus may be a time-varying camera parameter rather than one fixed distance.
+
+A Focus Trajectory may include:
+
+- focus target identity where applicable;
+- start focus distance;
+- end focus distance;
+- intermediate key focus distances;
+- start/end times or frames;
+- rack-focus timing;
+- interpolation/easing curve;
+- focus-pull speed;
+- overshoot/settle behaviour where intentionally modelled;
+- whether focus follows a moving subject automatically or a defined pull path;
+- lens breathing response during the pull where supported.
+
+A renderer that can imitate a rack focus without preserving the required focus-distance/lens relationship must be labelled as an approximation for optical-fidelity purposes.
+
 ## 8. T-stop versus f-stop
 
 Where production accuracy requires it, Nexkosmo should distinguish:
@@ -194,9 +272,29 @@ Relevant properties include:
 - camera velocity;
 - subject velocity;
 - rolling/global shutter behaviour where relevant;
+- rolling-shutter readout time where relevant;
 - motion-vector or temporal-sampling support.
 
 A generated smear that looks like motion blur is not automatically evidence of physically coherent shutter behaviour.
+
+### 9.1 Time-varying lens and exposure state
+
+Footage may intentionally change optical or exposure parameters during a Shot.
+
+Where relevant, Nexkosmo should support versioned/time-keyed trajectories for:
+
+- focal length / zoom position;
+- focus distance;
+- aperture / iris / T-stop;
+- shutter angle or exposure time;
+- ISO/EI when intentionally changed;
+- ND/filter state when physically or virtually variable;
+- white balance/tint when intentionally changed;
+- camera-response mode where a route supports such changes.
+
+A zoom is not merely a change in crop. A focus pull is not merely a blur transition. An iris ramp is not merely a brightness keyframe. Where physical fidelity is claimed, the renderer must honour the corresponding optical/exposure relationship.
+
+Nexkosmo should preserve temporal continuity of exposure and colour through camera motion, subject motion, focus pulls, zooms and lighting changes unless the Director intentionally changes that continuity.
 
 ## 10. Lighting as geometry and energy, not a style word
 
@@ -219,6 +317,44 @@ Relevant properties may include:
 - temporal lighting changes.
 
 Human-facing intent may still use terms like `soft`, `warm`, `isolated`, `ominous` or `natural`, but Brain should translate those into the strongest physically coherent setup available for the chosen route.
+
+### 10.1 Calibrated light measurement
+
+Where the route supports calibrated lighting, Nexkosmo should preserve the measurement type and unit rather than storing an unexplained arbitrary intensity value.
+
+Possible measurements may include, where applicable:
+
+- lux / illuminance;
+- lumens / luminous flux;
+- candela / luminous intensity;
+- nits / cd/m2 for emissive luminance;
+- exposure values or meter readings;
+- renderer-native physical power/radiometric units;
+- spectral power data where available and useful.
+
+Different renderer engines use different conventions. The Renderer Adapter must declare how canonical lighting measurements map into renderer-specific controls and whether that mapping is physically calibrated, constrained or approximate.
+
+### 10.2 Exposure is a coupled physical relationship
+
+Nexkosmo should not treat exposure as a standalone brightness slider when physical capture fidelity is required.
+
+Conceptually:
+
+```text
+scene illumination / emitted radiance
++ material response
++ lens transmission / T-stop
++ optical filtration
++ shutter / exposure time
++ ISO / exposure index
++ sensor / camera response
++ white balance / colour interpretation
+-> recorded exposure and colour response
+```
+
+This is a conceptual relationship, not a claim that one universal equation fully reproduces every real camera.
+
+The important architectural rule is that changing one term may change the resulting image and must not be silently compensated by another term unless the Director or an authorised automatic-exposure rule intends that compensation.
 
 ## 11. Materials and light transport
 
@@ -340,7 +476,7 @@ Nexkosmo may know:
 - measured or licensed camera/sensor behaviour;
 - creative approximation of a camera look.
 
-An exact filmback and field of view do not prove exact sensor colour science, dynamic range, noise, highlight roll-off or shutter behaviour.
+An exact filmback and field of view do not prove exact sensor colour science, dynamic range, noise, highlight roll-off, spectral sensitivity, white-balance behaviour or shutter/readout behaviour.
 
 The UI/evidence system must not overclaim fidelity.
 
@@ -389,19 +525,30 @@ Renderer capability profiles should independently declare support for properties
 - field of view;
 - aperture;
 - focus distance;
+- focus trajectory / rack-focus control;
 - optical depth of field;
+- zoom trajectory / time-varying focal length;
+- iris/aperture trajectory;
 - shutter/motion blur;
+- rolling-shutter/readout behaviour;
+- white balance / tint controls;
+- sensor/camera-response modelling;
+- calibrated exposure / ISO-EI behaviour;
+- optical filtration stack;
+- measured filter profiles where available;
 - lens distortion;
 - vignetting;
 - chromatic aberration;
-- focus breathing;
+- focus breathing, including during focus pulls;
 - flare/ghosting;
 - anamorphic squeeze/behaviour;
 - measured lens profiles;
+- calibrated/typed light units;
 - physical light transport;
+- temporal exposure/colour continuity;
 - spectral/colour pipeline support.
 
-A single `supportsLens=true` flag is insufficient.
+A single `supportsLens=true`, `supportsCamera=true` or `supportsLighting=true` flag is insufficient.
 
 ## 18. Route selection
 
@@ -442,8 +589,12 @@ filmback: defined
 lens: 50mm spherical
 aperture: T2.8
 focus: Sarah near eye
+focus trajectory: static unless a rack focus is intended
 shutter: defined for frame rate/motion intent
-window key: camera-left, defined size/distance/intensity
+ISO/EI: defined where the camera model uses it
+white balance/tint: defined
+filter stack: defined or none
+window key: camera-left, defined size/distance/intensity/unit where supported
 negative fill: camera-right
 practical lamp: background-right
 exposure intent: protect window highlights while keeping Sarah lower
@@ -486,10 +637,13 @@ A normal Director may work with meaningful choices such as:
 - wider / closer;
 - longer / more isolated;
 - more / less background focus;
+- rack focus from A to B;
+- zoom in / zoom out;
+- brighter / darker exposure intent;
 - softer / harder light;
-- warmer / cooler;
+- warmer / cooler camera interpretation;
 - handheld / locked / moving;
-- choose camera/lens preset.
+- choose camera/lens/filter preset.
 
 Advanced users may expose:
 
@@ -497,11 +651,17 @@ Advanced users may expose:
 - exact focal length;
 - exact camera distance/transform;
 - aperture/T-stop;
-- focus distance;
+- focus distance and focus trajectory;
+- zoom/focal-length trajectory;
+- iris/aperture trajectory;
 - shutter;
-- measured lens profile;
+- ISO/EI;
+- white balance/tint;
+- optical filter stack;
+- measured lens/filter profile;
 - distortion/breathing/vignetting characteristics;
-- lighting measurements;
+- calibrated lighting measurements;
+- sensor/camera-response profile;
 - colour pipeline.
 
 Both interfaces edit the same canonical cinematography state.
@@ -514,9 +674,17 @@ A physically significant preview/result may be validated at separate levels such
 - camera/filmback valid;
 - focal-length/FOV valid;
 - optical-depth-of-field valid;
+- focus-trajectory valid;
+- zoom-trajectory valid;
+- iris/exposure-trajectory valid;
+- optical-filtration valid;
+- white-balance/camera-interpretation valid;
+- calibrated-lighting valid;
 - lighting-geometry valid;
 - material/light-transport valid;
 - motion/shutter valid;
+- rolling-shutter/readout valid;
+- temporal exposure/colour-continuity valid;
 - lens-character measured/valid;
 - camera/sensor-look measured/valid;
 - creative-approximation only.
@@ -532,6 +700,14 @@ Validation labels are evidence, not a substitute for Director judgement.
 > Nexkosmo knows lens behaviour, not just lens names.
 
 > A lens profile may be physical, measured or creatively approximated; Nexkosmo must not confuse those evidence levels.
+
+> White balance, tint, filtration, focus, zoom, iris, shutter, lighting and sensor response are part of the image-forming system when they materially affect the intended Shot.
+
+> Exposure is a coupled relationship between the scene, lens/filter transmission, shutter, aperture/T-stop, ISO/EI, sensor/camera response and colour interpretation; it is not merely a brightness label.
+
+> Time-varying focus, zoom, iris and exposure state must remain physically/temporally coherent where the selected route claims that fidelity.
+
+> Physical filtration and post-production look effects are distinct evidence classes unless validated as equivalent for the intended purpose.
 
 > Depth of field, motion blur, lighting, reflections and material response should arise from their physical causes whenever the selected renderer supports them.
 
