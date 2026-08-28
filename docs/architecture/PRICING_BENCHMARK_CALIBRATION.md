@@ -95,7 +95,71 @@ Representative classes should include, where applicable:
 - distributed node execution;
 - third-party provider/API execution.
 
-## 5. Quality-adjusted cost
+## 5. Film-scale workload guardrail
+
+Nexkosmo must not calibrate pricing only from isolated assets or single-Shot demonstrations. Commercial readiness must also be tested against whole-film workload scale.
+
+For planning and stress testing, Nexkosmo adopts the following **provisional worst-case reference**, not a permanent rendering rule:
+
+> **Approximately 15 logical render/generation instances per Scene for a new-user, empty-library, everything-from-scratch workflow.**
+
+A logical render/generation instance means a genuinely independent generation, render, simulation, composite/master or other material compute execution. It does **not** mean one classic renderer invocation per image layer, and it must not encourage unnecessary fragmentation of work that can be produced efficiently in one coordinated execution.
+
+Using that provisional 15-per-Scene stress-test assumption:
+
+| Planning example | Scene count | At 15 logical instances per Scene |
+| --- | ---: | ---: |
+| 90-minute film | 40-70 | 600-1,050 |
+| 120-minute film | 50-90 | 750-1,350 |
+| Fast action/thriller | 100+ | 1,500+ |
+| Slow drama | 30-50 | 450-750 |
+| Short film | 5-20 | 75-300 |
+
+Reference feature-film examples:
+
+```text
+60 Scenes x 15 = 900 logical render/generation instances
+90 Scenes x 15 = 1,350 logical render/generation instances
+100 Scenes x 15 = 1,500 logical render/generation instances
+```
+
+These figures are a commercial stress-test reminder. They are not a requirement that every Scene perform 15 jobs and are not permission to generate work that reuse, caching, richer renderer outputs or dependency-aware execution could avoid.
+
+### 5.1 Reuse-efficiency scenarios
+
+The pricing and orchestration architecture should actively drive the effective average downward through asset reuse, cached results, combined outputs/passes, dependency-aware invalidation and partial rerendering.
+
+For a 60-Scene feature-film planning example:
+
+```text
+15 effective jobs per Scene -> 900 jobs
+10 effective jobs per Scene -> 600 jobs
+ 7 effective jobs per Scene -> 420 jobs
+```
+
+The difference is economically material. Costing must therefore measure both first-time creation and later reuse rather than assuming every Scene starts from nothing.
+
+### 5.2 Commercial readiness STOP-GATE
+
+Before Nexkosmo freezes production pricing, the costing model must be capable of estimating and reconciling the cost and elapsed time of film-scale workloads in approximately the **600-1,500+ logical-job range**, with uncertainty bands appropriate to workload complexity.
+
+At minimum, the comparison must cover where technically applicable:
+
+- RTX 3090-class local/owned execution;
+- Nexkosmo-owned compute;
+- distributed contributor compute;
+- third-party/cloud/API execution;
+- hybrid routing across those options.
+
+The comparison must account for actual effective successful-output cost, including retries, failures, storage/transfer, licences, orchestration, cache/reuse behaviour and quality/rework.
+
+If Nexkosmo cannot reliably explain what a 60-, 90- or 100-Scene film could cost under the supported routes, including the effect of reuse, then the commercial pricing schedule is **not ready to be frozen**.
+
+Permanent reminder:
+
+> **A small per-job costing error becomes a large film-scale business error when multiplied across hundreds or more than a thousand executions. Costing accuracy is therefore a release-level commercial requirement, not a cosmetic pricing exercise.**
+
+## 6. Quality-adjusted cost
 
 The cheapest route is not automatically the best economic route if it fails frequently or requires repeated regeneration.
 
@@ -112,7 +176,7 @@ effective cost
 
 A route that costs less per attempt but fails identity/continuity repeatedly may be more expensive overall than a higher-cost reliable route.
 
-## 6. Cache and reuse economics
+## 7. Cache and reuse economics
 
 Benchmarks must distinguish first-time creation from reuse.
 
@@ -127,7 +191,7 @@ Examples:
 
 Pricing must not be calibrated as though every Shot recreates every reusable asset.
 
-## 7. Local and distributed compute
+## 8. Local and distributed compute
 
 Benchmarking must keep execution routes economically distinct.
 
@@ -159,7 +223,7 @@ Measure:
 - payment overhead;
 - sustainable Nexkosmo margin.
 
-## 8. Calibration process
+## 9. Calibration process
 
 Commercial calibration should follow:
 
@@ -168,6 +232,7 @@ Measure representative workloads
 -> normalize cost evidence
 -> identify route-specific cost distributions
 -> include failure/retry/reuse behaviour
+-> stress-test whole-film workload scale
 -> select sustainable margin policy
 -> test user-facing credit mapping
 -> validate price clarity and competitiveness
@@ -176,7 +241,7 @@ Measure representative workloads
 
 Numerical pricing should remain changeable independently of canonical creative architecture.
 
-## 9. BUILD relationship
+## 10. BUILD relationship
 
 BUILD may show estimated credits and money value before final commercial calibration is frozen, but prototype/internal figures must be clearly treated as provisional.
 
@@ -184,7 +249,7 @@ BUILD architecture must not hard-code permanent commercial constants into Scene/
 
 Pricing configuration should remain a replaceable/versioned commercial policy consumed by the quote engine.
 
-## 10. Versioned price policy
+## 11. Versioned price policy
 
 When pricing is eventually launched, each quote should reference the price-policy version used to calculate it.
 
@@ -198,17 +263,25 @@ Historical render evidence should remain traceable to:
 
 Later pricing-policy changes must not rewrite historical charges.
 
-## 11. No invented certainty
+## 12. No invented certainty
 
 Until benchmarking is sufficient, Nexkosmo documentation and internal planning must not present speculative numerical margins, credit conversions or per-Shot prices as proven economics.
 
 Scenario modelling is allowed, but scenario assumptions must remain distinguishable from measured production evidence.
 
-## 12. Permanent rules
+The 15-per-Scene film-scale reference in this contract is explicitly a **stress-test scenario**, not measured production truth and not a frozen commercial constant.
+
+## 13. Permanent rules
 
 > The pricing architecture is ready before the final price table is ready.
 
 > Measure real workloads before freezing commercial numbers.
+
+> Test the costing model at whole-film scale, not only per asset or per Shot.
+
+> Treat approximately 15 logical jobs per Scene as a provisional empty-vault stress-test baseline until measured evidence replaces it.
+
+> A pricing schedule is not ready to freeze if Nexkosmo cannot model the cost and elapsed time of approximately 600-1,500+ logical film-production jobs across supported compute routes.
 
 > Calibrate against successful-output cost, not theoretical compute cost alone.
 
