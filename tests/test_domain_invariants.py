@@ -23,7 +23,11 @@ OTHER = UUID("10000000-0000-0000-0000-000000000002")
 NOW = datetime(2026, 8, 30, tzinfo=UTC)
 
 
-def principal(*, kind: AgentKind = AgentKind.HUMAN, actions: frozenset[str] = frozenset()) -> Principal:
+def principal(
+    *,
+    kind: AgentKind = AgentKind.HUMAN,
+    actions: frozenset[str] = frozenset(),
+) -> Principal:
     return Principal(
         principal_id=U,
         workspace_id=U,
