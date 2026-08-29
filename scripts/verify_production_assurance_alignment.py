@@ -73,6 +73,7 @@ def main() -> int:
             "execution_100_percent_distinct_from_human_approval_and_canonisation: true",
             "nexkosmo_caused_failure_not_automatically_customer_billable: true",
             "actual_production_cost_separate_from_customer_billable_cost: true",
+            "nexkosmo_assurance_cost_separate: true",
             "fault_attribution_before_recovery_billing: true",
             "repeated_failure_requires_economic_containment: true",
             "materially_more_expensive_restart_requires_reassessment: true",
