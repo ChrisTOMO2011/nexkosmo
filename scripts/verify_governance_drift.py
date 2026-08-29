@@ -118,6 +118,7 @@ def run_negative_mutation_tests(manifest: dict) -> list[str]:
         "human_consequential_authority",
         "agent_evidence_truthfulness",
         "operational_truth_agent_rules",
+        "agent_initiative_and_dissent",
         "evidence_lineage_and_outcome_integrity",
         "incident_replay_integrity",
         "event_replay_requirements",
@@ -150,6 +151,7 @@ def run_negative_mutation_tests(manifest: dict) -> list[str]:
 
     for invariant_id in (
         "operational_truth_agent_rules",
+        "agent_initiative_and_dissent",
         "evidence_lineage_and_outcome_integrity",
         "incident_replay_integrity",
     ):
@@ -204,6 +206,7 @@ def main() -> int:
     print("- evidence-lineage independence preserved")
     print("- outcome-integrity and anti-gaming rules preserved")
     print("- incident evidence and safe replay rules preserved")
+    print("- agent initiative, dissent, and task-resolution rules preserved")
     print("- format-general production journey preserved")
     print("- authenticated actor binding preserved")
     print("- policy self-escalation protections preserved")
