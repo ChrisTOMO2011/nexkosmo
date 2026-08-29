@@ -6,7 +6,7 @@ This document governs the controlled migration of Nexkosmo into its intended lon
 
 ## Objective
 
-Move Nexkosmo without losing architectural identity, provenance, working implementation, rollback capability, security boundaries, milestone evidence, or useful unimplemented product concepts.
+Move Nexkosmo without losing architectural identity, provenance, working implementation, rollback capability, security boundaries, milestone evidence, useful unimplemented product concepts, or production-format diversity.
 
 The migration is a controlled engineering operation, not an opportunity for an unapproved redesign.
 
@@ -32,6 +32,7 @@ Codex MUST NOT:
 - alter canonical identity-bearing assets without explicit approval;
 - expose or commit secrets;
 - treat implementation convenience as authority over architecture;
+- collapse format-general project/Production/Studio/render/compute contracts into movie-only Scene/Shot semantics merely because the current prototype or first vertical slice is film-oriented;
 - delete the source before destination validation; or
 - deploy to Production without explicit human approval.
 
@@ -61,12 +62,15 @@ Inventory at minimum:
 - model/runtime integrations;
 - environment-variable names and secret references, never secret values;
 - open milestone work and STOP-GATE state;
-- external dependencies or resources required to reproduce the system; and
-- legacy, experimental, alternate, or unimplemented product interfaces and their capabilities.
+- external dependencies or resources required to reproduce the system;
+- legacy, experimental, alternate, or unimplemented product interfaces and their capabilities; and
+- production-format-specific structures, terminology, imports, editing units, execution units, dependencies, validation rules, and specialist tools.
 
 The creative-interface inventory MUST explicitly include all known variants and specialist workspaces, including Set, Studio, CGI, VFX, Render, Pre-Production, and any other historical or experimental production pages discovered during inventory.
 
 These interfaces are not to be treated as obsolete merely because they are older, unimplemented, or not aligned with the latest shell. Their useful capabilities, controls, workflows, and interaction ideas must be catalogued before any consolidation decision.
+
+The inventory must distinguish shared production responsibilities from format-specific profiles. Film/animation/commercial/music-video structures such as Sequence -> Scene -> Shot are valid profiles, but games, interactive experiences, 3D/VFX work, asset production, simulations, and future formats may use levels, encounters, cinematics, clips, assets, simulations, passes, or other approved production units.
 
 Unknown or unexplained material must be classified before destructive action.
 
@@ -76,9 +80,11 @@ Define the destination before moving content.
 
 The destination should preserve clear responsibility boundaries for governance, architecture/specifications, application code, infrastructure, tests, assets, migrations, operations, documentation, and design concepts.
 
+Shared project/Production/Studio/render/compute contracts must remain format-general. Format profiles may specialize those contracts but must not become competing sources of truth or force unrelated formats into movie vocabulary.
+
 Legacy or alternative interface concepts should be preserved in a clearly marked design/concepts or archive area until they are evaluated and either promoted, merged, superseded, or deliberately retired by Director approval.
 
-Do not reorganise solely for aesthetics. Every structural change should improve ownership, security, build isolation, deployment, discoverability, or maintainability.
+Do not reorganise solely for aesthetics. Every structural change should improve ownership, security, build isolation, deployment, discoverability, maintainability, format support, or production reliability.
 
 ### Gate 3 — Authoritative Knowledge Migration
 
@@ -91,6 +97,8 @@ This includes, as applicable:
 - architecture specifications;
 - Guardian and stewardship contracts;
 - canonical asset registries;
+- Product Journey / Production-Studio decisions;
+- Render Orchestration and Production Assurance contracts;
 - Market & Opportunity Intelligence;
 - Growth Intelligence;
 - security and rights/consent contracts;
@@ -111,6 +119,17 @@ The preferred convergence flow is:
 
 For Set, Studio, CGI, VFX, Render, Pre-Production, and similar surfaces, determine whether each capability should remain a dedicated workspace, become a specialist mode inside another workspace, move to Finish/Delivery, or be shared across multiple stages. Do not discard useful functionality simply to simplify navigation.
 
+For production-format migration, explicitly verify that:
+
+- shared six-stage responsibilities remain format-general;
+- screenplay import remains a film-oriented shortcut rather than a universal project requirement;
+- Production remains the project-wide control room;
+- Studio remains contextual precision editing for the selected format-appropriate production unit;
+- film Scene/Shot structures remain supported without becoming universal schemas;
+- non-film structures can be represented without semantic loss;
+- project-wide Render / Build / Produce / Bake / Simulate actions remain orchestration commands rather than indivisible jobs; and
+- large productions can execute in the smallest practical independently validatable and recoverable units appropriate to their format.
+
 ### Gate 5 — Secrets and Security
 
 - no credentials, tokens, private keys, passwords, production connection strings, or sensitive environment values may be committed;
@@ -118,7 +137,7 @@ For Set, Studio, CGI, VFX, Render, Pre-Production, and similar surfaces, determi
 - review history and configuration for accidental exposure;
 - rotate credentials if exposure is discovered or reasonably suspected;
 - apply least privilege to CI, Development, Staging, and Production;
-- keep Production approval human-controlled.
+- keep Production approval and material-spend authority human-controlled.
 
 ### Gate 6 — Destination Validation
 
@@ -131,6 +150,7 @@ Validation should include the checks applicable to the current milestone, includ
 - database startup and migration;
 - automated tests;
 - integration tests;
+- alignment and Production Assurance alignment verification;
 - security and permission checks;
 - required PostgreSQL/RLS/audit/outbox/inbox/idempotency/consent/rights/projection tests;
 - backup/restore proof where required;
@@ -138,6 +158,10 @@ Validation should include the checks applicable to the current milestone, includ
 - the current milestone's formal acceptance contract.
 
 Creative-workspace validation should also confirm that no approved or still-under-review capability from legacy Set, Studio, CGI, VFX, Render, Pre-Production, or other inventoried interfaces was accidentally lost during consolidation.
+
+Format validation must confirm that a film-oriented implementation does not hard-code movie-only semantics into shared project, Production, Studio, execution, billing, worker, or assurance contracts.
+
+Production Assurance validation must confirm that migration has not collapsed Actual Production Cost, Customer-Billable Cost, Nexkosmo Assurance Cost, fault attribution, dependency scope, retry/checkpoint evidence, or material-spend authority into ambiguous fields or client-controlled state.
 
 Skipped blocking tests remain blocking.
 
@@ -153,7 +177,7 @@ After cutover:
 - verify Development/Staging/Production separation;
 - verify CI/CD targets the intended environments;
 - preserve the source as a rollback/reference point until the Director explicitly authorises archive or removal;
-- document the final migration commit and validation evidence.
+- document the final migration commit, manifest identity, and validation evidence.
 
 ## Environment Policy
 
@@ -163,7 +187,7 @@ Nexkosmo uses separate Development, Staging, and Production responsibilities.
 - **Staging:** release candidates are integrated and verified against production-like expectations.
 - **Production:** protected environment; deployment requires explicit human review and approval until a future governance decision deliberately changes that policy.
 
-Secrets, data, permissions, and infrastructure must remain appropriately separated between environments.
+Secrets, data, permissions, financial state, and infrastructure must remain appropriately separated between environments.
 
 ## Change Discipline
 
@@ -187,9 +211,11 @@ Migration is complete only when:
 5. secrets and environment boundaries are secure;
 6. provenance and rollback capability are retained;
 7. Codex/AI agent authority is bounded by repository instructions;
-8. inventoried legacy and experimental creative-workspace capabilities have been deliberately preserved, merged, superseded, or retired rather than accidentally lost; and
-9. the Director explicitly accepts the cutover.
+8. inventoried legacy and experimental creative-workspace capabilities have been deliberately preserved, merged, superseded, or retired rather than accidentally lost;
+9. format-general shared contracts and format-specific production profiles are both preserved without forcing all projects into movie-only semantics;
+10. Production Assurance financial attribution and execution-containment rules remain traceable and enforceable; and
+11. the Director explicitly accepts the cutover.
 
 ## Permanent Rule
 
-> Align authority first, inventory second, design the destination third, migrate fourth, prove it works fifth, and only then cut over. Never sacrifice identity, evidence, useful capability, security, or rollback capability for migration speed.
+> Align authority first, inventory second, design the destination third, migrate fourth, prove it works fifth, and only then cut over. Never sacrifice identity, evidence, useful capability, format diversity, security, economic attribution, or rollback capability for migration speed.
