@@ -1,8 +1,8 @@
 schema_version: 1
-manifest_version: 9
+manifest_version: 10
 status: APPROVED
 authority: Director
-purpose: "Machine-readable Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, Secure Development, Growth & Marketing, and Social Automation contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
+purpose: "Machine-readable Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, Secure Development, Growth & Marketing, Social Automation, format-general Production/Studio, and Production Assurance contract for ChatGPT and Codex, enforced by repository and CI evidence. It does not create, replace, or duplicate Nexkosmo Brain intelligence."
 
 scope:
   primary_subjects:
@@ -12,7 +12,7 @@ scope:
     - repository
     - CI
     - tests
-  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume validated engineering, security, product, market, and social-platform evidence, but these layers must not become duplicate Brain truth, reasoning, confidence, continuity, Guardian, recovery, security-certification, or marketing-intelligence engines."
+  brain_relationship: "The existing Nexkosmo Brain remains a separate intelligence architecture. Future Brain integrations may consume validated engineering, security, product, production, market, and social-platform evidence, but these layers must not become duplicate Brain truth, reasoning, confidence, continuity, Guardian, recovery, security-certification, production-assurance, or marketing-intelligence engines."
   no_duplicate_brain_truth_engine: true
   agent_error_correction_separate_from_brain: true
   development_time_verification_separate_from_brain: true
@@ -20,6 +20,8 @@ scope:
   secure_development_separate_from_brain: true
   growth_marketing_framework_separate_from_brain: true
   social_automation_separate_from_brain: true
+  production_assurance_uses_existing_brain_and_render_architecture: true
+  format_general_production_required: true
 
 sources_of_truth:
   current_state: docs/CURRENT_STATE.md
@@ -39,6 +41,8 @@ sources_of_truth:
   social_automation_matrix: governance/social-automation-matrix.yaml
   migration_alignment: docs/MIGRATION_ALIGNMENT.md
   architecture: docs/ARCHITECTURE.md
+  render_orchestration: docs/architecture/ARCHITECTURE_AMENDMENT_001_CONTINUITY_AND_RENDER_ORCHESTRATION.md
+  native_asset_reconstruction: docs/architecture/ARCHITECTURE_AMENDMENT_002_ASSET_RESOLUTION_AND_ENHANCEMENT.md
   brand_guidelines: docs/BRAND_GUIDELINES.md
   engineering_status: docs/ENGINEERING_STATUS.md
   repository_protection: docs/REPOSITORY_PROTECTION.md
@@ -49,19 +53,61 @@ required_decisions:
   - docs/decisions/DEC-0002-production-studio-boundary.md
   - docs/decisions/DEC-0003-project-state-and-fixtures.md
   - docs/decisions/DEC-0004-entry-routing-and-flow-layers.md
+  - docs/decisions/DEC-0005-production-assurance-and-render-cost-attribution.md
 
 canonical_flows:
   normal_entry: "Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> IDEA"
-  screenplay_import: "Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> Import Script -> SHAPE"
+  screenplay_import_profile: "Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> Import Script -> SHAPE"
   creative_workflow: "IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION"
-  production_studio_loop: "PRODUCTION -> select scene/shot -> Open in Studio -> edit -> return to PRODUCTION -> Brain revalidate -> approve or repair"
+  production_studio_loop: "PRODUCTION -> select production unit -> Open in Studio -> edit -> return to PRODUCTION -> Brain revalidate -> approve or repair"
+  film_production_studio_loop: "PRODUCTION -> select scene/shot -> Open in Studio -> edit -> return to PRODUCTION -> Brain revalidate -> approve or repair"
+
+production_format_contract:
+  shared_workflow_is_format_general: true
+  movie_only_semantics_prohibited_as_universal_contract: true
+  film_animation_commercial_music_video_common_units:
+    - sequence
+    - scene
+    - shot
+  other_supported_unit_examples:
+    - level
+    - encounter
+    - cinematic
+    - clip
+    - asset
+    - simulation
+    - pass
+  project_wide_execution_command_is_orchestration_not_indivisible_job: true
+  execute_smallest_practical_validatable_recoverable_units: true
+  coverage_before_completion_supported: true
+  preserve_format_specific_structure_and_terminology: true
+
+production_assurance:
+  decision: docs/decisions/DEC-0005-production-assurance-and-render-cost-attribution.md
+  uses_existing_render_manifest_contract: true
+  no_duplicate_assurance_brain_or_truth_store: true
+  nexkosmo_caused_failure_not_automatically_customer_billable: true
+  director_revision_is_new_authorised_work_when_prior_delivery_conformed: true
+  actual_production_cost_separate_from_customer_billable_cost: true
+  nexkosmo_assurance_cost_separate: true
+  recovered_reused_value_requires_defensible_evidence: true
+  fault_attribution_before_recovery_billing: true
+  unknown_attribution_not_permission_to_silently_charge_customer: true
+  no_arbitrary_render_or_execution_count_limit_per_production_unit: true
+  repeated_failure_requires_economic_containment: true
+  intelligent_validation_checkpoints_supported: true
+  mandatory_validation_not_suppressed_to_make_cost_look_cheaper: true
+  checkpoint_resume_compatibility_required: true
+  materially_more_expensive_restart_requires_reassessment: true
+  brain_cannot_raise_own_budget_compute_or_material_spend_authority: true
+  public_100_percent_guarantee: PLANNED_UNTIL_RUNTIME_BILLING_TERMS_AND_LEGAL_EVIDENCE
 
 roles:
   director: "Final authority for product direction, canon, brand, launch, material spend, consequential approval, and social publishing policy."
-  chatgpt: "Alignment steward and independent engineering/security/growth oversight; detects drift, challenges contradictions, unproven claims, vanity metrics, weak experiments, unsafe automation, and evidence gaps, but cannot supersede Director-approved canon."
-  codex: "Implementation and repair agent; must build in small verified slices against current approved repository direction, actively detect code/security errors, threat-model material trust boundaries, and implement approved growth/social automation features without inventing metrics, claims, rights, authority, or approval."
-  ci: "Deterministic evidence gate; independently verifies enforceable alignment, quality, latent-defect, security, growth-framework, and social-automation constraints but does not define product or marketing strategy."
-  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation, repair, security-certification, or autonomous marketing/social publishing agent by these assurance layers."
+  chatgpt: "Alignment steward and independent engineering/security/growth oversight; detects drift, challenges contradictions, unproven claims, vanity metrics, weak experiments, unsafe automation, production-assurance gaps, and evidence gaps, but cannot supersede Director-approved canon."
+  codex: "Implementation and repair agent; must build in small verified slices against current approved repository direction, actively detect code/security errors, threat-model material trust boundaries, preserve format-general contracts, and implement approved growth/social/production features without inventing metrics, claims, rights, authority, approval, or movie-only universal semantics."
+  ci: "Deterministic evidence gate; independently verifies enforceable alignment, quality, latent-defect, security, growth-framework, social-automation, format-general production, and Production Assurance constraints but does not define product or marketing strategy."
+  brain: "Separate Nexkosmo intelligence architecture. It is not replaced or governed as an implementation, repair, security-certification, production-assurance, or autonomous marketing/social publishing agent by these assurance layers."
 
 fail_closed:
   critical_unknowns_block: true
@@ -74,6 +120,7 @@ fail_closed:
     - architecture
     - deployment_identity
     - data_integrity
+    - financial_attribution
     - material_public_claims
     - social_publishing_authority
     - creator_marketing_rights
@@ -87,6 +134,7 @@ required_verifiers:
   - scripts/verify_authority_model.py
   - scripts/verify_security_baseline.py
   - scripts/verify_repo_protection.py
+  - scripts/verify_production_assurance_alignment.py
 
 agent_handshake:
   required_reads:
@@ -108,6 +156,9 @@ agent_handshake:
     - docs/SOCIAL_AUTOMATION_PROTOCOL.md
     - docs/MIGRATION_ALIGNMENT.md
     - docs/ARCHITECTURE.md
+    - docs/architecture/ARCHITECTURE_AMENDMENT_001_CONTINUITY_AND_RENDER_ORCHESTRATION.md
+    - docs/architecture/ARCHITECTURE_AMENDMENT_002_ASSET_RESOLUTION_AND_ENHANCEMENT.md
+    - docs/decisions/DEC-0005-production-assurance-and-render-cost-attribution.md
     - docs/BRAND_GUIDELINES.md
     - docs/ENGINEERING_STATUS.md
   require_manifest_version_report: true
@@ -120,6 +171,7 @@ agent_handshake:
   require_threat_model_for_new_material_trust_boundary: true
   require_growth_framework_for_material_marketing_or_growth_work: true
   require_social_automation_protocol_for_social_publishing_or_provider_integration_work: true
+  require_production_assurance_contract_for_billing_render_compute_or_guarantee_work: true
 
 build_attestation_contract:
   status: PLANNED
@@ -207,7 +259,7 @@ secure_development:
   human_authority_security_boundary: IMPLEMENTED_AND_TESTED
   database_isolation: FOUNDATION_PRESENT_PARTIAL_PROOF
   container_non_root: IMPLEMENTED
-  api_abuse_campaign: PARTIAL_EXPANDS_WITH_SURFACE
+  api_abuse_campaign: PARTIAL_EXPANDS_WITH_API_SURFACE
   server_1_server_2_security: CONTRACT_DEFINED_RUNTIME_PENDING
   file_upload_security: FEATURE_PENDING
   payment_security: FEATURE_PENDING
