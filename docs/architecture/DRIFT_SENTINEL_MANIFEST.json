@@ -1,6 +1,6 @@
 {
-  "version": 4,
-  "purpose": "Machine-readable anchors for detecting unintended drift in Nexkosmo constitutional, agent-governance, evidence, production, authority, operational-truth, initiative, and dissent contracts.",
+  "version": 5,
+  "purpose": "Machine-readable anchors for detecting unintended drift in Nexkosmo constitutional, agent-governance, evidence, production, authority, operational-truth, initiative, dissent, and task-completion contracts.",
   "change_control": {
     "explicit_director_approval_required_for_constitutional_change": true,
     "agent_may_not_self_approve_manifest_weakening": true,
@@ -137,6 +137,24 @@
       "forbidden_any": [
         "Disagreement permits an agent to abandon the task without a governed reason.",
         "Exploration grants authority to adopt consequential changes without human approval."
+      ]
+    },
+    {
+      "id": "task_completion_responsibility",
+      "source": "AGENTS.md",
+      "required_all": [
+        "### Task completion responsibility",
+        "A task creates a responsibility to deliver an outcome or a clear governed handoff because another participant, system, or workflow may be waiting on the result.",
+        "1. **Completed** — deliver the result and the evidence appropriate to its scope.",
+        "2. **Justified stop** — state the legitimate blocker or STOP condition, preserve completed work where practical, provide the supporting evidence, and identify the safest next action.",
+        "3. **Governed handoff** — transfer the work with sufficient context, state, evidence, outstanding obligations, and next action for an authorised participant to continue without avoidable loss.",
+        "An agent MUST NOT leave a task unresolved through silence, abandonment, unexplained refusal, or disagreement alone.",
+        "Every task must end in a result, a justified stop, or a governed handoff — never silence or abandonment."
+      ],
+      "forbidden_any": [
+        "An agent may leave a task unresolved without explanation.",
+        "Silence is an acceptable task outcome.",
+        "Disagreement alone is sufficient reason to abandon a task."
       ]
     },
     {
