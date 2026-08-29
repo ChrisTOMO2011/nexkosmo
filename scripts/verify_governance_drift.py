@@ -117,6 +117,11 @@ def run_negative_mutation_tests(manifest: dict) -> list[str]:
     for invariant_id in (
         "human_consequential_authority",
         "agent_evidence_truthfulness",
+        "operational_truth_agent_rules",
+        "evidence_lineage_and_outcome_integrity",
+        "incident_replay_integrity",
+        "event_replay_requirements",
+        "security_incident_independence",
         "format_general_product_journey",
         "authenticated_actor_binding",
         "uncertainty_survives_resolution",
@@ -142,6 +147,23 @@ def run_negative_mutation_tests(manifest: dict) -> list[str]:
     mutated_text = original_text + "\n" + forbidden + "\n"
     if not validate_manifest(manifest, source_override={source: mutated_text}):
         failures.append("Mutation test failed: explicit authority expansion was not detected")
+
+    for invariant_id in (
+        "operational_truth_agent_rules",
+        "evidence_lineage_and_outcome_integrity",
+        "incident_replay_integrity",
+    ):
+        invariant = next(
+            item for item in manifest["invariants"] if item["id"] == invariant_id
+        )
+        source = invariant["source"]
+        original_text = (ROOT / source).read_text(encoding="utf-8")
+        forbidden = invariant["forbidden_any"][0]
+        mutated_text = original_text + "\n" + forbidden + "\n"
+        if not validate_manifest(manifest, source_override={source: mutated_text}):
+            failures.append(
+                f"Mutation test failed: forbidden {invariant_id} drift was not detected"
+            )
 
     if TRUTH.exists():
         original_truth = TRUTH.read_text(encoding="utf-8")
@@ -179,6 +201,9 @@ def main() -> int:
     print("- constitutional truth-over-agreement principle preserved")
     print("- constitutional and coexistence anchors preserved")
     print("- evidence taxonomy and truthful uncertainty preserved")
+    print("- evidence-lineage independence preserved")
+    print("- outcome-integrity and anti-gaming rules preserved")
+    print("- incident evidence and safe replay rules preserved")
     print("- format-general production journey preserved")
     print("- authenticated actor binding preserved")
     print("- policy self-escalation protections preserved")
