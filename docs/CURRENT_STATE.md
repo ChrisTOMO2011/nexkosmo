@@ -75,6 +75,24 @@ A film-oriented profile may present this as:
 
 `PRODUCTION -> select scene/shot -> Open in Studio -> edit -> return to PRODUCTION -> Brain revalidate -> approve or repair`
 
+## User-visible render and execution progress
+
+Every user-visible render or execution process must expose the shared Nexkosmo progress bar while work is active.
+
+This applies across format-appropriate production work, including scenes, shots, clips, assets, characters, environments, props, vehicles, textures/materials, 3D models, VFX, simulations, bakes, builds, cinematics, interactive outputs, and future render/execution types.
+
+- The progress component must use format-appropriate customer language while preserving one shared Nexkosmo interaction model.
+- A numeric percentage may be shown only when supported by known execution state. If reliable percentage evidence is unavailable, use an indeterminate progress state and truthful phase/status text rather than invented precision.
+- Progress must represent known/validated production progress and accepted work, not raw render-attempt count, retry count, provider-reported percentage alone, or elapsed time alone.
+- Internal segmentation, retries, checkpoint recovery, rerouting, and assurance handling remain hidden by default so the creator experiences one coherent production action. An optional details view may expose useful completed/validating/rendering/queued/repairing information without exposing unnecessary orchestration internals.
+- A recoverable retry must not make the customer restart the progress experience manually. The system should preserve accepted progress where dependencies permit and communicate a truthful state such as `Refining`, `Validating`, `Repairing`, or `Finalising`.
+- Progress must not move backward arbitrarily. If accepted work is invalidated by a dependency change or required repair, the UI must explain that progress is being recalculated or repaired rather than silently presenting misleading movement.
+- `100%` render/execution progress means the defined render/execution gate for that operation is complete. Human approval, canonisation, publishing, delivery, or other consequential approval remains a separate explicit state when required.
+- For example, an asset may show `100% rendered — Ready for review` without being labelled `Approved` or canonical until the required human approval occurs.
+- The progress bar is a presentation of authoritative execution state; it is never itself a source of production truth.
+
+The intended customer experience is one action with transparent forward progress, even when Nexkosmo internally performs many bounded jobs, validations, checkpoints, retries, or targeted repairs.
+
 ## Production Assurance and render economics
 
 `docs/decisions/DEC-0005-production-assurance-and-render-cost-attribution.md` defines the approved Production Assurance direction.
@@ -143,7 +161,7 @@ Demo fixtures are allowed only when clearly isolated and labelled as fixtures. F
 - Therefore it must be reconciled with this state before becoming the production UI foundation.
 - Preserve reusable layout/components that remain compatible; do not delete useful prototype work merely because its navigation assumptions are obsolete.
 - Do not infer that a designed screen, mockup, placeholder route, or documented architecture is already implemented end-to-end.
-- Production Assurance, financial attribution, intelligent render checkpoints, format-general granular execution, and bounded assurance recovery are approved design/canon but are not yet verified end-to-end runtime capabilities.
+- Production Assurance, financial attribution, intelligent render checkpoints, format-general granular execution, shared render/execution progress UI, and bounded assurance recovery are approved design/canon but are not yet verified end-to-end runtime capabilities.
 
 ## Current engineering priority
 
@@ -160,6 +178,7 @@ Before major new feature construction:
 7. Prove one end-to-end new-project vertical slice before expanding breadth. The first profile may be film-oriented, but the architecture must preserve format-general production-unit contracts rather than hard-code movie-only semantics.
 8. Prove the alternate screenplay-import entry separately for the film-oriented profile:
    `Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> Import Script -> SHAPE`.
+9. Implement the shared render/execution progress component from authoritative orchestration state and prove it across at least one production render and one asset-generation/reconstruction path without fake percentage precision.
 
 ## Change rule
 
