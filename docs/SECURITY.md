@@ -8,5 +8,9 @@
 - Application and audit database roles are separate.
 - Capability and authority are separate domain concepts.
 - Audit success, denial and failure are designed for an independent commit path.
+- Claimed assertion and decision actors must match the authenticated principal before persistence.
+- Policy issuance is human-authority-only in the domain contract, must bind `issued_by` to the authenticated principal, and must reject self-issued permits that expand the issuer's own authority.
+- Merely storing an agent ID is not sufficient provenance; consequential attribution must be bound to authenticated identity and preserved in audit/evidence records.
+- Missing permission or missing safety evidence fails closed rather than becoming implicit permission.
 
-Full authorization coverage and audit sequencing are not yet proven.
+Full authorization coverage, policy-issuance persistence flow, Guardian enforcement, and audit sequencing are not yet proven end to end.

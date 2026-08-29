@@ -102,6 +102,7 @@ class Policy:
     valid_from: datetime
     valid_to: datetime | None
     constraints: dict[str, Any]
+    issued_by: UUID
 
 
 @dataclass(frozen=True, slots=True)

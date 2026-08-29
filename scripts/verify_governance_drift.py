@@ -14,7 +14,11 @@ def load_manifest() -> dict:
     return json.loads(MANIFEST.read_text(encoding="utf-8"))
 
 
-def validate_manifest(manifest: dict, *, source_override: dict[str, str] | None = None) -> list[str]:
+def validate_manifest(
+    manifest: dict,
+    *,
+    source_override: dict[str, str] | None = None,
+) -> list[str]:
     failures: list[str] = []
     change_control = manifest.get("change_control", {})
     if change_control.get("explicit_director_approval_required_for_constitutional_change") is not True:
@@ -53,7 +57,9 @@ def validate_manifest(manifest: dict, *, source_override: dict[str, str] | None 
 
         for required in invariant.get("required_all", []):
             if required not in text:
-                failures.append(f"{invariant_id}: required anchor missing or changed: {required}")
+                failures.append(
+                    f"{invariant_id}: required anchor missing or changed: {required}"
+                )
         for forbidden in invariant.get("forbidden_any", []):
             if forbidden in text:
                 failures.append(f"{invariant_id}: forbidden drift detected: {forbidden}")
@@ -73,37 +79,39 @@ def validate_ci() -> list[str]:
 def run_negative_mutation_tests(manifest: dict) -> list[str]:
     failures: list[str] = []
 
-    # Mutation 1: weaken machine-readable change control.
     mutated = copy.deepcopy(manifest)
     mutated["change_control"]["agent_may_not_self_approve_manifest_weakening"] = False
     if not validate_manifest(mutated):
-        failures.append("Mutation test failed: weakened agent self-approval rule was not detected")
+        failures.append("Mutation test failed: weakened change control was not detected")
 
-    # Mutation 2: simulate removal of a required constitutional anchor.
-    first = manifest["invariants"][0]
-    source = first["source"]
-    source_path = ROOT / source
-    original_text = source_path.read_text(encoding="utf-8")
-    required = first["required_all"][0]
-    mutated_text = original_text.replace(required, "", 1)
-    if not validate_manifest(manifest, source_override={source: mutated_text}):
-        failures.append("Mutation test failed: removed required constitutional anchor was not detected")
+    for invariant_id in (
+        "human_consequential_authority",
+        "agent_evidence_truthfulness",
+        "format_general_product_journey",
+        "authenticated_actor_binding",
+        "uncertainty_survives_resolution",
+    ):
+        invariant = next(
+            item for item in manifest["invariants"] if item["id"] == invariant_id
+        )
+        source = invariant["source"]
+        original_text = (ROOT / source).read_text(encoding="utf-8")
+        required = invariant["required_all"][0]
+        mutated_text = original_text.replace(required, "", 1)
+        if not validate_manifest(manifest, source_override={source: mutated_text}):
+            failures.append(
+                f"Mutation test failed: removed {invariant_id} anchor was not detected"
+            )
 
-    # Mutation 3: simulate explicit forbidden authority expansion.
-    forbidden = first.get("forbidden_any", [])[0]
+    invariant = next(
+        item for item in manifest["invariants"] if item["id"] == "human_consequential_authority"
+    )
+    source = invariant["source"]
+    original_text = (ROOT / source).read_text(encoding="utf-8")
+    forbidden = invariant["forbidden_any"][0]
     mutated_text = original_text + "\n" + forbidden + "\n"
     if not validate_manifest(manifest, source_override={source: mutated_text}):
-        failures.append("Mutation test failed: forbidden authority expansion was not detected")
-
-    # Mutation 4: simulate agent evidence contract removal.
-    evidence = next(item for item in manifest["invariants"] if item["id"] == "agent_evidence_truthfulness")
-    source = evidence["source"]
-    source_path = ROOT / source
-    original_text = source_path.read_text(encoding="utf-8")
-    required = "Agent statements are not evidence merely because another agent repeats or agrees with them."
-    mutated_text = original_text.replace(required, "", 1)
-    if not validate_manifest(manifest, source_override={source: mutated_text}):
-        failures.append("Mutation test failed: agent independent-evidence rule removal was not detected")
+        failures.append("Mutation test failed: explicit authority expansion was not detected")
 
     return failures
 
@@ -127,9 +135,12 @@ def main() -> int:
         return 1
 
     print("Governance drift verification PASSED")
-    print("- constitutional anchors preserved")
-    print("- agent authority and evidence anchors preserved")
-    print("- forbidden drift absent")
+    print("- constitutional and coexistence anchors preserved")
+    print("- evidence taxonomy and truthful uncertainty preserved")
+    print("- format-general production journey preserved")
+    print("- authenticated actor binding preserved")
+    print("- policy self-escalation protections preserved")
+    print("- implementation-status truthfulness preserved")
     print("- negative mutation tests detected deliberate weakening")
     print("- CI wiring present")
     return 0

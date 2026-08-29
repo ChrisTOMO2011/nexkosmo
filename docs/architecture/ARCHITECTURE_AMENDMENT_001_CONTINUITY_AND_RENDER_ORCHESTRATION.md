@@ -1,7 +1,7 @@
 # Architecture Amendment 001: Continuity and Render Orchestration
 
 **Status:** Adopted  
-**Applies to:** Nexkosmo Studio and all future visual-production systems  
+**Applies to:** Nexkosmo production systems with visual rendering, using format-specific production profiles  
 **Authority:** Nexkosmo Canon  
 
 ## 1. Purpose
@@ -19,7 +19,7 @@ The system must not depend on any renderer to remember a production. The Brain o
 ## 3. Architectural Separation
 
 ```text
-Director / Filmmaker
+Director / Creator
         |
         v
 Nexkosmo Brain
@@ -49,31 +49,49 @@ Continuity Engine                            Render Orchestrator
 
 The Continuity Engine and Render Orchestrator are distinct architectural domains. They may cooperate through stable contracts, but neither may assume the responsibilities of the other.
 
-## 4. Canonical Production Hierarchy
+## 4. Format-General Production Hierarchy
+
+The permanent architecture does **not** require every Nexkosmo project to use Sequence, Scene, and Shot.
+
+The shared journey is:
+
+`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION`
+
+Inside `PRODUCTION`, each creation format supplies an approved production profile whose units fit that medium.
+
+Examples:
 
 ```text
-Project
-  -> Sequence
-      -> Scene
-          -> Shot
-              -> Render Job
-                  -> Render Result
+Film profile:
+Project -> Sequence -> Scene -> Shot -> Execution Task -> Result
+
+Game profile:
+Project -> Level / Encounter / Cinematic / System -> Execution Task -> Result
+
+Music-video profile:
+Project -> Section / Clip / Shot -> Execution Task -> Result
+
+Asset-production profile:
+Project -> Asset / Variant / Pass -> Execution Task -> Result
 ```
 
-A scene may be any appropriate dramatic duration. A three-minute scene is not treated as one generation request. It is represented as a collection of shots, and each shot may be divided internally into technical generation segments only when required.
+`Studio` is a contextual precision editor entered from the relevant production unit and returns work to `PRODUCTION`; it is not a seventh top-level stage.
 
-Internal generation segments are implementation details. They do not replace the filmmaker's scene and shot structure.
+A scene may be any appropriate dramatic duration. A three-minute film scene is not treated as one generation request. It is represented as a collection of shots, and each shot may be divided internally into technical generation segments only when required.
+
+Internal execution segments are implementation details. They do not replace the creator-facing production structure of the selected format.
 
 ## 5. Brain Responsibilities
 
 The Brain remains authoritative for:
 
 - project identity and ownership;
-- story, sequence, scene, and shot structure;
+- format and production-profile identity;
+- format-appropriate structural units and relationships;
 - character identity and state;
 - environment and world state;
 - asset identity and version history;
-- timeline state;
+- timeline or interaction state where applicable;
 - approved creative intent;
 - canonical continuity records;
 - renderer-independent production instructions;
@@ -83,13 +101,11 @@ No renderer may modify canonical truth directly. Renderer observations or propos
 
 ## 6. Continuity Engine
 
-### 6.1 Purpose
+The Continuity Engine maintains persistent production state across production units, revisions, and renderer changes.
 
-The Continuity Engine maintains persistent production state across shots, scenes, sequences, revisions, and renderer changes.
+For film, this includes shots, scenes, and sequences. Other profiles may define different unit boundaries while preserving the same continuity principles.
 
-### 6.2 Responsibilities
-
-The Continuity Engine shall maintain and validate:
+The Continuity Engine shall maintain and validate, where applicable:
 
 - character identity, face, body, hair, and distinguishing features;
 - wardrobe, accessories, damage, dirt, ageing, and transformation state;
@@ -101,69 +117,26 @@ The Continuity Engine shall maintain and validate:
 - dialogue state, emotional state, performance intent, and lip-sync references;
 - temporal order and cause-and-effect state;
 - asset and material versions;
-- deliberate continuity breaks approved by the filmmaker.
+- deliberate continuity breaks approved by the Director.
 
-### 6.3 Continuity Snapshot
+### 6.1 Continuity Snapshot
 
-Every renderable shot shall reference a versioned Continuity Snapshot.
+Every renderable or executable production unit shall reference a versioned Continuity Snapshot or equivalent validated state package appropriate to its profile.
 
-A snapshot records the validated state required to produce that shot without relying on a renderer's memory of previous frames.
-
-Example:
-
-```json
-{
-  "snapshotId": "continuity-sc024-sh018-v3",
-  "sceneId": "scene-024",
-  "shotId": "shot-018",
-  "characters": [
-    {
-      "characterId": "char-john",
-      "wardrobeId": "wardrobe-black-jacket-v2",
-      "position": "warehouse-east-door",
-      "heldProps": ["prop-torch-right-hand"],
-      "condition": ["cut-left-cheek"]
-    }
-  ],
-  "environmentId": "warehouse-night-v4",
-  "cameraStateId": "camera-state-sh018-v2",
-  "lightingStateId": "lighting-rain-night-v1",
-  "approvedAt": "canonical-revision-reference"
-}
-```
-
-The schema above is illustrative. The implementation must use formal typed contracts and validation rules.
-
-### 6.4 Conflict Handling
-
-When an instruction conflicts with current continuity, the engine must not silently invent a resolution.
-
-It shall classify the conflict as one of:
-
-- intentional creative change;
-- unresolved ambiguity;
-- continuity error;
-- permitted discontinuity;
-- state transition requiring approval.
-
-The filmmaker or an authorised production rule determines the accepted resolution.
+A snapshot records the validated state required to produce that unit without relying on a renderer's memory of previous outputs.
 
 ## 7. Render Orchestrator
 
-### 7.1 Purpose
-
 The Render Orchestrator converts validated creative intent and continuity state into executable render plans.
 
-### 7.2 Responsibilities
+It shall:
 
-The Render Orchestrator shall:
-
-- analyse shot complexity;
+- analyse execution complexity;
 - select one or more compatible renderers;
 - choose AI, traditional, real-time, offline, VFX, or hybrid production routes;
 - decide whether technical segmentation is required;
-- generate Render Manifests;
-- schedule and distribute render jobs;
+- generate versioned execution/render manifests;
+- schedule and distribute jobs;
 - manage preview, draft, review, and final quality tiers;
 - reuse cached assets, layers, simulations, frames, and intermediate results;
 - perform partial re-renders when dependencies permit;
@@ -171,58 +144,25 @@ The Render Orchestrator shall:
 - track cost, compute, duration, renderer version, and evidence;
 - validate technical completion before returning results to the Brain.
 
-### 7.3 Non-responsibilities
-
 The Render Orchestrator shall not:
 
 - own canonical continuity;
-- rewrite story or performance intent without approval;
+- rewrite story, interaction, or performance intent without approval;
 - treat renderer output as automatically authoritative;
 - bind the project permanently to one vendor or model;
 - hide material failures behind a successful job status.
 
-## 8. Render Manifest
+## 8. Render / Execution Manifest
 
-Every render job shall originate from a versioned Render Manifest generated from validated Brain state.
+Every render or execution job shall originate from a versioned manifest generated from validated Brain state.
 
-Example:
-
-```json
-{
-  "manifestId": "render-sc024-sh018-v5",
-  "shotId": "shot-018",
-  "continuitySnapshotId": "continuity-sc024-sh018-v3",
-  "durationSeconds": 8,
-  "frameRate": 24,
-  "resolution": "3840x2160",
-  "camera": {
-    "lens": "50mm",
-    "movement": "slow-dolly-left"
-  },
-  "productionRoute": "hybrid",
-  "layers": [
-    "environment",
-    "characters",
-    "lighting",
-    "effects",
-    "colour"
-  ],
-  "qualityTier": "preview",
-  "rendererRequirements": {
-    "identityLock": true,
-    "deterministicSeedPreferred": true,
-    "alphaOutputRequired": false
-  }
-}
-```
-
-A Render Manifest is a contract. Renderer-specific adapters may translate it, but may not change its approved creative meaning.
+A manifest is a contract. Renderer-specific adapters may translate it, but may not change its approved creative meaning.
 
 ## 9. Renderer Adapter Layer
 
 Every renderer shall integrate through a Renderer Adapter.
 
-The adapter shall translate between the canonical Render Manifest and renderer-specific inputs and outputs.
+The adapter shall translate between the canonical manifest and renderer-specific inputs and outputs.
 
 A renderer adapter should expose capabilities such as:
 
@@ -239,64 +179,25 @@ A renderer adapter should expose capabilities such as:
 
 The adapter boundary prevents renderer-specific assumptions from entering the Brain.
 
-## 10. Adaptive Shot Execution
+## 10. Adaptive Execution
 
-Nexkosmo shall not impose one fixed generation duration across all shots.
+Nexkosmo shall not impose one fixed generation duration or execution size across all production units.
 
-The Render Orchestrator may estimate execution confidence using factors such as:
+The Render Orchestrator may estimate execution confidence using factors such as character count, motion complexity, camera movement, dialogue, physical interaction, environmental change, VFX density, identity sensitivity, renderer capabilities, requested resolution, simulation complexity, and profile-specific constraints.
 
-- number of characters;
-- motion complexity;
-- camera movement;
-- dialogue and lip-sync requirements;
-- physical interaction;
-- environmental change;
-- VFX density;
-- identity sensitivity;
-- renderer capabilities;
-- requested resolution and frame rate.
-
-Possible outcomes:
-
-```text
-Simple locked-camera dialogue -> render as one shot
-Walking conversation          -> render using limited internal segments
-Complex fight                  -> render using smaller internal segments
-Large VFX event                -> split by layer, simulation, and segment
-```
-
-The filmmaker continues to see one shot. Internal segmentation exists only to improve reliability and may be revealed through advanced diagnostics when required.
+The creator-facing production unit remains stable while internal segmentation exists only to improve reliability and may be revealed through advanced diagnostics when required.
 
 ## 11. Hybrid Rendering
 
-The Render Orchestrator may combine multiple production technologies within one shot.
+The Render Orchestrator may combine multiple production technologies within one production unit.
 
-Example:
-
-```text
-Environment       -> real-time or offline 3D renderer
-Character body    -> animation system
-Face performance  -> AI-assisted performance renderer
-Explosion         -> VFX simulation
-Lighting passes   -> renderer-native output
-Final integration -> compositor
-```
-
-Hybrid execution must preserve a unified camera, timing, colour, depth, motion, and continuity contract.
+Hybrid execution must preserve a unified approved contract for timing, state, identity, spatial relationships, colour, depth, motion, and continuity where applicable.
 
 ## 12. Caching and Partial Re-rendering
 
 Every render result shall record its dependencies.
 
 When a dependency changes, the orchestrator shall identify the smallest valid re-render scope.
-
-Example:
-
-```text
-Dialogue changed
-  Reuse: environment, static props, approved lighting
-  Re-render: voice, face performance, lip sync, affected composite
-```
 
 A complete re-render shall occur only when required by dependency changes, renderer limitations, or validation failure.
 
@@ -306,23 +207,23 @@ Caches are accelerators, not sources of truth. Cached data must remain traceable
 
 ```text
 Canonical Brain State
-        -> Continuity Snapshot
-        -> Render Manifest
+        -> Continuity / State Snapshot
+        -> Execution Manifest
         -> Renderer Adapter
-        -> Render Result
+        -> Result
         -> Technical Validation
-        -> Continuity Validation
+        -> Continuity / State Validation
         -> Human Approval when required
         -> Accepted Result or Targeted Regeneration
 ```
 
-A technically successful render may still fail continuity or creative validation. These statuses must remain separate.
+A technically successful result may still fail continuity, interaction, or creative validation. These statuses must remain separate.
 
-Only failed shots, layers, frames, or segments should be regenerated when the dependency graph supports it.
+Only failed units, layers, frames, segments, passes, or dependencies should be regenerated when the dependency graph supports it.
 
 ## 14. Evidence and Provenance
 
-For every render result, Nexkosmo shall retain sufficient evidence to determine:
+For every result, Nexkosmo shall retain sufficient evidence to determine:
 
 - what canonical state was used;
 - what manifest was executed;
@@ -340,7 +241,7 @@ Evidence records must be append-only or otherwise protected according to the gov
 
 The system shall support:
 
-- retrying a failed render without altering canonical continuity;
+- retrying failed execution without altering canonical continuity;
 - changing renderer while retaining the same approved manifest intent;
 - resuming interrupted jobs where supported;
 - preserving successful layers or segments;
@@ -356,46 +257,25 @@ Renderer adapters must receive only the minimum authorised data required for the
 
 External renderers shall be treated as replaceable and potentially untrusted infrastructure boundaries.
 
-## 17. Initial Implementation Milestone
+## 17. Film Reference Milestone
 
-The first controlled implementation should demonstrate:
+The earlier one-project / one-30-second-scene / five-shot milestone remains a valid **film-profile reference test**, not a universal Nexkosmo production hierarchy.
 
-1. one project;
-2. one 30-second scene;
-3. five shots;
-4. two characters;
-5. one environment;
-6. one persistent prop;
-7. versioned Continuity Snapshots;
-8. one canonical Render Manifest per shot;
-9. one Renderer Adapter;
-10. preview-quality render results;
-11. continuity validation across all five shots;
-12. targeted regeneration of only failed shots;
-13. complete evidence and provenance records.
+The milestone is successful only when a renderer can be replaced or a failed shot regenerated without changing the canonical film scene state.
 
-The milestone is successful only when a renderer can be replaced or a failed shot regenerated without changing the canonical scene state.
+Equivalent future milestones should be defined for non-film production profiles.
 
 ## 18. Implementation Order
 
 ### Phase 1: Contracts
 
-Define typed schemas and invariants for:
+Define typed format-general schemas and invariants for production profile, production unit, continuity/state snapshot, execution manifest, execution task, result, renderer capability profile, asset version, dependency record, and validation result.
 
-- Scene;
-- Shot;
-- Continuity Snapshot;
-- Render Manifest;
-- Render Job;
-- Render Result;
-- Renderer Capability Profile;
-- Asset Version;
-- Dependency Record;
-- Validation Result.
+Film-specific Scene and Shot contracts are specialisations of those permanent concepts.
 
 ### Phase 2: Continuity Prototype
 
-Implement deterministic continuity state and conflict detection for a small multi-shot scene.
+Implement deterministic continuity state and conflict detection for a small format-specific production slice.
 
 ### Phase 3: Single Renderer Adapter
 
@@ -411,31 +291,32 @@ Support multiple renderer classes and compositing under one manifest.
 
 ### Phase 6: Adaptive Orchestration
 
-Introduce confidence-based routing and technical segmentation without changing the filmmaker's scene and shot model.
+Introduce confidence-based routing and technical segmentation without changing the creator-facing production-unit model.
 
 ## 19. Architectural Invariants
-
-The following invariants are mandatory:
 
 1. The Brain is the canonical source of truth.
 2. Continuity is independent of rendering.
 3. Renderers do not own project state.
-4. Every render originates from validated, versioned state.
+4. Every render or execution originates from validated, versioned state.
 5. Every result is traceable to its inputs and execution environment.
 6. Renderer-specific details remain behind adapter boundaries.
-7. Technical segmentation does not replace scenes or shots.
+7. Internal technical segmentation does not replace creator-facing production units.
 8. Failed rendering does not corrupt canonical continuity.
 9. Cached outputs are never treated as canonical truth.
 10. New rendering technology must integrate without redesigning the Brain.
+11. The permanent production architecture is format-general; Sequence/Scene/Shot is a film specialization, not a universal requirement.
+12. `PRODUCTION` is the shared top-level stage; Studio is a contextual precision editor, not a competing stage.
 
 ## 20. Supersession
 
-This amendment supersedes any architectural assumption that an AI renderer, video model, or rendering engine is responsible for remembering or owning production continuity.
+This amendment supersedes any architectural assumption that an AI renderer, video model, rendering engine, or film-only hierarchy is responsible for remembering or owning production continuity.
 
 From adoption onward:
 
 - continuity management and rendering execution are separate domains;
 - the Brain supplies authoritative state;
+- the selected production profile supplies format-appropriate production units;
 - the Render Orchestrator supplies execution plans;
 - renderer adapters supply interoperability;
 - renderers supply replaceable visual execution;

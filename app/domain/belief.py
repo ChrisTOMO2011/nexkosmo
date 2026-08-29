@@ -28,20 +28,36 @@ def resolve_belief(
                 rejected.add(target_id)
                 accepted.discard(target_id)
 
+    undecided = [
+        assertion
+        for assertion in assertions_by_id.values()
+        if assertion.id not in accepted and assertion.id not in rejected
+    ]
+
     proposed = {
-        a.id
-        for a in assertions_by_id.values()
-        if a.id not in accepted
-        and a.id not in rejected
-        and a.epistemic_status in {EpistemicStatus.PROPOSED, EpistemicStatus.INFERRED}
+        assertion.id
+        for assertion in undecided
+        if assertion.epistemic_status in {EpistemicStatus.PROPOSED, EpistemicStatus.INFERRED}
     }
+    disputed = {
+        assertion.id
+        for assertion in undecided
+        if assertion.epistemic_status is EpistemicStatus.DISPUTED
+    }
+    unknown = tuple(
+        sorted(
+            str(assertion.id)
+            for assertion in undecided
+            if assertion.epistemic_status is EpistemicStatus.UNKNOWN
+        )
+    )
 
     return BeliefResolution(
         accepted=tuple(sorted(accepted, key=str)),
         rejected=tuple(sorted(rejected, key=str)),
         proposed=tuple(sorted(proposed, key=str)),
-        disputed=(),
-        unknown=(),
+        disputed=tuple(sorted(disputed, key=str)),
+        unknown=unknown,
         decision_ids=tuple(decision_ids),
         explanation=tuple(reasons),
     )

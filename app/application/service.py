@@ -9,6 +9,7 @@ from app.domain.belief import resolve_belief
 from app.domain.contradiction import detect_literal_conflicts
 from app.domain.rules import (
     authorize_by_policies,
+    require_authenticated_actor,
     require_human_authority,
     require_workspace,
     validate_assertion,
@@ -35,6 +36,7 @@ class SemanticKernelService:
         idempotency_key: str,
     ) -> dict[str, Any]:
         require_workspace(principal, assertion.workspace_id)
+        require_authenticated_actor(principal, assertion.asserted_by, "assertion.record")
         validate_assertion(assertion)
         request_hash = self._hash({"assertion_id": str(assertion.id)})
         await self._idempotency.acquire(
@@ -52,6 +54,7 @@ class SemanticKernelService:
                     {
                         "assertion_id": str(assertion.id),
                         "workspace_id": str(assertion.workspace_id),
+                        "asserted_by": str(principal.agent_id),
                     },
                 )
                 await uow.commit()
@@ -64,7 +67,7 @@ class SemanticKernelService:
                 action="assertion.record",
                 outcome="success",
                 resource_id=assertion.id,
-                details={},
+                details={"asserted_by": str(principal.agent_id)},
             )
             return response
         except Exception as exc:
@@ -90,6 +93,7 @@ class SemanticKernelService:
         idempotency_key: str,
     ) -> dict[str, Any]:
         require_workspace(principal, decision.workspace_id)
+        require_authenticated_actor(principal, decision.decided_by, "knowledge.decide")
         require_human_authority(principal, "knowledge.decide")
         request_hash = self._hash({"decision_id": str(decision.id)})
         await self._idempotency.acquire(
@@ -104,6 +108,7 @@ class SemanticKernelService:
                     {
                         "decision_id": str(decision.id),
                         "outcome": decision.outcome.value,
+                        "decided_by": str(principal.agent_id),
                     },
                 )
                 await uow.commit()
@@ -116,7 +121,10 @@ class SemanticKernelService:
                 action="knowledge.decide",
                 outcome="success",
                 resource_id=decision.id,
-                details={"outcome": decision.outcome.value},
+                details={
+                    "outcome": decision.outcome.value,
+                    "decided_by": str(principal.agent_id),
+                },
             )
             return response
         except Exception as exc:
@@ -167,6 +175,8 @@ class SemanticKernelService:
                 "accepted": [str(x) for x in resolution.accepted],
                 "rejected": [str(x) for x in resolution.rejected],
                 "proposed": [str(x) for x in resolution.proposed],
+                "disputed": [str(x) for x in resolution.disputed],
+                "unknown": list(resolution.unknown),
                 "contradictions": [
                     {
                         "left": str(c.left_assertion_id),

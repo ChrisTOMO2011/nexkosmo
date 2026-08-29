@@ -17,6 +17,8 @@ AI = UUID("00000000-0000-0000-0000-000000000012")
 DRAFT = UUID("00000000-0000-0000-0000-000000000020")
 BLUE = UUID("00000000-0000-0000-0000-000000000101")
 GREEN = UUID("00000000-0000-0000-0000-000000000102")
+DISPUTED = UUID("00000000-0000-0000-0000-000000000103")
+UNKNOWN = UUID("00000000-0000-0000-0000-000000000104")
 DECISION = UUID("00000000-0000-0000-0000-000000000201")
 NOW = datetime(2026, 7, 13, tzinfo=UTC)
 
@@ -88,3 +90,13 @@ def test_human_decision_accepts_blue_and_rejects_green_without_erasure():
     assert result.rejected == (GREEN,)
     assert GREEN not in result.proposed
     assert "creator" in " ".join(result.explanation).lower()
+
+
+def test_disputed_and_unknown_states_survive_resolution():
+    disputed = assertion(DISPUTED, AI, "hazel", EpistemicStatus.DISPUTED)
+    unknown = assertion(UNKNOWN, AI, "unknown", EpistemicStatus.UNKNOWN)
+
+    result = resolve_belief([disputed, unknown], [])
+
+    assert result.disputed == (DISPUTED,)
+    assert result.unknown == (str(UNKNOWN),)

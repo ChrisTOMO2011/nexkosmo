@@ -2,7 +2,9 @@
 
 ## Status
 
-Proposed canonical safety contract for Nexkosmo.
+Adopted constitutional safety contract for Nexkosmo.
+
+Changes to this contract require explicit authorised human approval through the governed repository review process. AI agents may propose amendments but may not self-approve constitutional weakening.
 
 ## Purpose
 
@@ -12,7 +14,7 @@ The core rule is:
 
 > The Brain may be powerful, but it must never control the mechanisms that determine whether it is allowed to remain powerful.
 
-## Human supremacy of authority
+## Human final consequential authority
 
 The Human Director and authorised human governance roles remain above the Brain for consequential authority.
 
@@ -163,6 +165,8 @@ When Brain instability is suspected:
 
 ## Self-improvement boundary
 
+Safety & Recovery and Guardian enforcement must exist and be independently controllable before an Autonomous Improvement Engine may exercise any production-changing capability.
+
 The Autonomous Improvement Engine may propose, simulate, test, and prepare improvements, but it may not unilaterally:
 
 - deploy a new Brain to Production;
@@ -219,6 +223,7 @@ No participant may secretly expand its authority, conceal material truth, exploi
 8. Production and irreversible actions remain behind explicit authority boundaries.
 9. Recovery does not depend on trusting the unstable component.
 10. No AI may become structurally indispensable to human control of Nexkosmo.
+11. Safety & Recovery and Guardian enforcement precede production-changing autonomous self-improvement.
 
 ## Permanent Rule
 

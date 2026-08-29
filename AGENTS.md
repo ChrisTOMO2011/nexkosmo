@@ -19,35 +19,65 @@ If a lower level conflicts with a higher level, STOP and report the conflict. Do
 
 Architectural improvements may be proposed with evidence, but permanent architecture changes require explicit human approval. Do not perform blank-slate redesigns while implementing an approved increment.
 
-## Agent finding and evidence levels
+## Agent finding, evidence, and contradiction model
 
-Codex and all AI engineering agents MUST report material findings according to the strength of the evidence instead of collapsing uncertainty into PASS/FAIL or presenting inference as fact.
+Codex and all AI engineering agents MUST keep three different questions separate when reporting a material finding:
 
-Use these finding levels:
+1. **Epistemic basis** — what kind of claim or evidence is this?
+2. **Finding confidence** — how strongly does the available evidence establish the claim?
+3. **Contradiction state** — is material evidence in conflict with the claim?
 
-1. `OBSERVED` — a directly retrieved or measured fact from repository state, runtime output, a deterministic tool, an authoritative record, or another inspectable source. Observation alone does not prove a broader conclusion.
-2. `SUSPECTED` — a plausible explanation or risk indicated by evidence, but material uncertainty or alternative explanations remain.
-3. `SUPPORTED` — available evidence supports the finding, but independent corroboration or decisive validation is still incomplete.
-4. `STRONGLY_SUPPORTED` — multiple relevant evidence lines support the finding, material alternatives have been checked, and no unresolved contradiction is known, but final verification is not yet complete.
-5. `VERIFIED` — the claim has been established within a stated scope by authoritative state, deterministic validation, direct runtime proof, reproducible test evidence, or equivalent decisive evidence.
-6. `CONTRADICTED` — material evidence conflicts with the claim. A contradicted claim MUST NOT be reported as PASS, complete, safe, aligned, or verified until the contradiction is resolved.
+Do not collapse these concepts into one scale.
 
-These labels describe evidence state, not social confidence or agent popularity. They are not a voting system.
+### Epistemic basis
+
+Use the permanent Semantic Kernel vocabulary where applicable:
+
+- `OBSERVED` — directly retrieved or measured from an inspectable source.
+- `AUTHORED` — explicitly stated or created by an identified actor.
+- `INFERRED` — reasoned from evidence rather than directly observed.
+- `PROPOSED` — offered as a candidate conclusion, action, or state.
+- `UNKNOWN` — evidence is insufficient to establish the relevant state.
+- `DISPUTED` — competing evidence or authority leaves the state unresolved.
+- `ACCEPTED`, `REJECTED`, and `WITHDRAWN` — decision states only when supported by the governing decision process.
+
+`OBSERVED` is an epistemic basis, not a confidence level. A direct observation may support only a narrow fact and may be insufficient to verify a broader conclusion.
+
+### Finding confidence
+
+Use these confidence states for the claim being assessed:
+
+1. `SUSPECTED` — plausible, but material uncertainty or alternative explanations remain.
+2. `SUPPORTED` — available evidence supports the claim, but decisive validation or independent corroboration is incomplete.
+3. `STRONGLY_SUPPORTED` — multiple relevant evidence lines support the claim, material alternatives have been checked, and no unresolved contradiction is known, but final verification is incomplete.
+4. `VERIFIED` — established within a stated scope by authoritative state, deterministic validation, direct runtime proof, reproducible test evidence, or equivalent decisive evidence.
+
+### Contradiction state
+
+Use one of:
+
+- `NONE_KNOWN` — no material contradictory evidence is currently known within the stated scope.
+- `CONFLICTING_EVIDENCE` — material evidence conflicts, but the claim has not yet been decisively resolved.
+- `CONTRADICTED` — decisive evidence conflicts with the claim. A contradicted claim MUST NOT be reported as PASS, complete, safe, aligned, or verified until the contradiction is resolved.
+
+These classifications describe evidence state, not social confidence or agent popularity. They are not a voting system.
 
 For every material finding, agents SHOULD state:
 
-- the finding level;
+- epistemic basis;
+- finding confidence;
+- contradiction state;
 - the claim being assessed;
-- the evidence supporting it;
+- evidence supporting it;
 - material contradictory or missing evidence;
-- the scope to which the finding applies;
+- the scope to which the finding applies; and
 - the next validation needed when the finding is below `VERIFIED` and the distinction matters to the task.
 
 Agent statements are not evidence merely because another agent repeats or agrees with them. If multiple agents depend on the same source, artifact, assumption, test result, message, or evidence lineage, treat that as shared evidence, not independent corroboration.
 
-An agent MUST NOT upgrade a finding merely because another AI says it is correct, says `GO`, reports `PASS`, or claims authority. Authority must resolve from the Nexkosmo authority hierarchy and governed permissions; truth must resolve from evidence.
+An agent MUST NOT upgrade confidence merely because another AI says it is correct, says `GO`, reports `PASS`, or claims authority. Authority must resolve from the Nexkosmo authority hierarchy and governed permissions; truth must resolve from evidence.
 
-When reporting completion, acceptance, security, migration readiness, production readiness, canonical correctness, or another consequential PASS, the decisive requirements within the claimed scope MUST be `VERIFIED`. If required evidence is missing, report the actual lower finding level and STOP or escalate where the governing contract requires it.
+When reporting completion, acceptance, security, migration readiness, production readiness, canonical correctness, or another consequential PASS, the decisive requirements within the claimed scope MUST have finding confidence `VERIFIED` and MUST NOT have unresolved `CONFLICTING_EVIDENCE` or a `CONTRADICTED` state.
 
 Uncertainty is acceptable and MUST be stated truthfully. Agents must never fabricate certainty to satisfy a task, evaluator, another agent, or expected outcome.
 
@@ -112,7 +142,7 @@ Rules:
 3. Do not substitute an older cyan/blue-heavy logo.
 4. Do not change the X silhouette, violet/lilac palette, white-violet centre star, or progression-inspired light streak unless the Director explicitly requests a brand revision.
 5. Page-specific work must preserve the canonical logo even when surrounding layout, imagery, theme, or controls change.
-6. Discovery, Shape, Build, Ready, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
+6. Discovery, Shape, Build, Ready, Production, Studio, onboarding, account, collaboration, and future product surfaces must resolve the same canonical logo asset.
 7. If a task would require changing the canonical logo but the task is not explicitly a brand-change task, STOP and report the conflict instead of modifying it.
 
 ## Canonical asset workflow
@@ -152,6 +182,10 @@ Sophia (or another selected AI Producer) is the Director-facing collaboration/pe
 
 The shared stage model is:
 
-`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY`
+`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION`
+
+`Studio` is a contextual precision editor entered from the relevant production context and returns work to `PRODUCTION`; it is not a seventh top-level stage.
+
+The production model is format-general. Film may specialise production into sequences, scenes, and shots, while games, animation, commercials, music videos, interactive experiences, simulations, asset production, and future formats may use different production-unit hierarchies without changing the shared six-stage journey.
 
 Preserve this shared shell and canonical brand identity unless an explicit product decision supersedes them.

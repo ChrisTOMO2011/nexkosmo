@@ -21,11 +21,29 @@ def require_workspace(principal: Principal, workspace_id: UUID) -> None:
         raise AuthorizationDenied("Principal is not a member of the workspace.")
 
 
+def require_authenticated_actor(principal: Principal, claimed_agent_id: UUID, action: str) -> None:
+    if claimed_agent_id != principal.agent_id:
+        raise AuthorizationDenied(
+            f"Authenticated actor mismatch for {action}: claimed agent does not match principal."
+        )
+
+
 def require_human_authority(principal: Principal, action: str) -> None:
     if principal.agent_kind is not AgentKind.HUMAN:
         raise AuthorizationDenied("This decision requires human authority.")
     if action not in principal.delegated_actions and "*" not in principal.delegated_actions:
         raise AuthorizationDenied(f"Principal lacks delegated action: {action}")
+
+
+def validate_policy_issuance(principal: Principal, policy: Policy) -> None:
+    require_workspace(principal, policy.workspace_id)
+    require_authenticated_actor(principal, policy.issued_by, "policy.issue")
+    require_human_authority(principal, "policy.issue")
+
+    if policy.subject_agent_id == principal.agent_id and policy.effect is PolicyEffect.PERMIT:
+        raise AuthorizationDenied(
+            "A principal may not issue a permit that expands its own authority."
+        )
 
 
 def validate_assertion(assertion: Assertion) -> None:

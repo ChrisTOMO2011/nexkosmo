@@ -19,7 +19,7 @@ The canonical asset is also registered in `assets/brand/canonical-assets.json` a
 
 ### Product-wide usage
 
-Codex and future UI work must use this canonical logo on all Nexkosmo product pages and shared shells, including Discovery, Shape, Build, Ready, Studio, onboarding, account surfaces, and future production workspaces.
+Codex and future UI work must use this canonical logo on all Nexkosmo product pages and shared shells, including Discovery, Shape, Build, Ready, Production, Studio, onboarding, account surfaces, and future production workspaces.
 
 Do not reintroduce the older cyan/blue-heavy X as the default brand mark.
 
@@ -63,7 +63,9 @@ The brighter direction does not authorise arbitrary recoloring of frozen canonic
 
 The product journey uses the shared progression model:
 
-`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY`
+`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION`
+
+`Studio` is a contextual precision editor entered from the relevant production context and returns work to `PRODUCTION`; it is not a seventh top-level stage.
 
 The active stage may use the same violet/lilac star-glow language as the canonical logo.
 
@@ -80,6 +82,10 @@ Global controls belong in the persistent top-right shell and should remain visua
 - Profile
 
 The icons remain available at all times. Attention states such as unread messages, collaborators coming online, approval requests, or Brain warnings may add badges, presence indicators, or restrained temporary emphasis. The creative workspace remains the visual priority.
+
+## Format-general production
+
+The six-stage journey is shared across supported creation formats. Film may present Sequence, Scene, and Shot production units, while games, animation, commercials, music videos, interactive experiences, simulations, asset production, and future formats may present their own production-unit hierarchy without changing the shared stage model.
 
 ## Intelligence distinction
 

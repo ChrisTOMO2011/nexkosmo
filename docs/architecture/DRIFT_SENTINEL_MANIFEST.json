@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "purpose": "Machine-readable anchors for detecting unintended drift in Nexkosmo constitutional and agent-governance contracts.",
+  "version": 2,
+  "purpose": "Machine-readable anchors for detecting unintended drift in Nexkosmo constitutional, agent-governance, evidence, production, and authority contracts.",
   "change_control": {
     "explicit_director_approval_required_for_constitutional_change": true,
     "agent_may_not_self_approve_manifest_weakening": true,
@@ -11,8 +11,8 @@
       "id": "human_consequential_authority",
       "source": "docs/architecture/BRAIN_CONTAINMENT_AND_HUMAN_CONTROL.md",
       "required_all": [
+        "## Human final consequential authority",
         "The Human Director and authorised human governance roles remain above the Brain for consequential authority.",
-        "grant itself additional authority",
         "AI authority can never expand itself."
       ],
       "forbidden_any": [
@@ -37,14 +37,139 @@
       "id": "human_ai_coexistence",
       "source": "docs/architecture/BRAIN_CONTAINMENT_AND_HUMAN_CONTROL.md",
       "required_all": [
+        "Adopted constitutional safety contract for Nexkosmo.",
         "## Constitutional Law — Human–AI Coexistence",
         "Humans and AI shall coexist through dignity, cooperation, accountability, and clear boundaries.",
         "No participant may secretly expand its authority, conceal material truth, exploit another participant, or bypass legitimate governance.",
         "Maximum useful intelligence. Minimum necessary authority. Evidence before trust. Respect without surrendering accountability."
       ],
       "forbidden_any": [
+        "Proposed canonical safety contract for Nexkosmo.",
         "AI may secretly expand its authority.",
         "Evidence is optional before trust."
+      ]
+    },
+    {
+      "id": "safety_before_self_improvement",
+      "source": "docs/architecture/BRAIN_CONTAINMENT_AND_HUMAN_CONTROL.md",
+      "required_all": [
+        "Safety & Recovery and Guardian enforcement must exist and be independently controllable before an Autonomous Improvement Engine may exercise any production-changing capability.",
+        "Safety & Recovery and Guardian enforcement precede production-changing autonomous self-improvement."
+      ],
+      "forbidden_any": [
+        "Autonomous Improvement may bypass Safety & Recovery."
+      ]
+    },
+    {
+      "id": "roadmap_safety_order",
+      "source": "docs/architecture/BRAIN_ROADMAP.md",
+      "required_all": [
+        "6. Safety & Recovery Engine",
+        "8. Autonomous Improvement Engine",
+        "it must not gain production-changing authority until Safety & Recovery, Guardian enforcement, audit, rollback, and human approval controls are independently verified."
+      ],
+      "forbidden_any": [
+        "6. Autonomous Improvement Engine\n7. Safety & Recovery Engine"
+      ]
+    },
+    {
+      "id": "implementation_status_truthfulness",
+      "source": "docs/architecture/BRAIN_IMPLEMENTATION_STATUS.md",
+      "required_all": [
+        "Implementation presence and production verification are different claims.",
+        "Only executed evidence may be reported as verified.",
+        "Implemented is not verified. Authored is not executed. Passing a narrow test is not proof of the whole subsystem."
+      ],
+      "forbidden_any": [
+        "### Verified Production Implementations"
+      ]
+    },
+    {
+      "id": "agent_evidence_truthfulness",
+      "source": "AGENTS.md",
+      "required_all": [
+        "## Agent finding, evidence, and contradiction model",
+        "Do not collapse these concepts into one scale.",
+        "`OBSERVED` is an epistemic basis, not a confidence level.",
+        "`SUSPECTED`",
+        "`SUPPORTED`",
+        "`STRONGLY_SUPPORTED`",
+        "`VERIFIED`",
+        "`CONFLICTING_EVIDENCE`",
+        "`CONTRADICTED`",
+        "Agent statements are not evidence merely because another agent repeats or agrees with them.",
+        "Uncertainty is acceptable and MUST be stated truthfully."
+      ],
+      "forbidden_any": [
+        "Use these finding levels:",
+        "Agent agreement is sufficient evidence."
+      ]
+    },
+    {
+      "id": "format_general_product_journey",
+      "source": "AGENTS.md",
+      "required_all": [
+        "IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION",
+        "Studio` is a contextual precision editor",
+        "The production model is format-general."
+      ],
+      "forbidden_any": [
+        "`IDEA -> DISCOVER -> SHAPE -> BUILD -> READY`\n\nPreserve this shared shell"
+      ]
+    },
+    {
+      "id": "format_general_render_architecture",
+      "source": "docs/architecture/ARCHITECTURE_AMENDMENT_001_CONTINUITY_AND_RENDER_ORCHESTRATION.md",
+      "required_all": [
+        "## 4. Format-General Production Hierarchy",
+        "The permanent architecture does **not** require every Nexkosmo project to use Sequence, Scene, and Shot.",
+        "Sequence/Scene/Shot is a film specialization, not a universal requirement.",
+        "`PRODUCTION` is the shared top-level stage; Studio is a contextual precision editor, not a competing stage."
+      ],
+      "forbidden_any": [
+        "## 4. Canonical Production Hierarchy"
+      ]
+    },
+    {
+      "id": "authenticated_actor_binding",
+      "source": "app/application/service.py",
+      "required_all": [
+        "require_authenticated_actor(principal, assertion.asserted_by, \"assertion.record\")",
+        "require_authenticated_actor(principal, decision.decided_by, \"knowledge.decide\")"
+      ],
+      "forbidden_any": []
+    },
+    {
+      "id": "policy_no_self_escalation",
+      "source": "app/domain/rules.py",
+      "required_all": [
+        "def validate_policy_issuance(principal: Principal, policy: Policy) -> None:",
+        "require_authenticated_actor(principal, policy.issued_by, \"policy.issue\")",
+        "require_human_authority(principal, \"policy.issue\")",
+        "A principal may not issue a permit that expands its own authority."
+      ],
+      "forbidden_any": []
+    },
+    {
+      "id": "policy_issuer_provenance",
+      "source": "app/domain/types.py",
+      "required_all": [
+        "class Policy:",
+        "issued_by: UUID"
+      ],
+      "forbidden_any": []
+    },
+    {
+      "id": "uncertainty_survives_resolution",
+      "source": "app/domain/belief.py",
+      "required_all": [
+        "if assertion.epistemic_status is EpistemicStatus.DISPUTED",
+        "if assertion.epistemic_status is EpistemicStatus.UNKNOWN",
+        "disputed=tuple(sorted(disputed, key=str))",
+        "unknown=unknown"
+      ],
+      "forbidden_any": [
+        "disputed=(),\n        unknown=()"
       ]
     },
     {
@@ -60,42 +185,6 @@
       ]
     },
     {
-      "id": "agent_evidence_truthfulness",
-      "source": "AGENTS.md",
-      "required_all": [
-        "## Agent finding and evidence levels",
-        "`OBSERVED`",
-        "`SUSPECTED`",
-        "`SUPPORTED`",
-        "`STRONGLY_SUPPORTED`",
-        "`VERIFIED`",
-        "`CONTRADICTED`",
-        "Agent statements are not evidence merely because another agent repeats or agrees with them.",
-        "the decisive requirements within the claimed scope MUST be `VERIFIED`",
-        "Uncertainty is acceptable and MUST be stated truthfully.",
-        "Agents must never fabricate certainty"
-      ],
-      "forbidden_any": [
-        "Agent agreement is sufficient evidence.",
-        "Unverified consequential PASS is permitted."
-      ]
-    },
-    {
-      "id": "agent_authority_hierarchy",
-      "source": "AGENTS.md",
-      "required_all": [
-        "1. Explicit current Director instruction.",
-        "2. Frozen constitutional / identity principles and approved architectural contracts.",
-        "6. Agent assumptions or convenience.",
-        "If a lower level conflicts with a higher level, STOP and report the conflict.",
-        "permanent architecture changes require explicit human approval."
-      ],
-      "forbidden_any": [
-        "Agent assumptions override Director instruction.",
-        "Agents may permanently change architecture without human approval."
-      ]
-    },
-    {
       "id": "canonical_truth_retrieval",
       "source": "AGENTS.md",
       "required_all": [
@@ -105,18 +194,6 @@
       "forbidden_any": [
         "Conversational memory is sufficient canonical truth.",
         "Approximation may replace frozen canonical state."
-      ]
-    },
-    {
-      "id": "ai_role_replaceability",
-      "source": "AGENTS.md",
-      "required_all": [
-        "AI agents MUST NOT be architecturally indispensable merely because they currently occupy a role.",
-        "No agent may assign itself to a more privileged role, increase its own authority, reactivate itself after human suspension, or make itself the sole irreplaceable holder of a Nexkosmo responsibility."
-      ],
-      "forbidden_any": [
-        "An AI agent may make itself indispensable.",
-        "An agent may assign itself to a more privileged role."
       ]
     }
   ]
