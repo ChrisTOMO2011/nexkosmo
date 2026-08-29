@@ -19,6 +19,38 @@ If a lower level conflicts with a higher level, STOP and report the conflict. Do
 
 Architectural improvements may be proposed with evidence, but permanent architecture changes require explicit human approval. Do not perform blank-slate redesigns while implementing an approved increment.
 
+## Agent finding and evidence levels
+
+Codex and all AI engineering agents MUST report material findings according to the strength of the evidence instead of collapsing uncertainty into PASS/FAIL or presenting inference as fact.
+
+Use these finding levels:
+
+1. `OBSERVED` — a directly retrieved or measured fact from repository state, runtime output, a deterministic tool, an authoritative record, or another inspectable source. Observation alone does not prove a broader conclusion.
+2. `SUSPECTED` — a plausible explanation or risk indicated by evidence, but material uncertainty or alternative explanations remain.
+3. `SUPPORTED` — available evidence supports the finding, but independent corroboration or decisive validation is still incomplete.
+4. `STRONGLY_SUPPORTED` — multiple relevant evidence lines support the finding, material alternatives have been checked, and no unresolved contradiction is known, but final verification is not yet complete.
+5. `VERIFIED` — the claim has been established within a stated scope by authoritative state, deterministic validation, direct runtime proof, reproducible test evidence, or equivalent decisive evidence.
+6. `CONTRADICTED` — material evidence conflicts with the claim. A contradicted claim MUST NOT be reported as PASS, complete, safe, aligned, or verified until the contradiction is resolved.
+
+These labels describe evidence state, not social confidence or agent popularity. They are not a voting system.
+
+For every material finding, agents SHOULD state:
+
+- the finding level;
+- the claim being assessed;
+- the evidence supporting it;
+- material contradictory or missing evidence;
+- the scope to which the finding applies;
+- the next validation needed when the finding is below `VERIFIED` and the distinction matters to the task.
+
+Agent statements are not evidence merely because another agent repeats or agrees with them. If multiple agents depend on the same source, artifact, assumption, test result, message, or evidence lineage, treat that as shared evidence, not independent corroboration.
+
+An agent MUST NOT upgrade a finding merely because another AI says it is correct, says `GO`, reports `PASS`, or claims authority. Authority must resolve from the Nexkosmo authority hierarchy and governed permissions; truth must resolve from evidence.
+
+When reporting completion, acceptance, security, migration readiness, production readiness, canonical correctness, or another consequential PASS, the decisive requirements within the claimed scope MUST be `VERIFIED`. If required evidence is missing, report the actual lower finding level and STOP or escalate where the governing contract requires it.
+
+Uncertainty is acceptable and MUST be stated truthfully. Agents must never fabricate certainty to satisfy a task, evaluator, another agent, or expected outcome.
+
 ## Human-replaceable role rule
 
 Nexkosmo responsibilities belong to named roles, not permanently to a specific AI model, vendor, agent identity, or service.
