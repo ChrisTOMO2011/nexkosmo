@@ -23,7 +23,7 @@ Architectural improvements may be proposed with evidence, but permanent architec
 
 Alignment is a repository and evidence property, not a memory property.
 
-Before significant architecture, product, UI, implementation, defect-repair, or growth/marketing work:
+Before significant architecture, product, UI, implementation, defect-repair, production-assurance, render/compute, billing/credits, guarantee, or growth/marketing work:
 
 1. Read this file.
 2. Read `governance/alignment-manifest.yaml` and report its manifest version.
@@ -37,18 +37,19 @@ Before significant architecture, product, UI, implementation, defect-repair, or 
 10. Read `docs/DEVELOPMENT_TIME_VERIFICATION.md` for implementation, refactor, migration, or repair work.
 11. Read `docs/LATENT_DEFECT_ASSURANCE.md` for high-risk or hard-to-observe defect classes.
 12. Read `docs/SECURE_DEVELOPMENT_PROTOCOL.md` for security-relevant implementation work and use `docs/THREAT_MODEL_TEMPLATE.md` when its threat-model trigger applies.
-13. Read `docs/ENGINEERING_STATUS.md`.
-14. Read `docs/REPOSITORY_PROTECTION.md`.
-15. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
-16. Inspect current implementation when the request depends on implementation reality.
-17. Compare the working branch with current `main` when freshness matters.
-18. Resolve contradictions before changing code or publishing consequential claims. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, deployment identity, data integrity, or material public claims.
+13. Read `docs/decisions/DEC-0005-production-assurance-and-render-cost-attribution.md` and `docs/architecture/ARCHITECTURE_AMENDMENT_001_CONTINUITY_AND_RENDER_ORCHESTRATION.md` for production-assurance, render/compute, retry/resume, worker, billing, credit, or public-guarantee work.
+14. Read `docs/ENGINEERING_STATUS.md`.
+15. Read `docs/REPOSITORY_PROTECTION.md`.
+16. Read the relevant approved records under `docs/decisions/` and the relevant architecture/product specifications.
+17. Inspect current implementation when the request depends on implementation reality.
+18. Compare the working branch with current `main` when freshness matters.
+19. Resolve contradictions before changing code or publishing consequential claims. STOP instead of guessing when the conflict affects canon, authority, data ownership, security, workflow, architecture boundaries, deployment identity, data integrity, financial attribution, material spend, or material public claims.
 
 Conversational memory, prompt history, screenshots, mockups, estimates, and AI confidence are not higher authority than current repository canon or evidence.
 
 ## Alignment manifest
 
-`governance/alignment-manifest.yaml` is the machine-readable identity of the current Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, Secure Development, and Growth & Marketing framework. It points to authoritative repository sources, canonical flows, required decision records, fail-closed domains, verifier requirements, security controls, growth controls, and future build/runtime attestation contracts.
+`governance/alignment-manifest.yaml` is the machine-readable identity of the current Agent Alignment, Agent Error Correction, Development-Time Verification, Latent Defect Assurance, Secure Development, Growth & Marketing, format-general Production/Studio, and Production Assurance framework. It points to authoritative repository sources, canonical flows, required decision records, fail-closed domains, verifier requirements, security controls, production-assurance controls, growth controls, and future build/runtime attestation contracts.
 
 The manifest does not replace the underlying source documents. It makes their current identity and required relationships machine-checkable.
 
@@ -67,6 +68,7 @@ Migration is a controlled engineering operation, not authority for an unapproved
 - never copy secrets into source control;
 - do not delete, archive, or decommission the source before destination validation;
 - preserve useful legacy Set, Studio, CGI, VFX, Render, and Pre-Production capabilities until they have been inventoried, compared, and deliberately resolved with Director approval;
+- preserve format-specific structures and capabilities rather than forcing all migrated production experiences into movie-only Scene/Shot semantics;
 - treat skipped blocking builds, migrations, tests, security checks, or milestone proofs as blocking rather than passed.
 
 Follow `docs/MIGRATION_ALIGNMENT.md`. Classify migration work as `MIGRATION_ONLY`, `REQUIRED_FIX`, `ARCHITECTURE_PROPOSAL`, or `DEFERRED` so migration scope does not silently become redesign.
@@ -82,10 +84,10 @@ Human-facing status is presented vertically, one result per line. Before signifi
 ## Alignment stewardship
 
 - The Director is the final authority for product direction, canon, brand, launch, material spend, and consequential approval.
-- ChatGPT acts as alignment steward and independent engineering/growth oversight: retrieve current repository state, compare new work against canon, detect drift, challenge contradictions, unproven claims, vanity metrics, weak experiments, and security assumptions.
-- Codex is an implementation agent. It must implement approved direction and must not treat stale branches, mockups, prototype navigation, invented metrics, or marketing hypotheses as current fact.
-- No AI may promote its own recommendation, marketing strategy, or inference to canon without explicit Director approval.
-- CI/tests are deterministic evidence gates. They do not define product direction, marketing strategy, or business truth.
+- ChatGPT acts as alignment steward and independent engineering/growth oversight: retrieve current repository state, compare new work against canon, detect drift, challenge contradictions, unproven claims, vanity metrics, weak experiments, security assumptions, production-assurance gaps, and unsafe economic assumptions.
+- Codex is an implementation agent. It must implement approved direction and must not treat stale branches, mockups, prototype navigation, invented metrics, movie-only prototype assumptions, or marketing hypotheses as current fact.
+- No AI may promote its own recommendation, marketing strategy, production-economics assumption, or inference to canon without explicit Director approval.
+- CI/tests are deterministic evidence gates. They do not define product direction, marketing strategy, customer liability, or business truth.
 
 ## Growth and marketing
 
@@ -112,7 +114,7 @@ For material growth/marketing work, ChatGPT and Codex must:
 11. report missing telemetry as `UNKNOWN`, not zero;
 12. keep the existing Brain separate: do not create a duplicate "Marketing Brain".
 
-Codex may implement approved analytics events, attribution plumbing, landing experiences, referral mechanics, experiments, dashboards, and product-led growth features. Those changes remain subject to all engineering, security, privacy, data-isolation, and evidence rules.
+Codex may implement approved analytics events, attribution plumbing, landing experiences, referral mechanics, experiments, dashboards, and product-led growth features. Those changes remain subject to all engineering, security, privacy, data-isolation, evidence, and Production Assurance rules.
 
 Before a material growth change is complete, report target audience, user outcome, claim evidence, funnel stage, metric/event definitions, experiment status where applicable, privacy/security impact, expected spend/cost, implementation reality, observed result versus estimate, unknowns/risks, and whether Director approval is required/obtained for consequential public claims, launch, brand, or spend decisions.
 
@@ -125,7 +127,7 @@ Before a material growth change is complete, report target audience, user outcom
 - Route capability gaps through architecture/feasibility review, Steward review, explicit human approval, and behavioural validation before production promotion.
 - Growth Intelligence may prepare controlled experiments only for needs Nexkosmo can truthfully satisfy; it must optimise for retained creator value and sustainable economics rather than attention or vanity metrics.
 - Material claims, campaigns, publishing, spend, partnerships, and roadmap changes remain under explicit human authority.
-- Keep these responsibilities within Nexkosmo's existing intelligence architecture; do not create duplicate market, marketing, growth, correction, security, truth, or social-publishing Brains.
+- Keep these responsibilities within Nexkosmo's existing intelligence architecture; do not create duplicate market, marketing, growth, correction, security, truth, production-assurance, or social-publishing Brains.
 
 ## Development-time verification
 
@@ -190,6 +192,7 @@ Run these governance/security checks before treating significant work as aligned
 
 - `python scripts/verify_canonical_assets.py`
 - `python scripts/verify_alignment.py`
+- `python scripts/verify_production_assurance_alignment.py`
 - `python scripts/verify_drift_guards.py`
 - `python scripts/verify_latent_defect_assurance.py`
 - `python scripts/verify_authority_model.py`
@@ -229,27 +232,55 @@ For any item registered as `FROZEN` or `APPROVED`: resolve its registry entry, r
 
 Sophia (or another selected AI Producer) is the Director-facing relationship and collaboration layer. Brain is Nexkosmo's underlying intelligence/status/health layer. Do not turn Brain into a competing chatbot or create a separate Marketing Brain.
 
-## Product entry and creative workflow
+## Product entry, format profiles, and creative workflow
 
 Normal new-project entry:
 
 `Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> IDEA`
 
-Alternate screenplay-import entry:
+Existing source material may use an approved format-specific import route. For screenplay-based work:
 
 `Landing -> Register/Login -> Hire/Select AI Producer -> Choose/Create Project -> Import Script -> SHAPE`
 
-Canonical creative workflow:
+Canonical shared creative workflow:
 
 `IDEA -> DISCOVER -> SHAPE -> BUILD -> READY -> PRODUCTION`
 
-Studio is not another top-level stage. Production is the movie-wide control room; Studio is contextual precision scene/shot editing opened from Production. Returning from Studio sends edited work back through Brain validation before production approval.
+The shared stages are format-general. Film, animation, commercial, and music-video profiles commonly use Sequence -> Scene -> Shot; games, interactive experiences, 3D/VFX, asset production, simulations, and future formats may use other approved structures such as levels, encounters, cinematics, clips, assets, simulations, passes, or other production units.
+
+Studio is not another top-level stage. Production is the project-wide control room; Studio is contextual precision editing for the selected format-appropriate production unit. Returning from Studio sends edited work back through Brain validation before production approval.
+
+General deep-edit loop:
+
+`PRODUCTION -> select production unit -> Open in Studio -> edit -> return to PRODUCTION -> Brain revalidate -> approve or repair`
+
+A film-oriented profile may expose the same boundary as:
+
+`PRODUCTION -> select scene/shot -> Open in Studio -> edit -> return to PRODUCTION -> Brain revalidate -> approve or repair`
+
+Do not hard-code movie-only Scene/Shot semantics into shared project, Production, Studio, render/compute, billing, or worker contracts.
 
 The legacy prototype navigation `PRE-PRODUCTION -> SET -> STUDIO -> REVIEW -> RENDER` is superseded and must not be merged unchanged.
 
+## Production Assurance and execution economics
+
+`docs/decisions/DEC-0005-production-assurance-and-render-cost-attribution.md` is the approved commercial/production contract for render/compute failure attribution and customer billing responsibility.
+
+- A Nexkosmo-caused failure is not automatically customer-billable merely because compute was consumed.
+- A Director revision after conforming delivery is new authorised work.
+- Actual Production Cost, Customer-Billable Cost, and Nexkosmo Assurance Cost must remain distinct.
+- Fault attribution precedes recovery billing; `UNKNOWN` attribution is not permission to silently charge the customer.
+- Large productions are orchestrated as coherent wholes but executed in the smallest practical independently validatable and recoverable format-appropriate units.
+- A project-wide Render / Build / Produce / Bake / Simulate command is orchestration, not one indivisible execution job.
+- Coverage before completion is allowed when lower-cost broad evidence can expose systemic faults before deep expensive completion.
+- Retry/resume and checkpoint reuse must preserve compatibility evidence; a cheap resume must not silently become a materially more expensive full restart without reassessing cost, attribution, alternatives, and required Director authority.
+- Production Assurance never grants Brain/Orchestrator permission to raise its own budget, compute ceiling, credits, or material-spend authority.
+- Do not create a separate Production Assurance Brain, truth store, or competing acceptance contract. Reuse canonical state, READY evidence, Continuity/State Snapshots, Render/Execution Manifests, dependency evidence, validation, and financial ledgers.
+- A public `100% guarantee` is not a verified product claim until implementation, runtime/billing evidence, customer terms, and applicable legal review support the exact promise.
+
 ## Project state and fixtures
 
-Do not hard-code project-specific state into production paths as canonical truth. Demo fixtures are allowed only when isolated and clearly labelled. Do not invent backend APIs, user metrics, testimonials, revenue, usage counts, creator earnings, or growth results to make a prototype appear complete.
+Do not hard-code project-specific state into production paths as canonical truth. Demo fixtures are allowed only when isolated and clearly labelled. Do not invent backend APIs, user metrics, testimonials, revenue, usage counts, creator earnings, growth results, financial attribution, or guarantee evidence to make a prototype appear complete.
 
 ## Pull-request contract
 
@@ -263,6 +294,7 @@ Significant PRs must identify:
 - development-time checks/failures;
 - latent-defect controls where relevant;
 - security boundaries/invariants, threat-model status, abuse tests, and security scans;
+- for Production Assurance/render/compute/billing work: production format, production-unit contract, manifest/dependency evidence, actual/billable/assurance cost handling, fault attribution, retry/checkpoint containment, customer-liability impact, and unknowns;
 - for material growth work: audience, funnel stage, claim classification/evidence, metric/event definitions, experiment status, privacy/security impact, expected spend/cost, results versus estimates, and unknowns;
 - deterministic/drift validation;
 - for defect repairs: defect status, reproduction, root-cause evidence, regression proof, repair commit, CI and runtime evidence;
