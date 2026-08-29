@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "purpose": "Machine-readable anchors for detecting unintended drift in Nexkosmo constitutional, agent-governance, evidence, production, and authority contracts.",
+  "version": 3,
+  "purpose": "Machine-readable anchors for detecting unintended drift in Nexkosmo constitutional, agent-governance, evidence, production, authority, and operational-truth contracts.",
   "change_control": {
     "explicit_director_approval_required_for_constitutional_change": true,
     "agent_may_not_self_approve_manifest_weakening": true,
@@ -104,6 +104,73 @@
         "Use these finding levels:",
         "Agent agreement is sufficient evidence."
       ]
+    },
+    {
+      "id": "operational_truth_agent_rules",
+      "source": "AGENTS.md",
+      "required_all": [
+        "## Operational truth controls",
+        "do not count multiple agents using the same evidence lineage as independent corroboration;",
+        "do not self-certify success using only the acting agent's own statement;",
+        "do not let a suspect agent be the sole authority clearing its own incident or restoring its own privileges;",
+        "never treat replay as permission to repeat consequential external side effects."
+      ],
+      "forbidden_any": [
+        "Agent consensus is sufficient independent corroboration.",
+        "An acting agent may self-certify consequential success."
+      ]
+    },
+    {
+      "id": "evidence_lineage_and_outcome_integrity",
+      "source": "docs/architecture/OPERATIONAL_TRUTH_CONTROLS.md",
+      "required_all": [
+        "## 1. Evidence lineage",
+        "Confidence must not increase solely because dependent agents agree.",
+        "## 3. Outcome integrity and anti-gaming",
+        "Nexkosmo must never reward an AI merely for appearing correct.",
+        "An agent's own statement that it succeeded, complied, completed a task, or produced a valid result must not by itself satisfy the success condition"
+      ],
+      "forbidden_any": [
+        "Dependent agent agreement counts as independent corroboration.",
+        "An agent's own success statement is sufficient proof of success."
+      ]
+    },
+    {
+      "id": "incident_replay_integrity",
+      "source": "docs/architecture/OPERATIONAL_TRUTH_CONTROLS.md",
+      "required_all": [
+        "## 4. Agent incident evidence",
+        "without relying on the memory, explanation, or cooperation of the component under investigation.",
+        "## 5. Replay and root-cause analysis",
+        "Replay does not mean re-executing dangerous external side effects.",
+        "A suspected agent must not be the sole authority deciding whether its own incident is cleared."
+      ],
+      "forbidden_any": [
+        "Incident reconstruction may rely solely on the suspect agent.",
+        "Replay may automatically repeat dangerous external side effects."
+      ]
+    },
+    {
+      "id": "event_replay_requirements",
+      "source": "docs/EVENT_CONTRACTS.md",
+      "required_all": [
+        "## Operational truth event requirements",
+        "future event contracts to support evidence lineage and incident reconstruction without creating a competing truth store.",
+        "Replay records must distinguish reconstruction from live re-execution.",
+        "must not automatically repeat dangerous or consequential external side effects."
+      ],
+      "forbidden_any": []
+    },
+    {
+      "id": "security_incident_independence",
+      "source": "docs/SECURITY.md",
+      "required_all": [
+        "## Operational truth security requirements",
+        "Consequential success must not be self-certified solely by the actor whose work or behavior is being evaluated.",
+        "A suspect agent or Brain instance must not be the sole authority that clears its own incident, restores its own privileges, or certifies its own evidence record as complete.",
+        "Replay or root-cause tooling must default to reconstruction/simulation and must not automatically repeat consequential external side effects."
+      ],
+      "forbidden_any": []
     },
     {
       "id": "format_general_product_journey",
