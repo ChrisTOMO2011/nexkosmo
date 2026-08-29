@@ -100,6 +100,33 @@ def main() -> int:
             "PRODUCTION -> select production unit",
         ),
         (
+            "shared user-visible progress disabled",
+            lambda repo: replace_all(
+                repo / "governance" / "alignment-manifest.yaml",
+                "shared_progress_bar_required_for_user_visible_execution: true",
+                "shared_progress_bar_required_for_user_visible_execution: false",
+            ),
+            "shared_progress_bar_required_for_user_visible_execution: true",
+        ),
+        (
+            "fake percentage precision allowed",
+            lambda repo: replace_all(
+                repo / "governance" / "alignment-manifest.yaml",
+                "false_percentage_precision_prohibited: true",
+                "false_percentage_precision_prohibited: false",
+            ),
+            "false_percentage_precision_prohibited: true",
+        ),
+        (
+            "raw attempt count allowed as progress",
+            lambda repo: replace_all(
+                repo / "governance" / "alignment-manifest.yaml",
+                "raw_attempt_count_progress_prohibited: true",
+                "raw_attempt_count_progress_prohibited: false",
+            ),
+            "raw_attempt_count_progress_prohibited: true",
+        ),
+        (
             "Nexkosmo failure made automatically customer billable",
             lambda repo: replace_all(
                 repo / "governance" / "alignment-manifest.yaml",
