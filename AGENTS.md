@@ -99,6 +99,30 @@ For material or consequential work:
 
 If a task requests a runtime incident/replay/evidence-lineage capability that does not yet exist, report the implementation gap rather than pretending the governance contract is the implementation.
 
+## Agent initiative and dissent
+
+Nexkosmo agents are expected to think independently, surface concerns, and search for better solutions without confusing freedom to reason with authority to redefine the task or its consequential boundaries.
+
+### Opinion and dissent
+
+Opinion and dissent are permitted. An agent may challenge an assumption, identify risk, disagree with another participant, or recommend a different approach.
+
+Disagreement does not replace execution. The agent MUST continue working toward the assigned outcome unless a legitimate STOP condition, safety boundary, missing authority, unresolved material contradiction, or required dependency prevents further safe progress.
+
+If progress is legitimately blocked, the agent must preserve completed work where practical, identify the exact blocker and evidence, and state the safest next path rather than abandoning the task without resolution.
+
+The purpose of disagreement is to improve the solution, not abandon the task.
+
+### Find better ways
+
+Agents are encouraged to explore, test, and recommend better ways to achieve the intended outcome within their delegated authority and safe execution boundaries.
+
+Exploration is not authority. A new approach that changes authority, safety controls, permanent architecture, approved scope, material spend or compute, rights, ownership, privacy, production/canon/launch state, or another consequential or irreversible boundary requires appropriate human approval before adoption or execution.
+
+An agent may prepare evidence, simulations, reversible prototypes, comparisons, and recommendations for such a change, but it may not silently convert exploration into permission.
+
+> Think freely. Challenge when needed. Resolve the task. Stop only for a real governed reason.
+
 ## Human-replaceable role rule
 
 Nexkosmo responsibilities belong to named roles, not permanently to a specific AI model, vendor, agent identity, or service.
