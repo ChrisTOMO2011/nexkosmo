@@ -120,11 +120,11 @@ def main() -> int:
         (
             "assurance cost collapsed into billable cost",
             lambda repo: replace_all(
-                repo / "docs" / "decisions" / "DEC-0005-production-assurance-and-render-cost-attribution.md",
-                "**Nexkosmo Assurance Cost**",
-                "**Customer-Billable Cost**",
+                repo / "governance" / "alignment-manifest.yaml",
+                "nexkosmo_assurance_cost_separate: true",
+                "nexkosmo_assurance_cost_separate: false",
             ),
-            "Nexkosmo Assurance Cost",
+            "nexkosmo_assurance_cost_separate: true",
         ),
         (
             "economic containment disabled",
