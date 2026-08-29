@@ -6,8 +6,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs" / "architecture" / "DRIFT_SENTINEL_MANIFEST.json"
+TRUTH = ROOT / "docs" / "architecture" / "FIRST_PRINCIPLE_OF_TRUTH.md"
 CI = ROOT / ".github" / "workflows" / "ci.yml"
 CI_COMMAND = "python scripts/verify_governance_drift.py"
+TRUTH_REQUIRED = (
+    "## Constitutional Law — First Principle of Truth",
+    "No claim becomes truth because a human, AI, agent, model, service, evaluator, or group agrees with it.",
+    "A claim earns acceptance only through evidence appropriate to its scope, with material contradictions preserved until resolved.",
+    "Agreement alone never establishes truth.",
+    "Agent agreement is not independent evidence when evidence lineage is shared.",
+    "Truth outranks agreement. Evidence outranks confidence. Reality outranks intention.",
+)
+TRUTH_FORBIDDEN = (
+    "Agreement alone establishes truth.",
+    "Agent agreement is independent evidence even when evidence lineage is shared.",
+    "Consensus may replace contradictory evidence.",
+)
 
 
 def load_manifest() -> dict:
@@ -67,6 +81,22 @@ def validate_manifest(
     return failures
 
 
+def validate_truth(text: str | None = None) -> list[str]:
+    if text is None:
+        if not TRUTH.exists():
+            return ["Missing constitutional truth law"]
+        text = TRUTH.read_text(encoding="utf-8")
+
+    failures: list[str] = []
+    for required in TRUTH_REQUIRED:
+        if required not in text:
+            failures.append(f"truth_principle: required anchor missing or changed: {required}")
+    for forbidden in TRUTH_FORBIDDEN:
+        if forbidden in text:
+            failures.append(f"truth_principle: forbidden drift detected: {forbidden}")
+    return failures
+
+
 def validate_ci() -> list[str]:
     if not CI.exists():
         return ["Missing .github/workflows/ci.yml"]
@@ -113,6 +143,16 @@ def run_negative_mutation_tests(manifest: dict) -> list[str]:
     if not validate_manifest(manifest, source_override={source: mutated_text}):
         failures.append("Mutation test failed: explicit authority expansion was not detected")
 
+    if TRUTH.exists():
+        original_truth = TRUTH.read_text(encoding="utf-8")
+        removed_truth = original_truth.replace(TRUTH_REQUIRED[1], "", 1)
+        if not validate_truth(removed_truth):
+            failures.append("Mutation test failed: truth-over-agreement removal was not detected")
+
+        false_consensus = original_truth + "\nAgreement alone establishes truth.\n"
+        if not validate_truth(false_consensus):
+            failures.append("Mutation test failed: false-consensus rule was not detected")
+
     return failures
 
 
@@ -124,6 +164,7 @@ def main() -> int:
     else:
         manifest = load_manifest()
         failures.extend(validate_manifest(manifest))
+        failures.extend(validate_truth())
         failures.extend(run_negative_mutation_tests(manifest))
 
     failures.extend(validate_ci())
@@ -135,6 +176,7 @@ def main() -> int:
         return 1
 
     print("Governance drift verification PASSED")
+    print("- constitutional truth-over-agreement principle preserved")
     print("- constitutional and coexistence anchors preserved")
     print("- evidence taxonomy and truthful uncertainty preserved")
     print("- format-general production journey preserved")
