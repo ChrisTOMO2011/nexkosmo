@@ -6,11 +6,13 @@ Authority: Director
 
 ## Context
 
-Nexkosmo is intended to give Directors strong production assurance without transferring Nexkosmo-caused production failure cost to the customer or allowing assurance recovery to become an unbounded spend path for Nexkosmo.
+Nexkosmo is intended to give Directors strong production assurance across supported production formats without transferring Nexkosmo-caused production failure cost to the customer or allowing assurance recovery to become an unbounded spend path for Nexkosmo.
 
-The existing architecture already provides the technical foundation: validated canonical state, Continuity Snapshots, versioned Render Manifests, renderer adapters, dependency-aware partial re-rendering, validation, provenance, retry/resume support, human material-spend authority, idempotent financial effects, auditable ledgers, and bounded worker/resource controls.
+The existing architecture already provides the technical foundation: validated canonical state, versioned continuity/state snapshots, versioned execution/Render Manifests, adapters, dependency-aware partial re-execution, validation, provenance, retry/resume support, human material-spend authority, idempotent financial effects, auditable ledgers, and bounded worker/resource controls.
 
-What was not yet explicit was the commercial and accounting rule that links render-failure evidence to financial responsibility.
+Film is one production profile, not the definition of Nexkosmo. The same assurance principles apply to animation, commercials, music videos, games, interactive experiences, 3D/VFX work, simulations, asset production, and future supported formats through their own format-appropriate production units.
+
+What was not yet explicit was the commercial and accounting rule that links production-failure evidence to financial responsibility.
 
 ## Decision
 
@@ -22,16 +24,16 @@ A Nexkosmo-caused failure to deliver work that conforms to the approved producti
 
 A subsequent Director creative revision to work that satisfied the approved production contract basis is new authorised production work, not a Nexkosmo failure.
 
-The production contract basis is derived from the approved canonical state, applicable READY clearance, Continuity Snapshot, Render Manifest, dependency state, rights/provenance state, and recorded Director authority. This decision does not create a competing canonical truth or duplicate Render Manifest.
+The production contract basis is derived from approved canonical state, applicable READY clearance, validated continuity/state snapshots, execution/Render Manifests, dependency state, rights/provenance state, and recorded Director authority. This decision does not create a competing canonical truth or duplicate execution contract.
 
 ### 2. Separate economic facts
 
 For every material production operation, Nexkosmo must preserve distinct financial facts:
 
-- **Actual Production Cost** — all authoritative or defensibly estimated production consumption attributable to the operation, including successful work, failed attempts, validation, recovery, compute, storage, transfer, renderer/service cost, and metered AI/model usage where applicable.
+- **Actual Production Cost** — all authoritative or defensibly estimated production consumption attributable to the operation, including successful work, failed attempts, validation, recovery, compute, storage, transfer, renderer/service/tool cost, and metered AI/model usage where applicable.
 - **Customer-Billable Cost** — only the portion legitimately chargeable to the Director/customer under the applicable product and production contract.
 - **Nexkosmo Assurance Cost** — production cost absorbed by Nexkosmo because the failure or recovery is attributable to Nexkosmo delivery responsibility rather than a new customer-authorised creative change.
-- **Recovered/Reused Value** — measurable work preserved through cache reuse, accepted layers/segments, compatible checkpoints, resume, or narrow re-rendering. This is operational/economic evidence and must not be fabricated as savings when no defensible basis exists.
+- **Recovered/Reused Value** — measurable work preserved through cache reuse, accepted layers/segments/passes/assets/simulations, compatible checkpoints, resume, or narrow re-execution. This is operational/economic evidence and must not be fabricated as savings when no defensible basis exists.
 
 Compute consumption, customer liability, and future contributor compensation are separate facts and must not be collapsed into one number.
 
@@ -42,10 +44,10 @@ A failed or unusable result must be classified from evidence before its recovery
 Relevant classifications include, where applicable:
 
 - approved-state or manifest non-conformance;
-- technical/render failure;
-- continuity failure;
+- technical/render/build/simulation failure;
+- continuity/state failure;
 - worker/infrastructure failure;
-- renderer/provider capability or execution failure;
+- renderer/provider/engine/tool capability or execution failure;
 - Nexkosmo routing/orchestration failure;
 - Director creative revision;
 - Director-requested experiment/alternative;
@@ -53,9 +55,9 @@ Relevant classifications include, where applicable:
 
 `UNKNOWN` attribution is not permission to silently charge the customer as though the failure were a Director revision. Financial policy for unresolved attribution must fail safely and remain auditable.
 
-### 4. No arbitrary render-count limit
+### 4. No arbitrary execution-count limit
 
-Nexkosmo shall not impose an arbitrary creative render-count limit per Scene or Shot as an architectural rule.
+Nexkosmo shall not impose an arbitrary creative render/execution-count limit per production unit as an architectural rule.
 
 Execution remains governed by available credits/resources, project budget, material-spend authority, safety/resource ceilings, and approved product policy.
 
@@ -63,7 +65,7 @@ Execution remains governed by available credits/resources, project budget, mater
 
 Production Assurance is not authority for unlimited retries.
 
-When materially similar failures recur, the Orchestrator/Brain must not continue the same expensive strategy merely because retry is technically possible. It must preserve evidence, reduce the blast radius, diagnose or classify the failure to the level supported by evidence, change route/renderer/model/task scope where appropriate, perform a lower-cost proof where practical, and only then resume expensive execution.
+When materially similar failures recur, the Orchestrator/Brain must not continue the same expensive strategy merely because retry is technically possible. It must preserve evidence, reduce the blast radius, diagnose or classify the failure to the level supported by evidence, change route/renderer/model/engine/tool/task scope where appropriate, perform a lower-cost proof where practical, and only then resume expensive execution.
 
 No permanent fixed retry count is declared by this decision. Evidence-based thresholds and stop conditions must be versioned and grounded in observed reliability/economics rather than invented constants.
 
@@ -75,17 +77,29 @@ Nexkosmo may deliberately incur checkpoint or validation overhead when doing so 
 
 The optimisation objective is not the fewest checkpoints or the minimum raw GPU minutes. It is the reduction of total expected wasted production cost while preserving required quality, evidence, and fault-detection capability.
 
-Checkpoint placement should consider supported factors such as remaining execution cost, recoverable work, shot complexity, failure history, renderer/worker reliability, expensive simulations, Director inspection needs, quality milestones, and compatibility with continuation.
+Checkpoint placement should consider supported factors such as remaining execution cost, recoverable work, production-unit complexity, failure history, renderer/engine/tool/worker reliability, expensive simulations/builds, Director inspection needs, quality milestones, and compatibility with continuation.
 
-A mandatory safety, continuity, rights, technical, or production validation checkpoint must not be suppressed merely to make an estimate appear cheaper.
+A mandatory safety, continuity/state, rights, technical, or production validation checkpoint must not be suppressed merely to make an estimate appear cheaper.
 
-### 7. Checkpoint compatibility and continuation
+### 7. Granular execution and coverage before completion
 
-A checkpoint or partial result may be reused or resumed only when compatibility is established for the relevant execution path. Compatibility may include renderer/version, integrator or production mode, canonical/scene/geometry/material/texture/camera/lighting revisions, resolution, sampling state, AOV/output configuration, colour pipeline, device constraints, and checkpoint format.
+Large productions shall be orchestrated as coherent creative wholes but executed in the smallest practical independently validatable and recoverable units appropriate to the production format.
+
+A project-wide `Render`, `Build`, `Produce`, `Bake`, `Simulate`, or equivalent command is an orchestration command. It must not be interpreted as authority to collapse the entire project into one indivisible execution job.
+
+Where risk justifies it, Nexkosmo may prefer broad lower-cost validation coverage before deep completion of isolated units. The purpose is to expose systemic faults across the relevant production scope before committing heavily to final-quality execution.
+
+Examples include broad preview coverage across a film sequence, representative game level/encounter validation before expensive final bakes, wide asset or simulation validation before deep final execution, and project-wide dependency sanity checks before large compute expenditure.
+
+### 8. Checkpoint compatibility and continuation
+
+A checkpoint or partial result may be reused or resumed only when compatibility is established for the relevant execution path. Compatibility may include renderer/engine/tool version, integrator or production mode, canonical state, scene/level/geometry/material/texture/camera/lighting revisions, resolution, sampling or simulation state, output/pass configuration, colour pipeline, device constraints, and checkpoint format.
 
 Preview-to-final continuation is capability-gated. Preview work must not be promoted into final production merely because reuse would be cheaper.
 
-### 8. Marketing/guarantee boundary
+If a cheap resume or continuation path becomes invalid, Nexkosmo must not silently convert it into a materially more expensive full restart. It must re-evaluate cost, fault attribution, available alternatives, and required Director/material-spend authority before expanding financial exposure.
+
+### 9. Marketing/guarantee boundary
 
 This decision authorises the architecture and policy direction for Production Assurance. It does not, by itself, prove that a public `100% guarantee` is operationally or legally ready to advertise.
 
@@ -96,11 +110,12 @@ The intended product principle is: customers should not be charged for Nexkosmo-
 ## Consequences
 
 - Billing/payment implementation must support separate actual, billable, and assurance amounts and preserve attribution evidence.
-- Render operations and recovery must remain traceable to canonical state, manifests, dependencies, attempts, validation, and cost evidence.
+- Production operations and recovery must remain traceable to canonical state, manifests/contracts, dependencies, attempts, validation, and cost evidence.
 - Retry/resume logic must include economic containment and cannot become an unbounded assurance-spend loop.
-- Reliability becomes part of true route cost: a nominally cheap renderer or worker can be more expensive when failure/recovery cost is included.
+- Reliability becomes part of true route cost: a nominally cheap renderer, engine, tool, provider, or worker can be more expensive when failure/recovery cost is included.
 - Contributor-compute settlement rules must later distinguish consumed compute, valid reusable work, contributor responsibility, Nexkosmo orchestration responsibility, and customer liability.
 - Public claims must not describe the assurance as unconditional satisfaction or unlimited free creative revision unless a separately approved contract explicitly supports that promise.
+- Format-specific production hierarchies may vary, but granular execution, narrow invalidation, evidence-based recovery, and bounded financial exposure remain shared Nexkosmo rules.
 
 ## Validation required before public Production Assurance launch
 
@@ -109,11 +124,11 @@ Before Nexkosmo publicly advertises a production guarantee based on this decisio
 1. server-authoritative price/credit policy;
 2. durable auditable financial ledger;
 3. idempotent billing and duplicate-completion protection;
-4. render attempt/result/dependency/validation evidence;
+4. production attempt/result/dependency/validation evidence;
 5. fault-attribution states and dispute/review path;
 6. separate Actual Production Cost, Customer-Billable Cost, and Nexkosmo Assurance Cost;
 7. bounded retry/economic stop controls;
-8. worker/provider failure handling appropriate to the active execution routes;
+8. worker/provider/tool failure handling appropriate to the active execution routes;
 9. reconciliation between provider/compute evidence and internal ledger;
 10. clear customer-facing guarantee terms reviewed for applicable legal requirements.
 
