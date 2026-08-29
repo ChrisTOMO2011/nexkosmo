@@ -37,6 +37,19 @@ TASK_FORBIDDEN = (
     "Silence is an acceptable task outcome.",
     "Disagreement alone is sufficient reason to abandon a task.",
 )
+HANDOFF_REQUIRED = (
+    "### Handoff is an exit path, not an early escape",
+    "A governed handoff is a controlled exit path, not a routine early step in task execution.",
+    "An agent must own the task for as long as it can legitimately make progress within delegated authority, safety boundaries, available capability, and the approved scope.",
+    "A handoff is appropriate only when continuing genuinely requires another authorised participant, capability, permission, dependency, or decision that the current agent cannot legitimately provide.",
+    "Difficulty, inconvenience, disagreement, uncertainty that can still be investigated, or the availability of another agent are not by themselves sufficient reasons to hand off.",
+    "Own the task while legitimate progress remains. Hand it off only when continuation genuinely requires another authorised participant.",
+)
+HANDOFF_FORBIDDEN = (
+    "Handoff is a routine early step in task execution.",
+    "Difficulty alone is sufficient reason to hand off.",
+    "An agent may hand off while it can still make legitimate progress.",
+)
 
 
 def load_manifest() -> dict:
@@ -128,6 +141,26 @@ def validate_task_completion(text: str | None = None) -> list[str]:
         if forbidden in text:
             failures.append(
                 f"task_completion_responsibility: forbidden drift detected: {forbidden}"
+            )
+    return failures
+
+
+def validate_handoff_responsibility(text: str | None = None) -> list[str]:
+    if text is None:
+        if not AGENTS.exists():
+            return ["Missing AGENTS.md handoff responsibility contract"]
+        text = AGENTS.read_text(encoding="utf-8")
+
+    failures: list[str] = []
+    for required in HANDOFF_REQUIRED:
+        if required not in text:
+            failures.append(
+                f"handoff_responsibility: required anchor missing or changed: {required}"
+            )
+    for forbidden in HANDOFF_FORBIDDEN:
+        if forbidden in text:
+            failures.append(
+                f"handoff_responsibility: forbidden drift detected: {forbidden}"
             )
     return failures
 
@@ -226,6 +259,18 @@ def run_negative_mutation_tests(manifest: dict) -> list[str]:
                 "Mutation test failed: silent task abandonment was not detected"
             )
 
+        removed_handoff_rule = original_agents.replace(HANDOFF_REQUIRED[-1], "", 1)
+        if not validate_handoff_responsibility(removed_handoff_rule):
+            failures.append(
+                "Mutation test failed: anti-premature-handoff rule removal was not detected"
+            )
+
+        premature_handoff = original_agents + "\nDifficulty alone is sufficient reason to hand off.\n"
+        if not validate_handoff_responsibility(premature_handoff):
+            failures.append(
+                "Mutation test failed: premature handoff permission was not detected"
+            )
+
     return failures
 
 
@@ -239,6 +284,7 @@ def main() -> int:
         failures.extend(validate_manifest(manifest))
         failures.extend(validate_truth())
         failures.extend(validate_task_completion())
+        failures.extend(validate_handoff_responsibility())
         failures.extend(run_negative_mutation_tests(manifest))
 
     failures.extend(validate_ci())
@@ -258,6 +304,7 @@ def main() -> int:
     print("- incident evidence and safe replay rules preserved")
     print("- agent initiative and dissent rules preserved")
     print("- task completion, justified-stop, and governed-handoff responsibility preserved")
+    print("- handoff remains an exit path, not an early escape")
     print("- format-general production journey preserved")
     print("- authenticated actor binding preserved")
     print("- policy self-escalation protections preserved")
