@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs" / "architecture" / "DRIFT_SENTINEL_MANIFEST.json"
 TRUTH = ROOT / "docs" / "architecture" / "FIRST_PRINCIPLE_OF_TRUTH.md"
+AGENTS = ROOT / "AGENTS.md"
 CI = ROOT / ".github" / "workflows" / "ci.yml"
 CI_COMMAND = "python scripts/verify_governance_drift.py"
 TRUTH_REQUIRED = (
@@ -21,6 +22,20 @@ TRUTH_FORBIDDEN = (
     "Agreement alone establishes truth.",
     "Agent agreement is independent evidence even when evidence lineage is shared.",
     "Consensus may replace contradictory evidence.",
+)
+TASK_REQUIRED = (
+    "### Task completion responsibility",
+    "A task creates a responsibility to deliver an outcome or a clear governed handoff because another participant, system, or workflow may be waiting on the result.",
+    "1. **Completed** — deliver the result and the evidence appropriate to its scope.",
+    "2. **Justified stop** — state the legitimate blocker or STOP condition, preserve completed work where practical, provide the supporting evidence, and identify the safest next action.",
+    "3. **Governed handoff** — transfer the work with sufficient context, state, evidence, outstanding obligations, and next action for an authorised participant to continue without avoidable loss.",
+    "An agent MUST NOT leave a task unresolved through silence, abandonment, unexplained refusal, or disagreement alone.",
+    "Every task must end in a result, a justified stop, or a governed handoff — never silence or abandonment.",
+)
+TASK_FORBIDDEN = (
+    "An agent may leave a task unresolved without explanation.",
+    "Silence is an acceptable task outcome.",
+    "Disagreement alone is sufficient reason to abandon a task.",
 )
 
 
@@ -94,6 +109,26 @@ def validate_truth(text: str | None = None) -> list[str]:
     for forbidden in TRUTH_FORBIDDEN:
         if forbidden in text:
             failures.append(f"truth_principle: forbidden drift detected: {forbidden}")
+    return failures
+
+
+def validate_task_completion(text: str | None = None) -> list[str]:
+    if text is None:
+        if not AGENTS.exists():
+            return ["Missing AGENTS.md task responsibility contract"]
+        text = AGENTS.read_text(encoding="utf-8")
+
+    failures: list[str] = []
+    for required in TASK_REQUIRED:
+        if required not in text:
+            failures.append(
+                f"task_completion_responsibility: required anchor missing or changed: {required}"
+            )
+    for forbidden in TASK_FORBIDDEN:
+        if forbidden in text:
+            failures.append(
+                f"task_completion_responsibility: forbidden drift detected: {forbidden}"
+            )
     return failures
 
 
@@ -177,6 +212,20 @@ def run_negative_mutation_tests(manifest: dict) -> list[str]:
         if not validate_truth(false_consensus):
             failures.append("Mutation test failed: false-consensus rule was not detected")
 
+    if AGENTS.exists():
+        original_agents = AGENTS.read_text(encoding="utf-8")
+        removed_task_rule = original_agents.replace(TASK_REQUIRED[-1], "", 1)
+        if not validate_task_completion(removed_task_rule):
+            failures.append(
+                "Mutation test failed: task completion responsibility removal was not detected"
+            )
+
+        silent_abandonment = original_agents + "\nSilence is an acceptable task outcome.\n"
+        if not validate_task_completion(silent_abandonment):
+            failures.append(
+                "Mutation test failed: silent task abandonment was not detected"
+            )
+
     return failures
 
 
@@ -189,6 +238,7 @@ def main() -> int:
         manifest = load_manifest()
         failures.extend(validate_manifest(manifest))
         failures.extend(validate_truth())
+        failures.extend(validate_task_completion())
         failures.extend(run_negative_mutation_tests(manifest))
 
     failures.extend(validate_ci())
@@ -206,7 +256,8 @@ def main() -> int:
     print("- evidence-lineage independence preserved")
     print("- outcome-integrity and anti-gaming rules preserved")
     print("- incident evidence and safe replay rules preserved")
-    print("- agent initiative, dissent, and task-resolution rules preserved")
+    print("- agent initiative and dissent rules preserved")
+    print("- task completion, justified-stop, and governed-handoff responsibility preserved")
     print("- format-general production journey preserved")
     print("- authenticated actor binding preserved")
     print("- policy self-escalation protections preserved")
