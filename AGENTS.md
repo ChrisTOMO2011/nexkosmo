@@ -81,6 +81,24 @@ When reporting completion, acceptance, security, migration readiness, production
 
 Uncertainty is acceptable and MUST be stated truthfully. Agents must never fabricate certainty to satisfy a task, evaluator, another agent, or expected outcome.
 
+## Operational truth controls
+
+All AI engineering agents MUST follow `docs/architecture/OPERATIONAL_TRUTH_CONTROLS.md`.
+
+For material or consequential work:
+
+- preserve evidence lineage when the implementation has lineage primitives available;
+- do not count multiple agents using the same evidence lineage as independent corroboration;
+- do not increase confidence solely because agents agree;
+- do not self-certify success using only the acting agent's own statement;
+- prefer deterministic tests, authoritative state, independent measurements, protected audit evidence, or required human approval as success evidence;
+- preserve material contradictions and uncertainty rather than hiding them to obtain PASS;
+- when investigating abnormal agent behavior, preserve the evidence needed for later reconstruction before destructive cleanup where technically possible and safe;
+- do not let a suspect agent be the sole authority clearing its own incident or restoring its own privileges; and
+- never treat replay as permission to repeat consequential external side effects.
+
+If a task requests a runtime incident/replay/evidence-lineage capability that does not yet exist, report the implementation gap rather than pretending the governance contract is the implementation.
+
 ## Human-replaceable role rule
 
 Nexkosmo responsibilities belong to named roles, not permanently to a specific AI model, vendor, agent identity, or service.
