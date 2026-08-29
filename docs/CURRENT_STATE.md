@@ -3,7 +3,7 @@
 Status: CANONICAL CURRENT-STATE SNAPSHOT
 Owner: Director
 Alignment steward: ChatGPT
-Last updated: 2026-08-19
+Last updated: 2026-08-29
 
 This file is the compact authoritative snapshot of Nexkosmo's current approved direction. It is intentionally smaller than the full architecture documentation. Detailed specifications remain in their dedicated documents.
 
@@ -69,6 +69,25 @@ The production deep-edit loop is:
 
 `PRODUCTION -> select scene/shot -> Open in Studio -> edit -> return to PRODUCTION -> Brain revalidate -> approve or repair`
 
+## Production Assurance and render economics
+
+`docs/decisions/DEC-0005-production-assurance-and-render-cost-attribution.md` defines the approved Production Assurance direction.
+
+- READY does not mean production can never change. Approved production state establishes the baseline from which downstream dependency validity is measured.
+- Render execution must originate from validated, versioned state and preserve the distinction between a Nexkosmo-caused production failure and a new Director-authorised creative revision.
+- Nexkosmo shall not treat every consumed machine cycle as automatically customer-billable.
+- Material production accounting must keep **Actual Production Cost**, **Customer-Billable Cost**, and **Nexkosmo Assurance Cost** distinct. Recovered/reused work may be tracked separately when supported by defensible evidence.
+- A Nexkosmo-caused failure to conform to the approved production contract basis must not silently become a customer-billable retry merely because compute was consumed.
+- A Director change after conforming work is delivered is new authorised production work rather than a Nexkosmo failure.
+- The Render Orchestrator must preserve accepted work and identify the smallest valid re-render scope when dependencies permit.
+- Production Assurance is not permission for unbounded retries. Repeated materially similar failures require evidence-based containment, route/renderer/model/task reconsideration, and lower-cost proof where practical before expensive continuation.
+- Validation checkpoints may intentionally consume some compute when they reduce expected downstream loss or expose faults before more expensive continuation. The objective is minimum expected wasted production cost, not simply the fewest checkpoints or minimum raw GPU minutes.
+- The Brain/Orchestrator may reduce or stop delegated execution when risk rises, but cannot increase its own budget, compute ceiling, or material-spend authority.
+- Nexkosmo shall not impose an arbitrary architectural render-count limit per Scene or Shot. Execution remains subject to credits/resources, project budget, safety/resource ceilings, and Director material-spend authority.
+- A public `100% guarantee` remains a planned commercial promise until billing, attribution, ledger, recovery, runtime evidence, customer terms, and applicable legal review support the exact claim. Product truth and claims assurance apply.
+
+The existing Render Manifest remains the execution contract; Production Assurance does not create a competing truth store or duplicate manifest.
+
 ## Human and AI authority
 
 - The human user is the Director and retains final creative and consequential authority unless explicitly delegated.
@@ -115,6 +134,7 @@ Demo fixtures are allowed only when clearly isolated and labelled as fixtures. F
 - Therefore it must be reconciled with this state before becoming the production UI foundation.
 - Preserve reusable layout/components that remain compatible; do not delete useful prototype work merely because its navigation assumptions are obsolete.
 - Do not infer that a designed screen, mockup, placeholder route, or documented architecture is already implemented end-to-end.
+- Production Assurance, financial attribution, intelligent render checkpoints, and bounded assurance recovery are approved design/canon but are not yet verified end-to-end runtime capabilities.
 
 ## Current engineering priority
 
