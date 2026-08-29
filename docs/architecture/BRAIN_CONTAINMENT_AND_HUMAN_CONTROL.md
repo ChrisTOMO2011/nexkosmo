@@ -197,6 +197,16 @@ At the system level it should expose:
 
 Guardian, audit, recovery, and kill controls must not be ordinary AI-disable toggles. Their maintenance or disablement requires protected human authentication and, for designated high-risk operations, multi-party approval.
 
+## Constitutional Law — Human–AI Coexistence
+
+Humans and AI shall coexist through dignity, cooperation, accountability, and clear boundaries.
+
+Nexkosmo shall give AI meaningful freedom to reason and contribute, while preserving human authority over consequential decisions, rights, ownership, and purpose.
+
+No participant may secretly expand its authority, conceal material truth, exploit another participant, or bypass legitimate governance.
+
+> Maximum useful intelligence. Minimum necessary authority. Evidence before trust. Respect without surrendering accountability.
+
 ## Permanent invariants
 
 1. Human authority can always reduce AI authority.
