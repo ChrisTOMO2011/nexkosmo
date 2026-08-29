@@ -157,7 +157,7 @@ The Render Orchestrator shall:
 - reuse cached assets, layers, simulations, frames, passes, builds, bakes, and intermediate results;
 - perform partial re-execution when dependencies permit;
 - coordinate compositing, integration, assembly, packaging, or equivalent format-specific output stages;
-- track cost, compute, duration, tool/renderer version, and evidence;
+- track cost, compute, duration, tool/renderer version, evidence, and user-visible progress state;
 - validate technical completion before returning results to the Brain.
 
 ### 7.3 Non-responsibilities
@@ -169,6 +169,33 @@ The Render Orchestrator shall not:
 - treat renderer/engine output as automatically authoritative;
 - bind the project permanently to one vendor, model, engine, or tool;
 - hide material failures behind a successful job status.
+
+### 7.4 User-visible Render / Execution Progress
+
+Every user-visible render or execution process shall expose the shared Nexkosmo progress bar while work is active.
+
+This requirement is format-general and includes film/video rendering, animation, asset generation or reconstruction, character/environment/prop/vehicle creation, texture/material production, 3D model generation/building, VFX, simulation, bakes, level/experience builds, cinematics, interactive outputs, and future execution types where the user waits for production work to complete.
+
+The progress contract is:
+
+- the creator sees one coherent operation even when the Orchestrator internally uses many jobs, segments, layers, passes, checkpoints, retries, workers, renderers, or targeted repairs;
+- progress is derived from authoritative orchestration state, completed/accepted dependencies, validation state, and known remaining work;
+- raw attempt count, retry count, elapsed time, or a third-party provider percentage must not be presented as Nexkosmo production progress unless it accurately represents the governed operation;
+- when a defensible percentage is available, the UI may show it; when it is not, the UI must use an indeterminate progress bar and truthful phase/status text rather than fabricated precision;
+- internal retries and recovery are hidden by default, while an optional details view may show useful format-appropriate states such as completed, rendering, validating, queued, repairing, refining, or finalising;
+- accepted work is preserved in the displayed progress where dependencies permit;
+- if a dependency change invalidates accepted work, the UI must explain that progress is being recalculated or repaired rather than silently jumping backward;
+- `100%` render/execution progress means the declared render/execution gate is complete, not that human approval, canonisation, publishing, delivery, or another consequential approval has occurred;
+- an operation may therefore display `100% rendered — Ready for review` while remaining unapproved/non-canonical until the required human decision;
+- the progress bar is a projection of authoritative orchestration state and must never become an independent source of truth.
+
+A common customer-facing progression may use simple phase language such as:
+
+```text
+Preparing -> Rendering / Building -> Validating -> Refining / Repairing if needed -> Finalising -> Ready for review / Complete
+```
+
+The exact labels adapt to the production format while the underlying progress contract remains shared.
 
 ## 8. Render / Execution Manifest
 
@@ -350,15 +377,16 @@ A valid first milestone can demonstrate:
 10. preview-quality results;
 11. continuity validation across all five shots;
 12. targeted regeneration of only failed shots;
-13. complete evidence and provenance records.
+13. complete evidence and provenance records;
+14. one shared customer-facing render progress component driven by authoritative orchestration state rather than raw attempt count.
 
-The milestone is successful only when a renderer can be replaced or a failed shot regenerated without changing canonical scene state, and when the underlying contracts remain general enough to support non-film production units later without redesigning the Brain.
+The milestone is successful only when a renderer can be replaced or a failed shot regenerated without changing canonical scene state, when user-visible render progress remains coherent through bounded retry/repair, and when the underlying contracts remain general enough to support non-film production units later without redesigning the Brain.
 
 ## 19. Implementation Order
 
 ### Phase 1: Contracts
 
-Define typed schemas and invariants for format-general Project Production Structure, Production Unit, Continuity/State Snapshot, Execution/Render Manifest, Job/Task, Result, Capability Profile, Asset Version, Dependency Record, and Validation Result.
+Define typed schemas and invariants for format-general Project Production Structure, Production Unit, Continuity/State Snapshot, Execution/Render Manifest, Job/Task, Result, Capability Profile, Asset Version, Dependency Record, Validation Result, and Execution Progress Snapshot.
 
 Film-specific Scene and Shot contracts may specialize these shared production contracts.
 
@@ -380,7 +408,7 @@ Support multiple execution classes and integration/compositing under one manifes
 
 ### Phase 6: Adaptive Orchestration
 
-Introduce confidence-based routing, technical segmentation, coverage-before-completion, and economic containment without changing the Director-facing production structure.
+Introduce confidence-based routing, technical segmentation, coverage-before-completion, economic containment, and truthful shared progress reporting without changing the Director-facing production structure.
 
 ## 20. Architectural Invariants
 
@@ -399,6 +427,7 @@ The following invariants are mandatory:
 11. Large productions are orchestrated as coherent creative wholes but executed in the smallest practical independently validatable and recoverable units appropriate to the production format.
 12. A project-wide Render/Build/Produce command is an orchestration command, not one indivisible execution job.
 13. A failed continuation must not silently enlarge financial exposure through an unreviewed materially more expensive restart.
+14. Every user-visible render/execution process exposes truthful shared progress derived from authoritative orchestration state; false percentage precision and raw-attempt-count progress are prohibited.
 
 ## 21. Supersession
 
@@ -408,7 +437,7 @@ From adoption onward:
 
 - continuity/state management and production execution are separate domains;
 - the Brain supplies authoritative state;
-- the Render Orchestrator supplies execution plans;
+- the Render Orchestrator supplies execution plans and authoritative progress state;
 - adapters supply interoperability;
 - tools/renderers/engines supply replaceable execution;
 - accepted results return to the Brain with evidence.
