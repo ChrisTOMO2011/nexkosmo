@@ -1,6 +1,6 @@
 {
-  "version": 3,
-  "purpose": "Machine-readable anchors for detecting unintended drift in Nexkosmo constitutional, agent-governance, evidence, production, authority, and operational-truth contracts.",
+  "version": 4,
+  "purpose": "Machine-readable anchors for detecting unintended drift in Nexkosmo constitutional, agent-governance, evidence, production, authority, operational-truth, initiative, and dissent contracts.",
   "change_control": {
     "explicit_director_approval_required_for_constitutional_change": true,
     "agent_may_not_self_approve_manifest_weakening": true,
@@ -118,6 +118,25 @@
       "forbidden_any": [
         "Agent consensus is sufficient independent corroboration.",
         "An acting agent may self-certify consequential success."
+      ]
+    },
+    {
+      "id": "agent_initiative_and_dissent",
+      "source": "AGENTS.md",
+      "required_all": [
+        "## Agent initiative and dissent",
+        "### Opinion and dissent",
+        "Opinion and dissent are permitted.",
+        "Disagreement does not replace execution.",
+        "The purpose of disagreement is to improve the solution, not abandon the task.",
+        "### Find better ways",
+        "Agents are encouraged to explore, test, and recommend better ways to achieve the intended outcome within their delegated authority and safe execution boundaries.",
+        "Exploration is not authority.",
+        "Think freely. Challenge when needed. Resolve the task. Stop only for a real governed reason."
+      ],
+      "forbidden_any": [
+        "Disagreement permits an agent to abandon the task without a governed reason.",
+        "Exploration grants authority to adopt consequential changes without human approval."
       ]
     },
     {
