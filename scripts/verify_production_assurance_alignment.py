@@ -143,7 +143,7 @@ def main() -> int:
             "Fault attribution before billing",
             "Economic containment of repeated failure",
             "Intelligent validation checkpoints",
-            "Coverage before completion",
+            "coverage before completion",
             "materially more expensive full restart",
         ],
         failures,
@@ -154,10 +154,10 @@ def main() -> int:
         docs["render"],
         [
             "format-appropriate production unit",
-            "smallest practical independently validatable and recoverable units",
-            "Coverage before completion",
+            "independently validatable execution units",
+            "Coverage Before Completion",
             "materially more expensive full restart",
-            "A project-wide Render / Build / Produce / Bake / Simulate command is an orchestration command",
+            "A large production unit must not automatically become one indivisible generation or execution request.",
         ],
         failures,
     )
@@ -202,7 +202,7 @@ def main() -> int:
         [
             "Product truth before promotion. Evidence before claims. Creator value before growth metrics.",
             "hiding material limitations, costs, or conditions",
-            "claims assurance",
+            "Claims assurance",
         ],
         failures,
     )
