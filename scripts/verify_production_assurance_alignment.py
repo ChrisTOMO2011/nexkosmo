@@ -65,6 +65,12 @@ def main() -> int:
             "movie_only_semantics_prohibited_as_universal_contract: true",
             "execute_smallest_practical_validatable_recoverable_units: true",
             "coverage_before_completion_supported: true",
+            "shared_progress_bar_required_for_user_visible_execution: true",
+            "authoritative_orchestration_state_required: true",
+            "false_percentage_precision_prohibited: true",
+            "raw_attempt_count_progress_prohibited: true",
+            "indeterminate_state_required_when_percentage_unknown: true",
+            "execution_100_percent_distinct_from_human_approval_and_canonisation: true",
             "nexkosmo_caused_failure_not_automatically_customer_billable: true",
             "actual_production_cost_separate_from_customer_billable_cost: true",
             "fault_attribution_before_recovery_billing: true",
@@ -81,6 +87,9 @@ def main() -> int:
         [
             "Nexkosmo must not force every project into movie-only vocabulary or hierarchy.",
             GENERAL_LOOP,
+            "Every user-visible render or execution process must expose the shared Nexkosmo progress bar while work is active.",
+            "Progress must represent known/validated production progress and accepted work, not raw render-attempt count",
+            "100%` render/execution progress means the defined render/execution gate for that operation is complete",
             "Large productions should be orchestrated as one creative whole but executed in the smallest practical independently validatable and recoverable units appropriate to the production format.",
             "Coverage before completion",
             "Actual Production Cost",
@@ -155,6 +164,9 @@ def main() -> int:
         [
             "format-appropriate production unit",
             "independently validatable execution units",
+            "Every user-visible render or execution process shall expose the shared Nexkosmo progress bar while work is active.",
+            "raw attempt count, retry count, elapsed time, or a third-party provider percentage must not be presented as Nexkosmo production progress",
+            "when a defensible percentage is available, the UI may show it; when it is not, the UI must use an indeterminate progress bar",
             "Coverage Before Completion",
             "materially more expensive full restart",
             "A large production unit must not automatically become one indivisible generation or execution request.",
@@ -212,7 +224,7 @@ def main() -> int:
             print(f"PRODUCTION ASSURANCE ALIGNMENT FAIL: {failure}")
         return 1
 
-    print("Production Assurance and format-general production alignment passed.")
+    print("Production Assurance, format-general production, and shared progress alignment passed.")
     return 0
 
 
