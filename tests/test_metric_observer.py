@@ -41,19 +41,22 @@ def test_observer_detects_cost_and_handoff_drift() -> None:
             index,
             cost=2.0,
             resolution=(
-                TaskResolution.HANDED_OFF if index <= 5 else TaskResolution.COMPLETED
+                TaskResolution.HANDED_OFF if index <= 15 else TaskResolution.COMPLETED
             ),
-            handoffs=1 if index <= 5 else 0,
+            handoffs=1 if index <= 15 else 0,
         )
         for index in range(11, 21)
     )
 
     report = MetricObserver().compare(baseline=baseline, current=current)
-    metrics = {finding.metric for finding in report.drift_findings}
+    findings = {finding.metric: finding for finding in report.drift_findings}
 
     assert report.drift_detected is True
-    assert MetricName.COST_PER_VALIDATED_OUTCOME in metrics
-    assert MetricName.HANDOFF_RATE in metrics
+    assert MetricName.COST_PER_VALIDATED_OUTCOME in findings
+    assert MetricName.HANDOFF_RATE in findings
+    assert findings[MetricName.HANDOFF_RATE].baseline_value == 0.0
+    assert findings[MetricName.HANDOFF_RATE].current_value == 0.5
+    assert findings[MetricName.HANDOFF_RATE].relative_change is None
 
 
 def test_observer_detects_drift_from_zero_premature_handoff_baseline() -> None:
@@ -71,10 +74,7 @@ def test_observer_detects_drift_from_zero_premature_handoff_baseline() -> None:
     )
 
     report = MetricObserver().compare(baseline=baseline, current=current)
-    findings = {
-        finding.metric: finding
-        for finding in report.drift_findings
-    }
+    findings = {finding.metric: finding for finding in report.drift_findings}
 
     assert MetricName.PREMATURE_HANDOFF_RATE in findings
     assert findings[MetricName.PREMATURE_HANDOFF_RATE].relative_change is None
@@ -83,8 +83,7 @@ def test_observer_detects_drift_from_zero_premature_handoff_baseline() -> None:
 def test_observer_detects_validated_outcome_degradation() -> None:
     baseline = tuple(observation(index) for index in range(1, 11))
     current = tuple(
-        observation(index, validated=index <= 15)
-        for index in range(11, 21)
+        observation(index, validated=index <= 15) for index in range(11, 21)
     )
 
     report = MetricObserver().compare(baseline=baseline, current=current)
