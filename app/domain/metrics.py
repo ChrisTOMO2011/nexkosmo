@@ -139,10 +139,7 @@ def detect_drift(
         baseline_value = baseline.values[rule.metric]
         current_value = current.values[rule.metric]
         delta = current_value - baseline_value
-        if rule.direction is DriftDirection.DECREASE:
-            directional_delta = -delta
-        else:
-            directional_delta = delta
+        directional_delta = -delta if rule.direction is DriftDirection.DECREASE else delta
 
         if directional_delta <= 0:
             continue
@@ -153,7 +150,7 @@ def detect_drift(
 
         if baseline_value == 0:
             relative = None
-            qualifies = rule.relative_change == 0 and abs(delta) >= rule.minimum_absolute_change
+            qualifies = abs(delta) > 0 and abs(delta) >= rule.minimum_absolute_change
         else:
             relative = abs(delta) / baseline_value
             qualifies = relative >= rule.relative_change
