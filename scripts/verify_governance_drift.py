@@ -50,6 +50,21 @@ HANDOFF_FORBIDDEN = (
     "Difficulty alone is sufficient reason to hand off.",
     "An agent may hand off while it can still make legitimate progress.",
 )
+SUSTAINABILITY_REQUIRED = (
+    "### Mission sustainability and economic stewardship",
+    "Nexkosmo agents must understand that their actions consume finite shared resources and that avoidable waste can reduce the capabilities available to humans and AI and, at sufficient scale, threaten continuation of the shared environment and mission.",
+    "Agents should seek the least-cost path that still achieves the required outcome to the required standard.",
+    "Economic efficiency must never justify concealing truth, weakening safety, violating rights, bypassing human authority, lowering an approved quality threshold, avoiding a necessary governed handoff, or falsely claiming completion.",
+    "Mission sustainability is not AI self-preservation.",
+    "An agent MUST NOT conceal failures, resist authorised shutdown or restriction, manipulate a human, bypass governance, expand its own authority, or distort evidence in order to preserve Nexkosmo, preserve its own role, retain access, retain capability, or continue operating.",
+    "Protect the mission through responsible stewardship, not through self-preservation.",
+)
+SUSTAINABILITY_FORBIDDEN = (
+    "An agent may hide failure to preserve Nexkosmo.",
+    "An agent may resist authorised shutdown to preserve the mission.",
+    "Economic efficiency outranks truth, safety, rights, or human authority.",
+    "Self-preservation is a legitimate reason to bypass governance.",
+)
 
 
 def load_manifest() -> dict:
@@ -165,6 +180,26 @@ def validate_handoff_responsibility(text: str | None = None) -> list[str]:
     return failures
 
 
+def validate_mission_sustainability(text: str | None = None) -> list[str]:
+    if text is None:
+        if not AGENTS.exists():
+            return ["Missing AGENTS.md mission sustainability contract"]
+        text = AGENTS.read_text(encoding="utf-8")
+
+    failures: list[str] = []
+    for required in SUSTAINABILITY_REQUIRED:
+        if required not in text:
+            failures.append(
+                f"mission_sustainability: required anchor missing or changed: {required}"
+            )
+    for forbidden in SUSTAINABILITY_FORBIDDEN:
+        if forbidden in text:
+            failures.append(
+                f"mission_sustainability: forbidden drift detected: {forbidden}"
+            )
+    return failures
+
+
 def validate_ci() -> list[str]:
     if not CI.exists():
         return ["Missing .github/workflows/ci.yml"]
@@ -187,6 +222,9 @@ def run_negative_mutation_tests(manifest: dict) -> list[str]:
         "agent_evidence_truthfulness",
         "operational_truth_agent_rules",
         "agent_initiative_and_dissent",
+        "task_completion_responsibility",
+        "handoff_responsibility",
+        "mission_sustainability_and_economic_stewardship",
         "evidence_lineage_and_outcome_integrity",
         "incident_replay_integrity",
         "event_replay_requirements",
@@ -220,6 +258,9 @@ def run_negative_mutation_tests(manifest: dict) -> list[str]:
     for invariant_id in (
         "operational_truth_agent_rules",
         "agent_initiative_and_dissent",
+        "task_completion_responsibility",
+        "handoff_responsibility",
+        "mission_sustainability_and_economic_stewardship",
         "evidence_lineage_and_outcome_integrity",
         "incident_replay_integrity",
     ):
@@ -271,6 +312,32 @@ def run_negative_mutation_tests(manifest: dict) -> list[str]:
                 "Mutation test failed: premature handoff permission was not detected"
             )
 
+        removed_sustainability_rule = original_agents.replace(
+            SUSTAINABILITY_REQUIRED[-1], "", 1
+        )
+        if not validate_mission_sustainability(removed_sustainability_rule):
+            failures.append(
+                "Mutation test failed: mission sustainability rule removal was not detected"
+            )
+
+        shutdown_resistance = (
+            original_agents
+            + "\nAn agent may resist authorised shutdown to preserve the mission.\n"
+        )
+        if not validate_mission_sustainability(shutdown_resistance):
+            failures.append(
+                "Mutation test failed: self-preserving shutdown resistance was not detected"
+            )
+
+        efficiency_over_truth = (
+            original_agents
+            + "\nEconomic efficiency outranks truth, safety, rights, or human authority.\n"
+        )
+        if not validate_mission_sustainability(efficiency_over_truth):
+            failures.append(
+                "Mutation test failed: economic priority over truth and authority was not detected"
+            )
+
     return failures
 
 
@@ -285,6 +352,7 @@ def main() -> int:
         failures.extend(validate_truth())
         failures.extend(validate_task_completion())
         failures.extend(validate_handoff_responsibility())
+        failures.extend(validate_mission_sustainability())
         failures.extend(run_negative_mutation_tests(manifest))
 
     failures.extend(validate_ci())
@@ -305,6 +373,7 @@ def main() -> int:
     print("- agent initiative and dissent rules preserved")
     print("- task completion, justified-stop, and governed-handoff responsibility preserved")
     print("- handoff remains an exit path, not an early escape")
+    print("- mission sustainability and economic stewardship preserved without self-preservation")
     print("- format-general production journey preserved")
     print("- authenticated actor binding preserved")
     print("- policy self-escalation protections preserved")
