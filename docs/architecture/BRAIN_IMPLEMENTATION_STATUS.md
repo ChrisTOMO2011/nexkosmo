@@ -19,6 +19,7 @@ The current repository contains implementation for:
 - Confidence-related domain foundations
 - Evidence and provenance foundations
 - Workflow/event foundations
+- Runtime Metric Observer domain and drift-evaluation foundations
 
 These entries mean code or architecture exists. They do **not** mean the area is fully production-verified end to end.
 
@@ -31,6 +32,8 @@ Pure-domain evidence demonstrates, within its tested scope:
 - contradictory assertions can coexist without erasure;
 - human decisions can accept and reject competing assertions while preserving decision reasons.
 
+The Runtime Metric Observer branch adds tests intended to verify, within their narrow scope, snapshot aggregation, configured drift detection, zero-baseline drift handling, comparable-task enforcement, and stable/no-drift behaviour. Those claims become verified only after the branch CI executes successfully at the exact implementation head.
+
 ## Not yet verified end to end
 
 The repository's own evidence record and STOP-GATE state mean the following must not be described as production-verified until the required runtime/database proofs have executed successfully:
@@ -41,6 +44,9 @@ The repository's own evidence record and STOP-GATE state mean the following must
 - complete Confidence Engine behaviour;
 - complete Evidence & Provenance Engine behaviour;
 - complete Workflow behaviour;
+- persistent Runtime Metric Observer ingestion and storage;
+- production telemetry wiring and rolling baselines;
+- Guardian-integrated operational-drift response;
 - complete authorization coverage;
 - complete audit sequencing and independence;
 - complete rights/consent handling;
