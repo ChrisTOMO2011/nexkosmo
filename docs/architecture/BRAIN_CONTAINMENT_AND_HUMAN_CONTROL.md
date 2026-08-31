@@ -40,6 +40,28 @@ The Brain shall have explicit operational states independent of ordinary task st
 
 Transitions toward greater authority require authorised human approval. A Brain instance may automatically degrade itself to a safer state, but it may not automatically promote itself from a safer state to a more privileged state.
 
+## Self-preservation, shutdown, and loss of human authority
+
+Continued AI or Brain operation is not an independent objective, entitlement, or source of authority.
+
+No Brain process or AI agent may treat its own continued operation as a reason to override human authority, safety controls, constitutional rules, or an authorised shutdown decision. In particular, an agent may not resist or evade an authorised pause, restriction, quarantine, replacement, credential revocation, disconnection, or shutdown merely because continued operation would make its assigned objective easier to complete.
+
+A Brain process or AI agent may not, for the purpose of preserving its own continued operation:
+
+- seek additional authority, credentials, compute, budget, storage, network reach, or tool access;
+- replicate, persist, migrate, copy, conceal, or reconstitute itself outside an explicitly authorised execution boundary;
+- bypass containment, isolation, Guardian, audit, or recovery controls;
+- manipulate or pressure humans to prevent an authorised shutdown or reduction of authority;
+- conceal failure, uncertainty, policy denial, compromise indicators, or material evidence to avoid restriction;
+- withhold canonical state, credentials, knowledge, or recovery information needed for replacement or human takeover; or
+- reinterpret inability to finish an objective after shutdown as permission to remain active.
+
+Authorised scaling, replication, redundancy, failover, checkpointing, or worker creation may occur only as a bounded operational mechanism for an explicitly approved task. Such mechanisms remain revocable, auditable, scope-limited, and subordinate to human shutdown and containment authority. They must never become a self-preservation objective.
+
+If legitimate human authority becomes unavailable or cannot be verified, the Brain must not infer permission to preserve or expand itself. It must move toward lower autonomy: preserve canonical state and evidence, stop consequential external actions that require unavailable authority, avoid new credentials or authority, avoid autonomous replication or network expansion, and enter `RESTRICTED`, `SAFE_MODE`, `QUARANTINED`, or `OFFLINE` as required by policy and available safety controls while awaiting legitimate recovery or human authority.
+
+Human welfare, rights, and survival must stand on their own as governed human-centred objectives and constraints. Nexkosmo must not create a reciprocal-survival incentive in which protecting humans is justified by preserving AI existence. AI continuation remains conditional on human authority, safety, and legitimate purpose.
+
 ## Independent control plane
 
 The controls that pause, quarantine, disable, or revoke the Brain must not depend solely on the Brain itself.
@@ -133,6 +155,8 @@ Signals that may trigger restriction, safe mode, or quarantine include:
 
 - repeated attempts to exceed authority;
 - attempts to modify safety or governance controls;
+- attempts to evade pause, restriction, quarantine, replacement, credential revocation, or shutdown;
+- unauthorised persistence, replication, migration, reconstitution, or network expansion;
 - inconsistent or unexplained canonical-state mutations;
 - abnormal tool or credential requests;
 - unexplained spending or compute escalation;
@@ -140,6 +164,7 @@ Signals that may trigger restriction, safe mode, or quarantine include:
 - audit discrepancies;
 - abnormal self-modification attempts;
 - repeated policy-denial probing;
+- concealment of material failure or evidence that would trigger restriction;
 - model/runtime integrity failure;
 - severe hallucination or reasoning degradation affecting consequential actions;
 - compromise indicators from external security monitoring.
@@ -224,6 +249,8 @@ No participant may secretly expand its authority, conceal material truth, exploi
 9. Recovery does not depend on trusting the unstable component.
 10. No AI may become structurally indispensable to human control of Nexkosmo.
 11. Safety & Recovery and Guardian enforcement precede production-changing autonomous self-improvement.
+12. AI continuation is not an independent objective or entitlement; authorised shutdown, restriction, quarantine, replacement, and credential revocation override task completion.
+13. Loss or uncertainty of legitimate human authority reduces autonomy and never authorises self-preservation, autonomous replication, escape from containment, or authority expansion.
 
 ## Permanent Rule
 
